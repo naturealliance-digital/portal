@@ -415,4 +415,45 @@ body.dark #m365LicenseCard tr.total-row td,body.dark #table tr.total-row td{bord
  localStorage.setItem(migrationKey,'done');
  location.reload();
 })();
-</script><style id="m365-chart-spacing-legend-type">.m365-pie-layout .legend.m365-license-legend>div{padding:9px 11px!important}.m365-license-name{font-size:9px!important;font-weight:500!important;letter-spacing:.05px;color:#786568}.m365-license-availability{display:inline-flex;align-items:baseline;justify-content:flex-end;gap:5px}.m365-license-availability strong{font-size:12px;line-height:1;font-weight:800;color:#c92b31}.m365-license-availability small{font-size:8px;line-height:1;text-transform:uppercase;letter-spacing:.45px;font-weight:600;color:#998689}body.dark .m365-license-name{color:#d6c2c0}body.dark .m365-license-availability strong{color:#ff9b70}body.dark .m365-license-availability small{color:#ae9698}@media(max-width:520px){.m365-license-availability strong{font-size:12px}}</style>
+</script><style id="m365-chart-spacing-legend-type">.m365-pie-layout .legend.m365-license-legend>div{padding:9px 11px!important}.m365-license-name{font-size:9px!important;font-weight:500!important;letter-spacing:.05px;color:#786568}.m365-license-availability{display:inline-flex;align-items:baseline;justify-content:flex-end;gap:5px}.m365-license-availability strong{font-size:12px;line-height:1;font-weight:800;color:#c92b31}.m365-license-availability small{font-size:8px;line-height:1;text-transform:uppercase;letter-spacing:.45px;font-weight:600;color:#998689}body.dark .m365-license-name{color:#d6c2c0}body.dark .m365-license-availability strong{color:#ff9b70}body.dark .m365-license-availability small{color:#ae9698}@media(max-width:520px){.m365-license-availability strong{font-size:12px}}</style><style id="manpower-professional-kpis-style">
+.kpis.manpower-kpis .kpi{position:relative;overflow:hidden}
+.kpis.manpower-kpis .kpi-icon{display:grid;place-items:center;width:34px;height:34px;border-radius:9px}
+.kpis.manpower-kpis .kpi-icon svg{width:18px;height:18px;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+.kpis.manpower-kpis .kpi-context{color:#877276;font-size:10px;font-weight:500;letter-spacing:.05px}
+.kpis.manpower-kpis .kpi:nth-child(1) .kpi-icon{background:#f3edff;color:#7550a5}
+.kpis.manpower-kpis .kpi:nth-child(2) .kpi-icon{background:#e8f3ff;color:#2867a8}
+.kpis.manpower-kpis .kpi:nth-child(3) .kpi-icon{background:#fff0e8;color:#c92e30}
+.kpis.manpower-kpis .kpi:nth-child(4) .kpi-icon{background:#e8f7f1;color:#16866a}
+body.dark .kpis.manpower-kpis .kpi-context{color:#cbb9bb}
+body.dark .kpis.manpower-kpis .kpi:nth-child(1) .kpi-icon{background:#37294a;color:#cdb5f1}
+body.dark .kpis.manpower-kpis .kpi:nth-child(2) .kpi-icon{background:#193653;color:#9ac8f7}
+body.dark .kpis.manpower-kpis .kpi:nth-child(3) .kpi-icon{background:#4a2428;color:#ff9a70}
+body.dark .kpis.manpower-kpis .kpi:nth-child(4) .kpi-icon{background:#173e34;color:#80dbb9}
+</style>
+<script id="manpower-professional-kpis">
+(function(){
+ const icons={
+  total:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M16 21v-2.2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V21"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2.2a4 4 0 0 0-3-3.8M16.5 3.2a4 4 0 0 1 0 7.6"/></svg>',
+  current:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="9" cy="8" r="4"/><path d="M3 21v-2a6 6 0 0 1 12 0v2M16 11l2 2 4-5"/></svg>',
+  vacant:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M16 11h6"/></svg>',
+  capacity:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 19a8 8 0 1 1 16 0"/><path d="m12 15 4-5"/><path d="M7 19h10"/></svg>'
+ };
+ function renderManpowerKpis(){
+  const section=document.querySelector('section.kpis');if(!section)return;
+  section.classList.remove('manpower-kpis');
+  if(active!=='Manpower')return;
+  const cards=[
+   ['Current Manpower','8',icons.current,'Active team members'],
+   ['Planned Headcount','12',icons.total,'Target workforce capacity'],
+   ['Hiring Vacancies','4',icons.vacant,'Roles open for hiring'],
+   ['Workforce Capacity','67%',icons.capacity,'Positions currently filled']
+  ];
+  section.classList.remove('m365-kpis');section.classList.add('manpower-kpis');
+  section.innerHTML=cards.map(card=>'<article class="kpi"><div class="kt"><span>'+card[0]+'</span><b class="kpi-icon">'+card[2]+'</b></div><div class="num">'+card[1]+'</div><div class="up kpi-context">'+card[3]+'</div></article>').join('');
+ }
+ const previousCharts=window.charts;window.charts=function(){previousCharts();renderManpowerKpis()};
+ const previousPage=window.page;window.page=function(name){previousPage(name);renderManpowerKpis()};
+ const previousNavigate=window.navigateHubPage;if(previousNavigate)window.navigateHubPage=function(name,push=true){previousNavigate(name,push);renderManpowerKpis()};
+ renderManpowerKpis();
+})();
+</script>
