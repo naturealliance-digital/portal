@@ -1,0 +1,31 @@
+.manpower-planning-card{margin-top:20px;padding:0!important;overflow:hidden}
+.manpower-planning-tabs{display:flex;gap:6px;padding:12px 14px;border-bottom:1px solid var(--l);background:#fff;overflow-x:auto;scrollbar-width:none}
+.manpower-planning-tabs::-webkit-scrollbar{display:none}
+.manpower-planning-tab{display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;padding:9px 12px;border:1px solid transparent;border-radius:9px;background:transparent;color:#806e72;font:600 10px Poppins,Arial,sans-serif;white-space:nowrap;cursor:pointer}
+.manpower-planning-tab svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.manpower-planning-tab:hover{background:#fff7f3;color:#a72b30}
+.manpower-planning-tab.active{background:#fff0e8;color:#bd2d30;border-color:#f1d5ca}
+.manpower-planning-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px 13px;border-bottom:1px solid var(--l);background:#fff}
+.manpower-planning-title{display:flex;align-items:center;gap:11px;min-width:0}
+.manpower-planning-icon{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#d12a31,#f06428);color:#fff}
+.manpower-planning-icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.manpower-planning-title h2{margin:0;font-size:15px;color:var(--i)}
+.manpower-planning-title p{margin-top:3px;font-size:9px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;color:#907b7d}
+.manpower-planning-tools{display:flex;gap:8px}
+.manpower-planning-scroll{max-width:100%;overflow-x:auto;overflow-y:visible}
+.manpower-planning-table{width:100%;min-width:880px}
+.manpower-planning-table th{background:#fbfcfe;color:#8994a9}
+.manpower-planning-table tbody tr:nth-child(odd) td{background:#fff}
+.manpower-planning-table tbody tr:nth-child(even) td{background:#fff9f6}
+.manpower-planning-table tbody tr:hover td{background-color:inherit!important}
+.manpower-planning-table td[contenteditable]:hover:not(:focus){outline:none!important;box-shadow:none!important}
+.manpower-planning-table td[contenteditable]:focus{outline:none!important;background-color:inherit!important;box-shadow:inset 0 0 0 2px rgba(209,42,49,.28)!important}
+.planning-badge{display:inline-flex;align-items:center;justify-content:center;min-width:42px;padding:4px 8px;border-radius:999px;font-size:9px;font-weight:700}
+.planning-badge.level{background:#e8f7f1;color:#16866a}.planning-badge.status{background:#e8f3ff;color:#2867a8}.planning-badge.high{background:#feecee;color:#b7333e}.planning-badge.medium{background:#fff1d8;color:#9a6312}.planning-badge.planned{background:#f2edf9;color:#695080}
+.manpower-planning-foot{padding:12px 18px;border-top:1px solid var(--l);background:#fff;color:#8490a4;font-size:10px}
+body.dark .manpower-planning-tabs,body.dark .manpower-planning-head,body.dark .manpower-planning-foot{background:#32171e;border-color:#553137}
+body.dark .manpower-planning-tab{color:#cbb9bb}body.dark .manpower-planning-tab:hover{background:#3a1b23;color:#ffb18e}body.dark .manpower-planning-tab.active{background:#4a2428;color:#ffab82;border-color:#6a3b42}
+body.dark .manpower-planning-title h2{color:#fff5ef}body.dark .manpower-planning-title p{color:#cbb9bb}
+body.dark .manpower-planning-table th{background:#3d1d25;color:#d9c4c2}body.dark .manpower-planning-table tbody tr:nth-child(odd) td{background:#2d171c;color:#eadbd7}body.dark .manpower-planning-table tbody tr:nth-child(even) td{background:#32191f;color:#eadbd7}body.dark .manpower-planning-table td[contenteditable]:focus{box-shadow:inset 0 0 0 2px rgba(244,160,68,.55)!important}
+body.dark .planning-badge.level{background:#173e34;color:#80dbb9}body.dark .planning-badge.status{background:#193653;color:#9ac8f7}body.dark .planning-badge.high{background:#4b2228;color:#ffabb3}body.dark .planning-badge.medium{background:#49371b;color:#ffd48a}body.dark .planning-badge.planned{background:#352b42;color:#cfb9e7}
+@media(max-width:768px){.manpower-planning-tabs{padding:10px 12px}.manpower-planning-tab{padding:8px 10px;font-size:9px}.manpower-planning-head{display:grid;grid-template-columns:1fr;grid-template-rows:auto auto;padding:14px 16px}.manpower-planning-title h2,.manpower-planning-title p{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.manpower-planning-tools{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(105px,1fr);width:100%}.manpower-planning-tools .search,.manpower-planning-tools .filter{width:100%!important;min-width:0;height:38px}.manpower-planning-table{min-width:800px}}
