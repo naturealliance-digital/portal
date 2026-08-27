@@ -1,5 +1,0 @@
-.side-backdrop{position:fixed;inset:0;z-index:9998;background:rgba(31,12,17,.36);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .2s ease,visibility .2s ease}
-.side-backdrop.show{opacity:1;visibility:visible;pointer-events:auto}
-body.mobile-side-open{overflow:hidden}
-@media(min-width:701px){.side-backdrop{display:none!important}body.mobile-side-open{overflow:auto}}
-@media(prefers-reduced-motion:reduce){.side-backdrop,.side{transition:none!important}}
