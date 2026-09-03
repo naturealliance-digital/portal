@@ -1,22 +1,66 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nature A Digital Hub</title><script>window.devToolsReportSoftNavs=false;window.addEventListener('error',function(e){var s=e.error&&e.error.stack||'';if(String(e.message).includes("reading 'startTime'")&&s.includes('reportAllChanges')){e.preventDefault();e.stopImmediatePropagation()}},true)</script><link rel="icon" href="favicon.ico" sizes="any"><link rel="shortcut icon" href="favicon.ico"><script src="https://cdn.jsdelivr.net/npm/chart.js"></script><script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pptxgenjs/dist/pptxgen.bundle.js"></script><link rel="stylesheet" href="styles.css"><script src="tickets-data.js"></script><script src="app.js" defer></script></head><body><div class="app"><aside class="side" id="side"><div class="brand"><i>✦</i>Digital IT Hub</div><div class="label">WORKSPACE</div><div class="nav" id="nav"></div></aside><main class="main"><header class="top"><button class="hamb" onclick="side.classList.toggle('open')">☰</button><div class="crumb">Nature A Digital Hub / <b id="crumb">Dashboard</b></div><div class="actions"><input id="file" type="file" accept=".xlsx,.xls,.csv" hidden><button class="btn export-btn export-excel" type="button" onclick="exportXlsx()" aria-label="Export Excel" title="Export Excel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h2M14 13h2M8 17h2M14 17h2"/></svg><span>Excel</span></button><button class="btn export-btn export-pdf" type="button" onclick="print()" aria-label="Export PDF" title="Export PDF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 11v7M9 15l3 3 3-3"/></svg><span>PDF</span></button><button class="btn primary" onclick="save()">Save changes</button></div></header><div class="tabs" id="tabs"></div><section class="hero"><div><h1 id="h1">IT Management Overview</h1><p id="sub">A complete view of your digital operations and performance.</p></div></section><section class="kpis" id="kpis"></section><section class="grid"><article class="card"><div class="title"><div><h2 id="ctitle">Operational performance</h2><p>Data-driven worksheet overview</p></div><select class="select" id="type" onchange="charts()"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div><div class="chart"><canvas id="chart"></canvas></div></article><article class="card"><div class="title"><div><h2>Status distribution</h2><p>Live portfolio snapshot</p></div></div><div class="piegrid"><div class="pie"><canvas id="pie"></canvas></div><div class="legend" id="legend"></div></div></article></section><section class="card tablecard"><div class="head"><h2 id="ttitle">Dashboard records</h2><div class="tools"><input class="search" id="search" oninput="table()" placeholder="Search records..."><select class="filter" id="filter" onchange="table()"></select></div></div><div id="table"></div><div class="foot" id="foot"></div></section></main></div><div class="toast" id="toast"></div></body></html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nature A Digital Hub</title>
+  <link rel="icon" href="assets/images/favicon.ico" sizes="any">
+  <link rel="shortcut icon" href="assets/images/favicon.ico">
+  <link rel="stylesheet" href="styles.css?v=20260903-19">
+  <script>
+    window.devToolsReportSoftNavs = false;
+    window.addEventListener('error', function (event) {
+      const stack = event.error && event.error.stack || '';
+      if (String(event.message).includes("reading 'startTime'") && stack.includes('reportAllChanges')) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }
+    }, true);
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pptxgenjs/dist/pptxgen.bundle.js"></script>
+  <script src="data/tickets-data.js?v=20260903-19"></script>
+  <script src="app.js?v=20260903-19" defer></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="side" id="side">
+      <div class="brand"><i>✦</i>Digital IT Hub</div>
+      <div class="label">WORKSPACE</div>
+      <div class="nav" id="nav"></div>
+    </aside>
+    <main class="main">
+      <header class="top">
+        <button class="hamb" type="button" onclick="side.classList.toggle('open')" aria-label="Open menu">☰</button>
+        <div class="crumb">Nature A Digital Hub / <b id="crumb">Dashboard</b></div>
+        <div class="actions">
+          <input id="file" type="file" accept=".xlsx,.xls,.csv" hidden>
+          <button class="btn export-btn export-excel" type="button" onclick="exportXlsx()" aria-label="Export Excel" title="Export Excel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h2M14 13h2M8 17h2M14 17h2"/></svg><span>Excel</span></button>
+          <button class="btn export-btn export-pdf" type="button" onclick="print()" aria-label="Export PDF" title="Export PDF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 11v7M9 15l3 3 3-3"/></svg><span>PDF</span></button>
+          <button class="btn primary" type="button" onclick="save()">Save changes</button>
+        </div>
+      </header>
+      <div class="tabs" id="tabs"></div>
+      <section class="hero"><div><h1 id="h1">IT Management Overview</h1><p id="sub">A complete view of your digital operations and performance.</p></div></section>
+      <section class="kpis" id="kpis"></section>
+      <section class="grid">
+        <article class="card">
+          <div class="title"><div><h2 id="ctitle">Operational performance</h2><p>Data-driven worksheet overview</p></div><select class="select" id="type" onchange="charts()"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div>
+          <div class="chart"><canvas id="chart"></canvas></div>
+        </article>
+        <article class="card">
+          <div class="title"><div><h2>Status distribution</h2><p>Live portfolio snapshot</p></div></div>
+          <div class="piegrid"><div class="pie"><canvas id="pie"></canvas></div><div class="legend" id="legend"></div></div>
+        </article>
+      </section>
+      <section class="card tablecard">
+        <div class="head"><h2 id="ttitle">Dashboard records</h2><div class="tools"><input class="search" id="search" oninput="table()" placeholder="Search records..."><select class="filter" id="filter" onchange="table()"></select></div></div>
+        <div id="table"></div>
+        <div class="foot" id="foot"></div>
+      </section>
+    </main>
+  </div>
+  <div class="toast" id="toast"></div>
+</body>
+</html>

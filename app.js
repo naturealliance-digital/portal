@@ -1,52 +1,217 @@
-const menu=[['🏠','Dashboard','Overall IT management view'],['👥','Manpower','Digital team & workload'],['💰','Expenses','Budget & IT spending'],['🎫','Service Tickets','IT support & SLA'],['💻','Fixed Assets','Computers & IT equipment'],['☁️','Microsoft 365','Users & licenses'],['🔐','IT Security','Cybersecurity'],['🌐','Infrastructure','Network, servers & systems'],['📊','Reports','Monthly/quarterly reports'],['📁','Documents','IT policies, procedures & forms']];const sample={Dashboard:[{Metric:'System Availability',Value:99.8,Status:'Healthy'},{Metric:'Open Tickets',Value:24,Status:'Attention'},{Metric:'IT Budget Used',Value:68,Status:'On Track'},{Metric:'Security Score',Value:92,Status:'Healthy'}],Manpower:[{Employee:'Aung Min',Role:'IT Manager',Workload:78,Status:'On Track'},{Employee:'Su Su Win',Role:'Systems Engineer',Workload:92,Status:'High'},{Employee:'Ko Ko',Role:'IT Support',Workload:65,Status:'On Track'}],Expenses:[{Category:'Cloud Services',Budget:12500,Actual:9780,Status:'On Track'},{Category:'Software Licenses',Budget:8600,Actual:7420,Status:'On Track'},{Category:'Hardware',Budget:15000,Actual:16450,Status:'Over Budget'}],'Service Tickets':[{Ticket:'#INC-1842',Subject:'VPN access issue',Priority:'High',Status:'Open',SLA:'1h 24m'},{Ticket:'#INC-1841',Subject:'Laptop provisioning',Priority:'Medium',Status:'In Progress',SLA:'5h 10m'},{Ticket:'#INC-1839',Subject:'Email delivery delay',Priority:'High',Status:'Resolved',SLA:'Met'}],'Fixed Assets':[{Asset:'Dell Latitude 5440',Owner:'Aung Min',Location:'Head Office',Status:'In Use'},{Asset:'MacBook Pro M3',Owner:'May Thazin',Location:'Head Office',Status:'In Use'},{Asset:'HP LaserJet Pro',Owner:'Shared',Location:'Branch 04',Status:'Maintenance'}],'Microsoft 365':[{License:'Microsoft 365 Business Premium',Assigned:124,Available:26,Status:'Healthy'},{License:'Power BI Pro',Assigned:42,Available:8,Status:'Healthy'},{License:'Teams Phone Standard',Assigned:58,Available:2,Status:'Low Stock'}],'IT Security':[{Control:'Endpoint Protection',Coverage:98,Status:'Healthy'},{Control:'MFA Enrollment',Coverage:94,Status:'Healthy'},{Control:'Security Awareness',Coverage:76,Status:'Attention'}],Infrastructure:[{Service:'Core Network',Availability:99.98,Status:'Healthy'},{Service:'ERP Server',Availability:99.82,Status:'Healthy'},{Service:'Internet Link',Availability:98.91,Status:'Attention'}],Reports:[{Report:'Monthly IT Operations',Period:'July 2026',Owner:'IT Manager',Status:'Ready'},{Report:'Security Posture Review',Period:'Q2 2026',Owner:'Security Team',Status:'Ready'},{Report:'Asset Lifecycle',Period:'July 2026',Owner:'Infrastructure',Status:'Draft'}],Documents:[{Document:'IT Security Policy',Category:'Policy',Owner:'IT Security',Status:'Approved'},{Document:'New Joiner IT Checklist',Category:'Procedure',Owner:'IT Operations',Status:'Approved'},{Document:'Asset Handover Form',Category:'Form',Owner:'Infrastructure',Status:'Review'}]};let data=JSON.parse(JSON.stringify(sample)),active='Dashboard',bar,donut;function numeric(r){return Object.keys(r[0]||{}).filter(k=>r.some(x=>typeof x[k]==='number'))}function state(s){s=(s||'').toLowerCase();return /healthy|track|resolved|approved|ready|use/.test(s)?'good':/high|over|attention|maintenance|low|open|review/.test(s)?'warn':'bad'}function show(x){toast.textContent=x;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2200)}function buildNav(){nav.innerHTML=tabs.innerHTML='';Object.keys(data).forEach(n=>{let m=menu.find(x=>x[1]===n),a=document.createElement('button'),b=document.createElement('button');a.innerHTML=(m?m[0]:'▦')+' '+n;a.onclick=()=>page(n);b.textContent=n;b.onclick=()=>page(n);nav.append(a);tabs.append(b)})}function page(n){active=n;h1.textContent=n==='Dashboard'?'IT Management Overview':n;crumb.textContent=n;sub.textContent=(menu.find(x=>x[1]===n)||[])[2]||'Imported worksheet dashboard';search.value='';side.classList.remove('open');[...nav.children].forEach(x=>x.classList.toggle('active',x.textContent.trim().endsWith(n)));[...tabs.children].forEach(x=>x.classList.toggle('active',x.textContent===n));render()}function render(){let r=data[active]||[],ns=numeric(r),cards=ns.slice(0,4).map((n,i)=>{let a=r.reduce((s,x)=>s+(+x[n]||0),0)/r.length;return[n,a,['◈','◌','◒','✦'][i]]});if(!cards.length)cards=Object.keys(r[0]||{}).slice(0,4).map((n,i)=>[n,r.length,['◈','◌','◒','✦'][i]]);kpis.innerHTML=cards.map((x,i)=>'<article class="kpi"><div class="kt"><span>'+x[0]+'</span><b class="ico">'+x[2]+'</b></div><div class="num">'+x[1].toLocaleString(undefined,{maximumFractionDigits:2})+'</div><div class="up '+(i==1?'down':'')+'">'+(i==1?'↓ 4.2%':'↑ 8.4%')+' from last month</div></article>').join('');ctitle.textContent=active+' performance';ttitle.textContent=active+' records';let ss=[...new Set(r.map(x=>x.Status).filter(Boolean))];filter.innerHTML='<option>All</option>'+ss.map(x=>'<option>'+x+'</option>').join('');charts();table()}function charts(){let r=data[active]||[],n=numeric(r)[0],labs=r.map((x,i)=>x[Object.keys(x)[0]]||'Record '+(i+1));if(bar)bar.destroy();bar=new Chart(chart,{type:type.value,data:{labels:labs,datasets:[{data:n?r.map(x=>x[n]):r.map((_,i)=>i+1),backgroundColor:type.value==='bar'?'#d12a31':'#d12a3122',borderColor:'#d12a31',borderWidth:2,borderRadius:6,fill:type.value==='line',tension:.35}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'#eef2f7'},ticks:{font:{size:10}}}}}});let c={};r.forEach(x=>{let s=x.Status||'Active';c[s]=(c[s]||0)+1});let colors=['#d12a31','#f06428','#d6a13b','#8d5754'];if(donut)donut.destroy();donut=new Chart(pie,{type:'doughnut',data:{labels:Object.keys(c),datasets:[{data:Object.values(c),backgroundColor:colors,borderColor:'#fff',borderWidth:3,cutout:'66%'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});legend.innerHTML=Object.entries(c).map(([x,y],i)=>'<div><span><i class="dot" style="background:'+colors[i]+'"></i>'+x+'</span><b>'+y+' records</b></div>').join('')}function table(){let r=data[active].filter(x=>(filter.value==='All'||x.Status===filter.value)&&Object.values(x).join(' ').toLowerCase().includes(search.value.toLowerCase())),ks=Object.keys(data[active][0]||{});document.getElementById('table').innerHTML='<table><thead><tr>'+ks.map(x=>'<th>'+x+'</th>').join('')+'</tr></thead><tbody>'+r.map(x=>'<tr data-id="'+data[active].indexOf(x)+'">'+ks.map(k=>k==='Status'?'<td><b class="status '+state(x[k])+'">'+x[k]+'</b></td>':'<td contenteditable data-k="'+k+'">'+x[k]+'</td>').join('')+'</tr>').join('')+'</tbody></table>';document.querySelectorAll('td[contenteditable]').forEach(x=>x.onblur=e=>{let v=e.target.textContent;data[active][e.target.parentElement.dataset.id][e.target.dataset.k]=isNaN(+v)||!v.trim()?v:+v;charts()});foot.textContent='Showing '+r.length+' of '+data[active].length+' records · Click any value to edit'}file.onchange=e=>{let rd=new FileReader();rd.onload=z=>{let wb=XLSX.read(z.target.result,{type:'array'}),o={};wb.SheetNames.forEach(s=>{let r=XLSX.utils.sheet_to_json(wb.Sheets[s],{defval:''});if(r.length)o[s]=r});if(!Object.keys(o).length)return show('No data rows found');data=o;buildNav();page(Object.keys(o)[0]);show(Object.keys(o).length+' worksheet(s) imported')};rd.readAsArrayBuffer(e.target.files[0])};function exportXlsx(){let w=XLSX.utils.book_new();Object.entries(data).forEach(([n,r])=>XLSX.utils.book_append_sheet(w,XLSX.utils.json_to_sheet(r),n.slice(0,31)));XLSX.writeFile(w,'Digital-IT-Hub.xlsx');show('Excel workbook exported')}function exportPpt(){let p=new PptxGenJS(),s=p.addSlide(),r=data[active],ks=Object.keys(r[0]||{});s.background={color:'F4F7FB'};s.addText('Digital IT Hub – '+active,{x:.5,y:.4,w:9,h:.4,fontSize:22,bold:true,color:'101A35'});s.addTable([ks,...r.slice(0,8).map(x=>ks.map(k=>String(x[k])))],{x:.5,y:1.2,w:9,h:4.5,fontSize:10});p.writeFile({fileName:'Digital-IT-Hub-'+active+'.pptx'});show('PowerPoint export started')}function save(){localStorage.setItem('itHubData',JSON.stringify(data));show('Changes saved in this browser')}try{data=JSON.parse(localStorage.getItem('itHubData'))||data}catch(e){}buildNav();active=Object.keys(data)[0];
+const menu = [
+  ['🏠', 'Dashboard', 'Overall IT management view'],
+  ['👥', 'Manpower', 'Digital team and workload'],
+  ['💰', 'Expenses', 'Budget and IT spending'],
+  ['🖨️', 'Copier & Printer Usage', 'Printing volume and device usage'],
+  ['🎫', 'Service Tickets', 'IT support and service levels'],
+  ['💻', 'Fixed Assets', 'Computers and IT equipment'],
+  ['☁️', 'Microsoft 365', 'Users and licenses']
+];
+
+const sample = {
+  Dashboard: [
+    { Metric: 'System Availability', Value: 99.8, Status: 'Healthy' },
+    { Metric: 'Open Tickets', Value: 24, Status: 'Attention' },
+    { Metric: 'IT Budget Used', Value: 68, Status: 'On Track' },
+    { Metric: 'Security Score', Value: 92, Status: 'Healthy' }
+  ],
+  Manpower: [],
+  Expenses: [],
+  'Copier & Printer Usage': [
+    { Device: 'Head Office Copier', Company: 'Nature Alliance', Location: 'Head Office', MonoPages: 4280, ColorPages: 760, Status: 'Active' },
+    { Device: 'Finance Printer', Company: 'Nature Valley', Location: 'Finance Office', MonoPages: 2150, ColorPages: 320, Status: 'Active' },
+    { Device: 'Operations Copier', Company: 'Innobuilder', Location: 'Operations Office', MonoPages: 3340, ColorPages: 510, Status: 'Active' },
+    { Device: 'Branch Printer', Company: 'Arise', Location: 'Branch Office', MonoPages: 1840, ColorPages: 245, Status: 'Maintenance' }
+  ],
+  'Service Tickets': [],
+  'Fixed Assets': [
+    { Asset: 'Dell Latitude 5440', Owner: 'Aung Min', Location: 'Head Office', Status: 'In Use' },
+    { Asset: 'MacBook Pro M3', Owner: 'May Thazin', Location: 'Head Office', Status: 'In Use' },
+    { Asset: 'HP LaserJet Pro', Owner: 'Shared', Location: 'Branch 04', Status: 'Maintenance' }
+  ],
+  'Microsoft 365': []
+};
+
+let data = JSON.parse(JSON.stringify(sample)), active = 'Dashboard', bar, donut;
+
+const nav = document.getElementById('nav');
+const tabs = document.getElementById('tabs');
+const h1 = document.getElementById('h1');
+const crumb = document.getElementById('crumb');
+const sub = document.getElementById('sub');
+const search = document.getElementById('search');
+const side = document.getElementById('side');
+const kpis = document.getElementById('kpis');
+const ctitle = document.getElementById('ctitle');
+const ttitle = document.getElementById('ttitle');
+const filter = document.getElementById('filter');
+const chart = document.getElementById('chart');
+const type = document.getElementById('type');
+const pie = document.getElementById('pie');
+const legend = document.getElementById('legend');
+const file = document.getElementById('file');
+const foot = document.getElementById('foot');
+const toast = document.getElementById('toast');
+
+function numeric(rows) {
+  return Object.keys(rows[0] || {}).filter(key => rows.some(row => typeof row[key] === 'number'));
+}
+
+function state(value) {
+  const normalized = String(value || '').toLowerCase();
+  if (/healthy|track|resolved|approved|ready|use/.test(normalized)) return 'good';
+  if (/high|over|attention|maintenance|low|open|review/.test(normalized)) return 'warn';
+  return 'bad';
+}
+
+function show(message) {
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
+function buildNav() {
+  nav.innerHTML = '';
+  tabs.innerHTML = '';
+  Object.keys(data).forEach(name => {
+    const metadata = menu.find(item => item[1] === name);
+    const sidebarButton = document.createElement('button');
+    const tabButton = document.createElement('button');
+    sidebarButton.innerHTML = (metadata ? metadata[0] : '▦') + ' ' + name;
+    sidebarButton.onclick = () => page(name);
+    tabButton.textContent = name;
+    tabButton.onclick = () => page(name);
+    nav.append(sidebarButton);
+    tabs.append(tabButton);
+  });
+}
+
+function page(name) {
+  active = name;
+  h1.textContent = name === 'Dashboard' ? 'IT Management Overview' : name;
+  crumb.textContent = name;
+  sub.textContent = (menu.find(item => item[1] === name) || [])[2] || 'Imported worksheet dashboard';
+  search.value = '';
+  side.classList.remove('open');
+  [...nav.children].forEach(button => button.classList.toggle('active', button.textContent.trim().endsWith(name)));
+  [...tabs.children].forEach(button => button.classList.toggle('active', button.textContent === name));
+  render();
+}
+
+function render() {
+  const rows = data[active] || [];
+  const numericKeys = numeric(rows);
+  let cards = numericKeys.slice(0, 4).map((key, index) => {
+    const average = rows.length ? rows.reduce((sum, row) => sum + (+row[key] || 0), 0) / rows.length : 0;
+    return [key, average, ['◈', '◌', '◒', '✦'][index]];
+  });
+  if (!cards.length) cards = Object.keys(rows[0] || {}).slice(0, 4).map((key, index) => [key, rows.length, ['◈', '◌', '◒', '✦'][index]]);
+  kpis.innerHTML = cards.map((card, index) => '<article class="kpi"><div class="kt"><span>' + card[0] + '</span><b class="ico">' + card[2] + '</b></div><div class="num">' + card[1].toLocaleString(undefined, { maximumFractionDigits: 2 }) + '</div><div class="up ' + (index === 1 ? 'down' : '') + '">' + (index === 1 ? '↓ 4.2%' : '↑ 8.4%') + ' from last month</div></article>').join('');
+  ctitle.textContent = active + ' performance';
+  ttitle.textContent = active + ' records';
+  const statuses = [...new Set(rows.map(row => row.Status).filter(Boolean))];
+  filter.innerHTML = '<option>All</option>' + statuses.map(status => '<option>' + status + '</option>').join('');
+  charts();
+  table();
+}
+
+function charts() {
+  const rows = data[active] || [];
+  const numericKey = numeric(rows)[0];
+  const labels = rows.map((row, index) => row[Object.keys(row)[0]] || 'Record ' + (index + 1));
+  if (bar) bar.destroy();
+  bar = new Chart(chart, {
+    type: type.value,
+    data: { labels, datasets: [{ data: numericKey ? rows.map(row => row[numericKey]) : rows.map((_, index) => index + 1), backgroundColor: type.value === 'bar' ? '#d12a31' : '#d12a3122', borderColor: '#d12a31', borderWidth: 2, borderRadius: 6, fill: type.value === 'line', tension: .35 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { font: { size: 10 } } }, y: { grid: { color: '#eef2f7' }, ticks: { font: { size: 10 } } } } }
+  });
+  const distribution = {};
+  rows.forEach(row => { const status = row.Status || 'Active'; distribution[status] = (distribution[status] || 0) + 1; });
+  const colors = ['#d12a31', '#f06428', '#d6a13b', '#8d5754'];
+  if (donut) donut.destroy();
+  donut = new Chart(pie, { type: 'doughnut', data: { labels: Object.keys(distribution), datasets: [{ data: Object.values(distribution), backgroundColor: colors, borderColor: '#fff', borderWidth: 3, cutout: '66%' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+  legend.innerHTML = Object.entries(distribution).map(([status, count], index) => '<div><span><i class="dot" style="background:' + colors[index % colors.length] + '"></i>' + status + '</span><b>' + count + ' records</b></div>').join('');
+}
+
+function table() {
+  const source = data[active] || [];
+  const tableContainer = document.getElementById('table');
+  if (!tableContainer) return;
+  const rows = source.filter(row => (filter.value === 'All' || row.Status === filter.value) && Object.values(row).join(' ').toLowerCase().includes(search.value.toLowerCase()));
+  const keys = Object.keys(source[0] || {});
+  tableContainer.innerHTML = '<table><thead><tr>' + keys.map(key => '<th>' + key + '</th>').join('') + '</tr></thead><tbody>' + rows.map(row => '<tr data-id="' + source.indexOf(row) + '">' + keys.map(key => key === 'Status' ? '<td><b class="status ' + state(row[key]) + '">' + row[key] + '</b></td>' : '<td contenteditable data-k="' + key + '">' + row[key] + '</td>').join('') + '</tr>').join('') + '</tbody></table>';
+  document.querySelectorAll('td[contenteditable]').forEach(cell => cell.onblur = event => {
+    const value = event.target.textContent;
+    data[active][event.target.parentElement.dataset.id][event.target.dataset.k] = isNaN(+value) || !value.trim() ? value : +value;
+    charts();
+  });
+  foot.textContent = 'Showing ' + rows.length + ' of ' + source.length + ' records';
+}
+
+file.onchange = event => {
+  const reader = new FileReader();
+  reader.onload = result => {
+    const workbook = XLSX.read(result.target.result, { type: 'array' });
+    const imported = {};
+    workbook.SheetNames.forEach(sheet => {
+      const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheet], { defval: '' });
+      if (rows.length) imported[sheet] = rows;
+    });
+    if (!Object.keys(imported).length) return show('No data rows found');
+    data = imported;
+    buildNav();
+    page(Object.keys(imported)[0]);
+    show(Object.keys(imported).length + ' worksheet(s) imported');
+  };
+  reader.readAsArrayBuffer(event.target.files[0]);
+};
+
+function exportXlsx() {
+  const workbook = XLSX.utils.book_new();
+  Object.entries(data).forEach(([name, rows]) => XLSX.utils.book_append_sheet(workbook, XLSX.utils.json_to_sheet(rows), name.slice(0, 31)));
+  XLSX.writeFile(workbook, 'Digital-IT-Hub.xlsx');
+  show('Excel workbook exported');
+}
+
+function save() {
+  localStorage.setItem('itHubData', JSON.stringify(data));
+  show('Changes saved in this browser');
+}
+
+try {
+  data = JSON.parse(localStorage.getItem('itHubData')) || data;
+} catch (error) {
+  console.warn('Saved dashboard data could not be loaded.', error);
+}
+
+buildNav();
+active = Object.keys(data)[0] || 'Dashboard';
 
 
-document.addEventListener("disabled-manpower-table-renderer",function(){(function(){
-const icons={structure:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="4" rx="1"/><rect x="3" y="17" width="6" height="4" rx="1"/><rect x="15" y="17" width="6" height="4" rx="1"/><path d="M12 7v5M6 17v-3h12v3"/></svg>',onsite:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5.2-8 11-8 11S4 15.2 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/><path d="M8.5 19.2 5 21m10.5-1.8L19 21"/></svg>',scope:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><path d="M6.5 6.5h0M17.5 6.5h0M6.5 17.5h0M17.5 17.5h0"/></svg>',future:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-6"/><path d="M15 7h4v4"/><circle cx="7" cy="15" r="1"/><circle cx="11" cy="11" r="1"/><circle cx="14" cy="13" r="1"/></svg>'};
-const defaults={
-structure:[
-{Employee:'U Wai Toe Kyaw',Position:'Director',Division:'Director','Role Level':'D-1',Responsibility:'Digital strategy and governance'},
-{Employee:'U Myo Aung',Position:'IT Manager',Division:'Manager','Role Level':'P-3',Responsibility:'Operations, planning and service delivery'},
-{Employee:'U Soe Maung Maung',Position:'Senior System Administrator',Division:'Infrastructure','Role Level':'P-1',Responsibility:'Infrastructure architecture and standards'},
-{Employee:'U Khin Maung Thant',Position:'System Administrator',Division:'Infrastructure','Role Level':'G-5',Responsibility:'Network and server operations'},
-{Employee:'U Khon Tay Za',Position:'System Administrator',Division:'Infrastructure','Role Level':'G-5',Responsibility:'Cloud and Microsoft 365 administration'},
-{Employee:'U Khaing Zaw Shein',Position:'Software Engineer',Division:'Software Development','Role Level':'G-5',Responsibility:'Business applications and automation'}],
-onsite:[
-{Site:'Head Office',Company:'Nature Alliance',Assignee:'U Soe Maung Maung',Coverage:'Full-time','Support Scope':'Core infrastructure',Status:'Active'},
-{Site:'Head Office',Company:'Nature Alliance',Assignee:'U Khaing Zaw Shein',Coverage:'Full-time','Support Scope':'Applications and automation',Status:'Active'},
-{Site:'AIP Office',Company:'AIP',Assignee:'U Khin Maung Thant',Coverage:'Scheduled','Support Scope':'Network and endpoints',Status:'Active'},
-{Site:'PIP Myanmar',Company:'PIP Myanmar',Assignee:'U Khon Tay Za',Coverage:'Scheduled','Support Scope':'Microsoft 365 and users',Status:'Active'},
-{Site:'Nature Valley',Company:'Nature Valley',Assignee:'U Than Toe Aung',Coverage:'On demand','Support Scope':'Identity and devices',Status:'Planned'}],
-scope:[
-{Function:'IT Governance',Category:'Leadership',Owner:'Director / IT Manager',Scope:'Strategy, policy, risk and investment',Coverage:'Group-wide'},
-{Function:'Infrastructure Operations',Category:'Operations',Owner:'Infrastructure Team',Scope:'Network, servers, cloud and availability',Coverage:'Critical services'},
-{Function:'Microsoft 365 Services',Category:'Cloud',Owner:'System Administration',Scope:'Identity, licenses, collaboration and security',Coverage:'Group-wide'},
-{Function:'Software Development',Category:'Engineering',Owner:'Software Engineer',Scope:'Applications, integrations and automation',Coverage:'Approved initiatives'},
-{Function:'Cybersecurity',Category:'Security',Owner:'Infrastructure Team',Scope:'Protection, monitoring, response and awareness',Coverage:'Group-wide'},
-{Function:'End-User Support',Category:'Service Delivery',Owner:'Digital Support Team',Scope:'Incidents, requests, devices and onboarding',Coverage:'Business hours'}],
-future:[
-{'Proposed Role':'Head of Digital Technology',Function:'Leadership','Planned Headcount':1,Priority:'High',Responsibility:'Strategy, governance and transformation'},
-{'Proposed Role':'Infrastructure Lead',Function:'Infrastructure','Planned Headcount':1,Priority:'High',Responsibility:'Architecture, resilience and standards'},
-{'Proposed Role':'Cybersecurity Specialist',Function:'Security','Planned Headcount':1,Priority:'High',Responsibility:'Security operations, risk and compliance'},
-{'Proposed Role':'Cloud & M365 Administrator',Function:'Cloud Services','Planned Headcount':1,Priority:'Medium',Responsibility:'Cloud, identity and collaboration'},
-{'Proposed Role':'Software Engineer',Function:'Engineering','Planned Headcount':2,Priority:'Medium',Responsibility:'Applications, integration and automation'},
-{'Proposed Role':'Service Desk Analyst',Function:'Service Delivery','Planned Headcount':2,Priority:'Planned',Responsibility:'Support, requests and knowledge management'}]};
-const config={structure:{tab:'Current Structure',title:'Current Digital Department',sub:'Structure and Responsibility Matrix',filter:'Division'},onsite:{tab:'Current On-Site',title:'Current On-Site Coverage',sub:'Assignments and Support Coverage',filter:'Status'},scope:{tab:'Functions & Scope',title:'Digital Team Functions & Scope',sub:'Service Ownership and Coverage',filter:'Category'},future:{tab:'Future Structure',title:'Future Digital Department',sub:'Target Structure and Responsibility Matrix',filter:'Priority'}};
-let db;try{db=JSON.parse(localStorage.getItem('manpowerPlanningDB'))}catch(e){}if(!db)db=JSON.parse(JSON.stringify(defaults));Object.keys(defaults).forEach(k=>{if(!Array.isArray(db[k]))db[k]=JSON.parse(JSON.stringify(defaults[k]))});
-let selected=sessionStorage.getItem('manpowerPlanningTab')||'structure';const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function badge(k,v){if(k==='Role Level')return '<span class="planning-badge level">'+esc(v)+'</span>';if(k==='Status')return '<span class="planning-badge status">'+esc(v)+'</span>';if(k==='Priority')return '<span class="planning-badge '+String(v).toLowerCase()+'">'+esc(v)+'</span>';return esc(v)}
-function section(){let el=document.getElementById('manpowerPlanningCard');if(!el){el=document.createElement('section');el.id='manpowerPlanningCard';el.className='card manpower-planning-card';const base=document.querySelector('main>section.card.tablecard');base.after(el)}return el}
-function render(){const el=section();el.hidden=active!=='Manpower';if(active!=='Manpower')return;const cfg=config[selected],rows=db[selected],q=(document.getElementById('planningSearch')?.value||'').toLowerCase(),f=document.getElementById('planningFilter')?.value||'All',keys=Object.keys(rows[0]||{}),opts=[...new Set(rows.map(r=>String(r[cfg.filter])))],shown=rows.filter(r=>(f==='All'||String(r[cfg.filter])===f)&&Object.values(r).join(' ').toLowerCase().includes(q));
-el.innerHTML='<nav class="manpower-planning-tabs">'+Object.entries(config).map(([k,c])=>'<button class="manpower-planning-tab '+(k===selected?'active':'')+'" data-tab="'+k+'">'+icons[k]+'<span>'+c.tab+'</span></button>').join('')+'</nav><div class="manpower-planning-head"><div class="manpower-planning-title"><span class="manpower-planning-icon">'+icons[selected]+'</span><div><h2>'+cfg.title+'</h2><p>'+cfg.sub+' · Sample Data</p></div></div><div class="manpower-planning-tools"><input id="planningSearch" class="search" placeholder="Search records..." value="'+esc(q)+'"><select id="planningFilter" class="filter"><option>All</option>'+opts.map(v=>'<option '+(v===f?'selected':'')+'>'+esc(v)+'</option>').join('')+'</select></div></div><div class="manpower-planning-scroll"><table class="manpower-planning-table"><thead><tr>'+keys.map(k=>'<th>'+esc(k)+'</th>').join('')+'</tr></thead><tbody>'+shown.map(r=>'<tr data-index="'+rows.indexOf(r)+'">'+keys.map(k=>'<td contenteditable data-key="'+esc(k)+'">'+badge(k,r[k])+'</td>').join('')+'</tr>').join('')+'</tbody></table></div><div class="manpower-planning-foot">Showing '+shown.length+' of '+rows.length+' records · Editable sample data</div>';
-el.querySelectorAll('.manpower-planning-tab').forEach(b=>b.onclick=()=>{selected=b.dataset.tab;sessionStorage.setItem('manpowerPlanningTab',selected);render()});el.querySelector('#planningSearch').oninput=render;el.querySelector('#planningFilter').onchange=render;el.querySelectorAll('td[contenteditable]').forEach(td=>td.onblur=e=>{const i=+e.target.closest('tr').dataset.index,k=e.target.dataset.key,raw=e.target.textContent.trim();db[selected][i][k]=raw!==''&&!isNaN(+raw)?+raw:raw;localStorage.setItem('manpowerPlanningDB',JSON.stringify(db));render()});}
-const nav=window.navigateHubPage;window.navigateHubPage=function(n,p=true){nav(n,p);render()};const pg=window.page;window.page=function(n){pg(n);render()};render();
+/* Expenses analytics dashboard with representative planning data */
+(function(){
+ const companies=['Nature Alliance','Nature Valley','Innobuilder','Arise','PIP','Prime Asset','Great Golden Moon','MSG','PYAY'],categories=['Cloud Services','Software Licenses','Hardware','Network & Internet','IT Support','Security'];
+ const base=[4200,2850,3600,5100,2400,1850,2200,1600,1450],multipliers=[1.02,.94,1.08,.97,1.12,.91];
+ const expenseRows=[];for(let month=0;month<9;month++)companies.forEach((company,ci)=>{const category=categories[(ci+month)%categories.length],budget=Math.round(base[ci]*multipliers[(ci+month)%multipliers.length]),actual=Math.round(budget*(.82+((ci*7+month*3)%27)/100));expenseRows.push({date:'2026-'+String(month+1).padStart(2,'0')+'-15',company,category,budget,actual,status:actual>budget?'Over Budget':actual>budget*.9?'Watch':'On Track'})});
+ const amount=value=>Math.round(value).toLocaleString(),money=value=>amount(value)+' MMK',kpiMoney=value=>amount(value)+' <small class="expense-currency">MMK</small>',cleanExpense=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+ const state={range:'all',month:'2026-09',company:'All companies',category:'All categories',chartType:'bar',from:'',to:'',search:''};let companyChart,categoryChart;
+ function panel(){let node=document.getElementById('expensesDashboard');if(!node){node=document.createElement('section');node.id='expensesDashboard';node.className='expense-dashboard';node.hidden=true;document.querySelector('main>.hero')?.insertAdjacentElement('afterend',node)}return node}
+ function baseVisible(visible){['#kpis','main>.grid','main>section.card.tablecard'].forEach(selector=>{const node=document.querySelector(selector);if(node)node.hidden=!visible})}
+ function shell(){const root=panel();root.innerHTML='<section class="expense-kpis"><article class="expense-kpi tone-spend"><span class="expense-kpi-icon currency-label">MMK</span><div><b>Total Spend</b><small>Selected period</small></div><strong id="expenseSpend">MMK 0</strong></article><article class="expense-kpi tone-budget"><span class="expense-kpi-icon">▤</span><div><b>Approved Budget</b><small>Planned investment</small></div><strong id="expenseBudget">MMK 0</strong></article><article class="expense-kpi tone-variance"><span class="expense-kpi-icon">↕</span><div><b>Budget Variance</b><small>Budget less actual</small></div><strong id="expenseVariance">MMK 0</strong></article><article class="expense-kpi tone-company"><span class="expense-kpi-icon">▦</span><div><b>Companies</b><small>With recorded spend</small></div><strong id="expenseCompanies">0</strong></article></section><section class="expense-filter-card"><div class="expense-filter-heading"><div><h2>Expense Analytics</h2><p>Review technology spending across any reporting period</p></div><button class="btn" id="expenseReset" type="button">Reset filters</button></div><div class="expense-filter-grid"><label><span>Period</span><select id="expenseRange" class="filter"><option value="all">All data</option><option value="month">Monthly</option><option value="3m">Last 3 months</option><option value="6m">Last 6 months</option><option value="year">Yearly</option><option value="custom">Custom range</option></select></label><label id="expenseMonthField"><span>Month</span><select id="expenseMonth" class="filter">'+Array.from({length:9},(_,i)=>{const key='2026-'+String(9-i).padStart(2,'0'),label=new Date(2026,8-i,1).toLocaleDateString(undefined,{month:'short',year:'numeric'});return '<option value="'+key+'">'+label+'</option>'}).join('')+'</select></label><label id="expenseFromField"><span>From</span><input id="expenseFrom" class="filter expense-date" type="date"></label><label id="expenseToField"><span>To</span><input id="expenseTo" class="filter expense-date" type="date"></label><label><span>Company</span><select id="expenseCompany" class="filter"><option>All companies</option>'+companies.map(value=>'<option>'+value+'</option>').join('')+'</select></label><label><span>Category</span><select id="expenseCategory" class="filter"><option>All categories</option>'+categories.map(value=>'<option>'+value+'</option>').join('')+'</select></label></div></section><section class="card expense-table-card"><div class="expense-table-head"><div class="expense-table-title"><span>▤</span><div><h2>Digital Expense Allocation</h2><p>Budget and actual spending by company</p></div></div><input id="expenseSearch" class="search" placeholder="Search expenses..."></div><div class="expense-table-scroll"><table class="expense-table"><thead><tr><th>Period</th><th>Company</th><th>Category</th><th>Budget (MMK)</th><th>Actual (MMK)</th><th>Variance (MMK)</th><th>Status</th></tr></thead><tbody id="expenseBody"></tbody><tfoot id="expenseTotal"></tfoot></table></div><footer id="expenseFoot"></footer></section><section class="expense-chart-grid"><article class="card expense-chart-card"><div class="expense-chart-title"><div><h2>Company Spend Distribution</h2><p>Comparative technology spending by company</p></div><select id="expenseChartType" class="filter"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div><div class="expense-bar"><canvas id="expenseCompanyChart"></canvas></div></article><article class="card expense-chart-card"><div class="expense-chart-title"><div><h2>Expense Category Mix</h2><p>Actual spend across technology categories</p></div></div><div class="expense-pie"><canvas id="expenseCategoryChart"></canvas></div><div id="expenseLegend" class="expense-legend"></div></article></section>';
+  const expenseCards=root.querySelectorAll('.expense-kpi'),expenseCopy=[['Total Budget','Approved spending plan'],['Actual Expense','Recorded expenditure'],['Variance','Budget performance'],['Budget Utilization','Percentage of budget used']],expenseIcons=['<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg>','<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16"/><path d="m7 14 4-4 3 2 5-6"/><path d="M16 6h3v3"/></svg>','<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>','<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 1-9 9"/><path d="M12 3v9h9"/></svg>'];expenseCards.forEach((card,index)=>{card.querySelector('b').textContent=expenseCopy[index][0];card.querySelector('small').textContent=expenseCopy[index][1];card.querySelector('.expense-kpi-icon').innerHTML=expenseIcons[index]});expenseCards[0]?.classList.remove('tone-budget');expenseCards[1]?.classList.add('tone-budget');
+  ['expenseRange','expenseMonth','expenseCompany','expenseCategory','expenseFrom','expenseTo'].forEach(id=>root.querySelector('#'+id).addEventListener('change',()=>{state.range=root.querySelector('#expenseRange').value;state.month=root.querySelector('#expenseMonth').value;state.company=root.querySelector('#expenseCompany').value;state.category=root.querySelector('#expenseCategory').value;state.from=root.querySelector('#expenseFrom').value;state.to=root.querySelector('#expenseTo').value;render()}));root.querySelector('#expenseChartType').onchange=event=>{state.chartType=event.target.value;charts(filtered())};root.querySelector('#expenseSearch').oninput=event=>{state.search=event.target.value;render()};root.querySelectorAll('.expense-date').forEach(input=>input.onclick=()=>{if(input.showPicker)try{input.showPicker()}catch(e){}});root.querySelector('#expenseReset').onclick=()=>{Object.assign(state,{range:'all',month:'2026-09',company:'All companies',category:'All categories',chartType:'bar',from:'',to:'',search:''});shell();render()}}
+ function bounds(){let start=null,end=null;if(state.range==='month'){const [year,month]=state.month.split('-').map(Number);start=new Date(year,month-1,1);end=new Date(year,month,1)}if(state.range==='3m'||state.range==='6m'){const count=state.range==='3m'?3:6;start=new Date(2026,9-count,1);end=new Date(2026,9,1)}if(state.range==='year'){start=new Date(2026,0,1);end=new Date(2027,0,1)}if(state.range==='custom'){if(state.from)start=new Date(state.from+'T00:00:00');if(state.to){end=new Date(state.to+'T00:00:00');end.setDate(end.getDate()+1)}}return{start,end}}
+ function filtered(){const {start,end}=bounds(),query=state.search.toLowerCase().trim();return expenseRows.filter(row=>{const date=new Date(row.date+'T00:00:00');return(!start||date>=start)&&(!end||date<end)&&(state.company==='All companies'||row.company===state.company)&&(state.category==='All categories'||row.category===state.category)&&(!query||(row.company+' '+row.category+' '+row.status).toLowerCase().includes(query))})}
+ function charts(rows){const dark=document.body.classList.contains('dark'),text=dark?'#d9c4c2':'#806864',grid=dark?'#553137':'#eaded9',sum=(key,value)=>rows.filter(row=>row[key]===value).reduce((total,row)=>total+row.actual,0),companyData=companies.map(name=>[name,sum('company',name)]).filter(item=>item[1]).sort((a,b)=>b[1]-a[1]),categoryData=categories.map(name=>[name,sum('category',name)]).filter(item=>item[1]).sort((a,b)=>b[1]-a[1]),colors=['#d12a31','#f06428','#d6a13b','#7656b5','#3194ad','#16866a'];companyChart?.destroy();categoryChart?.destroy();const canvas=document.getElementById('expenseCompanyChart'),context=canvas.getContext('2d'),gradient=context.createLinearGradient(0,0,canvas.clientWidth||700,0);gradient.addColorStop(0,dark?'#c94a42':'#d12a31');gradient.addColorStop(1,dark?'#ef8563':'#f38c47');const line=state.chartType==='line';companyChart=new Chart(canvas,{type:line?'line':'bar',data:{labels:companyData.map(item=>item[0]),datasets:[{data:companyData.map(item=>item[1]),backgroundColor:line?'rgba(209,42,49,.12)':gradient,borderColor:dark?'#ff8b69':'#d12a31',borderWidth:line?2.4:1.4,borderRadius:7,fill:line,tension:.32,pointRadius:line?4:0}]},options:{indexAxis:line?'x':'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{beginAtZero:!line,grid:{color:grid},ticks:{color:text,font:{family:'Poppins',size:9}}},y:{beginAtZero:line,grid:{display:line,color:grid},ticks:{color:text,font:{family:'Poppins',size:9}}}}}});categoryChart=new Chart(document.getElementById('expenseCategoryChart'),{type:'doughnut',data:{labels:categoryData.map(item=>item[0]),datasets:[{data:categoryData.map(item=>item[1]),backgroundColor:colors,borderColor:dark?'#32171e':'#fff',borderWidth:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'66%',plugins:{legend:{display:false}}}});document.getElementById('expenseLegend').innerHTML=categoryData.map((item,index)=>'<div><span><i style="background:'+colors[index%colors.length]+'"></i>'+item[0]+'</span><b>'+money(item[1])+'</b></div>').join('')}
+ function render(){const root=panel(),rows=filtered(),budget=rows.reduce((sum,row)=>sum+row.budget,0),actual=rows.reduce((sum,row)=>sum+row.actual,0),variance=budget-actual,utilization=budget?actual/budget*100:0,varianceRate=budget?Math.abs(variance)/budget*100:0;root.querySelector('#expenseMonthField').hidden=state.range!=='month';root.querySelector('#expenseFromField').hidden=state.range!=='custom';root.querySelector('#expenseToField').hidden=state.range!=='custom';root.querySelector('#expenseSpend').innerHTML=kpiMoney(budget);root.querySelector('#expenseBudget').innerHTML=kpiMoney(actual);root.querySelector('#expenseVariance').innerHTML=(variance<0?'-':'')+kpiMoney(Math.abs(variance));root.querySelector('#expenseCompanies').textContent=utilization.toLocaleString(undefined,{maximumFractionDigits:1})+'%';const summaries=root.querySelectorAll('.expense-kpi>div small'),percent=value=>value.toLocaleString(undefined,{maximumFractionDigits:1})+'%';if(summaries.length===4){summaries[0].textContent=rows.length+' budget records selected';summaries[1].textContent=percent(utilization)+' of approved budget';summaries[2].textContent=percent(varianceRate)+(variance<0?' over budget':' budget remaining');summaries[3].textContent=rows.length?'Across '+new Set(rows.map(row=>row.company)).size+' companies':'No matching expenses'}root.querySelector('#expenseBody').innerHTML=rows.slice().sort((a,b)=>b.date.localeCompare(a.date)||companies.indexOf(a.company)-companies.indexOf(b.company)).map(row=>'<tr><td>'+new Date(row.date+'T00:00:00').toLocaleDateString(undefined,{month:'short',year:'numeric'})+'</td><td><b>'+cleanExpense(row.company)+'</b></td><td>'+cleanExpense(row.category)+'</td><td>'+amount(row.budget)+'</td><td>'+amount(row.actual)+'</td><td class="'+(row.budget-row.actual<0?'negative':'positive')+'">'+(row.budget-row.actual<0?'-':'')+amount(Math.abs(row.budget-row.actual))+'</td><td><span class="expense-status '+row.status.toLowerCase().replaceAll(' ','-')+'">'+row.status+'</span></td></tr>').join('');root.querySelector('#expenseTotal').innerHTML='<tr><th colspan="3">Grand Total</th><th>'+money(budget)+'</th><th>'+money(actual)+'</th><th>'+money(Math.abs(variance))+'</th><th></th></tr>';root.querySelector('#expenseFoot').textContent='Showing '+rows.length+' of '+expenseRows.length+' expense records';charts(rows)}
+ function show(name){const root=panel(),selected=name==='Expenses';document.body.classList.toggle('expenses-analytics-page',selected);root.hidden=!selected;if(selected){baseVisible(false);shell();render()}else baseVisible(true)}
+ window.showExpensesDashboard=show;
+ window.initExpensesDashboard=function(){if(window.__expensesDashboardReady){show(active);return}const previousNavigate=window.navigateHubPage;if(typeof previousNavigate!=='function')return;window.__expensesDashboardReady=true;window.navigateHubPage=function(name,push=true){previousNavigate(name,push);show(name)};const previousTheme=window.toggleTheme;if(typeof previousTheme==='function')window.toggleTheme=function(){previousTheme();if(active==='Expenses')render()};const themeButton=document.querySelector('.theme-toggle');if(themeButton)themeButton.onclick=window.toggleTheme;show(active)};
 })();
-
-});
 
 
 (function(){
- const brand=document.querySelector('.brand'); if(brand) brand.innerHTML='<i><img src="logo.png" alt="Digital IT Hub logo"></i><span><strong>Nature A</strong><small>Digital Hub</small></span>';
+ const brand=document.querySelector('.brand'); if(brand) brand.innerHTML='<i><img src="assets/images/logo.png" alt="Digital IT Hub logo"></i><span><strong>Nature A</strong><small>Digital Hub</small></span>';
  const ppt=[...document.querySelectorAll('button')].find(x=>x.textContent.includes('PowerPoint')); if(ppt)ppt.remove();
  const actions=document.querySelector('.actions'); if(actions){const toggle=document.createElement('button');toggle.className='btn theme-toggle';toggle.innerHTML='<b id="themeText">Light</b><span class="switch"><i></i></span>';toggle.onclick=window.toggleTheme;actions.prepend(toggle)}
  function palette(){const dark=document.body.classList.contains('dark');if(window.bar){bar.data.datasets[0].backgroundColor=bar.config.type==='line'?(dark?'#ff8d5b33':'#d12a3122'):(dark?'#f56f3d':'#d12a31');bar.data.datasets[0].borderColor=dark?'#ff9365':'#d12a31';bar.update()}if(window.donut){donut.data.datasets[0].backgroundColor=dark?['#ff8b57','#f2c266','#dc5b63','#9f6f39']:['#d12a31','#f06428','#d6a13b','#8b555b'];donut.data.datasets[0].borderColor=dark?'#32171e':'#fff';donut.update()}}
@@ -120,24 +285,6 @@ const nav=window.navigateHubPage;window.navigateHubPage=function(n,p=true){nav(n
 
 
 
-(function(){
- /* Keep the Documents workspace available with its built-in default records. */
- if(!Array.isArray(data.Documents))data.Documents=JSON.parse(JSON.stringify(sample.Documents||[]));
- buildNav();page(active);
- function applyProfessionalCharts(){
-   const dark=document.body.classList.contains('dark');
-   const colors=dark?['#ff8452','#f7c66a','#d85962','#a57943','#d98957','#c75b71','#e2af4d']:['#d12a31','#f06428','#d6a13b','#8d5754','#e48654','#b94958','#c89435'];
-   if(window.bar){const set=bar.data.datasets[0],ctx=bar.ctx,g=ctx.createLinearGradient(0,0,0,bar.height);g.addColorStop(0,dark?'#ff9569':'#d12a31');g.addColorStop(1,dark?'#cc4e40':'#f4a044');set.backgroundColor=bar.config.type==='line'?(dark?'rgba(255,132,82,.16)':'rgba(209,42,49,.12)'):g;set.borderColor=dark?'#ff9569':'#d12a31';set.pointBackgroundColor='#f3ad4a';set.pointBorderColor=dark?'#32171e':'#fffaf7';set.pointRadius=4;set.pointHoverRadius=7;set.borderWidth=3;bar.update()}
-   if(window.donut){donut.data.datasets[0].backgroundColor=donut.data.labels.map((_,i)=>colors[i%colors.length]);donut.data.datasets[0].borderColor=dark?'#32171e':'#fffaf7';donut.data.datasets[0].borderWidth=5;donut.options.plugins.brandCentre={label:'STATUS',value:donut.data.datasets[0].data.reduce((a,b)=>a+b,0),dark};donut.update();legend.innerHTML=donut.data.labels.map((label,i)=>'<div><span><i class="dot" style="background:'+colors[i%colors.length]+'"></i>'+label+'</span><b>'+donut.data.datasets[0].data[i]+' records</b></div>').join('')}
- }
- const oldCharts=window.charts;window.charts=function(){oldCharts();applyProfessionalCharts()};
- const oldTheme=window.toggleTheme;window.toggleTheme=function(){oldTheme();applyProfessionalCharts()};
- /* A file updates the currently open page only. Sheet names never create menus. */
- file.onchange=e=>{const upload=e.target.files[0];if(!upload)return;const reader=new FileReader();reader.onload=result=>{const workbook=XLSX.read(result.target.result,{type:'array'});const normal=x=>String(x).toLowerCase().replace(/[^a-z0-9]/g,'');const preferred=workbook.SheetNames.find(name=>normal(name)===normal(active))||workbook.SheetNames[0];const rows=XLSX.utils.sheet_to_json(workbook.Sheets[preferred],{defval:''});if(!rows.length)return show('No data rows found in the selected worksheet');data[active]=rows;page(active);show('Excel data updated for '+active+' only')};reader.readAsArrayBuffer(upload)};
- applyProfessionalCharts();
-})();
-
-
 
 (function(){
  /* Replace the earlier centre-label renderer so no undefined text can be drawn. */
@@ -159,16 +306,14 @@ const nav=window.navigateHubPage;window.navigateHubPage=function(n,p=true){nav(n
 
 
 (function(){
- const serviceTicketDefaults=[];
- const allowed=['Dashboard','Manpower','Expenses','Service Tickets','Fixed Assets','Microsoft 365','Reports','Documents'];
- const routes={'Dashboard':'#/','Manpower':'#/manpower','Expenses':'#/expenses','Service Tickets':'#/service-tickets','Fixed Assets':'#/fixed-assets','Microsoft 365':'#/microsoft-365','Reports':'#/reports','Documents':'#/documents'};
+ const allowed=['Dashboard','Manpower','Expenses','Copier & Printer Usage','Service Tickets','Fixed Assets','Microsoft 365'];
+ const routes={'Dashboard':'#/','Manpower':'#/manpower','Expenses':'#/expenses','Copier & Printer Usage':'#/copier-printer-usage','Service Tickets':'#/service-tickets','Fixed Assets':'#/fixed-assets','Microsoft 365':'#/microsoft-365'};
  const routePages=Object.fromEntries(Object.entries(routes).map(([page,path])=>[path.toLowerCase(),page]));const routeKey=()=>location.hash.toLowerCase()||'#/';
- const icons={'Dashboard':'🏠','Manpower':'👥','Expenses':'💰','Service Tickets':'🎫','Fixed Assets':'💻','Microsoft 365':'<img src="microsoft-365.png?v=4" alt="" width="21" height="21">','Reports':'📊','Documents':'📁'};
+ const icons={'Dashboard':'🏠','Manpower':'👥','Expenses':'💰','Copier & Printer Usage':'🖨️','Service Tickets':'🎫','Fixed Assets':'💻','Microsoft 365':'<img src="assets/images/microsoft-365.png?v=4" alt="" width="21" height="21">'};
  function limitPages(){
-   const refreshTicketSample=localStorage.getItem('serviceTicketSampleVersion')!=='3';
-   if(refreshTicketSample)data['Service Tickets']=JSON.parse(JSON.stringify(serviceTicketDefaults));
-   const clean={};allowed.forEach(name=>{clean[name]=Array.isArray(data[name])?data[name]:(Array.isArray(sample[name])?JSON.parse(JSON.stringify(sample[name])):[])});data=clean;
-   try{const saved=JSON.parse(localStorage.getItem('itHubData')||'{}'),savedClean={};allowed.forEach(name=>{savedClean[name]=name==='Service Tickets'&&refreshTicketSample?clean[name]:(Array.isArray(saved[name])?saved[name]:clean[name])});data=savedClean;localStorage.setItem('itHubData',JSON.stringify(savedClean));if(refreshTicketSample)localStorage.setItem('serviceTicketSampleVersion','3')}catch(e){}
+   const dedicatedPages=new Set(['Manpower','Expenses','Service Tickets','Microsoft 365']);
+   const clean={};allowed.forEach(name=>{clean[name]=dedicatedPages.has(name)?JSON.parse(JSON.stringify(sample[name]||[])):(Array.isArray(data[name])?data[name]:(Array.isArray(sample[name])?JSON.parse(JSON.stringify(sample[name])):[]))});data=clean;
+   try{const saved=JSON.parse(localStorage.getItem('itHubData')||'{}'),savedClean={};allowed.forEach(name=>{savedClean[name]=dedicatedPages.has(name)?clean[name]:(Array.isArray(saved[name])?saved[name]:clean[name])});data=savedClean;localStorage.setItem('itHubData',JSON.stringify(savedClean))}catch(e){}
  }
  function syncActive(name){[...nav.children].forEach(button=>{const selected=button.querySelector('.nav-text')?.textContent===name;button.classList.toggle('active',selected);button.setAttribute('aria-current',selected?'page':'false')});[...tabs.children].forEach(button=>button.classList.toggle('active',button.textContent===name))}function go(name,push=true){if(push&&routeKey()!==routes[name].toLowerCase())history.pushState({page:name},'',routes[name]);page(name);syncActive(name)}
  window.buildNav=function(){
@@ -352,9 +497,9 @@ window.exportXlsx=function(){
 
 
 (function(){
- const routes={'Dashboard':'#/','Manpower':'#/manpower','Expenses':'#/expenses','Service Tickets':'#/service-tickets','Fixed Assets':'#/fixed-assets','Microsoft 365':'#/microsoft-365','Reports':'#/reports','Documents':'#/documents'};
+ const routes={'Dashboard':'#/','Manpower':'#/manpower','Expenses':'#/expenses','Copier & Printer Usage':'#/copier-printer-usage','Service Tickets':'#/service-tickets','Fixed Assets':'#/fixed-assets','Microsoft 365':'#/microsoft-365'};
  const routePages=Object.fromEntries(Object.entries(routes).map(([page,path])=>[path.toLowerCase(),page]));const routeKey=()=>location.hash.toLowerCase()||'#/';
- const pageMeta={'Dashboard':['IT Management Overview','A complete view of your digital operations and performance.'],'Manpower':['Manpower','Digital team capacity and workload.'],'Expenses':['Expenses','Budget and IT spending overview.'],'Service Tickets':['Service Tickets','Service demand, issue trends and team allocation insights.'],'Fixed Assets':['Fixed Assets','Technology assets, ownership and lifecycle status.'],'Microsoft 365':['Microsoft 365','Company licensing, users, and subscription capacity.'],'Reports':['Reports','Operational reporting, review periods and ownership.'],'Documents':['Documents','Policies, procedures and controlled business records.']};
+ const pageMeta={'Dashboard':['IT Management Overview','A complete view of your digital operations and performance.'],'Manpower':['Manpower','Digital team capacity and workload.'],'Expenses':['Expenses','Technology spending, budget performance and cost allocation.'],'Copier & Printer Usage':['Copier & Printer Usage','Device activity, print volumes and operational status.'],'Service Tickets':['Service Tickets','Service demand, issue trends and team allocation insights.'],'Fixed Assets':['Fixed Assets','Technology assets, ownership and lifecycle status.'],'Microsoft 365':['Microsoft 365','Company licensing, users, and subscription capacity.']};
  function syncNavigation(name){document.querySelectorAll('#nav button').forEach(button=>{const selected=(button.dataset.page||button.querySelector('.nav-text')?.textContent)===name;button.classList.toggle('active',selected);button.setAttribute('aria-current',selected?'page':'false');button.dataset.href=routes[button.dataset.page||button.querySelector('.nav-text')?.textContent]||''});document.querySelectorAll('#tabs button').forEach(button=>button.classList.toggle('active',button.textContent===name))}
  function restoreGenericTableShell(){const primary=document.querySelector('main > section.card.tablecard'),head=primary?.querySelector('.head');if(head&&!document.getElementById('search'))head.innerHTML='<h2 id="ttitle"></h2><div class="tools"><input class="search" id="search" oninput="table()" placeholder="Search records..."><select class="filter" id="filter" onchange="table()"></select></div>'}
  window.navigateHubPage=function(name,push=true){
@@ -412,30 +557,6 @@ window.exportXlsx=function(){
 })();
 
 
-
-(function(){
- const migrationKey='m365PipBusinessBasic35';
- if(localStorage.getItem(migrationKey)==='done')return;
- let companies;
- try{companies=JSON.parse(localStorage.getItem('m365CompanyDB'))}catch(e){}
- if(!Array.isArray(companies)||!companies.length)companies=(data['Microsoft 365']||[]);
- const pip=companies.find(row=>row.Company==='PIP Myanmar');
- if(pip){
-  pip['Business Basic']=35;
-  const totalRow=companies.find(row=>row.Company==='Total');
-  const licenseKeys=Object.keys(pip).filter(key=>key!=='Company'&&key!=='Total Account');
-  pip['Total Account']=licenseKeys.reduce((sum,key)=>sum+(Number(pip[key])||0),0);
-  if(totalRow){
-   totalRow['Total Account']=companies.filter(row=>row.Company!=='Total').reduce((sum,row)=>sum+(Number(row['Total Account'])||0),0);
-   licenseKeys.forEach(key=>totalRow[key]=companies.filter(row=>row.Company!=='Total').reduce((sum,row)=>sum+(Number(row[key])||0),0));
-  }
-  data['Microsoft 365']=companies;
-  localStorage.setItem('m365CompanyDB',JSON.stringify(companies));
-  localStorage.setItem('itHubData',JSON.stringify(data));
- }
- localStorage.setItem(migrationKey,'done');
- location.reload();
-})();
 
 /* Service Tickets analytics dashboard powered by Tickets1.xlsx */
 (function(){
@@ -524,7 +645,7 @@ window.exportXlsx=function(){
   panel.querySelector('#ticketTableTotal').innerHTML='<tr><th>Grand Total</th><th>'+rows.length+'</th>'+assignees.map(name=>'<th>'+rows.filter(row=>row.assignedTo===name).length+'</th>').join('')+'</tr>';
   panel.querySelector('#ticketTableFoot').textContent='Showing '+summary.length+' of '+summary.length+' companies · '+assignees.length+' Members & '+rows.length+' tickets';drawCharts(rows);
  }
- function showFor(name){const panel=ensurePanel(),selected=name==='Service Tickets';document.body.classList.toggle('service-tickets-page',selected);panel.hidden=!selected;if(selected){setBaseVisible(false);renderShell();applyFilters()}else setBaseVisible(true)}
+ function showFor(name){const panel=ensurePanel(),selected=name==='Service Tickets';document.body.classList.toggle('service-tickets-page',selected);panel.hidden=!selected;if(selected){setBaseVisible(false);renderShell();applyFilters()}else if(name!=='Expenses')setBaseVisible(true)}
  const navigate=window.navigateHubPage;window.navigateHubPage=function(name,push=true){const same=push&&name===active;navigate(name,push);if(!same)showFor(name)};
  const theme=window.toggleTheme;window.toggleTheme=function(){theme();if(active==='Service Tickets')applyFilters()};const themeButton=document.querySelector('.theme-toggle');if(themeButton)themeButton.onclick=window.toggleTheme;
  showFor(active);
@@ -726,95 +847,10 @@ function applyWorkforceReferenceData(){
 function initWorkforceReference(){new MutationObserver(applyWorkforceReferenceData).observe(document.body,{childList:true,subtree:true});applyWorkforceReferenceData()}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initWorkforceReference);else initWorkforceReference();
 })();
-
-/* One-time Microsoft 365 data migration: Nature Valley Business Basic 18 -> 19. */
+/* Activate Expenses after every feature has finished wrapping navigation. */
 (function(){
- const migrationKey='m365NatureValleyBusinessBasic19';
- if(localStorage.getItem(migrationKey)==='done')return;
- let companies,licenses;
- try{companies=JSON.parse(localStorage.getItem('m365CompanyDB'))}catch(e){}
- try{licenses=JSON.parse(localStorage.getItem('m365LicensesDB'))}catch(e){}
- if(!Array.isArray(companies)||!companies.length)companies=data['Microsoft 365']||[];
- if(!Array.isArray(licenses)||!licenses.length)licenses=[];
- const valley=companies.find(row=>String(row.Company).replace(/\s+/g,' ').trim().toLowerCase()==='nature valley');
- if(valley){
-  valley['Business Basic']=19;
-  const normal=companies.filter(row=>row.Company!=='Total'),total=companies.find(row=>row.Company==='Total')||{Company:'Total'};
-  if(!companies.includes(total))companies.push(total);
-  const licenseKeys=Object.keys(valley).filter(key=>key!=='Company'&&key!=='Total Account');
-  normal.forEach(row=>row['Total Account']=licenseKeys.reduce((sum,key)=>sum+(Number(row[key])||0),0));
-  total['Total Account']=normal.reduce((sum,row)=>sum+(Number(row['Total Account'])||0),0);
-  licenseKeys.forEach(key=>total[key]=normal.reduce((sum,row)=>sum+(Number(row[key])||0),0));
-  licenses.filter(row=>row.Licenses!=='Total').forEach(row=>{row['Active Users']=Number(total[row.Licenses])||0;row['Available License']=(Number(row['Total Licenses'])||0)-row['Active Users']});
-  const licenseTotal=licenses.find(row=>row.Licenses==='Total');
-  if(licenseTotal)['Total Licenses','Active Users','Available License'].forEach(key=>licenseTotal[key]=licenses.filter(row=>row.Licenses!=='Total').reduce((sum,row)=>sum+(Number(row[key])||0),0));
-  data['Microsoft 365']=companies;
-  localStorage.setItem('m365CompanyDB',JSON.stringify(companies));
-  localStorage.setItem('m365LicensesDB',JSON.stringify(licenses));
-  localStorage.setItem('itHubData',JSON.stringify(data));
- }
- localStorage.setItem(migrationKey,'done');
- location.reload();
-})();
-
-/* One-time Microsoft 365 update: Nature Alliance Business Basic 95 and Business Standard 44. */
-(function(){
- const migrationKey='m365NatureAllianceBusinessBasic95Standard44';
- if(localStorage.getItem(migrationKey)==='done')return;
- let companies,licenses;
- try{companies=JSON.parse(localStorage.getItem('m365CompanyDB'))}catch(e){}
- try{licenses=JSON.parse(localStorage.getItem('m365LicensesDB'))}catch(e){}
- if(!Array.isArray(companies)||!companies.length)companies=data['Microsoft 365']||[];
- if(!Array.isArray(licenses)||!licenses.length)licenses=[];
- const nature=companies.find(row=>String(row.Company).replace(/\s+/g,' ').trim().toLowerCase().replace('allliance','alliance')==='nature alliance');
- if(nature){
-  nature['Business Basic']=95;
-  nature['Business Standard']=44;
-  const normal=companies.filter(row=>row.Company!=='Total'),total=companies.find(row=>row.Company==='Total')||{Company:'Total'};
-  if(!companies.includes(total))companies.push(total);
-  const licenseKeys=Object.keys(nature).filter(key=>key!=='Company'&&key!=='Total Account');
-  normal.forEach(row=>row['Total Account']=licenseKeys.reduce((sum,key)=>sum+(Number(row[key])||0),0));
-  total['Total Account']=normal.reduce((sum,row)=>sum+(Number(row['Total Account'])||0),0);
-  licenseKeys.forEach(key=>total[key]=normal.reduce((sum,row)=>sum+(Number(row[key])||0),0));
-  licenses.filter(row=>row.Licenses!=='Total').forEach(row=>{row['Active Users']=Number(total[row.Licenses])||0;row['Available License']=(Number(row['Total Licenses'])||0)-row['Active Users']});
-  const licenseTotal=licenses.find(row=>row.Licenses==='Total');
-  if(licenseTotal)['Total Licenses','Active Users','Available License'].forEach(key=>licenseTotal[key]=licenses.filter(row=>row.Licenses!=='Total').reduce((sum,row)=>sum+(Number(row[key])||0),0));
-  data['Microsoft 365']=companies;
-  localStorage.setItem('m365CompanyDB',JSON.stringify(companies));
-  localStorage.setItem('m365LicensesDB',JSON.stringify(licenses));
-  localStorage.setItem('itHubData',JSON.stringify(data));
- }
- localStorage.setItem(migrationKey,'done');
- location.reload();
-})();
-
-/* Legacy migration retained for older saved data. */
-(function(){
- if(localStorage.getItem('m365NatureAllianceBusinessBasic95Standard44')==='done')return;
- const migrationKey='m365NatureAllianceBusinessBasic94';
- if(localStorage.getItem(migrationKey)==='done')return;
- let companies,licenses;
- try{companies=JSON.parse(localStorage.getItem('m365CompanyDB'))}catch(e){}
- try{licenses=JSON.parse(localStorage.getItem('m365LicensesDB'))}catch(e){}
- if(!Array.isArray(companies)||!companies.length)companies=data['Microsoft 365']||[];
- if(!Array.isArray(licenses)||!licenses.length)licenses=[];
- const nature=companies.find(row=>String(row.Company).replace(/\s+/g,' ').trim().toLowerCase().replace('allliance','alliance')==='nature alliance');
- if(nature){
-  nature['Business Basic']=94;
-  const normal=companies.filter(row=>row.Company!=='Total'),total=companies.find(row=>row.Company==='Total')||{Company:'Total'};
-  if(!companies.includes(total))companies.push(total);
-  const licenseKeys=Object.keys(nature).filter(key=>key!=='Company'&&key!=='Total Account');
-  normal.forEach(row=>row['Total Account']=licenseKeys.reduce((sum,key)=>sum+(Number(row[key])||0),0));
-  total['Total Account']=normal.reduce((sum,row)=>sum+(Number(row['Total Account'])||0),0);
-  licenseKeys.forEach(key=>total[key]=normal.reduce((sum,row)=>sum+(Number(row[key])||0),0));
-  licenses.filter(row=>row.Licenses!=='Total').forEach(row=>{row['Active Users']=Number(total[row.Licenses])||0;row['Available License']=(Number(row['Total Licenses'])||0)-row['Active Users']});
-  const licenseTotal=licenses.find(row=>row.Licenses==='Total');
-  if(licenseTotal)['Total Licenses','Active Users','Available License'].forEach(key=>licenseTotal[key]=licenses.filter(row=>row.Licenses!=='Total').reduce((sum,row)=>sum+(Number(row[key])||0),0));
-  data['Microsoft 365']=companies;
-  localStorage.setItem('m365CompanyDB',JSON.stringify(companies));
-  localStorage.setItem('m365LicensesDB',JSON.stringify(licenses));
-  localStorage.setItem('itHubData',JSON.stringify(data));
- }
- localStorage.setItem(migrationKey,'done');
- location.reload();
+ if(typeof window.initExpensesDashboard==='function')window.initExpensesDashboard();
+ const previousNavigate=window.navigateHubPage;
+ if(typeof previousNavigate==='function')window.navigateHubPage=function(name,push=true){previousNavigate(name,push);if(typeof window.showExpensesDashboard==='function')window.showExpensesDashboard(name)};
+ if(active==='Expenses'&&typeof window.showExpensesDashboard==='function')window.showExpensesDashboard('Expenses');
 })();
