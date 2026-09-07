@@ -1,66 +1,21 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nature A Digital Hub</title>
-  <link rel="icon" href="assets/images/favicon.ico" sizes="any">
-  <link rel="shortcut icon" href="assets/images/favicon.ico">
-  <link rel="stylesheet" href="styles.css?v=20260903-19">
-  <script>
-    window.devToolsReportSoftNavs = false;
-    window.addEventListener('error', function (event) {
-      const stack = event.error && event.error.stack || '';
-      if (String(event.message).includes("reading 'startTime'") && stack.includes('reportAllChanges')) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-      }
-    }, true);
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/pptxgenjs/dist/pptxgen.bundle.js"></script>
-  <script src="data/tickets-data.js?v=20260903-19"></script>
-  <script src="app.js?v=20260903-19" defer></script>
-</head>
-<body>
-  <div class="app">
-    <aside class="side" id="side">
-      <div class="brand"><i>✦</i>Digital IT Hub</div>
-      <div class="label">WORKSPACE</div>
-      <div class="nav" id="nav"></div>
-    </aside>
-    <main class="main">
-      <header class="top">
-        <button class="hamb" type="button" onclick="side.classList.toggle('open')" aria-label="Open menu">☰</button>
-        <div class="crumb">Nature A Digital Hub / <b id="crumb">Dashboard</b></div>
-        <div class="actions">
-          <input id="file" type="file" accept=".xlsx,.xls,.csv" hidden>
-          <button class="btn export-btn export-excel" type="button" onclick="exportXlsx()" aria-label="Export Excel" title="Export Excel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h2M14 13h2M8 17h2M14 17h2"/></svg><span>Excel</span></button>
-          <button class="btn export-btn export-pdf" type="button" onclick="print()" aria-label="Export PDF" title="Export PDF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 11v7M9 15l3 3 3-3"/></svg><span>PDF</span></button>
-          <button class="btn primary" type="button" onclick="save()">Save changes</button>
-        </div>
-      </header>
-      <div class="tabs" id="tabs"></div>
-      <section class="hero"><div><h1 id="h1">IT Management Overview</h1><p id="sub">A complete view of your digital operations and performance.</p></div></section>
-      <section class="kpis" id="kpis"></section>
-      <section class="grid">
-        <article class="card">
-          <div class="title"><div><h2 id="ctitle">Operational performance</h2><p>Data-driven worksheet overview</p></div><select class="select" id="type" onchange="charts()"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div>
-          <div class="chart"><canvas id="chart"></canvas></div>
-        </article>
-        <article class="card">
-          <div class="title"><div><h2>Status distribution</h2><p>Live portfolio snapshot</p></div></div>
-          <div class="piegrid"><div class="pie"><canvas id="pie"></canvas></div><div class="legend" id="legend"></div></div>
-        </article>
-      </section>
-      <section class="card tablecard">
-        <div class="head"><h2 id="ttitle">Dashboard records</h2><div class="tools"><input class="search" id="search" oninput="table()" placeholder="Search records..."><select class="filter" id="filter" onchange="table()"></select></div></div>
-        <div id="table"></div>
-        <div class="foot" id="foot"></div>
-      </section>
-    </main>
-  </div>
-  <div class="toast" id="toast"></div>
-</body>
-</html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nature A Digital Hub</title><script>(function(){window.devToolsReportSoftNavs=false;var isInstrumentationError=function(error,message){var text=String(message||error&&error.message||'');var stack=String(error&&error.stack||'');return text.includes("startTime")};window.addEventListener('error',function(event){if(isInstrumentationError(event.error,event.message)){event.preventDefault();event.stopImmediatePropagation()}},true);window.addEventListener('unhandledrejection',function(event){if(isInstrumentationError(event.reason)){event.preventDefault();event.stopImmediatePropagation()}},true)})()</script><link rel="icon" href="assets/images/favicon.ico" sizes="any"><link rel="shortcut icon" href="assets/images/favicon.ico"><script src="https://cdn.jsdelivr.net/npm/chart.js"></script><script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pptxgenjs/dist/pptxgen.bundle.js"></script><link rel="stylesheet" href="styles.css?v=20260908-remove-budget-select-override"><script src="data/tickets-data.js?v=20260904-01"></script><script src="data/budget-expense-data.js?v=20260908-01"></script><script src="app.js?v=20260908-chart-animation-error-fix" defer></script></head><body><div class="app"><aside class="side" id="side"><div class="brand"><i aria-hidden="true"><img src="assets/images/logo.png" alt=""></i><span><strong>Nature A</strong><small>Digital Hub</small></span></div><div class="label">WORKSPACE</div><div class="nav" id="nav"></div></aside><main class="main"><header class="top"><button class="hamb" onclick="side.classList.toggle('open')">☰</button><div class="crumb">Nature A Digital Hub / <b id="crumb">Dashboard</b></div><div class="actions"><button class="btn theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Switch light or dark theme"><span class="sr-only">Toggle theme</span></button><input id="file" type="file" accept=".xlsx,.xls,.csv" hidden><button class="btn export-btn export-excel" type="button" onclick="exportXlsx()" aria-label="Export Excel" title="Export Excel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h2M14 13h2M8 17h2M14 17h2"/></svg><span>Excel</span></button><button class="btn export-btn export-pdf" type="button" onclick="print()" aria-label="Export PDF" title="Export PDF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 11v7M9 15l3 3 3-3"/></svg><span>PDF</span></button><button class="btn primary" onclick="save()">Save changes</button></div></header><div class="tabs" id="tabs"></div><section class="hero"><div><h1 id="h1">IT Management Overview</h1><p id="sub">A complete view of your digital operations and performance.</p></div></section><section id="budgetExpenseDashboard" class="budgetexpense-dashboard" hidden></section><section id="microsoft365Dashboard" class="microsoft365-dashboard" hidden></section><section id="manpowerDashboard" class="manpower-dashboard" hidden><section class="unified-kpi-grid"><article class="unified-kpi-card tone-orange"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="9" cy="8" r="4"></circle><path d="M3 21v-2a6 6 0 0 1 12 0v2M16 11l2 2 4-5"></path></svg></span><div><b>Current Manpower</b><small id="manpowerCurrentSubtitle">Active team members</small></div><strong id="manpowerCurrent">8</strong></article><article class="unified-kpi-card tone-green"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M16 21v-2.2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V21"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2.2a4 4 0 0 0-3-3.8M16.5 3.2a4 4 0 0 1 0 7.6"></path></svg></span><div><b>Planned Headcount</b><small id="manpowerPlannedSubtitle">Target workforce capacity</small></div><strong id="manpowerPlanned">12</strong></article><article class="unified-kpi-card tone-yellow"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M19 8v6M16 11h6"></path></svg></span><div><b>Hiring Vacancies</b><small id="manpowerVacanciesSubtitle">Roles open for hiring</small></div><strong id="manpowerVacancies">4</strong></article><article class="unified-kpi-card tone-blue"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 19a8 8 0 1 1 16 0"></path><path d="m12 15 4-5"></path><path d="M7 19h10"></path></svg></span><div><b>Workforce Capacity</b><small id="manpowerCapacitySubtitle">Positions currently filled</small></div><strong id="manpowerCapacity">67%</strong></article></section></section><section class="unified-kpi-grid" id="kpis"></section><section class="grid"><article class="card"><div class="title"><div><h2 id="ctitle">Operational performance</h2><p>Data-driven worksheet overview</p></div><select class="select" id="type" onchange="charts()"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div><div class="chart unified-bar-canvas"><canvas id="chart"></canvas></div></article><article class="card"><div class="title"><div><h2>Status distribution</h2><p>Live portfolio snapshot</p></div></div><div class="piegrid"><div class="pie"><canvas id="pie"></canvas></div><div class="legend" id="legend"></div></div></article></section><section class="card tablecard"><div class="head"><h2 id="ttitle">Dashboard records</h2><div class="tools"><input class="search" id="search" oninput="table()" placeholder="Search records..."><select class="filter" id="filter" onchange="table()"></select></div></div><div id="table"></div><div class="foot" id="foot"></div></section></main></div><div class="toast" id="toast"></div></body></html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
