@@ -1440,7 +1440,7 @@ body.dark .summary-card.tone-blue{--summary-color:#7056d8!important;--summary-so
 #budgetExpenseDashboard.budget-theme-transition canvas{opacity:0!important}
 
 /* Budget overview tabs and utilization status stay compact on every screen size. */
-.budget-portfolio-card .unified-table-head{align-items:center}.budget-portfolio-tabs{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.budget-portfolio-tabs button{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:7px 10px;border:1px solid #eadbd5;border-radius:8px;background:#fff;color:#806864;font:600 10px Poppins,Arial,sans-serif;cursor:pointer}.budget-portfolio-tabs button svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8}.budget-portfolio-tabs button:hover,.budget-portfolio-tabs button.active{border-color:#d12a31;background:#fff0e8;color:#c92b31}.budget-utilization{display:grid;grid-template-columns:minmax(66px,1fr) auto auto;align-items:center;gap:7px;min-width:168px}.budget-utilization>span{display:block;overflow:hidden;height:6px;border-radius:99px;background:#f2e5df}.budget-utilization>span i{display:block;height:100%;border-radius:inherit;background:#1d987b}.budget-utilization>b{font-size:10px;color:#513e42;white-space:nowrap}.budget-status{padding:3px 6px;border-radius:999px;background:#e5f6ef;color:#16866a;font-size:8px;font-style:normal;font-weight:700;white-space:nowrap}.budget-status.review{background:#fff0d8;color:#b37816}.budget-status.over{background:#fee9ea;color:#c92b31}.budget-utilization:has(.budget-status.review)>span i{background:#d69b2f}.budget-utilization:has(.budget-status.over)>span i{background:#d12a31}body.dark .budget-portfolio-tabs button{border-color:#553137;background:#32171e;color:#cbb9bb}body.dark .budget-portfolio-tabs button:hover,body.dark .budget-portfolio-tabs button.active{border-color:#ff9569;background:#512b27;color:#ff9b70}body.dark .budget-utilization>span{background:#4a2930}body.dark .budget-utilization>b{color:#f1e3df}body.dark .budget-status{background:#21443a;color:#8de0bf}body.dark .budget-status.review{background:#49381d;color:#f2cc76}body.dark .budget-status.over{background:#51262a;color:#ff9b94}@media(max-width:700px){.budget-portfolio-tabs{width:100%}.budget-portfolio-tabs button{flex:1 1 30%;justify-content:center;padding-inline:7px}.budget-utilization{min-width:185px}}@media(max-width:430px){.budget-portfolio-tabs button{font-size:9px}.budget-portfolio-tabs button svg{display:none}.budget-utilization{grid-template-columns:72px auto;gap:6px}.budget-utilization em{grid-column:2}.budget-utilization>span{grid-row:1 / span 2}}
+.budget-portfolio-card .unified-table-head{align-items:flex-start}.budget-portfolio-tabs{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.budget-portfolio-tabs button{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:7px 10px;border:1px solid #eadbd5;border-radius:8px;background:#fff;color:#806864;font:600 10px Poppins,Arial,sans-serif;cursor:pointer}.budget-portfolio-tabs button svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8}.budget-portfolio-tabs button:hover,.budget-portfolio-tabs button.active{border-color:#d12a31;background:#fff0e8;color:#c92b31}.budget-utilization{display:grid;grid-template-columns:minmax(66px,1fr) auto auto;align-items:center;gap:7px;min-width:168px}.budget-utilization>span{display:block;overflow:hidden;height:6px;border-radius:99px;background:#f2e5df}.budget-utilization>span i{display:block;height:100%;border-radius:inherit;background:#1d987b}.budget-utilization>b{font-size:10px;color:#513e42;white-space:nowrap}.budget-status{padding:3px 6px;border-radius:999px;background:#e5f6ef;color:#16866a;font-size:8px;font-style:normal;font-weight:700;white-space:nowrap}.budget-status.review{background:#fff0d8;color:#b37816}.budget-status.over{background:#fee9ea;color:#c92b31}.budget-utilization:has(.budget-status.review)>span i{background:#d69b2f}.budget-utilization:has(.budget-status.over)>span i{background:#d12a31}body.dark .budget-portfolio-tabs button{border-color:#553137;background:#32171e;color:#cbb9bb}body.dark .budget-portfolio-tabs button:hover,body.dark .budget-portfolio-tabs button.active{border-color:#ff9569;background:#512b27;color:#ff9b70}body.dark .budget-utilization>span{background:#4a2930}body.dark .budget-utilization>b{color:#f1e3df}body.dark .budget-status{background:#21443a;color:#8de0bf}body.dark .budget-status.review{background:#49381d;color:#f2cc76}body.dark .budget-status.over{background:#51262a;color:#ff9b94}@media(max-width:700px){.budget-portfolio-tabs{width:100%}.budget-portfolio-tabs button{flex:1 1 30%;justify-content:center;padding-inline:7px}.budget-utilization{min-width:185px}}@media(max-width:430px){.budget-portfolio-tabs button{font-size:9px}.budget-portfolio-tabs button svg{display:none}.budget-utilization{grid-template-columns:72px auto;gap:6px}.budget-utilization em{grid-column:2}.budget-utilization>span{grid-row:1 / span 2}}
 
 /* The overview selector is a separate tab row; its selected content lives in the card below. */
 .budget-portfolio-section{overflow:hidden;border:1px solid #eadbd5;border-radius:14px;background:#fff;box-shadow:0 7px 20px rgba(70,37,30,.045)}.budget-portfolio-section>.budget-portfolio-tabs{display:flex;align-items:center;gap:16px;min-height:64px;padding:10px 18px;border-bottom:1px solid #eadbd5;background:#fff}.budget-portfolio-section>.budget-portfolio-tabs button{border-color:transparent;background:transparent;color:#887477;font-size:12px;padding:9px 12px}.budget-portfolio-section>.budget-portfolio-tabs button:hover,.budget-portfolio-section>.budget-portfolio-tabs button.active{border-color:#f1cfc4;background:#fff0e8;color:#c92b31}.budget-portfolio-section>.budget-portfolio-card{margin:0;border:0!important;border-radius:0!important;box-shadow:none!important}.budget-portfolio-card .tools .filter{min-width:164px}.budget-portfolio-card .unified-table-head{padding-top:16px;padding-bottom:16px}body.dark .budget-portfolio-section{border-color:#553137;background:#2d171c;box-shadow:0 8px 22px rgba(0,0,0,.16)}body.dark .budget-portfolio-section>.budget-portfolio-tabs{border-color:#553137;background:#2d171c}body.dark .budget-portfolio-section>.budget-portfolio-tabs button{background:transparent;color:#cbb9bb}body.dark .budget-portfolio-section>.budget-portfolio-tabs button:hover,body.dark .budget-portfolio-section>.budget-portfolio-tabs button.active{border-color:#714039;background:#512b27;color:#ff9b70}@media(max-width:700px){.budget-portfolio-section>.budget-portfolio-tabs{gap:6px;min-height:auto;padding:9px}.budget-portfolio-section>.budget-portfolio-tabs button{flex:1 1 30%;font-size:10px;padding:8px 6px}.budget-portfolio-card .tools,.budget-portfolio-card .tools .filter{width:100%;min-width:0}}
@@ -1542,3 +1542,170 @@ table td.numeric-cell,table tfoot :is(td,th).numeric-cell{text-align:right!impor
 
 /* Fixed Asset department level between company and period details. */
 .budget-asset-department-row{cursor:pointer}.budget-asset-department-row td{padding-top:8px!important;padding-bottom:8px!important;background:#fff7f2!important;color:#805f5a!important;font-size:10.5px!important;font-weight:400!important}.budget-asset-department-row td:first-child{padding-left:24px!important;box-shadow:inset 3px 0 0 #efb09d}.budget-asset-department-row:hover td,.budget-asset-department-row.selected td{background:#ffeae1!important}.budget-asset-department-row.selected td{font-weight:700!important}.budget-asset-department-row.selected td:first-child{color:#c92b31!important}body.dark .budget-asset-department-row td{background:#332126!important;color:#cdb8b8!important}.dark .budget-asset-department-row td:first-child{box-shadow:inset 3px 0 0 #95584d}.dark .budget-asset-department-row:hover td,.dark .budget-asset-department-row.selected td{background:#4a2a2d!important}.dark .budget-asset-department-row.selected td:first-child{color:#ff9b70!important}@media(max-width:700px){.budget-asset-department-row td{font-size:9.5px!important}.budget-asset-department-row td:first-child{padding-left:18px!important}}
+/* Copier & Printer Usage dashboard layout. */
+#copierprinterusageDashboard {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+#copierprinterusageDashboard[hidden] {
+  display: none;
+}
+
+#copierprinterusageDashboard .unified-chart-grid {
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, .75fr);
+}
+
+#copierprinterusageDashboard .unified-chart-card {
+  min-width: 0;
+}
+
+#copierprinterusageDashboard :is(.unified-bar-canvas, .unified-line-canvas, .unified-pie-layout) {
+  min-width: 0;
+}
+
+#copierprinterusageDashboard :is(.unified-bar-canvas, .unified-line-canvas) > canvas,
+#copierprinterusageDashboard .unified-pie-canvas > canvas {
+  display: block;
+  max-width: 100%;
+}
+
+#copierprinterusageDashboard #copierPieMetric {
+  width: 100%;
+  max-width: 100%;
+}
+
+#copierprinterusageDashboard #copierDeviceLegend b {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+#copierprinterusageDashboard #copierDeviceLegend b strong {
+  color: #c92b31;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#copierprinterusageDashboard #copierDeviceLegend b small {
+  color: #998689;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: .45px;
+}
+
+body.dark #copierprinterusageDashboard #copierDeviceLegend b strong {
+  color: #ff9b70;
+}
+
+body.dark #copierprinterusageDashboard #copierDeviceLegend b small {
+  color: #ae9698;
+}
+
+@media (max-width: 1100px) {
+  #copierprinterusageDashboard .unified-chart-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+#copierprinterusageDashboard .unified-filter-card label.is-disabled {
+  opacity: .62;
+}
+
+#copierprinterusageDashboard .unified-filter-card select:disabled {
+  cursor: not-allowed;
+}
+
+#copierTotalCost::after {
+  content: 'MMK';
+  display: inline-block;
+  margin-left: 5px;
+  color: #8b777a;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .45px;
+  vertical-align: middle;
+}
+
+body.dark #copierTotalCost::after {
+  color: #c7afb1;
+}
+
+@media (max-width: 480px) {
+  #copierTotalCost::after {
+    font-size: 8px;
+  }
+}
+#copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-budget {
+  background: #1d987b;
+}
+
+body.dark #copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-budget {
+  background: #82d5bb;
+}
+
+#copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-key {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 10px;
+}
+
+#copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-key span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+#copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-key i {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+#copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-actual {
+  background: #d12a31;
+}
+
+body.dark #copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-actual {
+  background: #ff9079;
+}
+
+#copierprinterusageDashboard .copier-company-row,
+#copierprinterusageDashboard .copier-department-row,
+#copierprinterusageDashboard .copier-period-row { cursor: pointer; }
+#copierprinterusageDashboard .copier-company-row td { font-weight: 400; }
+#copierprinterusageDashboard .copier-company-row td:first-child { color: #5f4448; }
+#copierprinterusageDashboard .copier-company-row.is-expanded td { font-weight: 700; }
+#copierprinterusageDashboard .copier-department-row td:first-child,
+#copierprinterusageDashboard .copier-period-row td:first-child,
+#copierprinterusageDashboard .copier-device-row td:first-child { position: relative; padding-left: 24px; border-left: 0; }
+#copierprinterusageDashboard .copier-department-row td:first-child::before,
+#copierprinterusageDashboard .copier-period-row td:first-child::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 3px; background: #f3b6a7; }
+#copierprinterusageDashboard :is(.copier-department-row,.copier-period-row,.copier-device-row) td:first-child { font-weight: 400; }
+#copierprinterusageDashboard .copier-period-row td:first-child { color: #806864; }
+#copierprinterusageDashboard .copier-device-row td { background: #fff8f5; }
+#copierprinterusageDashboard :is(.copier-company-row,.copier-department-row,.copier-period-row).is-expanded td { font-weight: 700; }
+#copierprinterusageDashboard :is(.copier-company-row,.copier-department-row,.copier-period-row).is-expanded td:first-child { color: #c92b31; }
+#copierprinterusageDashboard .copier-period-label { display: inline-flex; align-items: center; gap: 7px; }
+#copierprinterusageDashboard .copier-period-label svg { width: 14px; height: 14px; color: #d45242; flex: 0 0 auto; }
+body.dark #copierprinterusageDashboard .copier-company-row td:first-child { color: #f1dcd7; }
+body.dark #copierprinterusageDashboard :is(.copier-company-row,.copier-department-row,.copier-period-row).is-expanded td:first-child { color: #ff9b70; }
+body.dark #copierprinterusageDashboard .copier-department-row td:first-child::before,
+body.dark #copierprinterusageDashboard .copier-period-row td:first-child::before { background: #a44b48; }
+body.dark #copierprinterusageDashboard .copier-period-row td:first-child { color: #d7c2c1; }
+body.dark #copierprinterusageDashboard .copier-device-row td { background: #29171d; }
+body.dark #copierprinterusageDashboard .copier-period-label svg { color: #ff9b70; }
+
+@media (max-width: 480px) {
+  #copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-key {
+    gap: 13px;
+    font-size: 9px;
+  }
+}
