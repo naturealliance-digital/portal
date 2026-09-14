@@ -1132,7 +1132,7 @@ select,.select,.filter,[role="combobox"]{cursor:pointer!important}
 /* Service Tickets analytics dashboard */
 
 .unified-filter-card{overflow:hidden;border:1px solid #eadbd5;border-radius:14px;background:#fff;box-shadow:0 7px 20px rgba(70,37,30,.045)}.unified-filter-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 17px;border-bottom:1px solid #eadbd5}.unified-filter-heading h2{margin:0;color:#443438;font-size:15px}.unified-filter-heading p{margin-top:3px;color:#887477;font-size:10px}.unified-filter-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;padding:15px 17px}.unified-filter-grid label{display:grid;gap:6px;min-width:0}.unified-filter-grid label[hidden]{display:none}.unified-filter-grid label>span{color:#786568;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.35px}.unified-filter-grid :is(.filter,input){width:100%!important;min-width:0;height:38px;margin:0}.unified-chart-card{min-width:0;padding:17px 18px!important}.unified-chart-header{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding-bottom:13px;margin-bottom:14px;border-bottom:1px solid #f0dfd7}.unified-chart-header h2{margin:0;color:#443438;font-size:14px}.unified-chart-header p{margin-top:3px;color:#907b7d;font-size:10px}.unified-chart-header>span{flex:0 0 auto;padding:5px 9px;border-radius:999px;background:#fff0e8;color:#c84936;font-size:9px;font-weight:700;white-space:nowrap}.unified-pie-layout{display:grid;grid-template-columns:1fr;justify-items:center;gap:13px}.unified-pie-canvas{position:relative;width:210px;height:210px}.unified-chart-legend{display:grid;width:100%;gap:6px}.unified-chart-legend>div{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;padding:7px 9px;border-radius:7px;background:#fff9f5;color:#806d70;font-size:9px}.unified-chart-legend span{display:flex;align-items:center;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.unified-chart-legend i{flex:0 0 7px;width:7px;height:7px;margin-right:7px;border-radius:50%}.unified-chart-legend b{color:#513e42;font-size:9px}
-.unified-table-card{order:5;min-width:0;overflow:hidden;padding:0!important}.unified-table-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 17px;border-bottom:1px solid #eadbd5;background:#fff}.unified-table-head h2{margin:0;color:#443438;font-size:14px}.unified-table-head p{margin-top:3px;color:#887477;font-size:10px}.unified-table-head .search{width:230px}.unified-table-scroll{width:100%;max-width:100%;overflow-x:auto;overflow-y:visible;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#d4b2a8 transparent}.unified-table-scroll::-webkit-scrollbar{height:8px}.unified-table-scroll::-webkit-scrollbar-thumb{border:2px solid transparent;border-radius:999px;background:#d4b2a8;background-clip:padding-box}.unified-data-table{width:100%;min-width:820px;border-collapse:separate;border-spacing:0}.unified-data-table th{position:sticky;top:0;z-index:20;height:48px;padding:10px 12px;border-bottom:1px solid #eaded9;background:#fbfcfe;color:#8994a9;font-size:10px;text-align:left;text-transform:uppercase}.unified-data-table td{height:48px;padding:10px 12px;border-bottom:1px solid #f0e5e0;color:#5f4d51;font-size:10.5px}.unified-data-table tbody tr:nth-child(odd) td{background:#fff!important}.unified-data-table tbody tr:nth-child(even) td{background:#fff9f6!important}.unified-data-table tbody tr:hover td{background:#fff4ee!important}.unified-data-table :is(th,td):first-child{position:sticky;left:0;z-index:25;min-width:160px}.unified-data-table thead th:first-child{z-index:30}.unified-data-table td:nth-child(2) b{color:#443438;font-weight:600}.unified-table-footer{padding:11px 17px;border-top:1px solid #eadbd5;background:#fffaf7;color:#887477;font-size:10px}
+.unified-table-card{order:5;min-width:0;overflow:hidden;padding:0!important}.unified-table-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 17px;border-bottom:1px solid #eadbd5;background:#fff}.unified-table-head h2{margin:0;color:#443438;font-size:14px}.unified-table-head p{margin-top:3px;color:#887477;font-size:10px}.unified-table-head .search{width:230px}.unified-table-scroll{width:100%;max-width:100%;overflow-x:auto;overflow-y:visible;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#d4b2a8 transparent}.unified-table-scroll::-webkit-scrollbar{height:8px}.unified-table-scroll::-webkit-scrollbar-thumb{border:2px solid transparent;border-radius:999px;background:#d4b2a8;background-clip:padding-box}.unified-data-table{width:100%;min-width:820px;border-collapse:separate;border-spacing:0}.unified-data-table th{position:sticky;top:0;z-index:20;height:48px;padding:10px 12px;border-bottom:1px solid #eaded9;background:#fbfcfe;color:#8994a9;font-size:10px;text-align:left;text-transform:uppercase}.unified-data-table td{height:48px;padding:10px 12px;border-bottom:1px solid #f0e5e0;color:#5f4d51;font-size:10.5px}.unified-data-table tbody tr:nth-child(odd) td{background:#fff!important}.unified-data-table tbody tr:nth-child(even) td{background:#fff9f6!important}.unified-data-table tbody tr:hover td{background:#fff4ee!important}.unified-data-table :is(th,td):first-child{position:sticky;left:0;z-index:25;width:auto;white-space:normal;overflow-wrap:anywhere}.unified-data-table thead th:first-child{z-index:30}.unified-data-table td:nth-child(2) b{color:#443438;font-weight:600}.unified-table-footer{padding:11px 17px;border-top:1px solid #eadbd5;background:#fffaf7;color:#887477;font-size:10px}
 body.dark .unified-kpi-card,body.dark .unified-chart-card,body.dark .unified-table-card{border-color:#553137;background:#2d171c;box-shadow:0 8px 22px rgba(0,0,0,.16)}body.dark .unified-kpi-card b,body.dark .unified-kpi-card>strong,body.dark .unified-filter-heading h2,body.dark .unified-chart-header h2,body.dark .unified-table-head h2{color:#f1e3df}body.dark .unified-kpi-card.tone-green{--ticket-color:#ff9b80;--ticket-soft:#512b27}body.dark .unified-kpi-card.tone-green{--ticket-color:#8de0bf;--ticket-soft:#21443a}body.dark .unified-kpi-card.tone-yellow{--ticket-color:#f2cc76;--ticket-soft:#49381d}body.dark .unified-kpi-card.tone-blue{--ticket-color:#cdb5f1;--ticket-soft:#37294a}body.dark .unified-filter-heading,body.dark .unified-chart-header,body.dark .unified-table-head{border-color:#553137}body.dark .unified-filter-heading p,body.dark .unified-chart-header p,body.dark .unified-table-head p,body.dark .unified-filter-grid label>span{color:#bfa9ab}body.dark .unified-chart-header>span{background:#512b27;color:#ff9b80}body.dark .unified-chart-legend>div{background:#2b171c;color:#cfb9bb}body.dark .unified-chart-legend b{color:#f0ded9}body.dark .unified-table-head{background:#32171e}body.dark .unified-table-scroll{scrollbar-color:#754b4c transparent}body.dark .unified-data-table th{border-color:#553137;background:#32171e;color:#d9c4c2}body.dark .unified-data-table tbody tr:nth-child(odd) td{border-color:#4d3035;background:#2d171c!important;color:#eadbd7}body.dark .unified-data-table tbody tr:nth-child(even) td{border-color:#4d3035;background:#32191f!important;color:#eadbd7}body.dark .unified-data-table tbody tr:hover td{background:#3a2026!important}body.dark .unified-data-table td:nth-child(2) b{color:#f1e3df}body.dark .unified-table-footer{border-color:#553137;background:#32171e;color:#cbb9bb}
 @media(max-width:1100px){.unified-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.unified-filter-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.unified-pie-layout{grid-template-columns:220px minmax(0,1fr);align-items:center;justify-items:stretch}.unified-pie-canvas{width:220px;height:220px}}
 @media(max-width:700px){.unified-filter-heading,.unified-table-head{align-items:stretch;flex-direction:column}.unified-filter-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:13px}.unified-chart-card{padding:14px!important}.unified-pie-layout{grid-template-columns:1fr;justify-items:center}.unified-pie-canvas{width:190px;height:190px}.unified-chart-legend{width:100%}.unified-table-head .search{width:100%}.unified-table-scroll{max-height:460px}}
@@ -1239,7 +1239,7 @@ body.dark .unified-chart-card{border-color:#553137;background:linear-gradient(14
 body:not(.dark) .unified-chart-select{background-color:#fff!important}
 
 /* Shared table structure used by every data table. */
-.unified-table-card{min-width:0;overflow:hidden}.unified-table-scroll{max-width:100%;overflow:auto;overscroll-behavior:contain}.unified-data-table{width:100%;border-collapse:separate;border-spacing:0}.unified-data-table :is(th,td):first-child{position:sticky;left:0;z-index:25}.unified-data-table thead th:first-child{z-index:30}.unified-data-table tbody tr:hover td{background:inherit!important}.unified-data-table :is(td[contenteditable="true"],td[contenteditable="true"]:focus,.editable-cell,input,select){background:transparent!important}.unified-table-footer{position:relative;z-index:30}
+.unified-table-card{min-width:0;overflow:hidden}.unified-table-scroll{max-width:100%;overflow:auto;overscroll-behavior:contain}.unified-data-table{width:100%;border-collapse:separate;border-spacing:0}.unified-data-table thead th:first-child{z-index:30}.unified-data-table tbody tr:hover td{background:inherit!important}.unified-data-table :is(td[contenteditable="true"],td[contenteditable="true"]:focus,.editable-cell,input,select){background:transparent!important}.unified-table-footer{position:relative;z-index:30}
 body.dark .unified-data-table tbody tr:hover td{background:inherit!important}
 
 /* Shared data-cell treatment: neutral editing, readable values and no row-hover fill. */
@@ -1708,4 +1708,56 @@ body.dark #copierprinterusageDashboard .copier-period-label svg { color: #ff9b70
     gap: 13px;
     font-size: 9px;
   }
+}
+
+/* Clean period expansion for Company Financial Performance. */
+#budgetExpenseDashboard .budget-month-category-row > td:first-child { padding-left: 12px !important; }
+#budgetExpenseDashboard .budget-month-category-row > td:first-child > span { display: none !important; }
+#budgetExpenseDashboard .budget-monthly-row.category-detail-open > td { font-weight: 700 !important; }
+#budgetExpenseDashboard .budget-monthly-row.category-detail-open > td:first-child { color: #c92b31 !important; }
+body.dark #budgetExpenseDashboard .budget-monthly-row.category-detail-open > td:first-child { color: #ff9b70 !important; }
+@media (max-width: 700px) {
+  #budgetExpenseDashboard .budget-month-category-row > td:first-child { padding-left: 12px !important; }
+}
+
+/* Monthly rows inherit the active table theme; expansion uses weight only. */
+#budgetExpenseDashboard .budget-monthly-row:not(.category-detail-open) > td { color: inherit !important; }
+body.dark #budgetExpenseDashboard .budget-monthly-row:not(.category-detail-open) > td { color: inherit !important; }
+
+/* Nested financial and asset period rows. */
+.unified-data-table tbody :is(.budget-monthly-row,.budget-asset-period-row) > td { color: #5f4d51 !important; }
+body.dark .unified-data-table tbody :is(.budget-monthly-row,.budget-asset-period-row) > td { color: #d8c6c7 !important; }
+
+/* Category drill-down follows the same alternating table-row colors. */
+#budgetExpenseDashboard .unified-table-card .unified-data-table tbody tr.budget-month-category-row:nth-child(odd) > td { background: #fff !important; }
+#budgetExpenseDashboard .unified-table-card .unified-data-table tbody tr.budget-month-category-row:nth-child(even) > td { background: #fff9f6 !important; }
+body.dark #budgetExpenseDashboard .unified-table-card .unified-data-table tbody tr.budget-month-category-row:nth-child(odd) > td { background: #2d171c !important; }
+body.dark #budgetExpenseDashboard .unified-table-card .unified-data-table tbody tr.budget-month-category-row:nth-child(even) > td { background: #32191f !important; }
+
+.unified-data-table tbody :is(.budget-monthly-row,.budget-asset-period-row) > td:last-child { box-shadow: none !important; }
+.budget-detail-record-row td:last-child,
+.budget-description-period-row td:last-child { box-shadow: none !important; }
+.unified-data-table tbody .budget-asset-period-row > td:first-child::before { content: none !important; }
+
+/* Negative amounts are consistently visible across primary and nested tables. */
+table :is(td,th).negative-value { color: #c92b31 !important; }
+body.dark table :is(td,th).negative-value { color: #ff9b94 !important; }
+#budgetExpenseDashboard .budget-monthly-row:not(.category-detail-open) > td.negative-value { color: #c92b31 !important; }
+body.dark #budgetExpenseDashboard .budget-monthly-row:not(.category-detail-open) > td.negative-value { color: #ff9b94 !important; }
+#budgetExpenseDashboard .budget-month-category-row > td.negative-value { color: #c92b31 !important; }
+body.dark #budgetExpenseDashboard .budget-month-category-row > td.negative-value { color: #ff9b94 !important; }
+
+/* Third level of Company Financial Performance: period → category. */
+#budgetExpenseDashboard .budget-monthly-row { cursor: pointer; }
+#budgetExpenseDashboard .budget-month-category-row > td { background: #fffaf7 !important; color: #7d6262 !important; border-top: 1px solid #f3e0d9 !important; font-size: 10px !important; font-weight: 400 !important; }
+#budgetExpenseDashboard .budget-month-category-row > td:first-child { color: #674f50 !important; }
+#budgetExpenseDashboard .budget-month-category-row > td:first-child span { display: inline-block; margin-right: 8px; color: #a86154; font-size: 8px; font-weight: 700; letter-spacing: .45px; line-height: 1; text-transform: uppercase; }
+#budgetExpenseDashboard .budget-month-category-row .budget-utilization { min-width: 146px; opacity: .86; transform: scale(.88); transform-origin: left center; }
+body.dark #budgetExpenseDashboard .budget-month-category-row > td { background: #2b1a20 !important; border-top-color: #4d3035 !important; color: #d5c1c0 !important; }
+body.dark #budgetExpenseDashboard .budget-month-category-row > td:first-child { color: #e2ccc7 !important; }
+body.dark #budgetExpenseDashboard .budget-month-category-row > td:first-child span { color: #ffae91; }
+@media (max-width: 700px) {
+  #budgetExpenseDashboard .budget-month-category-row > td { font-size: 9px !important; }
+  #budgetExpenseDashboard .budget-month-category-row > td:first-child { padding-left: 32px !important; }
+  #budgetExpenseDashboard .budget-month-category-row .budget-utilization { min-width: 120px; transform: scale(.78); }
 }
