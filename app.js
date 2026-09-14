@@ -1734,6 +1734,30 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   });
 })();
 
+/* Local access gate for the static dashboard. */
+(()=>{
+  const page=document.getElementById('loginPage'),form=document.getElementById('loginForm');
+  if(!page||!form)return;
+  const authenticated=sessionStorage.getItem('natureADashboardAuthenticated')==='true';
+  const reveal=()=>{page.hidden=true;document.body.classList.remove('login-required')};
+  if(authenticated)reveal();
+  else{page.hidden=false;document.body.classList.add('login-required')}
+  form.addEventListener('submit',event=>{
+    event.preventDefault();
+    const username=document.getElementById('loginUsername')?.value.trim();
+    const password=document.getElementById('loginPassword')?.value;
+    const error=document.getElementById('loginError');
+    if(username==='admin'&&password==='NatureA2026!'){
+      sessionStorage.setItem('natureADashboardAuthenticated','true');
+      if(error)error.hidden=true;
+      reveal();
+      return;
+    }
+    if(error)error.hidden=false;
+    document.getElementById('loginPassword')?.focus();
+  });
+})();
+
 /* Copier & Printer Usage dashboard. */
 (function(){
   const panel=document.getElementById('copierprinterusageDashboard'),source=window.COPIER_PRINTER_DATA;
