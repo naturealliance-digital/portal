@@ -1772,3 +1772,6 @@ body.dark #budgetExpenseDashboard .budget-month-category-row > td:first-child sp
 .login-form{display:grid;gap:8px;margin-top:27px;text-align:left}.login-form label{color:#f3d6cf;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}.login-form input{width:100%;height:46px;padding:0 13px;border:1px solid rgba(255,217,204,.36);border-radius:11px;background:rgba(255,255,255,.08);color:#fff8f4;font:500 14px Poppins,Arial,sans-serif;outline:none;box-sizing:border-box}.login-form input:focus{border-color:#ff936b;box-shadow:0 0 0 3px rgba(255,130,93,.16)}.login-error{margin:2px 0;color:#ffb6a8;font-size:12px}.login-submit{height:48px;margin-top:10px;border:0;border-radius:12px;background:linear-gradient(135deg,#d42e34,#f2602a);box-shadow:0 10px 22px rgba(199,42,43,.3);color:#fff;font:700 14px Poppins,Arial,sans-serif;cursor:pointer}.login-submit:hover{filter:brightness(1.07)}
 body.login-required{overflow:hidden}body.login-required>.app{visibility:hidden;pointer-events:none}
 @media(max-width:520px){.login-page{padding:16px}.login-panel{padding:28px 22px;border-radius:20px}.login-copy h1{font-size:25px}}
+
+#mainDashboard,#fixedassetsDashboard{display:grid;gap:16px;min-width:0}
+#mainDashboard[hidden],#fixedassetsDashboard[hidden]{display:none!important}

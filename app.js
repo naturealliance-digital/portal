@@ -1734,6 +1734,37 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   });
 })();
 
+/* Main dashboard visibility. */
+(()=>{
+  const panel=document.getElementById('mainDashboard');
+  const navigate=window.navigateHubPage;
+  if(!panel||typeof navigate!=='function')return;
+  window.navigateHubPage=function(name,push=true){
+    navigate(name,push);
+    panel.hidden=name!=='Dashboard';
+  };
+  panel.hidden=typeof active==='undefined'||active!=='Dashboard';
+})();
+
+/* Fixed Assets dashboard visibility. */
+(()=>{
+  const panel=document.getElementById('fixedassetsDashboard');
+  const navigate=window.navigateHubPage;
+  if(!panel||typeof navigate!=='function')return;
+  window.navigateHubPage=function(name,push=true){
+    navigate(name,push);
+    panel.hidden=name!=='Fixed Assets';
+  };
+  panel.hidden=typeof active==='undefined'||active!=='Fixed Assets';
+})();
+
+/* Fullscreen dashboard control. */
+window.toggleDashboardFullscreen=()=>{
+  const root=document.documentElement;
+  const action=document.fullscreenElement?document.exitFullscreen():root.requestFullscreen?.();
+  if(action?.catch)action.catch(()=>{});
+};
+
 /* Local access gate for the static dashboard. */
 (()=>{
   const page=document.getElementById('loginPage'),form=document.getElementById('loginForm');
