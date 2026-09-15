@@ -1746,6 +1746,62 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   panel.hidden=typeof active==='undefined'||active!=='Dashboard';
 })();
 
+/* Budget & Expense filter copy. */
+(()=>{
+  const applyCopy=()=>{
+    const panel=document.getElementById('budgetExpenseDashboard');
+    if(!panel)return;
+    const primary=panel.querySelector('.unified-filter-card:not(.budget-portfolio-filter-card) .unified-filter-heading');
+    const financial=panel.querySelector('.budget-portfolio-filter-card .unified-filter-heading');
+    if(primary){const title=primary.querySelector('h2'),subtitle=primary.querySelector('p');if(title)title.textContent='Budget & Expense Analysis';if(subtitle)subtitle.textContent='Review budget, spending, and variance.'}
+    if(financial){const title=financial.querySelector('h2'),subtitle=financial.querySelector('p');if(title)title.textContent='Financial Analysis';if(subtitle)subtitle.textContent='Track budget use, spending, and asset activity.'}
+  };
+  const navigate=window.navigateHubPage;
+  if(typeof navigate==='function')window.navigateHubPage=function(name,push=true){navigate(name,push);if(name==='Budget & Expense')requestAnimationFrame(applyCopy)};
+  requestAnimationFrame(applyCopy);
+})();
+
+/* Service Ticket filter copy. */
+(()=>{
+  const applyCopy=()=>{
+    const panel=document.getElementById('serviceTicketsDashboard');
+    const heading=panel?.querySelector('.unified-filter-card .unified-filter-heading');
+    if(!heading)return;
+    const title=heading.querySelector('h2'),subtitle=heading.querySelector('p');
+    if(title)title.textContent='Ticket Analysis';
+    if(subtitle)subtitle.textContent='Review support demand and issue trends by period and company.';
+  };
+  const navigate=window.navigateHubPage;
+  if(typeof navigate==='function')window.navigateHubPage=function(name,push=true){navigate(name,push);if(name==='Service Tickets')requestAnimationFrame(applyCopy)};
+  requestAnimationFrame(applyCopy);
+})();
+
+/* Copier & Printer record filter copy. */
+(()=>{
+  const applyCopy=()=>{
+    const panel=document.getElementById('copierprinterusageDashboard');
+    const analyticsHeading=panel?.querySelector('#copierChartFilters')?.closest('.unified-filter-card')?.querySelector('.unified-filter-heading');
+    const heading=panel?.querySelector('#copierTableFilters')?.closest('.unified-filter-card')?.querySelector('.unified-filter-heading');
+    if(analyticsHeading){const subtitle=analyticsHeading.querySelector('p');if(subtitle)subtitle.textContent='Review print volumes, color usage, and cost.'}
+    if(heading){const title=heading.querySelector('h2'),subtitle=heading.querySelector('p');if(title)title.textContent='Printer Record Analysis';if(subtitle)subtitle.textContent='Review print activity by period, company, and device.'}
+  };
+  const navigate=window.navigateHubPage;
+  if(typeof navigate==='function')window.navigateHubPage=function(name,push=true){navigate(name,push);if(name==='Copier & Printer Usage')requestAnimationFrame(applyCopy)};
+  requestAnimationFrame(applyCopy);
+})();
+
+/* Fixed Assets filter copy. */
+(()=>{
+  const applyCopy=()=>{
+    const panel=document.getElementById('fixedassetsDashboard');
+    const subtitle=panel?.querySelector('.fixed-assets-filter-card .unified-filter-heading p');
+    if(subtitle)subtitle.textContent='Review asset inventory, types, and condition.';
+  };
+  const navigate=window.navigateHubPage;
+  if(typeof navigate==='function')window.navigateHubPage=function(name,push=true){navigate(name,push);if(name==='Fixed Assets')requestAnimationFrame(applyCopy)};
+  requestAnimationFrame(applyCopy);
+})();
+
 /* Fixed Assets dashboard visibility. */
 (()=>{
   const panel=document.getElementById('fixedassetsDashboard');
@@ -1756,6 +1812,52 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     panel.hidden=name!=='Fixed Assets';
   };
   panel.hidden=typeof active==='undefined'||active!=='Fixed Assets';
+})();
+
+/* Fixed Assets KPI summary. */
+(()=>{
+  const panel=document.getElementById('fixedassetsDashboard');
+  const assetsData=window.FIXED_ASSETS_DATA;
+  const source=assetsData?.summary;
+  if(!panel||!source)return;
+  const icon={
+    assets:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>',
+    companies:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4v18M12 10h7v11M8 9h1M8 13h1M8 17h1M15 14h1M15 18h1"/></svg>',
+    damage:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 3 20h18L12 3Z"/><path d="M12 9v5M12 17h.01"/></svg>',
+    purchase:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v2H6.5A2.5 2.5 0 0 0 4 11.5v5A2.5 2.5 0 0 0 6.5 19H20v-8H6.5"/><path d="M16 14h.01"/></svg>'
+  };
+  const format=value=>Number(value||0).toLocaleString('en-US');
+  const optionList=(items,label)=>'<option value="all">'+label+'</option>'+items.map(item=>'<option value="'+item+'">'+item+'</option>').join('');
+  const setupFilters=()=>{
+    const period=panel.querySelector('#fixedAssetPeriod'),company=panel.querySelector('#fixedAssetCompany'),department=panel.querySelector('#fixedAssetDepartment'),type=panel.querySelector('#fixedAssetType'),brand=panel.querySelector('#fixedAssetBrand'),condition=panel.querySelector('#fixedAssetCondition'),month=panel.querySelector('#fixedAssetMonth'),year=panel.querySelector('#fixedAssetYear'),from=panel.querySelector('#fixedAssetFrom'),to=panel.querySelector('#fixedAssetTo');
+    const departmentField=department.closest('label'),brandField=brand.closest('label'),customFields=[...panel.querySelectorAll('.fixed-asset-custom-range')],monthField=month.closest('label'),yearField=year.closest('label'),records=assetsData.records||[];
+    const resetDependent=(select,items,label)=>{select.innerHTML=optionList(items,label);select.value='all'};
+    const updateKpis=()=>{const dated=records.map(record=>record.p).filter(Boolean).sort(),latest=dated[dated.length-1]||'',monthsBack=period.value==='last3'?3:period.value==='last6'?6:0,cutoff=monthsBack&&latest?new Date(Date.UTC(Number(latest.slice(0,4)),Number(latest.slice(5,7))-monthsBack,1)).toISOString().slice(0,10):'';const selected=records.filter(record=>{if(company.value!=='all'&&record.c!==company.value)return false;if(department.value!=='all'&&record.d!==department.value)return false;if(type.value!=='all'&&record.t!==type.value)return false;if(brand.value!=='all'&&record.b!==brand.value)return false;if(condition.value!=='all'&&record.o!==condition.value)return false;if(period.value==='monthly'&&month.value!=='all'&&record.p.slice(0,7)!==month.value)return false;if(period.value==='yearly'&&year.value!=='all'&&record.p.slice(0,4)!==year.value)return false;if(cutoff&&record.p<cutoff)return false;if(period.value==='custom'&&from.value&&record.p<from.value)return false;if(period.value==='custom'&&to.value&&record.p>to.value)return false;return true}),count=selected.length,companies=new Set(selected.map(record=>record.c).filter(Boolean)).size,damaged=selected.filter(record=>record.o==='Damage').length,purchase=selected.reduce((sum,record)=>sum+(Number(record.a)||0),0),scope=count+' selected asset record'+(count===1?'':'s');
+      panel.querySelector('#fixedAssetTotal').textContent=format(count);panel.querySelector('#fixedAssetCompanies').textContent=format(companies);panel.querySelector('#fixedAssetDamage').textContent=format(damaged);panel.querySelector('#fixedAssetPurchase').innerHTML=format(purchase)+'<em>MMK</em>';panel.querySelector('#fixedAssetTotalSubtitle').textContent=scope;panel.querySelector('#fixedAssetCompaniesSubtitle').textContent='Companies in selection';panel.querySelector('#fixedAssetDamageSubtitle').textContent=damaged?'Assets requiring attention':'No damaged assets selected';panel.querySelector('#fixedAssetPurchaseSubtitle').textContent='Selected acquisition value';};
+    const syncPeriod=()=>{customFields.forEach(field=>field.hidden=period.value!=='custom');monthField.hidden=period.value!=='monthly';yearField.hidden=period.value!=='yearly';updateKpis()};
+    const syncDepartments=()=>{const selected=company.value,items=selected==='all'?[]:(assetsData.companyDepartments[selected]||[]);resetDependent(department,items,'All departments');departmentField.hidden=selected==='all';updateKpis()};
+    const syncBrands=()=>{const selected=type.value,items=selected==='all'?[]:(assetsData.assetTypeBrands[selected]||[]);resetDependent(brand,items,'All brands');brandField.hidden=selected==='all';updateKpis()};
+    const months=[...new Set(records.map(record=>record.p.slice(0,7)).filter(Boolean))].sort().reverse(),years=[...new Set(records.map(record=>record.p.slice(0,4)).filter(Boolean))].sort().reverse(),monthLabel=value=>{const [year,monthNumber]=value.split('-');return new Date(Number(year),Number(monthNumber)-1,1).toLocaleString('en-US',{month:'short',year:'numeric'}).replace(' ','-')};month.innerHTML='<option value="all">All months</option>'+months.map(value=>'<option value="'+value+'">'+monthLabel(value)+'</option>').join('');year.innerHTML=optionList(years,'All years');
+    period.addEventListener('change',syncPeriod);company.addEventListener('change',syncDepartments);type.addEventListener('change',syncBrands);[department,brand,condition,month,year,from,to].forEach(control=>control.addEventListener('change',updateKpis));[from,to].forEach(input=>input.addEventListener('click',()=>{try{input.showPicker?.()}catch(error){}}));
+    panel.querySelector('#fixedAssetResetFilters').addEventListener('click',()=>{period.value='all';company.value='all';type.value='all';condition.value='all';from.value='';to.value='';syncDepartments();syncBrands();syncPeriod()});
+    syncPeriod();syncDepartments();syncBrands();updateKpis();
+  };
+  window.renderFixedAssetsKpis=(metrics=source,scopeLabel=metrics.scopeLabel||'Selected asset records')=>{
+    const cards=[
+      ['tone-orange',icon.assets,'Total Assets','Recorded asset inventory',format(metrics.totalAssets)],
+      ['tone-green',icon.companies,'Total Companies','Companies with asset records',format(metrics.totalCompanies)],
+      ['tone-red',icon.damage,'Damage Assets','Requires attention',format(metrics.damagedAssets)],
+      ['tone-blue',icon.purchase,'Total Purchase','Acquisition value',format(metrics.totalPurchase)+'<em>MMK</em>']
+    ];
+    panel.innerHTML='<section class="unified-kpi-grid fixed-assets-kpi-grid">'+cards.map((card,index)=>'<article class="unified-kpi-card '+card[0]+'"><span class="unified-kpi-icon" aria-hidden="true">'+card[1]+'</span><div><b>'+card[2]+'</b><small id="'+['fixedAssetTotalSubtitle','fixedAssetCompaniesSubtitle','fixedAssetDamageSubtitle','fixedAssetPurchaseSubtitle'][index]+'">'+card[3]+'</small></div><strong id="'+['fixedAssetTotal','fixedAssetCompanies','fixedAssetDamage','fixedAssetPurchase'][index]+'" class="fixed-assets-kpi-value">'+card[4]+'</strong></article>').join('')+'</section><section class="unified-filter-card fixed-assets-filter-card"><div class="unified-filter-heading"><div><h2>Fixed Assets Analysis</h2><p>Analyze asset inventory, asset types, and condition across reporting periods and companies.</p></div><button id="fixedAssetResetFilters" class="btn" type="button">Reset filters</button></div><div class="unified-filter-grid"><label><span>Period</span><select id="fixedAssetPeriod" class="filter"><option value="all">All data</option><option value="monthly">Monthly</option><option value="yearly">Yearly</option><option value="last3">Last 3 months</option><option value="last6">Last 6 months</option><option value="custom">Custom range</option></select></label><label class="fixed-asset-period-value" hidden><span>Month</span><select id="fixedAssetMonth" class="filter"></select></label><label class="fixed-asset-period-value" hidden><span>Year</span><select id="fixedAssetYear" class="filter"></select></label><label class="fixed-asset-custom-range" hidden><span>From</span><input id="fixedAssetFrom" class="filter" type="date"></label><label class="fixed-asset-custom-range" hidden><span>To</span><input id="fixedAssetTo" class="filter" type="date"></label><label><span>Company</span><select id="fixedAssetCompany" class="filter">'+optionList(Object.keys(assetsData.companyDepartments).sort(),'All companies')+'</select></label><label hidden><span>Department</span><select id="fixedAssetDepartment" class="filter"></select></label><label><span>Asset type</span><select id="fixedAssetType" class="filter">'+optionList(Object.keys(assetsData.assetTypeBrands).sort(),'All asset types')+'</select></label><label hidden><span>Brand</span><select id="fixedAssetBrand" class="filter"></select></label><label><span>Condition</span><select id="fixedAssetCondition" class="filter">'+optionList(assetsData.conditions,'All conditions')+'</select></label></div></section>';
+    setupFilters();
+  };
+  window.renderFixedAssetsKpis();
+  const navigate=window.navigateHubPage;
+  if(typeof navigate==='function')window.navigateHubPage=function(name,push=true){
+    navigate(name,push);
+    if(name==='Fixed Assets')window.renderFixedAssetsKpis();
+  };
 })();
 
 /* Fullscreen dashboard control. */
