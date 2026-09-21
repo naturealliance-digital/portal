@@ -3695,6 +3695,9 @@ body.microsoft365-page .unified-table-card .tools :is(.search,.filter){width:100
 
 /* Shared chart grid and canvas defaults. */
 .unified-chart-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;min-width:0}
+#fixedassetsDashboard .unified-chart-grid{grid-template-columns:minmax(0,1.45fr) minmax(320px,.75fr)}
+#fixedassetsDashboard .unified-chart-header.chart-control-ready .unified-chart-select{width:clamp(118px,13vw,165px)!important}
+@media(max-width:1100px){#fixedassetsDashboard .unified-chart-grid{grid-template-columns:minmax(0,1fr)}}
 .unified-line-canvas,.unified-bar-canvas{position:relative;min-width:0;height:330px}
 .unified-line-canvas>canvas,.unified-bar-canvas>canvas{display:block;max-width:100%}
 @media(max-width:1100px){.unified-chart-grid{grid-template-columns:1fr}
@@ -4334,12 +4337,12 @@ body.dark #copierTotalCost::after {
 }
 
 #copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-budget {
-  background: #1d987b;
+  background: #16866a;
 }
 
 
 body.dark #copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-budget {
-  background: #82d5bb;
+  background: #4eb4cd;
 }
 
 
@@ -4374,7 +4377,7 @@ body.dark #copierprinterusageDashboard .copier-monthly-chart-card .budget-summar
 
 
 body.dark #copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-actual {
-  background: #ff9079;
+  background: #ff8755;
 }
 
 
@@ -4588,3 +4591,17 @@ body.dark #budgetExpenseDashboard .budget-expense-period-row .budget-month-icon{
 /* Compact currency unit for Copier & Printer cost KPI values. */
 #copierprinterusageDashboard strong[data-currency]::after{content:"MMK";display:inline-block;margin-left:5px;font-size:9px;font-weight:700;letter-spacing:.04em;vertical-align:middle;color:#9a7773}
 body.dark #copierprinterusageDashboard strong[data-currency]::after{color:#d8bbb4}
+
+/* Keep Copier & Printer company names readable on narrow screens. */
+#copierprinterusageDashboard .unified-table-scroll{overflow-x:auto}
+#copierprinterusageDashboard .unified-data-table :is(th,td):first-child{width:auto;white-space:nowrap;overflow-wrap:normal;word-break:normal}
+
+/* Allow the monthly usage chart to scroll instead of crowding adjacent bars. */
+#copierprinterusageDashboard .unified-line-canvas{overflow-x:auto;overflow-y:hidden}
+#copierprinterusageDashboard #copierMonthlyChart{max-width:none}
+#copierprinterusageDashboard .unified-line-canvas{scrollbar-color:#d4b2a8 transparent;scrollbar-width:thin}
+#copierprinterusageDashboard .unified-line-canvas::-webkit-scrollbar{height:8px}
+#copierprinterusageDashboard .unified-line-canvas::-webkit-scrollbar-track{background:transparent}
+#copierprinterusageDashboard .unified-line-canvas::-webkit-scrollbar-thumb{border:2px solid transparent;border-radius:999px;background:#d4b2a8;background-clip:padding-box}
+body.dark #copierprinterusageDashboard .unified-line-canvas{scrollbar-color:#8e5a55 transparent}
+body.dark #copierprinterusageDashboard .unified-line-canvas::-webkit-scrollbar-thumb{background-color:#8e5a55}
