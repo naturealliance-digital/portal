@@ -3777,10 +3777,19 @@ body.dark .unified-chart-footer{color:#cbb9bb}
 /* Budget summary uses an accessible, compact external key instead of a canvas legend. */
 #budgetExpenseDashboard .budget-summary-key{display:flex;justify-content:center;align-items:center;gap:18px;margin-top:10px}
 #budgetExpenseDashboard .budget-summary-key span{display:inline-flex;align-items:center;gap:6px}
-#budgetExpenseDashboard .budget-summary-key i{display:block;width:10px;height:10px;border-radius:2px;background:#1d987b}
+#budgetExpenseDashboard .budget-summary-key i{display:block;width:10px;height:10px;border-radius:2px;background:#16866a}
 #budgetExpenseDashboard .budget-summary-key .budget-summary-actual{background:#d12a31}
-body.dark #budgetExpenseDashboard .budget-summary-key i{background:#82d5bb}
-body.dark #budgetExpenseDashboard .budget-summary-key .budget-summary-actual{background:#ff9569}
+body.dark #budgetExpenseDashboard .budget-summary-key i{background:#4eb4cd}
+body.dark #budgetExpenseDashboard .budget-summary-key .budget-summary-actual{background:#ff8755}
+
+@media(max-width:700px){
+  #budgetExpenseDashboard #budgetSummaryChart{min-width:540px}
+  #budgetExpenseDashboard .unified-line-canvas{overflow-x:auto;overflow-y:hidden;scrollbar-color:#d4b2a8 transparent;scrollbar-width:thin}
+  #budgetExpenseDashboard .unified-line-canvas::-webkit-scrollbar{height:8px}
+  #budgetExpenseDashboard .unified-line-canvas::-webkit-scrollbar-track{background:transparent}
+  #budgetExpenseDashboard .unified-line-canvas::-webkit-scrollbar-thumb{border:2px solid transparent;border-radius:999px;background:#d4b2a8;background-clip:padding-box}
+  body.dark #budgetExpenseDashboard .unified-line-canvas::-webkit-scrollbar-thumb{background:#8e5a55;background-clip:padding-box}
+}
 @media(max-width:480px){#budgetExpenseDashboard .budget-summary-key{gap:13px;font-size:9px}
 }
 
