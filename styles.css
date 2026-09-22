@@ -88,7 +88,7 @@ h1{font-size:23px}
 .brand i img{display:block;width:100%;height:100%;object-fit:cover}
 .nav button{margin:1px 0}
 .nav button.active{box-shadow:inset 3px 0 #f6bd52;background:#ffffff19}
-.main{background:radial-gradient(circle at 96% 0,#ffe1ca88 0,transparent 28%)}
+.main{min-height:100vh;background:radial-gradient(circle at 96% 0,#ffe1ca88 0,transparent 28%),#fff9f5}
 .btn,.select,.filter,.search{border-color:#ecdcd5}
 .primary{background:linear-gradient(135deg,#d22731,#f06428);border-color:#d22731;box-shadow:0 5px 15px #d2273140}
 .card,.unified-kpi-card{border-color:#f3e7e1;box-shadow:0 14px 35px #6c26100d}
@@ -123,17 +123,17 @@ body.dark td[contenteditable]:focus{background:#4d2428}
 
 .manpower-planning-card{margin-top:20px;padding:0!important;overflow:hidden}
 
-.manpower-planning-tabs{display:flex;gap:6px;padding:12px 14px;border-bottom:1px solid var(--l);background:#fff;overflow-x:auto;scrollbar-width:none}
+.unified-tabs{display:flex;align-items:center;gap:6px;padding:12px 14px;border-bottom:1px solid var(--l);background:#fff;overflow-x:auto;scrollbar-width:none}
 
-.manpower-planning-tabs::-webkit-scrollbar{display:none}
+.unified-tabs::-webkit-scrollbar{display:none}
 
-.manpower-planning-tab{display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;padding:9px 12px;border:1px solid transparent;border-radius:9px;background:transparent;color:#806e72;font:600 10px Poppins,Arial,sans-serif;white-space:nowrap;cursor:pointer}
+.unified-tab{display:inline-flex;align-items:center;gap:7px;flex:0 0 auto;padding:9px 12px;border:1px solid transparent;border-radius:9px;background:transparent;color:#806e72;font:600 10px Poppins,Arial,sans-serif;white-space:nowrap;cursor:pointer}
 
-.manpower-planning-tab svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.unified-tab svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
-.manpower-planning-tab:hover{background:#fff7f3;color:#a72b30}
+.unified-tab:hover{background:#fff7f3;color:#a72b30}
 
-.manpower-planning-tab.active{background:#fff0e8;color:#bd2d30;border-color:#f1d5ca}
+.unified-tab.active{background:#fff0e8;color:#bd2d30;border-color:#f1d5ca}
 
 .manpower-planning-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px 13px;border-bottom:1px solid var(--l);background:#fff}
 
@@ -161,10 +161,6 @@ body.dark td[contenteditable]:focus{background:#4d2428}
 
 .manpower-planning-table tbody tr:hover td{background-color:inherit!important}
 
-.manpower-planning-table td[contenteditable]:hover:not(:focus){outline:none!important;box-shadow:none!important}
-
-.manpower-planning-table td[contenteditable]:focus{outline:none!important;background-color:inherit!important;box-shadow:inset 0 0 0 2px rgba(209,42,49,.28)!important}
-
 .planning-badge{display:inline-flex;align-items:center;justify-content:center;min-width:42px;padding:4px 8px;border-radius:999px;font-size:9px;font-weight:700}
 
 .planning-badge.level{background:#e8f7f1;color:#16866a}
@@ -175,11 +171,11 @@ body.dark td[contenteditable]:focus{background:#4d2428}
 
 .manpower-planning-foot{padding:12px 18px;border-top:1px solid var(--l);background:#fff;color:#8490a4;font-size:10px}
 
-body.dark .manpower-planning-tabs,body.dark .manpower-planning-head,body.dark .manpower-planning-foot{background:#32171e;border-color:#553137}
+body.dark .unified-tabs,body.dark .manpower-planning-head,body.dark .manpower-planning-foot{background:#32171e;border-color:#553137}
 
-body.dark .manpower-planning-tab{color:#cbb9bb}
-body.dark .manpower-planning-tab:hover{background:#3a1b23;color:#ffb18e}
-body.dark .manpower-planning-tab.active{background:#4a2428;color:#ffab82;border-color:#6a3b42}
+body.dark .unified-tab{color:#cbb9bb}
+body.dark .unified-tab:hover{background:#3a1b23;color:#ffb18e}
+body.dark .unified-tab.active{background:#4a2428;color:#ffab82;border-color:#6a3b42}
 
 body.dark .manpower-planning-title h2{color:#fff5ef}
 body.dark .manpower-planning-title p{color:#cbb9bb}
@@ -187,16 +183,14 @@ body.dark .manpower-planning-title p{color:#cbb9bb}
 body.dark .manpower-planning-table th{background:#3d1d25;color:#d9c4c2}
 body.dark .manpower-planning-table tbody tr:nth-child(odd) td{background:#2d171c;color:#eadbd7}
 body.dark .manpower-planning-table tbody tr:nth-child(even) td{background:#32191f;color:#eadbd7}
-body.dark .manpower-planning-table td[contenteditable]:focus{box-shadow:inset 0 0 0 2px rgba(244,160,68,.55)!important}
-
 body.dark .planning-badge.level{background:#173e34;color:#80dbb9}
 body.dark .planning-badge.status{background:#193653;color:#9ac8f7}
 body.dark .planning-badge.high{background:#4b2228;color:#ffabb3}
 body.dark .planning-badge.medium{background:#49371b;color:#ffd48a}
 body.dark .planning-badge.planned{background:#352b42;color:#cfb9e7}
 
-@media(max-width:768px){.manpower-planning-tabs{padding:10px 12px}
-.manpower-planning-tab{padding:8px 10px;font-size:9px}
+@media(max-width:768px){.unified-tabs{padding:10px 12px}
+.unified-tab{padding:8px 10px;font-size:9px}
 .manpower-planning-head{display:grid;grid-template-columns:1fr;grid-template-rows:auto auto;padding:14px 16px}
 .manpower-planning-title h2,.manpower-planning-title p{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .manpower-planning-tools{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(105px,1fr);width:100%}
@@ -530,57 +524,11 @@ body.dark .m365-company-table tbody tr:nth-child(odd) td:first-child,body.dark [
 
 body.dark .m365-company-table tbody tr:nth-child(even) td:first-child,body.dark [data-table="license-utilization"] tbody tr:nth-child(even) td:first-child{background:#32191f!important}
 
-.m365-company-table tbody tr:nth-child(odd) td:first-child[contenteditable]:is(:hover,:focus),[data-table="license-utilization"] tbody tr:nth-child(odd) td:first-child[contenteditable]:is(:hover,:focus){background:#fff!important}
-
-.m365-company-table tbody tr:nth-child(even) td:first-child[contenteditable]:is(:hover,:focus),[data-table="license-utilization"] tbody tr:nth-child(even) td:first-child[contenteditable]:is(:hover,:focus){background:#fff9f6!important}
-
-body.dark .m365-company-table tbody tr:nth-child(odd) td:first-child[contenteditable]:is(:hover,:focus),body.dark [data-table="license-utilization"] tbody tr:nth-child(odd) td:first-child[contenteditable]:is(:hover,:focus){background:#2d171c!important}
-
-body.dark .m365-company-table tbody tr:nth-child(even) td:first-child[contenteditable]:is(:hover,:focus),body.dark [data-table="license-utilization"] tbody tr:nth-child(even) td:first-child[contenteditable]:is(:hover,:focus){background:#32191f!important}
-
-
-
-
 .m365-company-table tbody tr.total-row td:first-child,[data-table="license-utilization"] tbody tr.total-row td:first-child{background:#fff3ec!important;color:inherit!important;font-weight:700!important;box-shadow:1px 0 #e8c9bb!important}
 
 body.dark .m365-company-table tbody tr.total-row td:first-child,body.dark [data-table="license-utilization"] tbody tr.total-row td:first-child{background:#422126!important;color:#fff1e8!important;box-shadow:1px 0 #754333!important}
 
 
-
-
-.m365-company-table td:first-child[contenteditable]:hover:not(:focus),[data-table="license-utilization"] td:first-child[contenteditable]:hover:not(:focus){box-shadow:1px 0 #eaded9!important}
-
-body.dark .m365-company-table td:first-child[contenteditable]:hover:not(:focus),body.dark [data-table="license-utilization"] td:first-child[contenteditable]:hover:not(:focus){box-shadow:1px 0 #553137!important}
-
-
-
-
-.m365-company-table tbody td:first-child[contenteditable]:hover:not(:focus),[data-table="license-utilization"] tbody td:first-child[contenteditable]:hover:not(:focus),body.dark .m365-company-table tbody td:first-child[contenteditable]:hover:not(:focus),body.dark [data-table="license-utilization"] tbody td:first-child[contenteditable]:hover:not(:focus){outline:none!important;border-color:transparent!important;box-shadow:none!important;filter:none!important}
-
-
-
-
-.m365-company-table tbody td:first-child[contenteditable],[data-table="license-utilization"] tbody td:first-child[contenteditable],.m365-company-table tbody td:first-child[contenteditable]:hover,[data-table="license-utilization"] tbody td:first-child[contenteditable]:hover,body.dark .m365-company-table tbody td:first-child[contenteditable],body.dark [data-table="license-utilization"] tbody td:first-child[contenteditable],body.dark .m365-company-table tbody td:first-child[contenteditable]:hover,body.dark [data-table="license-utilization"] tbody td:first-child[contenteditable]:hover{outline:0!important;border-color:transparent!important;box-shadow:none!important;filter:none!important;cursor:default!important}
-
-.m365-company-table tbody td:first-child[contenteditable]:focus,[data-table="license-utilization"] tbody td:first-child[contenteditable]:focus{outline:0!important;background-color:inherit!important;box-shadow:inset 0 0 0 1.5px rgba(209,42,49,.58)!important;cursor:text!important}
-
-body.dark .m365-company-table tbody td:first-child[contenteditable]:focus,body.dark [data-table="license-utilization"] tbody td:first-child[contenteditable]:focus{outline:0!important;background-color:inherit!important;box-shadow:inset 0 0 0 1.5px rgba(255,154,112,.72)!important;cursor:text!important}
-
-
-
-
-.m365-company-table tbody td:first-child[contenteditable]:is(:hover,:focus),[data-table="license-utilization"] tbody td:first-child[contenteditable]:is(:hover,:focus),body.dark .m365-company-table tbody td:first-child[contenteditable]:is(:hover,:focus),body.dark [data-table="license-utilization"] tbody td:first-child[contenteditable]:is(:hover,:focus){outline:0!important;border-color:transparent!important;box-shadow:none!important;filter:none!important}
-
-.m365-company-table tbody td:first-child[contenteditable].is-editing,[data-table="license-utilization"] tbody td:first-child[contenteditable].is-editing{box-shadow:inset 0 0 0 1.5px rgba(209,42,49,.48)!important}
-
-body.dark .m365-company-table tbody td:first-child[contenteditable].is-editing,body.dark [data-table="license-utilization"] tbody td:first-child[contenteditable].is-editing{box-shadow:inset 0 0 0 1.5px rgba(255,154,112,.68)!important}
-
-
-
-
-.m365-company-table tbody tr:hover td:first-child:not(.is-editing),[data-table="license-utilization"] tbody tr:hover td:first-child:not(.is-editing),.m365-company-table tbody td:first-child:hover:not(.is-editing),[data-table="license-utilization"] tbody td:first-child:hover:not(.is-editing){outline:0!important;border-color:transparent!important;box-shadow:none!important;filter:none!important;transform:none!important;transition:none!important;color:inherit!important;cursor:default!important}
-
-.m365-company-table tbody tr:nth-child(odd):hover td:first-child:not(.is-editing),[data-table="license-utilization"] tbody tr:nth-child(odd):hover td:first-child:not(.is-editing){background:#fff!important}
 
 
 /* Unified Microsoft 365 Company and License table presentation */
@@ -735,72 +683,7 @@ body.dark .m365-license-table tbody tr:nth-child(odd) td:first-child{background:
 body.dark .m365-license-table tbody tr:nth-child(even) td:first-child{background:#32191f!important}
 body.dark .m365-license-table tbody tr.total-row td:first-child{background:#3a1d23!important}
 
-.m365-company-table tbody tr:nth-child(even):hover td:first-child:not(.is-editing),[data-table="license-utilization"] tbody tr:nth-child(even):hover td:first-child:not(.is-editing){background:#fff9f6!important}
-
-body.dark .m365-company-table tbody tr:nth-child(odd):hover td:first-child:not(.is-editing),body.dark [data-table="license-utilization"] tbody tr:nth-child(odd):hover td:first-child:not(.is-editing){background:#2d171c!important}
-
-body.dark .m365-company-table tbody tr:nth-child(even):hover td:first-child:not(.is-editing),body.dark [data-table="license-utilization"] tbody tr:nth-child(even):hover td:first-child:not(.is-editing){background:#32191f!important}
-
-
-
-
 .m365-company-table :is(th,td):first-child,[data-table="license-utilization"] :is(th,td):first-child,body.dark .m365-company-table :is(th,td):first-child,body.dark [data-table="license-utilization"] :is(th,td):first-child{box-shadow:none!important}
-
-.m365-company-table tbody td:first-child[contenteditable].is-editing,[data-table="license-utilization"] tbody td:first-child[contenteditable].is-editing{box-shadow:none!important;outline:1.5px solid rgba(209,42,49,.58)!important;outline-offset:-1.5px!important}
-
-body.dark .m365-company-table tbody td:first-child[contenteditable].is-editing,body.dark [data-table="license-utilization"] tbody td:first-child[contenteditable].is-editing{box-shadow:none!important;outline-color:rgba(255,154,112,.72)!important}
-
-
-
-
-.m365-company-table td[contenteditable]:hover:not(:focus),[data-table="license-utilization"] td[contenteditable]:hover:not(:focus),body.dark .m365-company-table td[contenteditable]:hover:not(:focus),body.dark [data-table="license-utilization"] td[contenteditable]:hover:not(:focus){box-shadow:none!important;outline:none!important;filter:none!important;transform:none!important}
-
-
-
-
-.m365-company-table tbody td:first-child[contenteditable],[data-table="license-utilization"] tbody td:first-child[contenteditable],body.dark .m365-company-table tbody td:first-child[contenteditable],body.dark [data-table="license-utilization"] tbody td:first-child[contenteditable]{cursor:text!important}
-
-.m365-company-table tbody td:first-child[contenteditable]:hover:not(:focus),[data-table="license-utilization"] tbody td:first-child[contenteditable]:hover:not(:focus),body.dark .m365-company-table tbody td:first-child[contenteditable]:hover:not(:focus),body.dark [data-table="license-utilization"] tbody td:first-child[contenteditable]:hover:not(:focus){outline:none!important;box-shadow:none!important;filter:none!important;transform:none!important;cursor:text!important}
-
-.m365-company-table tbody td:first-child[contenteditable]:focus,[data-table="license-utilization"] tbody td:first-child[contenteditable]:focus{outline:none!important;box-shadow:inset 0 0 0 1.5px rgba(209,42,49,.58)!important;cursor:text!important}
-
-body.dark .m365-company-table tbody td:first-child[contenteditable]:focus,body.dark [data-table="license-utilization"] tbody td:first-child[contenteditable]:focus{outline:none!important;box-shadow:inset 0 0 0 1.5px rgba(255,154,112,.72)!important;cursor:text!important}
-
-
-
-
-.m365-company-table tbody td:first-child[contenteditable],[data-table="license-utilization"] tbody td:first-child[contenteditable]{cursor:text!important;transition:box-shadow .16s ease!important}
-
-.m365-company-table tbody td:first-child[contenteditable]:hover:not(:focus),[data-table="license-utilization"] tbody td:first-child[contenteditable]:hover:not(:focus){outline:none!important;box-shadow:none!important;filter:none!important;transform:none!important}
-
-.m365-company-table tbody td:first-child[contenteditable]:focus,.m365-company-table tbody td:first-child[contenteditable].is-editing,[data-table="license-utilization"] tbody td:first-child[contenteditable]:focus,[data-table="license-utilization"] tbody td:first-child[contenteditable].is-editing{outline:none!important;outline-offset:0!important;box-shadow:inset 0 0 0 1.5px rgba(209,42,49,.58)!important;cursor:text!important}
-
-body.dark .m365-company-table tbody td:first-child[contenteditable]:focus,body.dark .m365-company-table tbody td:first-child[contenteditable].is-editing,body.dark [data-table="license-utilization"] tbody td:first-child[contenteditable]:focus,body.dark [data-table="license-utilization"] tbody td:first-child[contenteditable].is-editing{outline:none!important;outline-offset:0!important;box-shadow:inset 0 0 0 1.5px rgba(255,154,112,.72)!important;cursor:text!important}
-
-
-
-
-.m365-company-table tbody td:first-child[contenteditable]:is(:focus,:focus-visible,.is-editing),[data-table="license-utilization"] tbody td:first-child[contenteditable]:is(:focus,:focus-visible,.is-editing){z-index:55!important;outline:2px solid rgba(209,42,49,.72)!important;outline-offset:-2px!important;box-shadow:none!important;background-color:inherit!important;caret-color:#d12a31!important;cursor:text!important}
-
-body.dark .m365-company-table tbody td:first-child[contenteditable]:is(:focus,:focus-visible,.is-editing),body.dark [data-table="license-utilization"] tbody td:first-child[contenteditable]:is(:focus,:focus-visible,.is-editing){outline-color:rgba(255,154,112,.82)!important;box-shadow:none!important;background-color:inherit!important;caret-color:#ff9a70!important}
-
-
-
-
-.m365-company-table tbody td:first-child[contenteditable].is-click-focused,[data-table="license-utilization"] tbody td:first-child[contenteditable].is-click-focused{z-index:55!important;outline:2px solid rgba(209,42,49,.72)!important;outline-offset:-2px!important;box-shadow:none!important;caret-color:#d12a31!important;cursor:text!important}
-
-body.dark .m365-company-table tbody td:first-child[contenteditable].is-click-focused,body.dark [data-table="license-utilization"] tbody td:first-child[contenteditable].is-click-focused{outline-color:rgba(255,154,112,.82)!important;caret-color:#ff9a70!important}
-
-
-
-
-.m365-company-table tbody td:first-child[contenteditable]:is(:focus,:focus-visible,.is-editing,.is-click-focused),[data-table="license-utilization"] tbody td:first-child[contenteditable]:is(:focus,:focus-visible,.is-editing,.is-click-focused){outline:none!important;outline-offset:0!important;box-shadow:inset 0 0 0 2px rgba(209,42,49,.28)!important}
-
-body.dark .m365-company-table tbody td:first-child[contenteditable]:is(:focus,:focus-visible,.is-editing,.is-click-focused),body.dark [data-table="license-utilization"] tbody td:first-child[contenteditable]:is(:focus,:focus-visible,.is-editing,.is-click-focused){outline:none!important;outline-offset:0!important;box-shadow:inset 0 0 0 2px rgba(255,154,112,.32)!important}
-
-
-
-
 body.manpower-page main>.grid{display:none!important}
 
 body.manpower-page main>.tablecard{padding:0!important;overflow:visible!important}
@@ -2686,9 +2569,6 @@ body.dark [data-table="license-utilization"] tbody tr.total-row:hover td,body.da
 [data-table="license-utilization"] tr.total-row td{cursor:default!important;caret-color:transparent!important;user-select:none}
 
 
-.m365-company-table tbody tr:nth-child(odd):hover td:first-child:not(.is-editing),[data-table="license-utilization"] tbody tr:nth-child(odd):hover td:first-child:not(.is-editing){background:#fff!important}
-
-
 /* Final synchronized Microsoft 365 table colors */
 :is(main>.tablecard:has(.m365-company-table),[data-table="license-utilization"]){border-color:#eadbd5!important;background:#fff!important}
 
@@ -2872,6 +2752,26 @@ body.dark .site-team-location .coverage-planned{background:#51262a;color:#ff9b94
 .site-coverage-pie-only .site-team-location-list .site-team-location{min-height:44px}
 }
 
+/* Small-screen dashboard layout: preserve readable titles, controls, and cards. */
+@media(max-width:700px){
+  #manpowerDashboard .unified-table-head{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:12px!important;padding:14px!important}
+  #manpowerDashboard .unified-table-title{width:100%;min-width:0;grid-template-columns:34px minmax(0,1fr);gap:10px}
+  #manpowerDashboard .unified-table-title h2{font-size:14px;line-height:1.3}
+  #manpowerDashboard .unified-table-title p{font-size:10px;line-height:1.45}
+  #manpowerDashboard .unified-table-head .tools{display:grid;grid-template-columns:minmax(0,1fr) minmax(120px,.75fr);width:100%;gap:8px}
+  #manpowerDashboard .unified-table-head .tools :is(.search,.filter){width:100%!important;min-width:0}
+  .site-coverage-pie-only .site-chart-pie-layout{grid-template-columns:1fr!important;justify-items:center!important}
+  .site-coverage-pie-only .site-chart-pie{width:min(210px,100%)!important;height:210px!important}
+  .site-coverage-pie-only .site-team-details{width:100%;min-height:0}
+  .site-coverage-pie-only .site-team-location-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .service-portfolio-grid{grid-template-columns:1fr!important;gap:10px!important}
+  .service-portfolio-grid .digital-service-item{min-height:96px;padding:14px 88px 14px 14px!important}
+}
+@media(max-width:420px){
+  #manpowerDashboard .unified-table-head .tools{grid-template-columns:1fr}
+  .site-coverage-pie-only .site-team-location-list{grid-template-columns:1fr!important}
+}
+
 
 /* Separate Team Site Coverage and Site Support Coverage cards */
 .site-team-coverage-card{margin:0 0 16px}
@@ -2897,8 +2797,7 @@ select,.select,.filter,[role="combobox"]{cursor:pointer!important}
 
 
 /* Service Tickets analytics dashboard */
-
-.unified-filter-card{overflow:hidden;border:1px solid #eadbd5;border-radius:14px;background:#fff;box-shadow:0 7px 20px rgba(70,37,30,.045)}
+.unified-filter-card{min-width:0;overflow:hidden;padding:0 !important}
 .unified-filter-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 17px;border-bottom:1px solid #eadbd5}
 .unified-filter-heading h2{margin:0;color:#443438;font-size:15px}
 .unified-filter-heading p{margin-top:3px;color:#887477;font-size:10px}
@@ -3219,8 +3118,6 @@ button,input,select,textarea{font-size:inherit}
 
 
 /* Reusable analytics filter card shared by every dashboard page. */
-.unified-filter-card{min-width:0;overflow:hidden;border:1px solid #eadbd5;border-radius:14px;background:linear-gradient(145deg,#fff,#fffaf8);box-shadow:0 7px 20px rgba(70,37,30,.045);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
-.unified-filter-card:hover{transform:translateY(-2px);border-color:#e4cdc5;box-shadow:0 14px 28px rgba(87,35,25,.09)}
 .unified-filter-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 17px;border-bottom:1px solid #eadbd5}
 .unified-filter-heading h2{margin:0;color:#443438;font-size:15px;line-height:1.35}
 .unified-filter-heading p{margin-top:3px;color:#887477;font-size:10.5px;line-height:1.5}
@@ -3230,8 +3127,6 @@ button,input,select,textarea{font-size:inherit}
 .unified-filter-grid label>span{color:#786568;font-size:9px;font-weight:600;letter-spacing:.35px;text-transform:uppercase}
 .unified-filter-grid :is(.filter,input){width:100%!important;min-width:0;height:38px;margin:0}
 
-body.dark .unified-filter-card{border-color:#553137;background:linear-gradient(145deg,#2d171c,#32171e);box-shadow:0 8px 22px rgba(0,0,0,.18)}
-body.dark .unified-filter-card:hover{border-color:#70414a;box-shadow:0 14px 28px rgba(0,0,0,.28)}
 body.dark .unified-filter-heading{border-color:#553137}
 body.dark .unified-filter-heading h2{color:#f1e3df}
 body.dark .unified-filter-heading p,body.dark .unified-filter-grid label>span{color:#bfa9ab}
@@ -3240,7 +3135,6 @@ body.dark .unified-filter-heading p,body.dark .unified-filter-grid label>span{co
 }
 @media(max-width:700px){.unified-filter-heading{align-items:stretch;flex-direction:column}
 .unified-filter-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:13px}
-.unified-filter-card:hover{transform:none}
 }
 @media(max-width:460px){.unified-filter-grid{grid-template-columns:1fr}
 .unified-filter-heading{padding:14px}
@@ -3807,11 +3701,6 @@ body.dark .unified-chart-legend :is(b,strong){color:#ff9b70}
 
 
 /* Budget overview tabs and utilization status stay compact on every screen size. */
-.budget-portfolio-card .unified-table-head{align-items:flex-start}
-.budget-portfolio-tabs{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.budget-portfolio-tabs button{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:7px 10px;border:1px solid #eadbd5;border-radius:8px;background:#fff;color:#806864;font:600 10px Poppins,Arial,sans-serif;cursor:pointer}
-.budget-portfolio-tabs button svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8}
-.budget-portfolio-tabs button:hover,.budget-portfolio-tabs button.active{border-color:#d12a31;background:#fff0e8;color:#c92b31}
 .budget-utilization{display:grid;grid-template-columns:minmax(66px,1fr) auto auto;align-items:center;gap:7px;min-width:168px}
 .budget-utilization>span{display:block;overflow:hidden;height:6px;border-radius:99px;background:#f2e5df}
 .budget-utilization>span i{display:block;height:100%;border-radius:inherit;background:#1d987b}
@@ -3821,41 +3710,20 @@ body.dark .unified-chart-legend :is(b,strong){color:#ff9b70}
 .budget-status.over{background:#fee9ea;color:#c92b31}
 .budget-utilization:has(.budget-status.review)>span i{background:#d69b2f}
 .budget-utilization:has(.budget-status.over)>span i{background:#d12a31}
-body.dark .budget-portfolio-tabs button{border-color:#553137;background:#32171e;color:#cbb9bb}
-body.dark .budget-portfolio-tabs button:hover,body.dark .budget-portfolio-tabs button.active{border-color:#ff9569;background:#512b27;color:#ff9b70}
 body.dark .budget-utilization>span{background:#4a2930}
 body.dark .budget-utilization>b{color:#f1e3df}
 body.dark .budget-status{background:#21443a;color:#8de0bf}
 body.dark .budget-status.review{background:#49381d;color:#f2cc76}
 body.dark .budget-status.over{background:#51262a;color:#ff9b94}
-@media(max-width:700px){.budget-portfolio-tabs{width:100%}
-.budget-portfolio-tabs button{flex:1 1 30%;justify-content:center;padding-inline:7px}
-.budget-utilization{min-width:185px}
+@media(max-width:700px){.budget-utilization{min-width:185px}
 }
-@media(max-width:430px){.budget-portfolio-tabs button{font-size:9px}
-.budget-portfolio-tabs button svg{display:none}
-.budget-utilization{grid-template-columns:72px auto;gap:6px}
+@media(max-width:430px){.budget-utilization{grid-template-columns:72px auto;gap:6px}
 .budget-utilization em{grid-column:2}
 .budget-utilization>span{grid-row:1 / span 2}
 }
 
 
 /* The overview selector is a separate tab row; its selected content lives in the card below. */
-.budget-portfolio-section{overflow:hidden;border:1px solid #eadbd5;border-radius:14px;background:#fff;box-shadow:0 7px 20px rgba(70,37,30,.045)}
-.budget-portfolio-section>.budget-portfolio-tabs{display:flex;align-items:center;gap:16px;min-height:64px;padding:10px 18px;border-bottom:1px solid #eadbd5;background:#fff}
-.budget-portfolio-section>.budget-portfolio-tabs button{border-color:transparent;background:transparent;color:#887477;font-size:12px;padding:9px 12px}
-.budget-portfolio-section>.budget-portfolio-tabs button:hover,.budget-portfolio-section>.budget-portfolio-tabs button.active{border-color:#f1cfc4;background:#fff0e8;color:#c92b31}
-.budget-portfolio-section>.budget-portfolio-card{margin:0;border:0!important;border-radius:0!important;box-shadow:none!important}
-.budget-portfolio-card .tools .filter{min-width:164px}
-.budget-portfolio-card .unified-table-head{padding-top:16px;padding-bottom:16px}
-body.dark .budget-portfolio-section{border-color:#553137;background:#2d171c;box-shadow:0 8px 22px rgba(0,0,0,.16)}
-body.dark .budget-portfolio-section>.budget-portfolio-tabs{border-color:#553137;background:#2d171c}
-body.dark .budget-portfolio-section>.budget-portfolio-tabs button{background:transparent;color:#cbb9bb}
-body.dark .budget-portfolio-section>.budget-portfolio-tabs button:hover,body.dark .budget-portfolio-section>.budget-portfolio-tabs button.active{border-color:#714039;background:#512b27;color:#ff9b70}
-@media(max-width:700px){.budget-portfolio-section>.budget-portfolio-tabs{gap:6px;min-height:auto;padding:9px}
-.budget-portfolio-section>.budget-portfolio-tabs button{flex:1 1 30%;font-size:10px;padding:8px 6px}
-.budget-portfolio-card .tools,.budget-portfolio-card .tools .filter{width:100%;min-width:0}
-}
 
 
 /* Expense company rows expand into their department-level actual-spend detail. */
@@ -3887,17 +3755,6 @@ body.dark #budgetExpenseDashboard :is(.budget-expense-department-row,.budget-exp
 }
 @media(max-width:460px){#budgetExpenseDashboard .budget-portfolio-filter-card .unified-filter-grid{grid-template-columns:1fr}
 }
-
-
-/* Budget tabs intentionally share the Manpower Planning tab language. */
-.budget-portfolio-section>.budget-portfolio-tabs.manpower-planning-tabs{gap:6px;min-height:auto;padding:12px 14px;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
-.budget-portfolio-section>.budget-portfolio-tabs.manpower-planning-tabs::-webkit-scrollbar{display:none}
-.budget-portfolio-section>.budget-portfolio-tabs .manpower-planning-tab{flex:0 0 auto;min-height:0;padding:9px 12px;border:1px solid transparent;border-radius:9px;background:transparent;color:#806e72;font:600 10px Poppins,Arial,sans-serif;white-space:nowrap}
-.budget-portfolio-section>.budget-portfolio-tabs .manpower-planning-tab:hover{background:#fff7f3;color:#a72b30}
-.budget-portfolio-section>.budget-portfolio-tabs .manpower-planning-tab.active{background:#fff0e8;color:#bd2d30;border-color:#f1d5ca}
-body.dark .budget-portfolio-section>.budget-portfolio-tabs .manpower-planning-tab{background:transparent;color:#cbb9bb}
-body.dark .budget-portfolio-section>.budget-portfolio-tabs .manpower-planning-tab:hover{background:#3a1b23;color:#ffb18e}
-body.dark .budget-portfolio-section>.budget-portfolio-tabs .manpower-planning-tab.active{background:#4a2428;color:#ffab82;border-color:#6a3b42}
 
 
 /* Shared total-row treatment for every data table. */
@@ -4184,7 +4041,6 @@ body.dark .budget-description-period-row>td{background:#302026!important}
 }
 body.dark body.dark 
 
-.budget-portfolio-card .unified-table-head{align-items:flex-start}
 
 
 /* Continuous left accent for first-level Financial Summary and Fixed Asset period rows. */
@@ -4614,3 +4470,69 @@ body.dark #copierprinterusageDashboard strong[data-currency]::after{color:#d8bbb
 #copierprinterusageDashboard .unified-line-canvas::-webkit-scrollbar-thumb{border:2px solid transparent;border-radius:999px;background:#d4b2a8;background-clip:padding-box}
 body.dark #copierprinterusageDashboard .unified-line-canvas{scrollbar-color:#8e5a55 transparent}
 body.dark #copierprinterusageDashboard .unified-line-canvas::-webkit-scrollbar-thumb{background-color:#8e5a55}
+/* Fixed Assets yearly performance chart. */
+#fixedassetsDashboard .unified-chart-header.chart-control-ready{flex-wrap:wrap;justify-content:space-between}
+#fixedassetsDashboard .unified-chart-header.chart-control-ready>div:first-child{flex:1 1 220px}
+#fixedassetsDashboard .fixed-asset-yearly-chart-controls{display:flex;align-items:center;gap:10px;margin-left:auto}
+#fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-line-canvas{height:360px}
+#fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-line-canvas{overflow-x:auto;overflow-y:hidden;scrollbar-color:#d4b2a8 transparent;scrollbar-width:thin}
+#fixedassetsDashboard #fixedAssetYearlyChart{max-width:none}
+#fixedassetsDashboard .fixed-asset-yearly-chart-controls #fixedAssetYearlyMetric{width:auto!important}
+#fixedassetsDashboard .fixed-asset-yearly-chart-controls #fixedAssetYearlyChartType{width:150px!important}
+#fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-line-canvas::-webkit-scrollbar{height:8px}
+#fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-line-canvas::-webkit-scrollbar-track{background:transparent}
+#fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-line-canvas::-webkit-scrollbar-thumb{border:2px solid transparent;border-radius:999px;background:#d4b2a8;background-clip:padding-box}
+body.dark #fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-line-canvas{scrollbar-color:#8e5a55 transparent}
+body.dark #fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-line-canvas::-webkit-scrollbar-thumb{background-color:#8e5a55}
+#fixedassetsDashboard .fixed-asset-yearly-chart-card .budget-summary-key{display:flex;justify-content:center;gap:16px}
+#fixedassetsDashboard .fixed-asset-yearly-chart-card .budget-summary-key span{display:inline-flex;align-items:center;gap:7px}
+#fixedassetsDashboard .fixed-asset-yearly-chart-card .budget-summary-key i{width:11px;height:11px;border-radius:3px;background:#16866a}
+#fixedassetsDashboard .fixed-asset-yearly-chart-card .budget-summary-key .fixed-asset-yearly-amount{background:#d12a31}
+body.dark #fixedassetsDashboard .fixed-asset-yearly-chart-card .budget-summary-key i{background:#4eb4cd}
+body.dark #fixedassetsDashboard .fixed-asset-yearly-chart-card .budget-summary-key .fixed-asset-yearly-amount{background:#ff8755}
+#fixedassetsDashboard .fixed-asset-tabs-card{isolation:isolate;background:#fff!important}
+#fixedassetsDashboard .fixed-asset-company-table-card td.fixed-asset-damage-count{color:#c92b31!important;font-weight:600;font-variant-numeric:tabular-nums}
+body.dark #fixedassetsDashboard .fixed-asset-tabs-card{background:#2d171c!important}
+body.dark #fixedassetsDashboard .fixed-asset-company-table-card td.fixed-asset-damage-count{color:#ff9b94!important}
+
+@media(max-width:700px){
+  #fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-chart-header{align-items:stretch}
+  #fixedassetsDashboard .fixed-asset-yearly-chart-controls{width:100%;flex-direction:row;align-items:stretch;margin-left:0}
+  #fixedassetsDashboard .fixed-asset-yearly-chart-controls #fixedAssetYearlyMetric,#fixedassetsDashboard .fixed-asset-yearly-chart-controls #fixedAssetYearlyChartType{width:calc(50% - 5px)!important}
+  #fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-line-canvas{height:320px}
+  #fixedassetsDashboard #fixedAssetYearlyChart{width:760px!important}
+}
+@media(min-width:701px) and (max-width:950px){
+  #fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-chart-header{align-items:stretch}
+  #fixedassetsDashboard .fixed-asset-yearly-chart-controls{width:100%;margin-left:0}
+  #fixedassetsDashboard .fixed-asset-yearly-chart-controls #fixedAssetYearlyMetric{width:calc(100% - 160px)!important}
+}
+@media(min-width:701px) and (max-width:1050px){
+  #fixedassetsDashboard .fixed-asset-yearly-chart-card .fixed-asset-yearly-chart-controls{width:100%;margin-left:0}
+  #fixedassetsDashboard .fixed-asset-yearly-chart-card .fixed-asset-yearly-chart-controls #fixedAssetYearlyMetric,#fixedassetsDashboard .fixed-asset-yearly-chart-card .fixed-asset-yearly-chart-controls #fixedAssetYearlyChartType{flex:1 1 calc(50% - 5px);width:calc(50% - 5px)!important}
+}
+
+/* Final responsive guard: never compress dashboard headings or controls. */
+@media(max-width:800px){
+  #manpowerDashboard .unified-table-head{display:flex!important;flex-flow:column nowrap!important;align-items:stretch!important;gap:12px!important}
+  #manpowerDashboard .unified-table-head>.unified-table-title{width:100%!important;min-width:0!important}
+  #manpowerDashboard .unified-table-head>.tools{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(128px,.72fr)!important;gap:8px!important;width:100%!important}
+  #manpowerDashboard .unified-table-head>.tools :is(.search,.filter){width:100%!important;min-width:0!important}
+  #manpowerPlanningCard .site-chart-pie-layout,.site-team-coverage-card .site-chart-pie-layout{display:grid!important;grid-template-columns:1fr!important;justify-items:center!important}
+  #manpowerPlanningCard .site-team-details,.site-team-coverage-card .site-team-details{width:100%!important;min-height:0!important}
+  #manpowerPlanningCard .site-team-location-list,.site-team-coverage-card .site-team-location-list{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #manpowerPlanningCard .unified-table-head{display:flex!important;flex-flow:column nowrap!important;align-items:stretch!important;gap:12px!important}
+  #manpowerPlanningCard .unified-table-head>.tools{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(128px,.72fr)!important;width:100%!important;gap:8px!important}
+  #manpowerPlanningCard .unified-table-head>.tools :is(.search,.filter){width:100%!important;min-width:0!important}
+  #manpowerPlanningCard .service-portfolio-grid{grid-template-columns:1fr!important}
+}
+@media(max-width:460px){
+  #manpowerDashboard .unified-table-head>.tools,#manpowerPlanningCard .unified-table-head>.tools{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #manpowerPlanningCard .site-team-location-list,.site-team-coverage-card .site-team-location-list{grid-template-columns:1fr!important}
+}
+
+@media(max-width:650px){
+  #serviceTicketsDashboard .unified-table-head{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:11px!important}
+  #serviceTicketsDashboard .unified-table-head>.unified-table-title{width:100%!important;min-width:0!important}
+  #serviceTicketsDashboard .unified-table-head>.search{width:100%!important;max-width:none!important}
+}
