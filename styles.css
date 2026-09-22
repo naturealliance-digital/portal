@@ -2361,13 +2361,13 @@ body.dark .digital-functions-heading{border-color:#55373d}
 
 
 /* Site-wide responsive typography and comfortable spacing */
-.unified-kpi-card .kt,.visual-kpi span,.digital-service-item b{font-size:clamp(10.5px,.82vw,12px)!important;line-height:1.4}
+.unified-kpi-card .kt,.visual-kpi span,.digital-service-item b{font-size:clamp(11.5px,.82vw,12px)!important;line-height:1.4}
 .unified-kpi-context,.visual-kpi-badge,.digital-service-item small,.service-portfolio-grid .digital-service-item small{font-size:clamp(9px,.7vw,10px)!important;line-height:1.5}
 .digital-service-item i,.visual-pill,.planning-badge,.role-badge,.status{font-size:clamp(8px,.64vw,9.5px)}
 .num,.visual-kpi strong{line-height:1.2}
 
-.digital-function-group h3{font-size:clamp(10.5px,.8vw,12px)}
-.digital-function-group li{font-size:clamp(9.5px,.72vw,10.5px);line-height:1.45}
+.digital-function-group h3{font-size:clamp(11.5px,.8vw,12px)}
+.digital-function-group li{font-size:clamp(9.5px,.72vw,11.5px);line-height:1.45}
 .digital-function-group>header{padding-top:14px;padding-bottom:14px}
 .digital-function-group li{padding:10px 12px}
 
@@ -2382,7 +2382,7 @@ body.dark .digital-functions-heading{border-color:#55373d}
 .digital-function-group h3{font-size:clamp(11.5px,.85vw,13px)}
 .digital-function-group li{font-size:clamp(10px,.78vw,11.5px)}
 
-.org-role b,.org-profile header b,.workforce-leaders article b,.workforce-lead-role b,.workforce-people b,.workforce-branch>header b,.workforce-functions b{font-size:clamp(9px,.72vw,10.5px)}
+.org-role b,.org-profile header b,.workforce-leaders article b,.workforce-lead-role b,.workforce-people b,.workforce-branch>header b,.workforce-functions b{font-size:clamp(9px,.72vw,11.5px)}
 .org-role small,.org-profile header small,.workforce-leaders article small,.workforce-lead-role small,.workforce-people small,.workforce-branch>header small,.workforce-functions span,.org-profile li{font-size:clamp(8px,.62vw,9.5px)}
 
 
@@ -2392,7 +2392,7 @@ body.dark .digital-functions-heading{border-color:#55373d}
 .site-coverage-table-wrap{max-width:100%;overflow:auto;scrollbar-width:thin;scrollbar-color:#dec4bb transparent}
 .site-coverage-table{width:100%;min-width:1120px;border-collapse:separate;border-spacing:0;white-space:normal}
 .site-coverage-table th{height:58px;padding:10px 11px;border-bottom:1px solid #eadbd5;background:#fff8f4;color:#624e51;font-size:10px;line-height:1.35;text-align:center;text-transform:none}
-.site-coverage-table td{height:50px;padding:9px 11px;border-top:0;border-bottom:1px solid #f1e6e1;background:#fff;color:#655256;font-size:10.5px;text-align:center}
+.site-coverage-table td{height:50px;padding:9px 11px;border-top:0;border-bottom:1px solid #f1e6e1;background:#fff;color:#655256;font-size:11.5px;text-align:center}
 .site-coverage-table tbody tr:last-child td{border-bottom:0}
 .site-coverage-table tbody tr:nth-child(even) td{background:#fffbf8}
 .site-coverage-table tbody tr:hover td{background:#fff7f2}
@@ -2829,7 +2829,7 @@ select,.select,.filter,[role="combobox"]{cursor:pointer!important}
 .unified-table-scroll::-webkit-scrollbar-thumb{border:2px solid transparent;border-radius:999px;background:#d4b2a8;background-clip:padding-box}
 .unified-data-table{width:100%;min-width:820px;border-collapse:separate;border-spacing:0}
 .unified-data-table th{position:sticky;top:0;z-index:20;height:48px;padding:10px 12px;border-bottom:1px solid #eaded9;background:#fbfcfe;color:#8994a9;font-size:10px;text-align:left;text-transform:uppercase}
-.unified-data-table td{height:48px;padding:10px 12px;border-bottom:1px solid #f0e5e0;color:#5f4d51;font-size:10.5px}
+.unified-data-table td{height:48px;padding:10px 12px;border-bottom:1px solid #f0e5e0;color:#5f4d51;font-size:11.5px}
 .unified-data-table tbody tr:nth-child(odd) td{background:#fff!important}
 .unified-data-table tbody tr:nth-child(even) td{background:#fff9f6!important}
 .unified-data-table tbody tr:hover td{background:#fff4ee!important}
@@ -2934,7 +2934,7 @@ body.dark .unified-table-footer{border-color:#553137;background:#32171e;color:#c
 .expense-table-head .search{width:230px}
 .expense-table-scroll{max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:#d4b2a8 transparent}
 .expense-table{width:100%;min-width:850px;border-collapse:separate;border-spacing:0}
-.expense-table :is(th,td){height:48px;padding:10px 12px;border-bottom:1px solid #f0e5e0;font-size:10.5px;text-align:left}
+.expense-table :is(th,td){height:48px;padding:10px 12px;border-bottom:1px solid #f0e5e0;font-size:11.5px;text-align:left}
 .expense-table thead th{background:#fbfcfe;color:#8994a9;font-size:10px;text-transform:uppercase}
 .expense-table tbody td{color:#5f4d51}
 .expense-table tbody tr:nth-child(even) td{background:#fff9f6}
@@ -3066,7 +3066,7 @@ body.dark .unified-kpi-card:hover{box-shadow:0 16px 32px rgba(0,0,0,.28),0 3px 7
 .unified-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:0}
 .unified-kpi-card{--kpi-tone:#d12a31;--kpi-soft:#fff0e8;position:relative;display:grid;grid-template-columns:minmax(0,1fr) 30px;grid-template-rows:auto auto auto;gap:5px 11px;align-content:start;min-width:0;height:105px;min-height:105px;padding:12px 14px 11px;border:1px solid #eee2dd;border-top:3px solid var(--kpi-tone);border-radius:14px;background:linear-gradient(145deg,#fff 70%,#fffaf8)}
 .unified-kpi-card .kt,.unified-kpi-card>div{display:contents}
-.unified-kpi-card :is(.kt>span,div>b){grid-column:1;grid-row:1;align-self:start;color:#443438;font-size:10.5px;font-weight:600;line-height:1.3}
+.unified-kpi-card :is(.kt>span,div>b){grid-column:1;grid-row:1;align-self:start;color:#443438;font-size:11.5px;font-weight:600;line-height:1.3}
 .unified-kpi-card :is(.num,strong){grid-column:1;grid-row:2;align-self:start;margin:0;color:#251b2b;font-size:21px;line-height:1}
 .unified-kpi-card :is(.unified-kpi-context,.up,small){grid-column:1;grid-row:3;align-self:start;min-width:0;margin:0;overflow:hidden;color:var(--kpi-tone);font-size:9px;font-weight:600;line-height:1.35;text-overflow:ellipsis;white-space:nowrap}
 .unified-kpi-icon{grid-column:2;grid-row:1;display:grid;place-items:center;align-self:start;justify-self:end;width:30px;height:30px;border-radius:8px;background:var(--kpi-soft);color:var(--kpi-tone)}
@@ -3120,7 +3120,7 @@ button,input,select,textarea{font-size:inherit}
 /* Reusable analytics filter card shared by every dashboard page. */
 .unified-filter-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 17px;border-bottom:1px solid #eadbd5}
 .unified-filter-heading h2{margin:0;color:#443438;font-size:15px;line-height:1.35}
-.unified-filter-heading p{margin-top:3px;color:#887477;font-size:10.5px;line-height:1.5}
+.unified-filter-heading p{margin-top:3px;color:#887477;font-size:11.5px;line-height:1.5}
 .unified-filter-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;padding:15px 17px}
 .unified-filter-grid label{display:grid;gap:6px;min-width:0}
 .unified-filter-grid label[hidden]{display:none}
@@ -3154,8 +3154,8 @@ body.dark .unified-filter-heading p,body.dark .unified-filter-grid label>span{co
 .unified-chart-header{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;margin:0 0 14px;padding:0 0 13px;border-bottom:1px solid #eeded7}
 .unified-chart-header>div{min-width:0}
 .unified-chart-header h2{margin:0;color:#2e2228;font-size:15px;line-height:1.35}
-.unified-chart-header p{margin-top:4px;color:#8b777a;font-size:10.5px;line-height:1.5}
-.unified-chart-select{justify-self:end;width:auto!important;min-width:0!important;max-width:100%;height:36px;margin:0;padding:7px 10px;border:1px solid #e8d4cc;border-radius:8px;background:#fff;color:#5f5264;font-size:10.5px;font-weight:500;cursor:pointer}
+.unified-chart-header p{margin-top:4px;color:#8b777a;font-size:11.5px;line-height:1.5}
+.unified-chart-select{justify-self:end;width:auto!important;min-width:0!important;max-width:100%;height:36px;margin:0;padding:7px 10px;border:1px solid #e8d4cc;border-radius:8px;background:#fff;color:#5f5264;font-size:11.5px;font-weight:500;cursor:pointer}
 .unified-chart-select:focus{outline:0;border-color:#d7563d;box-shadow:0 0 0 3px rgba(209,42,49,.11)}
 
 body.dark .unified-chart-card{border-color:#553137;background:linear-gradient(145deg,#2d171c,#32171e);box-shadow:0 8px 22px rgba(0,0,0,.18)}
@@ -3258,7 +3258,7 @@ body.service-tickets-page main>:is(.unified-kpi-grid,.grid,.tablecard){display:n
 #ticketAssignmentTable :is(th,td){text-align:center;white-space:nowrap}
 #ticketAssignmentTable :is(th,td):first-child{min-width:190px;text-align:left}
 #ticketAssignmentTable :is(th,td):nth-child(2){min-width:82px}
-#ticketAssignmentTable tfoot th{position:sticky;bottom:0;z-index:22;height:50px;padding:11px 12px;border-top:2px solid #e4b9aa;background:#fff2eb;color:#17131a;font-size:10.5px}
+#ticketAssignmentTable tfoot th{position:sticky;bottom:0;z-index:22;height:50px;padding:11px 12px;border-top:2px solid #e4b9aa;background:#fff2eb;color:#17131a;font-size:11.5px}
 #ticketAssignmentTable tfoot th:first-child{left:0;z-index:28}
 #ticketAssignmentTable td:not(:first-child){font-variant-numeric:tabular-nums}
 #serviceTicketsDashboard input[type="date"]{color-scheme:light}
@@ -3435,7 +3435,7 @@ body.dark .visual-kpi.metric-tone-1 .visual-kpi-badge{background:transparent!imp
 
 
 /* Balanced control text for filters and search fields. */
-.filter,.search{font-size:clamp(10.5px,.78vw,12px)!important}
+.filter,.search{font-size:clamp(11.5px,.78vw,12px)!important}
 
 .filter option{font-size:12px}
 
@@ -3471,7 +3471,7 @@ body.dark .coverage-badge.planned{background:#51262a!important;color:#ff9b94!imp
 
 
 /* Professional responsive typography for summary cards. */
-.summary-card b{font-size:clamp(10.5px,.82vw,12px);font-weight:700;line-height:1.35;letter-spacing:-.05px}
+.summary-card b{font-size:clamp(11.5px,.82vw,12px);font-weight:700;line-height:1.35;letter-spacing:-.05px}
 
 .summary-card small{font-size:clamp(9px,.68vw,10px);font-weight:500;line-height:1.45}
 
@@ -3576,7 +3576,7 @@ body.microsoft365-page .unified-table-card .tools :is(.search,.filter){width:100
 /* Compact mobile filters: equal-width search and company selector. */
 @media(max-width:480px){body.microsoft365-page .unified-table-card .tools{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:8px!important}
 body.microsoft365-page .unified-table-card .tools :is(.search,.filter){width:100%!important;min-width:0!important}
-body.microsoft365-page .unified-table-card .tools .filter{padding-right:25px!important;font-size:10.5px!important}
+body.microsoft365-page .unified-table-card .tools .filter{padding-right:25px!important;font-size:11.5px!important}
 }
 
 
@@ -3758,7 +3758,7 @@ body.dark #budgetExpenseDashboard :is(.budget-expense-department-row,.budget-exp
 
 
 /* Shared total-row treatment for every data table. */
-table tfoot :is(th,td){height:50px;padding:11px 12px;border-top:2px solid #e4b9aa!important;border-bottom:0!important;background:#fff2eb!important;color:#2f2227!important;font-size:10.5px!important;font-weight:700!important;text-align:inherit}
+table tfoot :is(th,td){height:50px;padding:11px 12px;border-top:2px solid #e4b9aa!important;border-bottom:0!important;background:#fff2eb!important;color:#2f2227!important;font-size:11.5px!important;font-weight:700!important;text-align:inherit}
 body.dark table tfoot :is(th,td){border-top-color:#81504a!important;background:#422229!important;color:#f7f1ef!important}
 @media(max-width:700px){table tfoot :is(th,td){height:46px;padding:10px}
 }
@@ -3838,7 +3838,7 @@ body.dark .budget-asset-period-row td:first-child .budget-month-icon{color:#ffad
 .budget-asset-period-row td:first-child{font-weight:400!important}
 
 
-.budget-monthly-row td,.budget-asset-period-row td{font-size:10.5px!important}
+.budget-monthly-row td,.budget-asset-period-row td{font-size:11.5px!important}
 
 
 /* Expanded parent rows take visual priority over their period details. */
@@ -3846,7 +3846,7 @@ body.dark .budget-asset-period-row td:first-child .budget-month-icon{color:#ffad
 
 
 /* Distinct, responsive period-detail treatment for expandable asset rows. */
-.unified-data-table tbody tr.budget-asset-period-row > td{height:38px!important;padding-top:7px!important;padding-bottom:7px!important;border-top:0!important;border-bottom:0!important;background:#fff3ed!important;color:#8d7472!important;font-size:10.5px!important;font-weight:400!important}
+.unified-data-table tbody tr.budget-asset-period-row > td{height:38px!important;padding-top:7px!important;padding-bottom:7px!important;border-top:0!important;border-bottom:0!important;background:#fff3ed!important;color:#8d7472!important;font-size:11.5px!important;font-weight:400!important}
 .unified-data-table tbody tr.budget-asset-period-row:first-of-type > td{border-top:1px solid #f0cdc0!important}
 .unified-data-table tbody tr.budget-asset-period-row > td:first-child{position:relative;padding-left:54px!important;color:#7f6664!important}
 .unified-data-table tbody tr.budget-asset-period-row > td:first-child::before{content:'';position:absolute;left:28px;top:0;bottom:0;width:2px;background:#efb09d}
@@ -3868,7 +3868,7 @@ body.dark .unified-data-table tbody tr.budget-asset-period-row:hover > td{backgr
 
 
 /* Shared professional drill-down hierarchy for financial and asset period details. */
-.unified-data-table tbody :is(.budget-monthly-row,.budget-asset-period-row)>td{height:40px!important;padding-top:8px!important;padding-bottom:8px!important;border-top:0!important;border-bottom:0!important;background:#fff4ef!important;color:#8a706e!important;font-size:10.5px!important;font-weight:400!important;font-variant-numeric:tabular-nums}
+.unified-data-table tbody :is(.budget-monthly-row,.budget-asset-period-row)>td{height:40px!important;padding-top:8px!important;padding-bottom:8px!important;border-top:0!important;border-bottom:0!important;background:#fff4ef!important;color:#8a706e!important;font-size:11.5px!important;font-weight:400!important;font-variant-numeric:tabular-nums}
 .unified-data-table tbody :is(.budget-monthly-row,.budget-asset-period-row)>td:first-child{position:relative;padding-left:54px!important;color:#765e5d!important}
 .unified-data-table tbody :is(.budget-monthly-row,.budget-asset-period-row)>td:first-child::before{content:'';position:absolute;left:29px;top:0;bottom:0;width:2px;border-radius:2px;background:#edb3a2}
 .unified-data-table tbody :is(.budget-monthly-row,.budget-asset-period-row)>td:first-child .budget-month-icon{display:inline-flex!important;width:12px!important;height:12px!important;min-width:12px!important;margin:0 8px 0 0!important;padding:0!important;vertical-align:-2px;color:#ba503c!important;background:transparent!important}
@@ -4071,7 +4071,7 @@ body.dark .unified-data-table tbody tr:is(.budget-monthly-row,.budget-asset-peri
 
 /* Fixed Asset department level between company and period details. */
 .budget-asset-department-row{cursor:pointer}
-.budget-asset-department-row td{padding-top:8px!important;padding-bottom:8px!important;background:#fff7f2!important;color:#805f5a!important;font-size:10.5px!important;font-weight:400!important}
+.budget-asset-department-row td{padding-top:8px!important;padding-bottom:8px!important;background:#fff7f2!important;color:#805f5a!important;font-size:11.5px!important;font-weight:400!important}
 .budget-asset-department-row td:first-child{padding-left:24px!important;box-shadow:inset 3px 0 0 #efb09d}
 .budget-asset-department-row:hover td,.budget-asset-department-row.selected td{background:#ffeae1!important}
 .budget-asset-department-row.selected td{font-weight:700!important}
@@ -4491,9 +4491,18 @@ body.dark #fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-line-can
 body.dark #fixedassetsDashboard .fixed-asset-yearly-chart-card .budget-summary-key i{background:#4eb4cd}
 body.dark #fixedassetsDashboard .fixed-asset-yearly-chart-card .budget-summary-key .fixed-asset-yearly-amount{background:#ff8755}
 #fixedassetsDashboard .fixed-asset-tabs-card{isolation:isolate;background:#fff!important}
-#fixedassetsDashboard .fixed-asset-company-table-card td.fixed-asset-damage-count{color:#c92b31!important;font-weight:600;font-variant-numeric:tabular-nums}
 body.dark #fixedassetsDashboard .fixed-asset-tabs-card{background:#2d171c!important}
-body.dark #fixedassetsDashboard .fixed-asset-company-table-card td.fixed-asset-damage-count{color:#ff9b94!important}
+
+/* Company Asset Inventory expandable summary rows. */
+#fixedassetsDashboard .fixed-asset-company-table-card .fixed-asset-company-row{cursor:pointer}
+#fixedassetsDashboard .fixed-asset-company-table-card .fixed-asset-company-row.is-expanded :is(td,th){background:#fff!important;color:#49383c!important;font-weight:700!important}
+#fixedassetsDashboard .fixed-asset-company-table-card .fixed-asset-company-row.is-expanded td:first-child{color:#c92b31!important}
+#fixedassetsDashboard .fixed-asset-company-table-card .fixed-asset-type-row td:first-child{position:relative;padding-left:24px;white-space:nowrap;font-weight:400;overflow-wrap:normal;word-break:normal}
+#fixedassetsDashboard .fixed-asset-company-table-card .fixed-asset-type-row td:first-child::before{content:'';position:absolute;inset:0 auto 0 0;width:3px;background:#f3b6a7}
+body.dark #fixedassetsDashboard .fixed-asset-company-table-card .fixed-asset-company-row.is-expanded :is(td,th){background:#2d171c!important;color:#f0ddd8!important}
+body.dark #fixedassetsDashboard .fixed-asset-company-table-card .fixed-asset-company-row.is-expanded td:first-child{color:#ff9b94!important}
+body.dark #fixedassetsDashboard .fixed-asset-company-table-card .fixed-asset-type-row td:first-child{color:#d6bfbb}
+body.dark #fixedassetsDashboard .fixed-asset-company-table-card .fixed-asset-type-row td:first-child::before{background:#a44b48}
 
 @media(max-width:700px){
   #fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-chart-header{align-items:stretch}
