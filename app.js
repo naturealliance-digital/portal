@@ -33,6 +33,41 @@ document.addEventListener('click',event=>{
   update();
 })();
 
+/* Use one consistent reporting-period menu in the financial and print dashboards. */
+(()=>{
+  const periodOrder=['all','last3','last6','monthly','yearly','custom'];
+  const periodSelects=['budgetPeriodFilter','budgetPortfolioPeriodFilter','copierChartPeriod','copierTablePeriod'];
+  const fiscalSelects=[
+    ['budgetPeriodFilter','budgetPeriodValue'],
+    ['budgetPortfolioPeriodFilter','budgetPortfolioPeriodValue'],
+    ['copierChartPeriod','copierChartMonth'],
+    ['copierTablePeriod','copierTableMonth']
+  ];
+  const sortPeriods=select=>{
+    if(!select||select.dataset.reportingPeriodOrder==='ready')return;
+    const options=[...select.options];
+    if(!periodOrder.every(value=>options.some(option=>option.value===value)))return;
+    const selected=select.value;
+    periodOrder.forEach(value=>select.append(options.find(option=>option.value===value)));
+    select.value=selected;
+    select.dataset.reportingPeriodOrder='ready';
+  };
+  const restrictFiscalYear=([periodId,valueId])=>{
+    const period=document.getElementById(periodId),value=document.getElementById(valueId);
+    if(!period||!value||period.value!=='yearly'||(value.options.length===1&&value.value==='2026'))return;
+    value.replaceChildren(new Option('FY 2026-2027','2026'));
+  };
+  const apply=()=>{
+    periodSelects.forEach(id=>sortPeriods(document.getElementById(id)));
+    fiscalSelects.forEach(restrictFiscalYear);
+  };
+  document.addEventListener('change',event=>{
+    if(periodSelects.includes(event.target.id))requestAnimationFrame(apply);
+  },true);
+  new MutationObserver(()=>requestAnimationFrame(apply)).observe(document.body,{childList:true,subtree:true});
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
+})();
+
 /* Fixed Asset Overview hardware specification columns. */
 (()=>{
   const setup=()=>{
@@ -100,40 +135,6 @@ document.addEventListener('click',event=>{
   });
   const observe=()=>new MutationObserver(bind).observe(document.body,{childList:true,subtree:true});
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{bind();observe()});else{bind();observe()}
-})();
-
-/* Require a company before a Copier department can be selected. */
-(function(){
-  const dashboard=document.getElementById('copierprinterusageDashboard');
-  if(!dashboard)return;
-  const prefixes=['copierChart','copierTable'];
-  const refreshDepartments=()=>{
-    const records=window.COPIER_PRINTER_DATA?.records||[];
-    if(!records.length)return;
-    const company=document.getElementById('copierChartCompany')?.value||'all';
-    const enabled=company!=='all';
-    const departments=[...new Set(records.filter(row=>row.company===company).map(row=>row.department))].sort();
-    prefixes.forEach(prefix=>{
-      const select=document.getElementById(prefix+'Department');
-      if(!select)return;
-      select.closest('label').hidden=!enabled;
-      select.disabled=!enabled;
-      select.closest('label')?.classList.toggle('is-disabled',!enabled);
-      if(!enabled){select.innerHTML='<option value="all">Select a company first</option>';select.value='all';return;}
-      select.innerHTML='<option value="all">All departments</option>'+departments.map(department=>'<option value="'+department.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')+'">'+department.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</option>').join('');
-    });
-  };
-  document.addEventListener('change',event=>{
-    if(!prefixes.some(prefix=>event.target.id===prefix+'Company'))return;
-    prefixes.forEach(prefix=>{
-      const department=document.getElementById(prefix+'Department');
-      if(department&&department.value!=='all'){department.value='all';department.dispatchEvent(new Event('change',{bubbles:true}));}
-    });
-    setTimeout(refreshDepartments,0);
-  },true);
-  document.getElementById('copierResetFilters')?.addEventListener('click',()=>requestAnimationFrame(refreshDepartments));
-  requestAnimationFrame(refreshDepartments);
-  window.addEventListener('load',refreshDepartments,{once:true});
 })();
 
 /* Copier filter dependency: departments belong only to the selected company. */
@@ -632,10 +633,10 @@ document.addEventListener('click',event=>{
 (function(){
  const serviceTicketDefaults=[];
  sample['Copier & Printer Usage']=[{Device:'Head Office Copier',Company:'Nature Alliance',Location:'Head Office',MonoPages:4280,ColorPages:760,Status:'Active'},{Device:'Finance Printer',Company:'Nature Valley',Location:'Finance Office',MonoPages:2150,ColorPages:320,Status:'Active'},{Device:'Operations Copier',Company:'Innobuilder',Location:'Operations Office',MonoPages:3340,ColorPages:510,Status:'Active'},{Device:'Branch Printer',Company:'Arise',Location:'Branch Office',MonoPages:1840,ColorPages:245,Status:'Maintenance'}];
- const allowed=['Dashboard','Manpower','Budget & Expense','Copier & Printer Usage','Service Tickets','Fixed Assets','Microsoft 365'];
- const routes={'Dashboard':'#/','Manpower':'#/manpower','Budget & Expense':'#/budget-expense','Copier & Printer Usage':'#/copier-printer-usage','Service Tickets':'#/service-tickets','Fixed Assets':'#/fixed-assets','Microsoft 365':'#/microsoft-365'};
+ const allowed=['Dashboard','Manpower','Budget & Expense','Copier & Printer Usage','Service Tickets','Fixed Assets','Microsoft 365','FY Comparison'];
+ const routes={'Dashboard':'#/','Manpower':'#/manpower','Budget & Expense':'#/budget-expense','FY Comparison':'#/fy-comparison','Copier & Printer Usage':'#/copier-printer-usage','Service Tickets':'#/service-tickets','Fixed Assets':'#/fixed-assets','Microsoft 365':'#/microsoft-365'};
  const routePages=Object.fromEntries(Object.entries(routes).map(([page,path])=>[path.toLowerCase(),page]));const routeKey=()=>location.hash.toLowerCase()||'#/';
- const icons={'Dashboard':'🏠','Manpower':'👥','Budget & Expense':'💰','Copier & Printer Usage':'🖨️','Service Tickets':'🎫','Fixed Assets':'💻','Microsoft 365':'<img src="assets/images/microsoft-365.png?v=4" alt="" width="21" height="21">'};
+ const icons={'Dashboard':'🏠','Manpower':'👥','Budget & Expense':'💰','Copier & Printer Usage':'🖨️','Service Tickets':'🎫','Fixed Assets':'💻','Microsoft 365':'<img src="assets/images/microsoft-365.png?v=4" alt="" width="21" height="21">','FY Comparison':'<img src="assets/images/comparison-icon.png" alt="" width="21" height="21">'};
  function limitPages(){
    const refreshTicketSample=localStorage.getItem('serviceTicketSampleVersion')!=='3';
    if(refreshTicketSample)data['Service Tickets']=JSON.parse(JSON.stringify(serviceTicketDefaults));
@@ -831,9 +832,9 @@ function renderLicenses(){
 
 
 (function(){
- const routes={'Dashboard':'#/','Manpower':'#/manpower','Budget & Expense':'#/budget-expense','Copier & Printer Usage':'#/copier-printer-usage','Service Tickets':'#/service-tickets','Fixed Assets':'#/fixed-assets','Microsoft 365':'#/microsoft-365'};
+ const routes={'Dashboard':'#/','Manpower':'#/manpower','Budget & Expense':'#/budget-expense','FY Comparison':'#/fy-comparison','Copier & Printer Usage':'#/copier-printer-usage','Service Tickets':'#/service-tickets','Fixed Assets':'#/fixed-assets','Microsoft 365':'#/microsoft-365'};
  const routePages=Object.fromEntries(Object.entries(routes).map(([page,path])=>[path.toLowerCase(),page]));const routeKey=()=>location.hash.toLowerCase()||'#/';
- const pageMeta={'Dashboard':['IT Management Overview','A complete view of your digital operations and performance.'],'Manpower':['Manpower','Digital team capacity and workload.'],'Budget & Expense':['Budget & Expense','Monitor technology budgets, spending and cost performance at a glance.'],'Copier & Printer Usage':['Copier & Printer Usage','Device activity, print volumes and operational status.'],'Service Tickets':['Service Tickets','Service demand, issue trends and team allocation insights.'],'Fixed Assets':['Fixed Assets','Technology assets, ownership and lifecycle status.'],'Microsoft 365':['Microsoft 365','Company licensing, users, and subscription capacity.']};
+ const pageMeta={'Dashboard':['IT Management Overview','A complete view of your digital operations and performance.'],'Manpower':['Manpower','Digital team capacity and workload.'],'Budget & Expense':['Budget & Expense','Monitor technology budgets, spending and cost performance at a glance.'],'FY Comparison':['FY Comparison','Compare financial-year performance across the digital portfolio.'],'Copier & Printer Usage':['Copier & Printer Usage','Device activity, print volumes and operational status.'],'Service Tickets':['Service Tickets','Service demand, issue trends and team allocation insights.'],'Fixed Assets':['Fixed Assets','Technology assets, ownership and lifecycle status.'],'Microsoft 365':['Microsoft 365','Company licensing, users, and subscription capacity.']};
  function syncNavigation(name){document.querySelectorAll('#nav button').forEach(button=>{const selected=(button.dataset.page||button.querySelector('.nav-text')?.textContent)===name;button.classList.toggle('active',selected);button.setAttribute('aria-current',selected?'page':'false');button.dataset.href=routes[button.dataset.page||button.querySelector('.nav-text')?.textContent]||''});document.querySelectorAll('#tabs button').forEach(button=>button.classList.toggle('active',button.textContent===name))}
  function restoreGenericTableShell(){const primary=document.querySelector('main > section.card.tablecard'),head=primary?.querySelector('.head');if(head&&!document.getElementById('search'))head.innerHTML='<h2 id="ttitle"></h2><div class="tools"><input class="search" id="search" oninput="table()" placeholder="Search records..."><select class="filter" id="filter" onchange="table()"></select></div>'}
  window.navigateHubPage=function(name,push=true){

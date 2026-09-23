@@ -133,25 +133,11 @@ body.dark td[contenteditable]:focus{background:#4d2428}
 
 .unified-tab.active{background:#fff0e8;color:#bd2d30;border-color:#f1d5ca}
 
-.planning-badge{display:inline-flex;align-items:center;justify-content:center;min-width:42px;padding:4px 8px;border-radius:999px;font-size:9px;font-weight:700}
-
-.planning-badge.level{background:#e8f7f1;color:#16866a}
-.planning-badge.status{background:#e8f3ff;color:#2867a8}
-.planning-badge.high{background:#feecee;color:#b7333e}
-.planning-badge.medium{background:#fff1d8;color:#9a6312}
-.planning-badge.planned{background:#f2edf9;color:#695080}
-
 body.dark .unified-tabs{background:#32171e;border-color:#553137}
 
 body.dark .unified-tab{color:#cbb9bb}
 body.dark .unified-tab:hover{background:#3a1b23;color:#ffb18e}
 body.dark .unified-tab.active{background:#4a2428;color:#ffab82;border-color:#6a3b42}
-
-body.dark .planning-badge.level{background:#173e34;color:#80dbb9}
-body.dark .planning-badge.status{background:#193653;color:#9ac8f7}
-body.dark .planning-badge.high{background:#4b2228;color:#ffabb3}
-body.dark .planning-badge.medium{background:#49371b;color:#ffd48a}
-body.dark .planning-badge.planned{background:#352b42;color:#cfb9e7}
 
 @media(max-width:768px){.unified-tabs{padding:10px 12px}
 .unified-tab{padding:8px 10px;font-size:9px}
@@ -311,25 +297,11 @@ body.dark [data-table="license-utilization"] tr.total-row td,body.dark #table tr
 .m365-company-table .total-row td:first-child{background:#fff3ec!important}
 .derived-cell{color:#826d70;font-weight:600}
 .feature-badge{display:inline-flex;align-items:center;padding:4px 9px;border-radius:999px;font-size:10px;font-weight:700;letter-spacing:.1px;white-space:nowrap}
-.feature-business{background:#e8f1ff;color:#2863a7}
-.feature-security-add-on{background:#feecee;color:#b7333e}
-.feature-identity-security{background:#f0e9ff;color:#7047a5}
-.feature-analytics{background:#fff1d8;color:#9a6312}
-.feature-enterprise{background:#e7f7f1;color:#16765c}
-.feature-frontline{background:#e8f6fb;color:#16718e}
-.feature-add-on{background:#f2edf9;color:#695080}
 body.dark .m365-company-table th:first-child{background:#241216!important}
 body.dark .m365-company-table tbody tr:nth-child(odd) td:first-child{background:#2d171c!important}
 body.dark .m365-company-table tbody tr:nth-child(even) td:first-child{background:#351b21!important}
 body.dark .m365-company-table .total-row td:first-child{background:#422126!important}
 body.dark .derived-cell{color:#cdb9ba}
-body.dark .feature-business{background:#193554;color:#9bc8ff}
-body.dark .feature-security-add-on{background:#4b2228;color:#ffabb3}
-body.dark .feature-identity-security{background:#352750;color:#cab2ff}
-body.dark .feature-analytics{background:#49371b;color:#ffd48a}
-body.dark .feature-enterprise{background:#173f35;color:#83dfc0}
-body.dark .feature-frontline{background:#173946;color:#8ed8ef}
-body.dark .feature-add-on{background:#352b42;color:#cfb9e7}
 @media(max-width:700px){.unified-table-title p{display:none}
 }
 
@@ -2322,7 +2294,7 @@ body.dark .digital-functions-heading{border-color:#55373d}
 /* Site-wide responsive typography and comfortable spacing */
 .unified-kpi-card .kt,.visual-kpi span,.digital-service-item b{font-size:clamp(11px,.82vw,12px)!important;line-height:1.4}
 .unified-kpi-context,.visual-kpi-badge,.digital-service-item small,.service-portfolio-grid .digital-service-item small{font-size:clamp(9px,.7vw,10px)!important;line-height:1.5}
-.digital-service-item i,.visual-pill,.planning-badge,.role-badge,.status{font-size:clamp(8px,.64vw,9.5px)}
+.digital-service-item i,.visual-pill,.role-badge,.status{font-size:clamp(8px,.64vw,9.5px)}
 .num,.visual-kpi strong{line-height:1.2}
 
 .digital-function-group h3{font-size:clamp(11px,.8vw,12px)}
@@ -2337,7 +2309,7 @@ body.dark .digital-functions-heading{border-color:#55373d}
 /* Slightly larger professional type scale across every dashboard */
 .unified-kpi-card .kt,.visual-kpi span,.digital-service-item b{font-size:clamp(11px,.88vw,13px)!important}
 .unified-kpi-context,.visual-kpi-badge,.digital-service-item small,.service-portfolio-grid .digital-service-item small{font-size:clamp(10px,.74vw,11px)!important}
-.digital-service-item i,.visual-pill,.planning-badge,.role-badge,.status{font-size:clamp(9px,.68vw,10px)}
+.digital-service-item i,.visual-pill,.role-badge,.status{font-size:clamp(9px,.68vw,10px)}
 .digital-function-group h3{font-size:clamp(11px,.85vw,13px)}
 .digital-function-group li{font-size:clamp(10px,.78vw,11px)}
 
@@ -2878,7 +2850,6 @@ body.dark .unified-table-footer{border-color:#553137;background:#32171e;color:#c
 .unified-kpi-icon{grid-column:2;grid-row:1;display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--expense-soft);color:var(--expense-tone);font-size:14px;font-style:normal}
 .unified-kpi-card.tone-green{--expense-tone:#168a69;--expense-soft:#e3f5ee}
 .unified-kpi-card.tone-yellow{--expense-tone:#bd7410;--expense-soft:#fff0d7}
-.unified-kpi-card.tone-green{--expense-tone:#7056d8;--expense-soft:#eee9ff}
 
 .expense-table-card,.unified-chart-card{min-width:0;border:1px solid #eadbd5;border-radius:14px;background:#fff;box-shadow:0 7px 20px rgba(70,37,30,.045)}
 .expense-table-head,.unified-chart-header{display:flex;align-items:center;justify-content:space-between;gap:16px}
@@ -4534,7 +4505,7 @@ body.dark #fixedassetsDashboard .fixed-asset-company-table-card .fixed-asset-dep
 #fixedassetsDashboard .fixed-asset-overview-table-card .unified-data-table{min-width:1280px;table-layout:auto}
 #fixedassetsDashboard .fixed-asset-overview-table-card .unified-data-table :is(th,td){white-space:nowrap;overflow-wrap:normal;word-break:normal}
 #fixedassetsDashboard .fixed-asset-overview-table-card .unified-data-table :is(th,td):first-child{min-width:112px;white-space:nowrap;overflow-wrap:normal;word-break:normal}
-#fixedassetsDashboard .fixed-asset-overview-table-card .unified-data-table tbody td:nth-child(8){text-align:right}
+#fixedassetsDashboard .fixed-asset-overview-table-card .unified-data-table tbody td:nth-child(15){text-align:right}
 #fixedassetsDashboard .fixed-asset-overview-table-card .unified-table-footer{display:flex;align-items:center;justify-content:center;gap:10px}
 #fixedassetsDashboard .unified-table-pagination{display:contents}
 #fixedassetsDashboard .unified-table-pagination[hidden]{display:none}
@@ -4598,6 +4569,16 @@ body.dark #fixedassetsDashboard .fixed-asset-overview-table-card .fixed-asset-de
   #serviceTicketsDashboard .unified-table-head>.unified-table-title{width:100%!important;min-width:0!important}
   #serviceTicketsDashboard .unified-table-head>.search{width:100%!important;max-width:none!important}
 }
+
+/* FY Comparison shows only its dedicated wrapper. */
+body:has(#comparisonDashboard:not([hidden])) #kpis,
+body:has(#comparisonDashboard:not([hidden])) main>.grid,
+body:has(#comparisonDashboard:not([hidden])) main>section.card.tablecard{display:none!important}
+
+
+
+/* FY comparison page shell. */
+.comparison-dashboard{margin-bottom:20px}
 
 /* Fixed Asset Overview hardware specifications. */
 #fixedassetsDashboard .fixed-asset-overview-table-card :is(th,td):nth-child(12){text-align:right}

@@ -14,9 +14,9 @@
 <link rel="stylesheet" href="styles.css">
 <script src="data/tickets-data.js">
 </script>
-<script src="data/budget-expense-data.js">
+<script src="data/2026/budget-expense-data-26.js">
 </script>
-<script src="data/copier-printer-data.js">
+<script src="data/2026/copier-printer-data-26.js">
 </script>
 <script src="data/fixed-assets-data.js">
 </script>
@@ -100,6 +100,7 @@
 <section id="mainDashboard" class="main-dashboard" hidden>
 <div><p>Coming Soon Dashboard</p></div>
 </section>
+<section id="comparisonDashboard" class="comparison-dashboard" hidden><h1>Coming Soon</h1></section>
 <section id="budgetExpenseDashboard" class="budgetexpense-dashboard" hidden>
 </section>
 <section id="copierprinterusageDashboard" hidden>
@@ -232,5 +233,21 @@
 </div>
 <div class="toast" id="toast">
 </div>
+<script>
+window.addEventListener('DOMContentLoaded',()=>{
+  const panel=document.getElementById('comparisonDashboard');
+  const navigate=window.navigateHubPage;
+  if(!panel||typeof navigate!=='function')return;
+  window.navigateHubPage=function(name,push=true){
+    navigate(name,push);
+    const selected=name==='FY Comparison';
+    panel.hidden=!selected;
+    document.querySelectorAll('#kpis,main>.grid,main>section.card.tablecard').forEach(element=>element.hidden=selected);
+  };
+  const selected=location.hash.toLowerCase()==='#/fy-comparison';
+  panel.hidden=!selected;
+  document.querySelectorAll('#kpis,main>.grid,main>section.card.tablecard').forEach(element=>element.hidden=selected);
+});
+</script>
 </body>
 </html>
