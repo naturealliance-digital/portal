@@ -69,7 +69,7 @@ document.addEventListener('click',event=>{
     if(!input||input.tagName==='SELECT'||!months.length)return;
     const select=document.createElement('select');
     const isToMonth=id.endsWith('To');
-    select.id=id;select.className='filter';select.innerHTML=months.map(value=>'<option value="'+(isToMonth?monthEnd(value):value+'-01')+'">'+monthLabel(value)+'</option>').join('');
+    select.id=id;select.className='filter';if(id.includes('Secondary'))select.dataset.primaryId=id.replace('fixedAssetSecondary','fixedAsset');select.innerHTML=months.map(value=>'<option value="'+(isToMonth?monthEnd(value):value+'-01')+'">'+monthLabel(value)+'</option>').join('');
     const selected=isToMonth?monthEnd(defaultValue):defaultValue+'-01';select.value=selected;
     input.id=id+'Native';input.hidden=true;input.value=selected;input.closest('label')?.querySelector('span')&&(input.closest('label').querySelector('span').textContent=label);
     input.replaceWith(select);
@@ -1646,6 +1646,8 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
     if(!table)return;
     const heading=table.tHead?.rows[0]?.cells[0];
     if(heading&&heading.textContent!=='Supported Company')heading.textContent='Supported Company';
+    const body=table.tBodies[0],rows=body?[...body.rows]:[],sortedRows=rows.slice().sort((left,right)=>left.cells[0].textContent.trim().localeCompare(right.cells[0].textContent.trim()));
+    if(body&&rows.some((row,index)=>row!==sortedRows[index]))body.append(...sortedRows);
     const title=card.querySelector('.site-chart-title h3');
     if(title&&title.textContent!=='Team Company Coverage')title.textContent='Team Company Coverage';
     const subtitle=card.querySelector('.site-chart-title p');
@@ -1932,7 +1934,7 @@ const conditionLegend=panel.querySelector('#fixedAssetConditionLegend');if(condi
       if(secondarySubtitle)secondarySubtitle.textContent='Review assets by period, company, type, and condition';
       if(secondaryReset){secondaryReset.id='fixedAssetSecondaryResetFilters';secondaryReset.textContent='Reset filters'}
       secondaryControls.forEach(control=>{const primaryId=control.id;control.id=primaryId.replace('fixedAsset','fixedAssetSecondary');control.dataset.primaryId=primaryId});
-      const syncSecondaryFilters=()=>secondaryControls.forEach(control=>{const primaryControl=panel.querySelector('#'+control.dataset.primaryId);if(!primaryControl)return;control.innerHTML=primaryControl.innerHTML;control.value=primaryControl.value;control.closest('label').hidden=primaryControl.closest('label').hidden});
+      const syncSecondaryFilters=()=>[...secondaryFilterCard.querySelectorAll('select,input')].forEach(control=>{const primaryId=control.dataset.primaryId||control.id.replace('fixedAssetSecondary','fixedAsset'),primaryControl=panel.querySelector('#'+primaryId),secondaryField=control.closest('label'),primaryField=primaryControl?.closest('label');if(!primaryControl||!secondaryField||!primaryField)return;if(control.tagName==='SELECT'&&primaryControl.tagName==='SELECT')control.value=primaryControl.value;secondaryField.hidden=primaryField.hidden});
       panel.querySelector('.fixed-asset-yearly-chart-card')?.insertAdjacentElement('afterend',secondaryFilterCard);
       primaryFilterCard.addEventListener('change',()=>requestAnimationFrame(syncSecondaryFilters));
       secondaryControls.forEach(control=>control.addEventListener('change',()=>{const primaryControl=panel.querySelector('#'+control.dataset.primaryId);if(!primaryControl)return;primaryControl.value=control.value;primaryControl.dispatchEvent(new Event('change',{bubbles:true}));requestAnimationFrame(syncSecondaryFilters)}));
