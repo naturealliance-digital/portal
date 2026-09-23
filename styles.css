@@ -121,8 +121,6 @@ body.dark td[contenteditable]:focus{background:#4d2428}
 
 
 
-.manpower-planning-card{margin-top:20px;padding:0!important;overflow:hidden}
-
 .unified-tabs{display:flex;align-items:center;gap:6px;padding:12px 14px;border-bottom:1px solid var(--l);background:#fff;overflow-x:auto;scrollbar-width:none}
 
 .unified-tabs::-webkit-scrollbar{display:none}
@@ -135,32 +133,6 @@ body.dark td[contenteditable]:focus{background:#4d2428}
 
 .unified-tab.active{background:#fff0e8;color:#bd2d30;border-color:#f1d5ca}
 
-.manpower-planning-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px 13px;border-bottom:1px solid var(--l);background:#fff}
-
-.manpower-planning-title{display:flex;align-items:center;gap:11px;min-width:0}
-
-.manpower-planning-icon{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#d12a31,#f06428);color:#fff}
-
-.manpower-planning-icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-
-.manpower-planning-title h2{margin:0;font-size:15px;color:var(--i)}
-
-.manpower-planning-title p{margin-top:3px;font-size:9px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;color:#907b7d}
-
-.manpower-planning-tools{display:flex;gap:8px}
-
-.manpower-planning-scroll{max-width:100%;overflow-x:auto;overflow-y:visible}
-
-.manpower-planning-table{width:100%;min-width:880px}
-
-.manpower-planning-table th{background:#fbfcfe;color:#8994a9}
-
-.manpower-planning-table tbody tr:nth-child(odd) td{background:#fff}
-
-.manpower-planning-table tbody tr:nth-child(even) td{background:#fff9f6}
-
-.manpower-planning-table tbody tr:hover td{background-color:inherit!important}
-
 .planning-badge{display:inline-flex;align-items:center;justify-content:center;min-width:42px;padding:4px 8px;border-radius:999px;font-size:9px;font-weight:700}
 
 .planning-badge.level{background:#e8f7f1;color:#16866a}
@@ -169,20 +141,12 @@ body.dark td[contenteditable]:focus{background:#4d2428}
 .planning-badge.medium{background:#fff1d8;color:#9a6312}
 .planning-badge.planned{background:#f2edf9;color:#695080}
 
-.manpower-planning-foot{padding:12px 18px;border-top:1px solid var(--l);background:#fff;color:#8490a4;font-size:10px}
-
-body.dark .unified-tabs,body.dark .manpower-planning-head,body.dark .manpower-planning-foot{background:#32171e;border-color:#553137}
+body.dark .unified-tabs{background:#32171e;border-color:#553137}
 
 body.dark .unified-tab{color:#cbb9bb}
 body.dark .unified-tab:hover{background:#3a1b23;color:#ffb18e}
 body.dark .unified-tab.active{background:#4a2428;color:#ffab82;border-color:#6a3b42}
 
-body.dark .manpower-planning-title h2{color:#fff5ef}
-body.dark .manpower-planning-title p{color:#cbb9bb}
-
-body.dark .manpower-planning-table th{background:#3d1d25;color:#d9c4c2}
-body.dark .manpower-planning-table tbody tr:nth-child(odd) td{background:#2d171c;color:#eadbd7}
-body.dark .manpower-planning-table tbody tr:nth-child(even) td{background:#32191f;color:#eadbd7}
 body.dark .planning-badge.level{background:#173e34;color:#80dbb9}
 body.dark .planning-badge.status{background:#193653;color:#9ac8f7}
 body.dark .planning-badge.high{background:#4b2228;color:#ffabb3}
@@ -191,11 +155,6 @@ body.dark .planning-badge.planned{background:#352b42;color:#cfb9e7}
 
 @media(max-width:768px){.unified-tabs{padding:10px 12px}
 .unified-tab{padding:8px 10px;font-size:9px}
-.manpower-planning-head{display:grid;grid-template-columns:1fr;grid-template-rows:auto auto;padding:14px 16px}
-.manpower-planning-title h2,.manpower-planning-title p{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.manpower-planning-tools{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(105px,1fr);width:100%}
-.manpower-planning-tools .search,.manpower-planning-tools .filter{width:100%!important;min-width:0;height:38px}
-.manpower-planning-table{min-width:800px}
 }
 
 
@@ -3210,9 +3169,7 @@ body:not(.dark) .unified-chart-select{background-color:#fff!important}
 
 
 /* Shared table structure used by every data table. */
-.unified-table-card{min-width:0;overflow:hidden}
 .unified-table-scroll{max-width:100%;overflow:auto;overscroll-behavior:contain}
-.unified-data-table{width:100%;border-collapse:separate;border-spacing:0}
 .unified-data-table thead th:first-child{z-index:30}
 .unified-data-table tbody tr:hover td{background:inherit!important}
 .unified-data-table :is(td[contenteditable="true"],td[contenteditable="true"]:focus,.editable-cell,input,select){background:transparent!important}
@@ -3307,13 +3264,40 @@ body.microsoft365-page #microsoft365Dashboard .unified-table-card{min-width:0;ov
 
 body.dark.microsoft365-page #microsoft365Dashboard .unified-chart-card{background:#2d171c;border-color:#553137}
 
+/* Company Account Distribution controls share one responsive header layout. */
+body.microsoft365-page #microsoft365Dashboard .unified-chart-header{align-items:center;flex-wrap:wrap;gap:12px}
+body.microsoft365-page #microsoft365Dashboard .unified-chart-header>div:first-child{flex:1 1 250px;min-width:0}
+body.microsoft365-page #m365CompanyChartType,body.microsoft365-page #m365CompanyLicenseFilter{flex:0 1 164px;width:164px;min-width:0}
+
 @media(max-width:1100px){body.microsoft365-page #microsoft365Dashboard>.unified-chart-grid{grid-template-columns:1fr}
 }
 
 @media(max-width:700px){body.microsoft365-page #microsoft365Dashboard{gap:12px}
 body.microsoft365-page #microsoft365Dashboard .unified-chart-card{padding:15px}
+body.microsoft365-page #microsoft365Dashboard .unified-chart-header.chart-control-ready:has(#m365CompanyLicenseFilter){display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));justify-content:stretch;align-items:stretch;gap:9px}
+body.microsoft365-page #microsoft365Dashboard .unified-chart-header.chart-control-ready:has(#m365CompanyLicenseFilter)>div:first-child{grid-column:1/-1!important;max-width:none!important}
+body.microsoft365-page #microsoft365Dashboard .unified-chart-header:has(#m365CompanyLicenseFilter) :is(#m365CompanyChartType,#m365CompanyLicenseFilter){width:100%!important;min-width:0!important;max-width:none!important;height:38px;margin-left:0!important}
 body.microsoft365-page #microsoft365Dashboard .unified-table-card .unified-table-head{align-items:stretch;flex-direction:column}
 body.microsoft365-page #microsoft365Dashboard .unified-table-head :is(.search,.filter){width:100%;max-width:none}
+}
+
+@media(max-width:380px){
+body.microsoft365-page #microsoft365Dashboard .unified-chart-header{grid-template-columns:repeat(2,minmax(0,1fr))}
+body.microsoft365-page #m365CompanyChartType,body.microsoft365-page #m365CompanyLicenseFilter{width:100%}
+}
+
+@media(max-width:700px){
+#microsoft365Dashboard .unified-chart-header.chart-control-ready:has(#m365CompanyLicenseFilter){display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:stretch!important;gap:9px!important}
+#microsoft365Dashboard .unified-chart-header.chart-control-ready:has(#m365CompanyLicenseFilter)>div:first-child{grid-column:1/-1!important;grid-row:1!important;width:100%!important;max-width:none!important}
+#microsoft365Dashboard .unified-chart-header:has(#m365CompanyLicenseFilter) #m365CompanyLicenseFilter{grid-column:1!important;grid-row:2!important;width:100%!important;min-width:0!important;margin:0!important}
+#microsoft365Dashboard .unified-chart-header:has(#m365CompanyLicenseFilter) #m365CompanyChartType{grid-column:2!important;grid-row:2!important;width:100%!important;min-width:0!important;margin:0!important}
+}
+
+@media(min-width:701px) and (max-width:1120px){
+#microsoft365Dashboard .unified-chart-header.chart-control-ready:has(#m365CompanyLicenseFilter){display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;align-items:stretch!important;gap:10px!important}
+#microsoft365Dashboard .unified-chart-header.chart-control-ready:has(#m365CompanyLicenseFilter)>div:first-child{grid-column:1/-1!important;grid-row:1!important;width:100%!important;max-width:none!important}
+#microsoft365Dashboard .unified-chart-header:has(#m365CompanyLicenseFilter) #m365CompanyLicenseFilter{grid-column:1!important;grid-row:2!important;width:100%!important;min-width:0!important;margin:0!important}
+#microsoft365Dashboard .unified-chart-header:has(#m365CompanyLicenseFilter) #m365CompanyChartType{grid-column:2!important;grid-row:2!important;width:100%!important;min-width:0!important;margin:0!important}
 }
 
 
@@ -3398,7 +3382,6 @@ body.microsoft365-page .m365-company-table tbody td:nth-child(2),body.microsoft3
 
 
 /* Align the Manpower planning card with its dashboard content. */
-.manpower-planning-card{margin-top:0}
 
 
 /* Shared Microsoft 365 source sections stay hidden until that dashboard wrapper owns them. */
@@ -4573,17 +4556,6 @@ body.dark #fixedassetsDashboard .fixed-asset-overview-table-card .fixed-asset-co
 body.dark #fixedassetsDashboard .fixed-asset-overview-table-card .fixed-asset-condition-badge.damage{background:#51282e;color:#ffaaa3}
 body.dark #fixedassetsDashboard .fixed-asset-overview-table-card .fixed-asset-department-badge{background:#193554;color:#9bc8ff}
 
-/* Laptop & Desktop uses the same responsive table treatment as Fixed Asset Overview. */
-#fixedassetsDashboard .fixed-asset-latop-table-card{min-width:0;overflow:hidden}
-#fixedassetsDashboard .fixed-asset-latop-table-card .unified-table-scroll{overflow-x:auto}
-#fixedassetsDashboard .fixed-asset-latop-table-card .unified-data-table{min-width:1280px;table-layout:auto}
-#fixedassetsDashboard .fixed-asset-latop-table-card .unified-data-table :is(th,td){white-space:nowrap;overflow-wrap:normal;word-break:normal}
-#fixedassetsDashboard .fixed-asset-latop-table-card .unified-table-footer{display:flex;align-items:center;justify-content:center;gap:10px}
-#fixedassetsDashboard .fixed-asset-latop-table-card .fixed-asset-condition-badge{display:inline-flex;align-items:center;justify-content:center;padding:4px 9px;border-radius:999px;font-size:10px;font-weight:700;line-height:1.2;white-space:nowrap}
-#fixedassetsDashboard .fixed-asset-latop-table-card .fixed-asset-condition-badge.good{background:#e5f5ef;color:#167d65}
-#fixedassetsDashboard .fixed-asset-latop-table-card .fixed-asset-condition-badge.damage{background:#fde7e5;color:#c92b31}
-body.dark #fixedassetsDashboard .fixed-asset-latop-table-card .fixed-asset-condition-badge.good{background:#21443a;color:#8de0bf}
-body.dark #fixedassetsDashboard .fixed-asset-latop-table-card .fixed-asset-condition-badge.damage{background:#51282e;color:#ffaaa3}
 
 @media(max-width:700px){
   #fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-chart-header{align-items:stretch}
@@ -4626,3 +4598,8 @@ body.dark #fixedassetsDashboard .fixed-asset-latop-table-card .fixed-asset-condi
   #serviceTicketsDashboard .unified-table-head>.unified-table-title{width:100%!important;min-width:0!important}
   #serviceTicketsDashboard .unified-table-head>.search{width:100%!important;max-width:none!important}
 }
+
+/* Fixed Asset Overview hardware specifications. */
+#fixedassetsDashboard .fixed-asset-overview-table-card :is(th,td):nth-child(12){text-align:right}
+.fixed-asset-legacy-generation{display:inline-flex;align-items:center;padding:3px 7px;border-radius:999px;background:#fee8e7;color:#c92b31;font-size:10px;font-weight:700;line-height:1.2;white-space:nowrap}
+body.dark .fixed-asset-legacy-generation{background:#5a2428;color:#ff9b94}
