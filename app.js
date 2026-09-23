@@ -33,6 +33,54 @@ document.addEventListener('click',event=>{
   update();
 })();
 
+/* Keep both Fixed Assets reporting-period menus in the same order. */
+(()=>{
+ const panel=document.getElementById('fixedassetsDashboard');
+ if(!panel)return;
+ const monthLabel=value=>{const [year,month]=value.split('-').map(Number);return new Date(year,month-1,1).toLocaleDateString('en-US',{month:'short'})+'-'+String(year).slice(-2)};
+ const monthEnd=value=>{const [year,month]=value.split('-').map(Number);return value+'-'+String(new Date(year,month,0).getDate()).padStart(2,'0')};
+ const update=()=>{
+  const months=[...new Set((window.FIXED_ASSETS_DATA?.records||[]).map(record=>String(record.p||'').slice(0,7)).filter(value=>/^\d{4}-\d{2}$/.test(value)))].sort().reverse();
+  const years=[...new Set(months.map(value=>value.slice(0,4)))].sort().reverse();
+  panel.querySelectorAll('#fixedAssetPeriod,#fixedAssetSecondaryPeriod').forEach(select=>{
+   if(select.dataset.periodOrderReady==='true')return;
+   const selected=select.value;
+   select.dataset.periodOrderReady='true';
+   select.innerHTML='<option value="all">All data</option><option value="last3">Last 3 months</option><option value="last6">Last 6 months</option><option value="monthly">Monthly</option><option value="yearly">Yearly</option><option value="custom">Custom range</option>';
+   select.value=selected||'all';
+  });
+  panel.querySelectorAll('#fixedAssetMonth,#fixedAssetSecondaryMonth').forEach(select=>{
+   if(select.dataset.reportingMonthReady==='true'||!months.length)return;
+   const selected=select.value;
+   select.dataset.reportingMonthReady='true';
+   select.innerHTML=months.map(value=>'<option value="'+value+'">'+monthLabel(value)+'</option>').join('');
+   select.value=months.includes(selected)?selected:months[0];
+  });
+  panel.querySelectorAll('#fixedAssetYear,#fixedAssetSecondaryYear').forEach(select=>{
+   if(select.dataset.reportingYearReady==='true'||!years.length)return;
+   const selected=select.value;
+   select.dataset.reportingYearReady='true';
+   select.innerHTML=years.map(value=>'<option value="'+value+'">'+value+'</option>').join('');
+   select.value=years.includes(selected)?selected:years[0];
+  });
+  [['fixedAssetFrom','fixedAssetSecondaryFrom','From month',months.at(-1)],['fixedAssetTo','fixedAssetSecondaryTo','To month',months[0]]].forEach(([primaryId,secondaryId,label,defaultValue])=>{
+   [primaryId,secondaryId].forEach(id=>{
+    const input=panel.querySelector('#'+id);
+    if(!input||input.tagName==='SELECT'||!months.length)return;
+    const select=document.createElement('select');
+    const isToMonth=id.endsWith('To');
+    select.id=id;select.className='filter';select.innerHTML=months.map(value=>'<option value="'+(isToMonth?monthEnd(value):value+'-01')+'">'+monthLabel(value)+'</option>').join('');
+    const selected=isToMonth?monthEnd(defaultValue):defaultValue+'-01';select.value=selected;
+    input.id=id+'Native';input.hidden=true;input.value=selected;input.closest('label')?.querySelector('span')&&(input.closest('label').querySelector('span').textContent=label);
+    input.replaceWith(select);
+    select.addEventListener('change',()=>{input.value=select.value;input.dispatchEvent(new Event('change',{bubbles:true}))});
+   });
+  });
+ };
+ new MutationObserver(update).observe(panel,{childList:true});
+ update();
+})();
+
 /* Use one consistent reporting-period menu in the financial and print dashboards. */
 (()=>{
   const periodOrder=['all','last3','last6','monthly','yearly','custom'];
@@ -936,9 +984,8 @@ function renderLicenses(){
  const assigneeOrder=['Soe Maung Maung','Khin Maung Thant','Khon Tay Za','Khaing Zaw Shein','Than Toe Aung','Htin Kyaw Lin','Saw Wai Htun Ko'];
  const assignees=assigneeOrder.filter(name=>source.some(row=>row.assignedTo===name));
  const assigneeLabel=name=>name==='Saw Wai Htun Ko'?'Saw Wai Tun Ko':name;
- const companyOrder=['Nature Alliance','Nature Valley','Innobuilder','Arise','PIP','Prime Asset','Great Golden Moon','MSG','Pyay'];
  let ticketBarChart,ticketPieChart;
- const state={range:'all',month:months[0]||'',year:String(years[0]||''),company:'All companies',problem:'All problems',assignee:'All assignees',companyChartType:'bar',from:'',to:'',search:''};
+ const state={range:'all',month:months[0]||'',year:String(years[0]||''),company:'All companies',problem:'All problems',assignee:'All assignees',companyChartType:'bar',from:months[months.length-1]||'',to:months[0]||'',search:''};
 
  function ensurePanel(){
   let panel=document.getElementById('serviceTicketsDashboard');
@@ -952,7 +999,8 @@ function renderLicenses(){
   if(baseKpis)baseKpis.hidden=!visible;if(baseGrid)baseGrid.hidden=!visible;if(baseTable)baseTable.hidden=!visible;
  }
  function optionList(values,current){return values.map(value=>'<option value="'+clean(value)+'" '+(String(value)===String(current)?'selected':'')+'>'+clean(value)+'</option>').join('')}
- function monthOptionList(){return months.map(value=>{const [year,month]=value.split('-').map(Number),label=new Date(year,month-1,1).toLocaleDateString(undefined,{month:'short',year:'numeric'});return '<option value="'+value+'" '+(value===state.month?'selected':'')+'>'+clean(label)+'</option>'}).join('')}
+ function monthLabel(value){const [year,month]=value.split('-').map(Number);return new Date(year,month-1,1).toLocaleDateString(undefined,{month:'short'})+'-'+String(year).slice(-2)}
+ function monthOptionList(current=state.month,descending=true){const values=descending?months:[...months].reverse();return values.map(value=>'<option value="'+value+'" '+(value===current?'selected':'')+'>'+clean(monthLabel(value))+'</option>').join('')}
  function renderShell(){
   const panel=ensurePanel();
   panel.innerHTML='<section class="unified-kpi-grid"><article class="unified-kpi-card tone-orange"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3.5h6v3H9zM9 11h6M9 15h4"/></svg></span><div><b>Total Tickets</b><small id="ticketTotalSubtitle">Selected period</small></div><strong id="ticketTotal">0</strong></article><article class="unified-kpi-card tone-green"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4v18M12 9h7v12M8 9h1M8 13h1M8 17h1M15 13h1M15 17h1"/></svg></span><div><b>Companies</b><small id="ticketCompaniesSubtitle">With ticket activity</small></div><strong id="ticketCompanies">0</strong></article><article class="unified-kpi-card tone-yellow"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="m12 2.5 8 4.5v10l-8 4.5L4 17V7z"/><path d="M12 8v5M12 16h.01"/></svg></span><div><b>Error Issues</b><small id="ticketProblemsSubtitle">Distinct categories</small></div><strong id="ticketProblems">0</strong></article><article class="unified-kpi-card tone-blue"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="7"/><path d="M9 3h6M12 6V3M12 10v4l3 2"/></svg></span><div><b>Average Duration</b><small id="ticketDurationSubtitle">Resolution time</small></div><strong id="ticketDuration">0m</strong></article></section><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Ticket Analytics</h2><p>Explore company demand and recurring issues over any period</p></div><button type="button" id="ticketReset" class="btn">Reset filters</button></div><div class="unified-filter-grid"><label><span>Period</span><select id="ticketRange" class="filter"><option value="all">All data</option><option value="month">Monthly</option><option value="3m">Last 3 months</option><option value="6m">Last 6 months</option><option value="year">Yearly</option><option value="custom">Custom range</option></select></label><label id="ticketMonthField"><span>Month</span><select id="ticketMonth" class="filter">'+monthOptionList()+'</select></label><label id="ticketYearField"><span>Year</span><select id="ticketYear" class="filter">'+optionList(years,state.year)+'</select></label><label id="ticketFromField"><span>From</span><input id="ticketFrom" class="filter" type="date"></label><label id="ticketToField"><span>To</span><input id="ticketTo" class="filter" type="date"></label><label><span>Company</span><select id="ticketCompany" class="filter"><option>All companies</option>'+optionList(companies,state.company)+'</select></label><label><span>Problem</span><select id="ticketProblem" class="filter"><option>All problems</option>'+optionList(problems,state.problem)+'</select></label></div></section><section class="unified-chart-grid"><article class="unified-chart-card"><div class="unified-chart-header"><div><h2>Tickets by Company</h2><p>Support demand ranked from highest to lowest</p></div><span id="ticketCompanyChartTotal">0 tickets</span></div><div class="unified-bar-canvas"><canvas id="ticketCompanyChart"></canvas></div></article><article class="unified-chart-card"><div class="unified-chart-header"><div><h2>Problems by Category</h2><p>Issue distribution for the selected period</p></div><span id="ticketProblemChartTotal">0 types</span></div><div class="unified-pie-layout"><div class="unified-pie-canvas"><canvas id="ticketProblemChart"></canvas></div><div id="ticketProblemLegend" class="unified-chart-legend"></div></div></article></section><section class="card unified-table-card"><div class="unified-table-head"><div><h2>Company Assignment Summary</h2><p>Ticket allocation across companies and team members</p></div><input id="ticketSearch" class="search" placeholder="Search companies..."></div><div class="unified-table-scroll"><table class="unified-data-table" id="ticketAssignmentTable"><thead><tr><th>Company</th><th>Total</th>'+assignees.map(name=>'<th>'+clean(name)+'</th>').join('')+'</tr></thead><tbody id="ticketTableBody"></tbody><tfoot id="ticketTableTotal"></tfoot></table></div><div class="unified-table-footer" id="ticketTableFoot"></div></section>';
@@ -972,7 +1020,10 @@ function renderLicenses(){
   if(state.range==='month'&&state.month){const [year,month]=state.month.split('-').map(Number);start=new Date(year,month-1,1);end=new Date(year,month,1)}
   if(state.range==='3m'||state.range==='6m'){const count=state.range==='3m'?3:6;start=new Date(latestDate.getFullYear(),latestDate.getMonth()-count+1,1);end=new Date(latestDate.getFullYear(),latestDate.getMonth()+1,1)}
   if(state.range==='year'&&state.year){start=new Date(Number(state.year),0,1);end=new Date(Number(state.year)+1,0,1)}
-  if(state.range==='custom'){if(state.from)start=new Date(state.from+'T00:00:00');if(state.to){end=new Date(state.to+'T00:00:00');end.setDate(end.getDate()+1)}}
+  if(state.range==='custom'){
+   if(state.from){const [year,month]=state.from.split('-').map(Number);start=new Date(year,month-1,1)}
+   if(state.to){const [year,month]=state.to.split('-').map(Number);end=new Date(year,month,1)}
+  }
   return{start,end};
  }
  function filteredRows(){
@@ -1014,7 +1065,7 @@ function renderLicenses(){
   const panel=ensurePanel(),rows=filteredRows(),companyCount=new Set(rows.map(row=>row.company)).size,problemCount=new Set(rows.map(row=>row.problem)).size,average=rows.length?rows.reduce((sum,row)=>sum+(Number(row.durationMinutes)||0),0)/rows.length:0;
   updateControlVisibility();panel.querySelector('#ticketTotal').textContent=rows.length.toLocaleString();panel.querySelector('#ticketCompanies').textContent=companyCount;panel.querySelector('#ticketProblems').textContent=problemCount;panel.querySelector('#ticketDuration').textContent=formatDuration(average);updateTicketKpiSubtitles(rows,companyCount,problemCount);
   const grouped=new Map();rows.forEach(row=>{if(!grouped.has(row.company))grouped.set(row.company,{total:0,people:{}});const item=grouped.get(row.company);item.total++;item.people[row.assignedTo]=(item.people[row.assignedTo]||0)+1});
-  const summary=[...grouped.entries()].sort((a,b)=>{const ai=companyOrder.indexOf(a[0]),bi=companyOrder.indexOf(b[0]);return(ai<0?999:ai)-(bi<0?999:bi)||a[0].localeCompare(b[0])});
+  const summary=[...grouped.entries()].sort((a,b)=>a[0].localeCompare(b[0]));
   panel.querySelector('#ticketTableBody').innerHTML=summary.map(([company,item])=>'<tr><td><b>'+clean(company==='Pyay'?'PYAY':company)+'</b></td><td><strong>'+item.total+'</strong></td>'+assignees.map(name=>'<td>'+(item.people[name]||'')+'</td>').join('')+'</tr>').join('');
   panel.querySelector('#ticketTableTotal').innerHTML='<tr><th>Grand Total</th><th>'+rows.length+'</th>'+assignees.map(name=>'<th>'+rows.filter(row=>row.assignedTo===name).length+'</th>').join('')+'</tr>';
   panel.querySelector('#ticketTableFoot').textContent='Showing '+summary.length+' of '+summary.length+' companies';drawCharts(rows);
@@ -1930,6 +1981,36 @@ window.toggleDashboardFullscreen=()=>{
     if(error)error.hidden=false;
     document.getElementById('loginPassword')?.focus();
   });
+})();
+
+/* Ticket custom-range controls use reporting months rather than calendar days. */
+(()=>{
+ const panel=document.getElementById('serviceTicketsDashboard');
+ if(!panel)return;
+ const formatMonth=value=>{const [year,month]=value.split('-').map(Number);return new Date(year,month-1,1).toLocaleDateString(undefined,{month:'short'})+'-'+String(year).slice(-2)};
+ const options=(months,value,reverse=false)=>[...(reverse?months:[...months].reverse())].map(month=>'<option value="'+month+'" '+(month===value?'selected':'')+'>'+formatMonth(month)+'</option>').join('');
+ const upgrade=()=>{
+  const range=panel.querySelector('#ticketRange');
+  if(!range)return;
+  if(range.dataset.reportingPeriodsReady==='true')return;
+  range.dataset.reportingPeriodsReady='true';
+  range.innerHTML='<option value="all">All data</option><option value="3m">Last 3 months</option><option value="6m">Last 6 months</option><option value="month">Monthly</option><option value="year">Yearly</option><option value="custom">Custom range</option>';
+  const monthly=panel.querySelector('#ticketMonth');
+  const values=[...monthly?.options||[]].map(option=>option.value).filter(value=>/^\d{4}-\d{2}$/.test(value));
+  if(!values.length)return;
+  monthly.innerHTML=options(values,monthly.value,true);
+  [['ticketFromField','ticketFrom','From month',false],['ticketToField','ticketTo','To month',true]].forEach(([fieldId,inputId,label,reverse])=>{
+   const field=panel.querySelector('#'+fieldId),input=panel.querySelector('#'+inputId);
+   if(!field||!input||input.tagName==='SELECT')return;
+   const select=document.createElement('select');
+   select.id=inputId;select.className='filter';select.innerHTML=options(values,reverse?values[0]:values[values.length-1],reverse);
+   field.querySelector('span').textContent=label;
+   input.id=inputId+'Native';input.hidden=true;input.replaceWith(select);
+   select.addEventListener('change',()=>input.dispatchEvent(new Event('change',{bubbles:true})));
+  });
+ };
+ new MutationObserver(upgrade).observe(panel,{childList:true});
+ upgrade();
 })();
 
 /* Copier & Printer Usage dashboard. */

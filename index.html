@@ -69,6 +69,7 @@
 <button class="hamb" onclick="side.classList.toggle('open')">☰</button>
 <div class="crumb">Nature A Digital Hub / <b id="crumb">Dashboard</b>
 </div>
+<span class="reporting-year" aria-label="Financial year 2026 to 2027"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16M8 14h3M8 17h5"></path></svg>FY 2026–2027</span>
 <div class="actions">
 <button class="btn theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Switch light or dark theme">
 <span class="sr-only">Toggle theme</span>
@@ -93,12 +94,17 @@
 </div>
 <section class="hero">
 <div>
-<h1 id="h1">IT Management Overview</h1>
+<h1 id="h1">Digital Operations</h1>
 <p id="sub">A complete view of your digital operations and performance.</p>
 </div>
 </section>
 <section id="mainDashboard" class="main-dashboard" hidden>
-<div><p>Coming Soon Dashboard</p></div>
+<section class="unified-kpi-grid" aria-label="FY 2026 to 2027 dashboard summary">
+<article class="unified-kpi-card tone-orange"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 21h16M6 21V7l6-4v18M12 10h6v11M9 9h1M9 13h1M9 17h1M15 14h1M15 18h1"></path></svg></span><div><b>Managed Companies</b><small>Digital operations portfolio</small></div><strong>10</strong></article>
+<article class="unified-kpi-card tone-green"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.8M16.5 3.2a4 4 0 0 1 0 7.6"></path></svg></span><div><b>IT Team Members</b><small>Active digital workforce</small></div><strong>9</strong></article>
+<article class="unified-kpi-card tone-yellow"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8M12 16v4"></path></svg></span><div><b>Fixed Assets</b><small>Recorded technology assets</small></div><strong>557</strong></article>
+<article class="unified-kpi-card tone-blue"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 10h18M7 15h4M15 14h2"></path></svg></span><div><b>Microsoft 365 Licenses</b><small>Purchased cloud capacity</small></div><strong>360</strong></article>
+</section>
 </section>
 <section id="comparisonDashboard" class="comparison-dashboard" hidden><h1>Coming Soon</h1></section>
 <section id="budgetExpenseDashboard" class="budgetexpense-dashboard" hidden>
@@ -247,6 +253,17 @@ window.addEventListener('DOMContentLoaded',()=>{
   const selected=location.hash.toLowerCase()==='#/fy-comparison';
   panel.hidden=!selected;
   document.querySelectorAll('#kpis,main>.grid,main>section.card.tablecard').forEach(element=>element.hidden=selected);
+});
+</script>
+<script>
+window.addEventListener('DOMContentLoaded',()=>{
+  const heading=document.getElementById('h1'),crumb=document.getElementById('crumb');
+  const updateTitle=()=>{if(((crumb?.textContent||'').trim()==='Dashboard'||location.hash===''||location.hash==='#/')&&heading.textContent!=='Digital Operations')heading.textContent='Digital Operations'};
+  const navigate=window.navigateHubPage;
+  if(typeof navigate==='function')window.navigateHubPage=function(name,push=true){const result=navigate(name,push);if(name==='Dashboard')updateTitle();return result};
+  new MutationObserver(updateTitle).observe(heading,{childList:true,characterData:true,subtree:true});
+  new MutationObserver(updateTitle).observe(crumb,{childList:true,characterData:true,subtree:true});
+  updateTitle();
 });
 </script>
 </body>
