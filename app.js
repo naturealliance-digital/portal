@@ -4370,16 +4370,8 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
     search: "",
   };
 
-  function ensurePanel() {
-    let panel = document.getElementById("serviceTicketsDashboard");
-    if (panel) return panel;
-    panel = document.createElement("section");
-    panel.id = "serviceTicketsDashboard";
-    panel.hidden = true;
-    const hero = document.querySelector("main>.hero");
-    hero?.insertAdjacentElement("afterend", panel);
-    return panel;
-  }
+  const ticketPanel = document.getElementById("serviceTicketsDashboard");
+  if (!ticketPanel) return;
   function setBaseVisible(visible) {
     const baseKpis = document.getElementById("kpis"),
       baseGrid = document.querySelector("main>.grid"),
@@ -4428,7 +4420,7 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
       .join("");
   }
   function renderShell() {
-    const panel = ensurePanel();
+    const panel = ticketPanel;
     panel.innerHTML =
       '<section class="unified-kpi-grid"><article class="unified-kpi-card tone-orange"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3.5h6v3H9zM9 11h6M9 15h4"/></svg></span><div><b>Total Tickets</b><small id="ticketTotalSubtitle">Selected period</small></div><strong id="ticketTotal">0</strong></article><article class="unified-kpi-card tone-green"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4v18M12 9h7v12M8 9h1M8 13h1M8 17h1M15 13h1M15 17h1"/></svg></span><div><b>Companies</b><small id="ticketCompaniesSubtitle">With ticket activity</small></div><strong id="ticketCompanies">0</strong></article><article class="unified-kpi-card tone-yellow"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="m12 2.5 8 4.5v10l-8 4.5L4 17V7z"/><path d="M12 8v5M12 16h.01"/></svg></span><div><b>Error Issues</b><small id="ticketProblemsSubtitle">Distinct categories</small></div><strong id="ticketProblems">0</strong></article><article class="unified-kpi-card tone-blue"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="7"/><path d="M9 3h6M12 6V3M12 10v4l3 2"/></svg></span><div><b>Average Duration</b><small id="ticketDurationSubtitle">Resolution time</small></div><strong id="ticketDuration">0m</strong></article></section><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Ticket Analytics</h2><p>Explore company demand and recurring issues over any period</p></div><button type="button" id="ticketReset" class="btn">Reset filters</button></div><div class="unified-filter-grid"><label><span>Period</span><select id="ticketRange" class="filter"><option value="all">All data</option><option value="month">Monthly</option><option value="3m">Last 3 months</option><option value="6m">Last 6 months</option><option value="year">Yearly</option><option value="custom">Custom range</option></select></label><label id="ticketMonthField"><span>Month</span><select id="ticketMonth" class="filter">' +
       monthOptionList() +
@@ -4676,7 +4668,7 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
     );
   }
   function updateControlVisibility() {
-    const panel = ensurePanel();
+    const panel = ticketPanel;
     panel.querySelector("#ticketMonthField").hidden = state.range !== "month";
     panel.querySelector("#ticketYearField").hidden = state.range !== "year";
     panel.querySelector("#ticketFromField").hidden = state.range !== "custom";
@@ -4920,7 +4912,7 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
       .join("");
   }
   function applyFilters() {
-    const panel = ensurePanel(),
+    const panel = ticketPanel,
       rows = filteredRows(),
       companyCount = new Set(rows.map((row) => row.company)).size,
       problemCount = new Set(rows.map((row) => row.problem)).size,
@@ -4981,7 +4973,7 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
     drawCharts(rows);
   }
   function showFor(name) {
-    const panel = ensurePanel(),
+    const panel = ticketPanel,
       selected = name === "Service Tickets";
     document.body.classList.toggle("service-tickets-page", selected);
     panel.hidden = !selected;
@@ -7019,10 +7011,6 @@ window.exportXlsx = function () {
   const source = window.budgetExpenseData;
   if (!panel || !source) return;
   const departmentActuals = source.expenses.filter((row) => row.department);
-  source.purchases.forEach((row) => {
-    if (row.company === "Innobuilder" && row.department === "Common")
-      row.department = "Construction";
-  });
   panel.__budgetExpenseDetailData = source;
   const fmt = (value) => {
     const number = Number(value) || 0,
@@ -9093,6 +9081,153 @@ window.exportXlsx = function () {
   });
 })();
 
+/* Main dashboard filter controls combine company and department data from all dashboards. */
+(() => {
+  const companySelect = document.getElementById("mainDashboardCompany"),
+    departmentSelect = document.getElementById("mainDashboardDepartment"),
+    departmentField = document.getElementById("mainDashboardDepartmentField"),
+    periodSelect = document.getElementById("mainDashboardPeriod"),
+    periodValueField = document.getElementById("mainDashboardPeriodValueField"),
+    periodValueLabel = document.getElementById("mainDashboardPeriodValueLabel"),
+    periodValueSelect = document.getElementById("mainDashboardPeriodValue"),
+    fromField = document.getElementById("mainDashboardFromField"),
+    fromSelect = document.getElementById("mainDashboardFromMonth"),
+    toField = document.getElementById("mainDashboardToField"),
+    toSelect = document.getElementById("mainDashboardToMonth"),
+    resetButton = document.getElementById("mainDashboardResetFilters");
+  if (
+    !companySelect ||
+    !departmentSelect ||
+    !departmentField ||
+    !periodSelect ||
+    !periodValueField ||
+    !periodValueLabel ||
+    !periodValueSelect ||
+    !fromField ||
+    !fromSelect ||
+    !toField ||
+    !toSelect ||
+    !resetButton
+  )
+    return;
+  const normalizeCompany = (company) =>
+      ({ "Nature Allliance": "Nature Alliance", PIP: "PIP Myanmar" })[
+        company
+      ] || company,
+    optionMarkup = (items, label) =>
+      `<option value="all">${label}</option>${items.map((item) => `<option value="${item}">${item}</option>`).join("")}`;
+  let departmentsByCompany = {},
+    months = [];
+  const readFilterData = () => {
+    const budgetSource = window.budgetExpenseData || {},
+      sourceRows = [
+        ...(window.FIXED_ASSETS_DATA?.records || []),
+        ...(window.COPIER_PRINTER_DATA?.records || []),
+        ...(budgetSource.budgets || []),
+        ...(budgetSource.expenses || []),
+        ...(budgetSource.purchases || []),
+        ...(window.TICKETS_DATA || []),
+        ...(window.MICROSOFT_LICENSE_DATA?.companies || []),
+        ...(window.MICROSOFT_LICENSE_DATA?.licenses || []),
+      ],
+      companyRows = sourceRows
+        .map((record) => ({
+          company: normalizeCompany(record.company || record.Company || record.c),
+          department: record.department || record.Department || record.d,
+        }))
+        .filter(
+          (record) =>
+            record.company &&
+            !["all", "total"].includes(record.company.trim().toLowerCase()),
+        ),
+      companies = [...new Set(companyRows.map((record) => record.company))].sort(
+        (a, b) => a.localeCompare(b),
+      );
+    return {
+      companies,
+      months: window.COPIER_PRINTER_DATA?.months || budgetSource.months || [],
+      departmentsByCompany: companyRows.reduce((result, record) => {
+        if (!record.department) return result;
+        (result[record.company] ||= new Set()).add(record.department);
+        return result;
+      }, {}),
+    };
+  };
+  const syncPeriodFields = () => {
+    const period = periodSelect.value,
+      isMonthly = period === "monthly",
+      isYearly = period === "yearly",
+      isCustom = period === "custom";
+    periodValueField.hidden = !isMonthly && !isYearly;
+    fromField.hidden = !isCustom;
+    toField.hidden = !isCustom;
+    if (isYearly) {
+      periodValueLabel.textContent = "Financial year";
+      periodValueSelect.innerHTML = '<option value="2026">FY 2026–2027</option>';
+      return;
+    }
+    periodValueLabel.textContent = "Month";
+    periodValueSelect.innerHTML = optionMarkup([...months].reverse(), "All months");
+    fromSelect.innerHTML = months
+      .map((month) => `<option value="${month}">${month}</option>`)
+      .join("");
+    toSelect.innerHTML = fromSelect.innerHTML;
+    fromSelect.value = months[0] || "";
+    toSelect.value = months.at(-1) || "";
+  };
+  const syncDepartments = (selectedDepartment = departmentSelect.value) => {
+    const company = companySelect.value,
+      departments = [...(departmentsByCompany[company] || [])].sort((a, b) =>
+        a.localeCompare(b),
+      );
+    departmentField.hidden = company === "all" || departments.length === 0;
+    departmentSelect.innerHTML = optionMarkup(departments, "All departments");
+    if (departments.includes(selectedDepartment))
+      departmentSelect.value = selectedDepartment;
+  };
+  const notify = () =>
+    window.dispatchEvent(
+      new CustomEvent("main-dashboard-filters-updated", {
+        detail: {
+          period: periodSelect.value,
+          company: companySelect.value,
+          department: departmentSelect.value,
+        },
+      }),
+    );
+  const refreshFilters = () => {
+    const selectedCompany = companySelect.value,
+      selectedDepartment = departmentSelect.value,
+      data = readFilterData();
+    departmentsByCompany = data.departmentsByCompany;
+    months = data.months;
+    companySelect.innerHTML = optionMarkup(data.companies, "All companies");
+    if (data.companies.includes(selectedCompany))
+      companySelect.value = selectedCompany;
+    syncPeriodFields();
+    syncDepartments(selectedDepartment);
+  };
+  companySelect.addEventListener("change", () => {
+    syncDepartments();
+    notify();
+  });
+  departmentSelect.addEventListener("change", notify);
+  periodSelect.addEventListener("change", () => {
+    syncPeriodFields();
+    notify();
+  });
+  resetButton.addEventListener("click", () => {
+    periodSelect.value = "all";
+    companySelect.value = "all";
+    syncPeriodFields();
+    syncDepartments();
+    notify();
+  });
+  window.refreshMainDashboardFilters = refreshFilters;
+  window.addEventListener("dashboard-data-updated", refreshFilters);
+  refreshFilters();
+})();
+
 /* Main dashboard visibility. */
 (() => {
   const panel = document.getElementById("mainDashboard");
@@ -11028,9 +11163,34 @@ window.exportXlsx = function () {
         },
       });
     };
+  const dashboardCompanyCount = () => {
+    const budget = window.budgetExpenseData || {},
+      normalize = (company) =>
+        ({ "Nature Allliance": "Nature Alliance", PIP: "PIP Myanmar" })[
+          company
+        ] || company,
+      companyValues = [
+        ...(window.FIXED_ASSETS_DATA?.records || []).map((row) => row.c),
+        ...(window.COPIER_PRINTER_DATA?.records || []).map(
+          (row) => row.company,
+        ),
+        ...(budget.budgets || []).map((row) => row.company),
+        ...(budget.expenses || []).map((row) => row.company),
+        ...(budget.purchases || []).map((row) => row.company),
+        ...(window.TICKETS_DATA || []).map((row) => row.company),
+        ...(window.MICROSOFT_LICENSE_DATA?.companies || []).map(
+          (row) => row.Company,
+        ),
+      ]
+        .map(normalize)
+        .filter(
+          (company) =>
+            company && !["all", "total"].includes(company.trim().toLowerCase()),
+        );
+    return new Set(companyValues).size;
+  };
   window.refreshMainDashboardMetrics = () => {
     const manpower = window.MANPOWER_DIRECTORY_DATA || [],
-      fixedAssets = window.FIXED_ASSETS_DATA?.summary || {},
       licenses = readStore(
         "m365LicensesDB",
         window.MICROSOFT_LICENSE_DATA?.licenses || [],
@@ -11056,7 +11216,7 @@ window.exportXlsx = function () {
       totalLicenses = activeLicenses + availableLicenses,
       percent = (value) => Math.max(0, Math.min(100, value)).toFixed(1) + "%";
     setValue("mainCurrentManpower", currentManpower);
-    setValue("mainManagedCompanies", fixedAssets.totalCompanies || 0);
+    setValue("mainManagedCompanies", dashboardCompanyCount());
     setValue("mainActiveLicenses", activeLicenses);
     setValue("mainAvailableLicenses", availableLicenses);
     const workforceRate = plannedManpower
@@ -11124,6 +11284,10 @@ window.exportXlsx = function () {
   });
   window.addEventListener(
     "dashboard-data-updated",
+    window.refreshMainDashboardMetrics,
+  );
+  window.addEventListener(
+    "main-dashboard-filters-updated",
     window.refreshMainDashboardMetrics,
   );
   document
