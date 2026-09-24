@@ -10867,7 +10867,7 @@ window.exportXlsx = function () {
         sortCompanyRows();
       } else renderOverviewRecord();
     };
-    [
+    const fixedAssetFilterIds = [
       "fixedAssetPeriod",
       "fixedAssetCompany",
       "fixedAssetDepartment",
@@ -10878,79 +10878,36 @@ window.exportXlsx = function () {
       "fixedAssetYear",
       "fixedAssetFrom",
       "fixedAssetTo",
-    ].forEach((id) =>
+    ];
+    fixedAssetFilterIds.forEach((id) =>
       panel
         .querySelector("#" + id)
         ?.addEventListener("change", () =>
           requestAnimationFrame(refreshCompanyFixedAssets),
         ),
     );
-    [
-      "fixedAssetPeriod",
-      "fixedAssetCompany",
-      "fixedAssetDepartment",
-      "fixedAssetType",
-      "fixedAssetBrand",
-      "fixedAssetCondition",
-      "fixedAssetMonth",
-      "fixedAssetYear",
-      "fixedAssetFrom",
-      "fixedAssetTo",
-    ].forEach((id) =>
+    fixedAssetFilterIds.forEach((id) =>
       panel
         .querySelector("#" + id)
         ?.addEventListener("change", () =>
           requestAnimationFrame(setupOverviewSearch),
         ),
     );
-    [
-      "fixedAssetPeriod",
-      "fixedAssetCompany",
-      "fixedAssetDepartment",
-      "fixedAssetType",
-      "fixedAssetBrand",
-      "fixedAssetCondition",
-      "fixedAssetMonth",
-      "fixedAssetYear",
-      "fixedAssetFrom",
-      "fixedAssetTo",
-    ].forEach((id) =>
+    fixedAssetFilterIds.forEach((id) =>
       panel
         .querySelector("#" + id)
         ?.addEventListener("change", () =>
           requestAnimationFrame(enhanceOverviewConditions),
         ),
     );
-    [
-      "fixedAssetPeriod",
-      "fixedAssetCompany",
-      "fixedAssetDepartment",
-      "fixedAssetType",
-      "fixedAssetBrand",
-      "fixedAssetCondition",
-      "fixedAssetMonth",
-      "fixedAssetYear",
-      "fixedAssetFrom",
-      "fixedAssetTo",
-    ].forEach((id) =>
+    fixedAssetFilterIds.forEach((id) =>
       panel
         .querySelector("#" + id)
         ?.addEventListener("change", () =>
           requestAnimationFrame(enhanceFixedAssetCodes),
         ),
     );
-    [
-      "fixedAssetPeriod",
-      "fixedAssetCompany",
-      "fixedAssetDepartment",
-      "fixedAssetType",
-      "fixedAssetBrand",
-      "fixedAssetCondition",
-      "fixedAssetMonth",
-      "fixedAssetYear",
-      "fixedAssetFrom",
-      "fixedAssetTo",
-    ].forEach((id) =>
+    fixedAssetFilterIds.forEach((id) =>
       panel
         .querySelector("#" + id)
         ?.addEventListener("change", () =>
@@ -11009,7 +10966,9 @@ window.exportXlsx = function () {
               control.tagName === "SELECT" &&
               primaryControl.tagName === "SELECT"
             )
-              control.value = primaryControl.value;
+              control.innerHTML = primaryControl.innerHTML;
+            control.value = primaryControl.value;
+            control.disabled = primaryControl.disabled;
             secondaryField.hidden = primaryField.hidden;
           },
         );
@@ -11019,17 +10978,17 @@ window.exportXlsx = function () {
       primaryFilterCard.addEventListener("change", () =>
         requestAnimationFrame(syncSecondaryFilters),
       );
-      secondaryControls.forEach((control) =>
-        control.addEventListener("change", () => {
-          const primaryControl = panel.querySelector(
-            "#" + control.dataset.primaryId,
-          );
-          if (!primaryControl) return;
-          primaryControl.value = control.value;
-          primaryControl.dispatchEvent(new Event("change", { bubbles: true }));
-          requestAnimationFrame(syncSecondaryFilters);
-        }),
-      );
+      secondaryFilterCard.addEventListener("change", (event) => {
+        const control = event.target.closest("select,input"),
+          primaryControl = control
+            ? panel.querySelector("#" + control.dataset.primaryId)
+            : null;
+        if (!control || !secondaryFilterCard.contains(control) || !primaryControl)
+          return;
+        primaryControl.value = control.value;
+        primaryControl.dispatchEvent(new Event("change", { bubbles: true }));
+        requestAnimationFrame(syncSecondaryFilters);
+      });
       secondaryReset?.addEventListener("click", () => {
         panel.querySelector("#fixedAssetResetFilters")?.click();
         requestAnimationFrame(syncSecondaryFilters);

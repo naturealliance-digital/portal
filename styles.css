@@ -2420,18 +2420,6 @@ body.dark .actions .export-btn {
   font-size: 10px
 }
 
-.sample-chip {
-  padding: 5px 9px;
-  border-radius: 999px;
-  background: #fff0e8;
-  color: #bd2d30;
-  font-size: 8px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .5px;
-  white-space: nowrap
-}
-
 .visual-kpis {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -2704,11 +2692,6 @@ body.dark .planning-visual-body {
 body.dark .planning-visual-heading h2,
 body.dark .visual-panel h3 {
   color: #fff5ef
-}
-
-body.dark .sample-chip {
-  background: #4a2428;
-  color: #ffab82
 }
 
 body.dark .visual-kpi,
@@ -3109,11 +3092,6 @@ body.dark .visual-kpi span {
   .visual-kpi {
     min-height: 106px !important
   }
-}
-
-
-.sample-chip {
-  display: none !important
 }
 
 

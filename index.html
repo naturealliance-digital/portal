@@ -405,30 +405,15 @@
   <div class="toast" id="toast"></div>
   <script>
     window.addEventListener("DOMContentLoaded", () => {
-      const panel = document.getElementById("comparisonDashboard");
-      const navigate = window.navigateHubPage;
-      if (!panel || typeof navigate !== "function") return;
-      window.navigateHubPage = function (name, push = true) {
-        navigate(name, push);
-        const selected = name === "FY Comparison";
-        panel.hidden = !selected;
-        document
-          .querySelectorAll("#kpis,main>.grid,main>section.card.tablecard")
-          .forEach((element) => (element.hidden = selected));
-      };
-      const selected = location.hash.toLowerCase() === "#/fy-comparison";
-      panel.hidden = !selected;
-      document
-        .querySelectorAll("#kpis,main>.grid,main>section.card.tablecard")
-        .forEach((element) => (element.hidden = selected));
-    });
-  </script>
-  <script>
-    window.addEventListener("DOMContentLoaded", () => {
-      const heading = document.getElementById("h1"),
-        crumb = document.getElementById("crumb");
+      const panel = document.getElementById("comparisonDashboard"),
+        heading = document.getElementById("h1"),
+        crumb = document.getElementById("crumb"),
+        genericSections = document.querySelectorAll(
+          "#kpis,main>.grid,main>section.card.tablecard",
+        );
       const updateTitle = () => {
         if (
+          heading &&
           ((crumb?.textContent || "").trim() === "Dashboard" ||
             location.hash === "" ||
             location.hash === "#/") &&
@@ -436,23 +421,35 @@
         )
           heading.textContent = "Digital Operations";
       };
+      const syncComparison = (name) => {
+        if (!panel) return;
+        const selected =
+          name === "FY Comparison" ||
+          (!name && location.hash.toLowerCase() === "#/fy-comparison");
+        panel.hidden = !selected;
+        genericSections.forEach((element) => (element.hidden = selected));
+      };
       const navigate = window.navigateHubPage;
       if (typeof navigate === "function")
         window.navigateHubPage = function (name, push = true) {
           const result = navigate(name, push);
+          syncComparison(name);
           if (name === "Dashboard") updateTitle();
           return result;
         };
-      new MutationObserver(updateTitle).observe(heading, {
-        childList: true,
-        characterData: true,
-        subtree: true,
-      });
-      new MutationObserver(updateTitle).observe(crumb, {
-        childList: true,
-        characterData: true,
-        subtree: true,
-      });
+      if (heading)
+        new MutationObserver(updateTitle).observe(heading, {
+          childList: true,
+          characterData: true,
+          subtree: true,
+        });
+      if (crumb)
+        new MutationObserver(updateTitle).observe(crumb, {
+          childList: true,
+          characterData: true,
+          subtree: true,
+        });
+      syncComparison();
       updateTitle();
     });
   </script>
