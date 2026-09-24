@@ -1,1637 +1,8976 @@
-const microsoftLicenseSource=window.MICROSOFT_LICENSE_DATA;
-if(microsoftLicenseSource){try{if(localStorage.getItem('m365WorkbookRefresh2')!=='done'){localStorage.setItem('m365CompanyDB',JSON.stringify(microsoftLicenseSource.companies));localStorage.setItem('m365LicensesDB',JSON.stringify(microsoftLicenseSource.licenses));localStorage.setItem('m365DataVersion',microsoftLicenseSource.version);localStorage.setItem('m365WorkbookRefresh2','done')}}catch(e){}}
-if(window.Chart&&Chart.defaults.animation){Chart.defaults.animation.duration=900;Chart.defaults.animation.easing='easeOutCubic';Chart.defaults.plugins.tooltip={...Chart.defaults.plugins.tooltip,backgroundColor:'#171114',titleColor:'#fff7f2',bodyColor:'#fff7f2',borderColor:'#d99284',borderWidth:2,position:'nearest',padding:10,cornerRadius:8,caretPadding:10,boxPadding:4,titleFont:{family:'Poppins',size:11,weight:'700'},bodyFont:{family:'Poppins',size:12,weight:'600'}}}
-(function(){if(!window.Chart)return;const pending=new Set(),isVisible=chart=>Boolean(chart.canvas?.isConnected&&chart.canvas.getClientRects().length&&!chart.canvas.closest('[hidden]'));let frame=0;const playPending=()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>requestAnimationFrame(()=>{pending.forEach(chart=>{if(!isVisible(chart))return;pending.delete(chart);chart.options.animation={duration:850,easing:'easeOutCubic'};chart.reset();chart.update()})}))};Chart.register({id:'visibleBarLineEntrance',beforeInit(chart){if(!['bar','line'].includes(chart.config.type))return;chart.options.animation={duration:0};pending.add(chart)},afterInit:playPending});window.addEventListener('load',playPending);new MutationObserver(playPending).observe(document.body,{attributes:true,subtree:true,attributeFilter:['hidden']});document.addEventListener('change',event=>{if(event.target.matches('.unified-chart-select'))playPending()})})();
-const menu=[['🏠','Dashboard','Overall IT management view'],['👥','Manpower','Digital team & workload'],['💰','Budget & Expense','Budget planning, spending and cost control'],['🎫','Service Tickets','IT support & SLA'],['💻','Fixed Assets','Computers & IT equipment'],['☁️','Microsoft 365','Users & licenses'],['🔐','IT Security','Cybersecurity'],['🌐','Infrastructure','Network, servers & systems']];const sample={Dashboard:[{Metric:'System Availability',Value:99.8,Status:'Healthy'},{Metric:'Open Tickets',Value:24,Status:'Attention'},{Metric:'IT Budget Used',Value:68,Status:'On Track'},{Metric:'Security Score',Value:92,Status:'Healthy'}],Manpower:[{Employee:'Aung Min',Role:'IT Manager',Workload:78,Status:'On Track'},{Employee:'Su Su Win',Role:'Systems Engineer',Workload:92,Status:'High'},{Employee:'Ko Ko',Role:'IT Support',Workload:65,Status:'On Track'}],'Budget & Expense':[{Category:'Cloud Services',Budget:12500,Actual:9780,Status:'On Track'},{Category:'Software Licenses',Budget:8600,Actual:7420,Status:'On Track'},{Category:'Hardware',Budget:15000,Actual:16450,Status:'Over Budget'}],'Service Tickets':[{Ticket:'#INC-1842',Subject:'VPN access issue',Priority:'High',Status:'Open',SLA:'1h 24m'},{Ticket:'#INC-1841',Subject:'Laptop provisioning',Priority:'Medium',Status:'In Progress',SLA:'5h 10m'},{Ticket:'#INC-1839',Subject:'Email delivery delay',Priority:'High',Status:'Resolved',SLA:'Met'}],'Fixed Assets':[{Asset:'Dell Latitude 5440',Owner:'Aung Min',Location:'Head Office',Status:'In Use'},{Asset:'MacBook Pro M3',Owner:'May Thazin',Location:'Head Office',Status:'In Use'},{Asset:'HP LaserJet Pro',Owner:'Shared',Location:'Branch 04',Status:'Maintenance'}],'Microsoft 365':[{License:'Microsoft 365 Business Premium',Assigned:124,Available:26,Status:'Healthy'},{License:'Power BI Pro',Assigned:42,Available:8,Status:'Healthy'},{License:'Teams Phone Standard',Assigned:58,Available:2,Status:'Low Stock'}],'IT Security':[{Control:'Endpoint Protection',Coverage:98,Status:'Healthy'},{Control:'MFA Enrollment',Coverage:94,Status:'Healthy'},{Control:'Security Awareness',Coverage:76,Status:'Attention'}],Infrastructure:[{Service:'Core Network',Availability:99.98,Status:'Healthy'},{Service:'ERP Server',Availability:99.82,Status:'Healthy'},{Service:'Internet Link',Availability:98.91,Status:'Attention'}]};let data=JSON.parse(JSON.stringify(sample)),active='Dashboard',bar,donut;function numeric(r){return Object.keys(r[0]||{}).filter(k=>r.some(x=>typeof x[k]==='number'))}function state(s){s=(s||'').toLowerCase();return /healthy|track|resolved|approved|ready|use/.test(s)?'good':/high|over|attention|maintenance|low|open|review/.test(s)?'warn':'bad'}function show(x){toast.textContent=x;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),2200)}function buildNav(){nav.innerHTML=tabs.innerHTML='';Object.keys(data).forEach(n=>{let m=menu.find(x=>x[1]===n),a=document.createElement('button'),b=document.createElement('button');a.innerHTML=(m?m[0]:'▦')+' '+n;a.onclick=()=>page(n);b.textContent=n;b.onclick=()=>page(n);nav.append(a);tabs.append(b)})}function page(n){active=n;h1.textContent=n==='Dashboard'?'IT Management Overview':n;crumb.textContent=n;sub.textContent=(menu.find(x=>x[1]===n)||[])[2]||'Imported worksheet dashboard';const pageSearch=document.getElementById('search');if(pageSearch)pageSearch.value='';side.classList.remove('open');[...nav.children].forEach(x=>x.classList.toggle('active',x.textContent.trim().endsWith(n)));[...tabs.children].forEach(x=>x.classList.toggle('active',x.textContent===n));render()}function render(){if(!document.getElementById('filter')||!document.getElementById('table')||!document.getElementById('foot'))return;kpis.className='unified-kpi-grid';let r=data[active]||[],ns=numeric(r),cards=ns.slice(0,4).map((n,i)=>{let a=r.reduce((s,x)=>s+(+x[n]||0),0)/r.length;return[n,a,['◈','◌','◒','✦'][i]]});if(!cards.length)cards=Object.keys(r[0]||{}).slice(0,4).map((n,i)=>[n,r.length,['◈','◌','◒','✦'][i]]);kpis.innerHTML=cards.map((x,i)=>'<article class="unified-kpi-card"><div class="kt"><span>'+x[0]+'</span><b class="ico">'+x[2]+'</b></div><div class="num">'+x[1].toLocaleString(undefined,{maximumFractionDigits:2})+'</div><div class="up '+(i==1?'down':'')+'">'+(i==1?'↓ 4.2%':'↑ 8.4%')+' from last month</div></article>').join('');const genericChartTitle=document.getElementById('ctitle');if(genericChartTitle)genericChartTitle.textContent=active+' performance';const tableTitle=document.getElementById('ttitle');if(tableTitle)tableTitle.textContent=active+' records';let ss=[...new Set(r.map(x=>x.Status).filter(Boolean))];const statusFilter=document.getElementById('filter');if(statusFilter)statusFilter.innerHTML='<option>All</option>'+ss.map(x=>'<option>'+x+'</option>').join('');charts();table()}function charts(){const chartTypeControl=document.getElementById('m365CompanyChartType')||document.getElementById('type'),selectedChartType=chartTypeControl?.value||'bar';let r=data[active]||[],n=numeric(r)[0],labs=r.map((x,i)=>x[Object.keys(x)[0]]||'Record '+(i+1));if(bar)bar.destroy();bar=new Chart(chart,{type:selectedChartType,data:{labels:labs,datasets:[{data:n?r.map(x=>x[n]):r.map((_,i)=>i+1),backgroundColor:selectedChartType==='bar'?'#d12a31':'#d12a3122',borderColor:'#d12a31',borderWidth:2,borderRadius:6,fill:selectedChartType==='line',tension:.35}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{font:{size:10}}},y:{grid:{color:'#eef2f7'},ticks:{font:{size:10}}}}}});let c={};r.forEach(x=>{let s=x.Status||'Active';c[s]=(c[s]||0)+1});let colors=['#d12a31','#f06428','#d6a13b','#8d5754'];if(donut)donut.destroy();donut=new Chart(pie,{type:'doughnut',data:{labels:Object.keys(c),datasets:[{data:Object.values(c),backgroundColor:colors,borderColor:'#fff',borderWidth:3,cutout:'66%'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}});(document.getElementById('microsoft365LicenseLegend')||document.getElementById('legend')).innerHTML=Object.entries(c).map(([x,y],i)=>'<div><span><i class="dot" style="background:'+colors[i]+'"></i>'+x+'</span><b>'+y+' records</b></div>').join('')}function table(){let r=data[active].filter(x=>((document.getElementById('filter')?.value||'All')==='All'||x.Status===(document.getElementById('filter')?.value||'All'))&&Object.values(x).join(' ').toLowerCase().includes((document.getElementById('search')?.value||'').toLowerCase())),ks=Object.keys(data[active][0]||{});document.getElementById('table').innerHTML='<table><thead><tr>'+ks.map(x=>'<th>'+x+'</th>').join('')+'</tr></thead><tbody>'+r.map(x=>'<tr data-id="'+data[active].indexOf(x)+'">'+ks.map(k=>k==='Status'?'<td><b class="status '+state(x[k])+'">'+x[k]+'</b></td>':'<td contenteditable data-k="'+k+'">'+x[k]+'</td>').join('')+'</tr>').join('')+'</tbody></table>';document.querySelectorAll('td[contenteditable]').forEach(x=>x.onblur=e=>{let v=e.target.textContent;data[active][e.target.parentElement.dataset.id][e.target.dataset.k]=isNaN(+v)||!v.trim()?v:+v;charts()});foot.textContent='Showing '+r.length+' of '+data[active].length+' records · Click any value to edit'}file.onchange=e=>{let rd=new FileReader();rd.onload=z=>{let wb=XLSX.read(z.target.result,{type:'array'}),o={};wb.SheetNames.forEach(s=>{let r=XLSX.utils.sheet_to_json(wb.Sheets[s],{defval:''});if(r.length)o[s]=r});if(!Object.keys(o).length)return show('No data rows found');data=o;buildNav();page(Object.keys(o)[0]);show(Object.keys(o).length+' worksheet(s) imported')};rd.readAsArrayBuffer(e.target.files[0])};function exportXlsx(){let w=XLSX.utils.book_new();Object.entries(data).forEach(([n,r])=>XLSX.utils.book_append_sheet(w,XLSX.utils.json_to_sheet(r),n.slice(0,31)));XLSX.writeFile(w,'Digital-IT-Hub.xlsx');show('Excel workbook exported')}function save(){localStorage.setItem('itHubData',JSON.stringify(data));show('Changes saved in this browser')}try{data=JSON.parse(localStorage.getItem('itHubData'))||data}catch(e){}buildNav();active=Object.keys(data)[0];
-
+const microsoftLicenseSource = window.MICROSOFT_LICENSE_DATA;
+if (microsoftLicenseSource) {
+  try {
+    if (localStorage.getItem("m365WorkbookRefresh2") !== "done") {
+      localStorage.setItem(
+        "m365CompanyDB",
+        JSON.stringify(microsoftLicenseSource.companies),
+      );
+      localStorage.setItem(
+        "m365LicensesDB",
+        JSON.stringify(microsoftLicenseSource.licenses),
+      );
+      localStorage.setItem("m365DataVersion", microsoftLicenseSource.version);
+      localStorage.setItem("m365WorkbookRefresh2", "done");
+    }
+  } catch (e) {}
+}
+if (window.Chart && Chart.defaults.animation) {
+  Chart.defaults.animation.duration = 900;
+  Chart.defaults.animation.easing = "easeOutCubic";
+  Chart.defaults.plugins.tooltip = {
+    ...Chart.defaults.plugins.tooltip,
+    backgroundColor: "#171114",
+    titleColor: "#fff7f2",
+    bodyColor: "#fff7f2",
+    borderColor: "#d99284",
+    borderWidth: 2,
+    position: "nearest",
+    padding: 10,
+    cornerRadius: 8,
+    caretPadding: 10,
+    boxPadding: 4,
+    titleFont: { family: "Poppins", size: 11, weight: "700" },
+    bodyFont: { family: "Poppins", size: 12, weight: "600" },
+  };
+}
+if (window.Chart) {
+  const solidTooltipMarker = (context) => {
+    const source = context.dataset.backgroundColor,
+      color = Array.isArray(source) ? source[context.dataIndex] : source;
+    return {
+      backgroundColor: color,
+      borderColor: "transparent",
+      borderWidth: 0,
+      borderRadius: 0,
+    };
+  };
+  Chart.defaults.plugins.tooltip = {
+    ...Chart.defaults.plugins.tooltip,
+    displayColors: true,
+    usePointStyle: false,
+    boxWidth: 10,
+    boxHeight: 10,
+    boxPadding: 5,
+    callbacks: {
+      ...Chart.defaults.plugins.tooltip.callbacks,
+      labelColor: solidTooltipMarker,
+    },
+  };
+}
+(function () {
+  if (!window.Chart) return;
+  const pending = new Set(),
+    isVisible = (chart) =>
+      Boolean(
+        chart.canvas?.isConnected &&
+        chart.canvas.getClientRects().length &&
+        !chart.canvas.closest("[hidden]"),
+      );
+  let frame = 0;
+  const playPending = () => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        pending.forEach((chart) => {
+          if (!isVisible(chart)) return;
+          pending.delete(chart);
+          chart.options.animation = { duration: 850, easing: "easeOutCubic" };
+          chart.reset();
+          chart.update();
+        });
+      }),
+    );
+  };
+  Chart.register({
+    id: "visibleBarLineEntrance",
+    beforeInit(chart) {
+      if (!["bar", "line"].includes(chart.config.type)) return;
+      chart.options.animation = { duration: 0 };
+      pending.add(chart);
+    },
+    afterInit: playPending,
+  });
+  window.addEventListener("load", playPending);
+  new MutationObserver(playPending).observe(document.body, {
+    attributes: true,
+    subtree: true,
+    attributeFilter: ["hidden"],
+  });
+  document.addEventListener("change", (event) => {
+    if (event.target.matches(".unified-chart-select")) playPending();
+  });
+})();
+const menu = [
+  ["🏠", "Dashboard", "Overall IT management view"],
+  ["👥", "Manpower", "Digital team & workload"],
+  ["💰", "Budget & Expense", "Budget planning, spending and cost control"],
+  ["🎫", "Service Tickets", "IT support & SLA"],
+  ["💻", "Fixed Assets", "Computers & IT equipment"],
+  ["☁️", "Microsoft 365", "Users & licenses"],
+  ["🔐", "IT Security", "Cybersecurity"],
+  ["🌐", "Infrastructure", "Network, servers & systems"],
+];
+const sample = {
+  Dashboard: [
+    { Metric: "System Availability", Value: 99.8, Status: "Healthy" },
+    { Metric: "Open Tickets", Value: 24, Status: "Attention" },
+    { Metric: "IT Budget Used", Value: 68, Status: "On Track" },
+    { Metric: "Security Score", Value: 92, Status: "Healthy" },
+  ],
+  Manpower: [
+    {
+      Employee: "Aung Min",
+      Role: "IT Manager",
+      Workload: 78,
+      Status: "On Track",
+    },
+    {
+      Employee: "Su Su Win",
+      Role: "Systems Engineer",
+      Workload: 92,
+      Status: "High",
+    },
+    { Employee: "Ko Ko", Role: "IT Support", Workload: 65, Status: "On Track" },
+  ],
+  "Budget & Expense": [
+    {
+      Category: "Cloud Services",
+      Budget: 12500,
+      Actual: 9780,
+      Status: "On Track",
+    },
+    {
+      Category: "Software Licenses",
+      Budget: 8600,
+      Actual: 7420,
+      Status: "On Track",
+    },
+    {
+      Category: "Hardware",
+      Budget: 15000,
+      Actual: 16450,
+      Status: "Over Budget",
+    },
+  ],
+  "Service Tickets": [
+    {
+      Ticket: "#INC-1842",
+      Subject: "VPN access issue",
+      Priority: "High",
+      Status: "Open",
+      SLA: "1h 24m",
+    },
+    {
+      Ticket: "#INC-1841",
+      Subject: "Laptop provisioning",
+      Priority: "Medium",
+      Status: "In Progress",
+      SLA: "5h 10m",
+    },
+    {
+      Ticket: "#INC-1839",
+      Subject: "Email delivery delay",
+      Priority: "High",
+      Status: "Resolved",
+      SLA: "Met",
+    },
+  ],
+  "Fixed Assets": [
+    {
+      Asset: "Dell Latitude 5440",
+      Owner: "Aung Min",
+      Location: "Head Office",
+      Status: "In Use",
+    },
+    {
+      Asset: "MacBook Pro M3",
+      Owner: "May Thazin",
+      Location: "Head Office",
+      Status: "In Use",
+    },
+    {
+      Asset: "HP LaserJet Pro",
+      Owner: "Shared",
+      Location: "Branch 04",
+      Status: "Maintenance",
+    },
+  ],
+  "Microsoft 365": [
+    {
+      License: "Microsoft 365 Business Premium",
+      Assigned: 124,
+      Available: 26,
+      Status: "Healthy",
+    },
+    { License: "Power BI Pro", Assigned: 42, Available: 8, Status: "Healthy" },
+    {
+      License: "Teams Phone Standard",
+      Assigned: 58,
+      Available: 2,
+      Status: "Low Stock",
+    },
+  ],
+  "IT Security": [
+    { Control: "Endpoint Protection", Coverage: 98, Status: "Healthy" },
+    { Control: "MFA Enrollment", Coverage: 94, Status: "Healthy" },
+    { Control: "Security Awareness", Coverage: 76, Status: "Attention" },
+  ],
+  Infrastructure: [
+    { Service: "Core Network", Availability: 99.98, Status: "Healthy" },
+    { Service: "ERP Server", Availability: 99.82, Status: "Healthy" },
+    { Service: "Internet Link", Availability: 98.91, Status: "Attention" },
+  ],
+};
+let data = JSON.parse(JSON.stringify(sample)),
+  active = "Dashboard",
+  bar,
+  donut;
+function numeric(r) {
+  return Object.keys(r[0] || {}).filter((k) =>
+    r.some((x) => typeof x[k] === "number"),
+  );
+}
+function state(s) {
+  s = (s || "").toLowerCase();
+  return /healthy|track|resolved|approved|ready|use/.test(s)
+    ? "good"
+    : /high|over|attention|maintenance|low|open|review/.test(s)
+      ? "warn"
+      : "bad";
+}
+function show(x) {
+  toast.textContent = x;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 2200);
+}
+function buildNav() {
+  nav.innerHTML = tabs.innerHTML = "";
+  Object.keys(data).forEach((n) => {
+    let m = menu.find((x) => x[1] === n),
+      a = document.createElement("button"),
+      b = document.createElement("button");
+    a.innerHTML = (m ? m[0] : "▦") + " " + n;
+    a.onclick = () => page(n);
+    b.textContent = n;
+    b.onclick = () => page(n);
+    nav.append(a);
+    tabs.append(b);
+  });
+}
+function page(n) {
+  active = n;
+  h1.textContent = n === "Dashboard" ? "IT Management Overview" : n;
+  crumb.textContent = n;
+  sub.textContent =
+    (menu.find((x) => x[1] === n) || [])[2] || "Imported worksheet dashboard";
+  const pageSearch = document.getElementById("search");
+  if (pageSearch) pageSearch.value = "";
+  side.classList.remove("open");
+  [...nav.children].forEach((x) =>
+    x.classList.toggle("active", x.textContent.trim().endsWith(n)),
+  );
+  [...tabs.children].forEach((x) =>
+    x.classList.toggle("active", x.textContent === n),
+  );
+  render();
+}
+function render() {
+  if (
+    !document.getElementById("filter") ||
+    !document.getElementById("table") ||
+    !document.getElementById("foot")
+  )
+    return;
+  kpis.className = "unified-kpi-grid";
+  let r = data[active] || [],
+    ns = numeric(r),
+    cards = ns.slice(0, 4).map((n, i) => {
+      let a = r.reduce((s, x) => s + (+x[n] || 0), 0) / r.length;
+      return [n, a, ["◈", "◌", "◒", "✦"][i]];
+    });
+  if (!cards.length)
+    cards = Object.keys(r[0] || {})
+      .slice(0, 4)
+      .map((n, i) => [n, r.length, ["◈", "◌", "◒", "✦"][i]]);
+  kpis.innerHTML = cards
+    .map(
+      (x, i) =>
+        '<article class="unified-kpi-card"><div class="kt"><span>' +
+        x[0] +
+        '</span><b class="ico">' +
+        x[2] +
+        '</b></div><div class="num">' +
+        x[1].toLocaleString(undefined, { maximumFractionDigits: 2 }) +
+        '</div><div class="up ' +
+        (i == 1 ? "down" : "") +
+        '">' +
+        (i == 1 ? "↓ 4.2%" : "↑ 8.4%") +
+        " from last month</div></article>",
+    )
+    .join("");
+  const genericChartTitle = document.getElementById("ctitle");
+  if (genericChartTitle)
+    genericChartTitle.textContent = active + " performance";
+  const tableTitle = document.getElementById("ttitle");
+  if (tableTitle) tableTitle.textContent = active + " records";
+  let ss = [...new Set(r.map((x) => x.Status).filter(Boolean))];
+  const statusFilter = document.getElementById("filter");
+  if (statusFilter)
+    statusFilter.innerHTML =
+      "<option>All</option>" +
+      ss.map((x) => "<option>" + x + "</option>").join("");
+  charts();
+  table();
+}
+function charts() {
+  const chartTypeControl =
+      document.getElementById("m365CompanyChartType") ||
+      document.getElementById("type"),
+    selectedChartType = chartTypeControl?.value || "bar";
+  let r = data[active] || [],
+    n = numeric(r)[0],
+    labs = r.map((x, i) => x[Object.keys(x)[0]] || "Record " + (i + 1));
+  if (bar) bar.destroy();
+  bar = new Chart(chart, {
+    type: selectedChartType,
+    data: {
+      labels: labs,
+      datasets: [
+        {
+          data: n ? r.map((x) => x[n]) : r.map((_, i) => i + 1),
+          backgroundColor:
+            selectedChartType === "bar" ? "#d12a31" : "#d12a3122",
+          borderColor: "#d12a31",
+          borderWidth: 2,
+          borderRadius: 6,
+          fill: selectedChartType === "line",
+          tension: 0.35,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+        y: { grid: { color: "#eef2f7" }, ticks: { font: { size: 10 } } },
+      },
+    },
+  });
+  let c = {};
+  r.forEach((x) => {
+    let s = x.Status || "Active";
+    c[s] = (c[s] || 0) + 1;
+  });
+  let colors = ["#d12a31", "#f06428", "#d6a13b", "#8d5754"];
+  if (donut) donut.destroy();
+  donut = new Chart(pie, {
+    type: "doughnut",
+    data: {
+      labels: Object.keys(c),
+      datasets: [
+        {
+          data: Object.values(c),
+          backgroundColor: colors,
+          borderColor: "#fff",
+          borderWidth: 3,
+          cutout: "66%",
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+    },
+  });
+  (
+    document.getElementById("microsoft365LicenseLegend") ||
+    document.getElementById("legend")
+  ).innerHTML = Object.entries(c)
+    .map(
+      ([x, y], i) =>
+        '<div><span><i class="dot" style="background:' +
+        colors[i] +
+        '"></i>' +
+        x +
+        "</span><b>" +
+        y +
+        " records</b></div>",
+    )
+    .join("");
+}
+function table() {
+  let r = data[active].filter(
+      (x) =>
+        ((document.getElementById("filter")?.value || "All") === "All" ||
+          x.Status === (document.getElementById("filter")?.value || "All")) &&
+        Object.values(x)
+          .join(" ")
+          .toLowerCase()
+          .includes(
+            (document.getElementById("search")?.value || "").toLowerCase(),
+          ),
+    ),
+    ks = Object.keys(data[active][0] || {});
+  document.getElementById("table").innerHTML =
+    "<table><thead><tr>" +
+    ks.map((x) => "<th>" + x + "</th>").join("") +
+    "</tr></thead><tbody>" +
+    r
+      .map(
+        (x) =>
+          '<tr data-id="' +
+          data[active].indexOf(x) +
+          '">' +
+          ks
+            .map((k) =>
+              k === "Status"
+                ? '<td><b class="status ' +
+                  state(x[k]) +
+                  '">' +
+                  x[k] +
+                  "</b></td>"
+                : '<td contenteditable data-k="' + k + '">' + x[k] + "</td>",
+            )
+            .join("") +
+          "</tr>",
+      )
+      .join("") +
+    "</tbody></table>";
+  document.querySelectorAll("td[contenteditable]").forEach(
+    (x) =>
+      (x.onblur = (e) => {
+        let v = e.target.textContent;
+        data[active][e.target.parentElement.dataset.id][e.target.dataset.k] =
+          isNaN(+v) || !v.trim() ? v : +v;
+        charts();
+      }),
+  );
+  foot.textContent =
+    "Showing " +
+    r.length +
+    " of " +
+    data[active].length +
+    " records · Click any value to edit";
+}
+file.onchange = (e) => {
+  let rd = new FileReader();
+  rd.onload = (z) => {
+    let wb = XLSX.read(z.target.result, { type: "array" }),
+      o = {};
+    wb.SheetNames.forEach((s) => {
+      let r = XLSX.utils.sheet_to_json(wb.Sheets[s], { defval: "" });
+      if (r.length) o[s] = r;
+    });
+    if (!Object.keys(o).length) return show("No data rows found");
+    data = o;
+    buildNav();
+    page(Object.keys(o)[0]);
+    show(Object.keys(o).length + " worksheet(s) imported");
+  };
+  rd.readAsArrayBuffer(e.target.files[0]);
+};
+function exportXlsx() {
+  let w = XLSX.utils.book_new();
+  Object.entries(data).forEach(([n, r]) =>
+    XLSX.utils.book_append_sheet(
+      w,
+      XLSX.utils.json_to_sheet(r),
+      n.slice(0, 31),
+    ),
+  );
+  XLSX.writeFile(w, "Digital-IT-Hub.xlsx");
+  show("Excel workbook exported");
+}
+function save() {
+  localStorage.setItem("itHubData", JSON.stringify(data));
+  show("Changes saved in this browser");
+}
+try {
+  data = JSON.parse(localStorage.getItem("itHubData")) || data;
+} catch (e) {}
+buildNav();
+active = Object.keys(data)[0];
 
 /* Switching theme on the Copier page must not invoke legacy table renderers. */
-document.addEventListener('click',event=>{
-  const toggle=event.target.closest?.('.theme-toggle');
-  const panel=document.getElementById('copierprinterusageDashboard');
-  if(!toggle||!panel||panel.hidden)return;
-  event.preventDefault();
-  event.stopImmediatePropagation();
-  const dark=!document.body.classList.contains('dark');
-  document.body.classList.toggle('dark',dark);
-  localStorage.setItem('itHubTheme',dark?'dark':'light');
-  toggle.setAttribute('aria-pressed',String(dark));
-  toggle.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');
-  toggle.title=dark?'Switch to light theme':'Switch to dark theme';
-  requestAnimationFrame(()=>panel.__refreshCopierTheme?.());
-},true);
+document.addEventListener(
+  "click",
+  (event) => {
+    const toggle = event.target.closest?.(".theme-toggle");
+    const panel = document.getElementById("copierprinterusageDashboard");
+    if (!toggle || !panel || panel.hidden) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    const dark = !document.body.classList.contains("dark");
+    document.body.classList.toggle("dark", dark);
+    localStorage.setItem("itHubTheme", dark ? "dark" : "light");
+    toggle.setAttribute("aria-pressed", String(dark));
+    toggle.setAttribute(
+      "aria-label",
+      dark ? "Switch to light mode" : "Switch to dark mode",
+    );
+    toggle.title = dark ? "Switch to light theme" : "Switch to dark theme";
+    requestAnimationFrame(() => panel.__refreshCopierTheme?.());
+  },
+  true,
+);
 
 /* Company Financial Performance: period rows reveal category performance. */
 /* Keep the Workforce Plan headline aligned with planned headcount. */
-(()=>{
-  const update=()=>{
-    const tab=[...document.querySelectorAll('#manpowerPlanningCard .unified-tab.active')].find(button=>button.textContent.includes('Workforce Plan'));
-    const value=document.querySelector('#manpowerPlanningCard .planning-visual-body .summary-card:first-of-type strong');
-    if(tab&&value&&value.textContent!=='13')value.textContent='13';
+(() => {
+  const update = () => {
+    const tab = [
+      ...document.querySelectorAll("#manpowerPlanningCard .unified-tab.active"),
+    ].find((button) => button.textContent.includes("Workforce Plan"));
+    const value = document.querySelector(
+      "#manpowerPlanningCard .planning-visual-body .summary-card:first-of-type strong",
+    );
+    if (tab && value && value.textContent !== "13") value.textContent = "13";
   };
-  new MutationObserver(update).observe(document.body,{childList:true,subtree:true,characterData:true});
+  new MutationObserver(update).observe(document.body, {
+    childList: true,
+    subtree: true,
+    characterData: true,
+  });
   update();
 })();
 
 /* Keep both Fixed Assets reporting-period menus in the same order. */
-(()=>{
- const panel=document.getElementById('fixedassetsDashboard');
- if(!panel)return;
- const monthLabel=value=>{const [year,month]=value.split('-').map(Number);return new Date(year,month-1,1).toLocaleDateString('en-US',{month:'short'})+'-'+String(year).slice(-2)};
- const monthEnd=value=>{const [year,month]=value.split('-').map(Number);return value+'-'+String(new Date(year,month,0).getDate()).padStart(2,'0')};
- const update=()=>{
-  const months=[...new Set((window.FIXED_ASSETS_DATA?.records||[]).map(record=>String(record.p||'').slice(0,7)).filter(value=>/^\d{4}-\d{2}$/.test(value)))].sort().reverse();
-  const years=[...new Set(months.map(value=>value.slice(0,4)))].sort().reverse();
-  panel.querySelectorAll('#fixedAssetPeriod,#fixedAssetSecondaryPeriod').forEach(select=>{
-   if(select.dataset.periodOrderReady==='true')return;
-   const selected=select.value;
-   select.dataset.periodOrderReady='true';
-   select.innerHTML='<option value="all">All data</option><option value="last3">Last 3 months</option><option value="last6">Last 6 months</option><option value="monthly">Monthly</option><option value="yearly">Yearly</option><option value="custom">Custom range</option>';
-   select.value=selected||'all';
-  });
-  panel.querySelectorAll('#fixedAssetMonth,#fixedAssetSecondaryMonth').forEach(select=>{
-   if(select.dataset.reportingMonthReady==='true'||!months.length)return;
-   const selected=select.value;
-   select.dataset.reportingMonthReady='true';
-   select.innerHTML=months.map(value=>'<option value="'+value+'">'+monthLabel(value)+'</option>').join('');
-   select.value=months.includes(selected)?selected:months[0];
-  });
-  panel.querySelectorAll('#fixedAssetYear,#fixedAssetSecondaryYear').forEach(select=>{
-   if(select.dataset.reportingYearReady==='true'||!years.length)return;
-   const selected=select.value;
-   select.dataset.reportingYearReady='true';
-   select.innerHTML=years.map(value=>'<option value="'+value+'">'+value+'</option>').join('');
-   select.value=years.includes(selected)?selected:years[0];
-  });
-  [['fixedAssetFrom','fixedAssetSecondaryFrom','From month',months.at(-1)],['fixedAssetTo','fixedAssetSecondaryTo','To month',months[0]]].forEach(([primaryId,secondaryId,label,defaultValue])=>{
-   [primaryId,secondaryId].forEach(id=>{
-    const input=panel.querySelector('#'+id);
-    if(!input||input.tagName==='SELECT'||!months.length)return;
-    const select=document.createElement('select');
-    const isToMonth=id.endsWith('To');
-    select.id=id;select.className='filter';if(id.includes('Secondary'))select.dataset.primaryId=id.replace('fixedAssetSecondary','fixedAsset');select.innerHTML=months.map(value=>'<option value="'+(isToMonth?monthEnd(value):value+'-01')+'">'+monthLabel(value)+'</option>').join('');
-    const selected=isToMonth?monthEnd(defaultValue):defaultValue+'-01';select.value=selected;
-    input.id=id+'Native';input.hidden=true;input.value=selected;input.closest('label')?.querySelector('span')&&(input.closest('label').querySelector('span').textContent=label);
-    input.replaceWith(select);
-    select.addEventListener('change',()=>{input.value=select.value;input.dispatchEvent(new Event('change',{bubbles:true}))});
-   });
-  });
- };
- new MutationObserver(update).observe(panel,{childList:true});
- update();
+(() => {
+  const panel = document.getElementById("fixedassetsDashboard");
+  if (!panel) return;
+  const monthLabel = (value) => {
+    const [year, month] = value.split("-").map(Number);
+    return (
+      new Date(year, month - 1, 1).toLocaleDateString("en-US", {
+        month: "short",
+      }) +
+      "-" +
+      String(year).slice(-2)
+    );
+  };
+  const monthEnd = (value) => {
+    const [year, month] = value.split("-").map(Number);
+    return (
+      value + "-" + String(new Date(year, month, 0).getDate()).padStart(2, "0")
+    );
+  };
+  const update = () => {
+    const months = [
+      ...new Set(
+        (window.FIXED_ASSETS_DATA?.records || [])
+          .map((record) => String(record.p || "").slice(0, 7))
+          .filter((value) => /^\d{4}-\d{2}$/.test(value)),
+      ),
+    ]
+      .sort()
+      .reverse();
+    const years = [...new Set(months.map((value) => value.slice(0, 4)))]
+      .sort()
+      .reverse();
+    panel
+      .querySelectorAll("#fixedAssetPeriod,#fixedAssetSecondaryPeriod")
+      .forEach((select) => {
+        if (select.dataset.periodOrderReady === "true") return;
+        const selected = select.value;
+        select.dataset.periodOrderReady = "true";
+        select.innerHTML =
+          '<option value="all">All data</option><option value="last3">Last 3 months</option><option value="last6">Last 6 months</option><option value="monthly">Monthly</option><option value="yearly">Yearly</option><option value="custom">Custom range</option>';
+        select.value = selected || "all";
+      });
+    panel
+      .querySelectorAll("#fixedAssetMonth,#fixedAssetSecondaryMonth")
+      .forEach((select) => {
+        if (select.dataset.reportingMonthReady === "true" || !months.length)
+          return;
+        const selected = select.value;
+        select.dataset.reportingMonthReady = "true";
+        select.innerHTML = months
+          .map(
+            (value) =>
+              '<option value="' +
+              value +
+              '">' +
+              monthLabel(value) +
+              "</option>",
+          )
+          .join("");
+        select.value = months.includes(selected) ? selected : months[0];
+      });
+    panel
+      .querySelectorAll("#fixedAssetYear,#fixedAssetSecondaryYear")
+      .forEach((select) => {
+        if (select.dataset.reportingYearReady === "true" || !years.length)
+          return;
+        const selected = select.value;
+        select.dataset.reportingYearReady = "true";
+        select.innerHTML = years
+          .map(
+            (value) => '<option value="' + value + '">' + value + "</option>",
+          )
+          .join("");
+        select.value = years.includes(selected) ? selected : years[0];
+      });
+    [
+      [
+        "fixedAssetFrom",
+        "fixedAssetSecondaryFrom",
+        "From month",
+        months.at(-1),
+      ],
+      ["fixedAssetTo", "fixedAssetSecondaryTo", "To month", months[0]],
+    ].forEach(([primaryId, secondaryId, label, defaultValue]) => {
+      [primaryId, secondaryId].forEach((id) => {
+        const input = panel.querySelector("#" + id);
+        if (!input || input.tagName === "SELECT" || !months.length) return;
+        const select = document.createElement("select");
+        const isToMonth = id.endsWith("To");
+        select.id = id;
+        select.className = "filter";
+        if (id.includes("Secondary"))
+          select.dataset.primaryId = id.replace(
+            "fixedAssetSecondary",
+            "fixedAsset",
+          );
+        select.innerHTML = months
+          .map(
+            (value) =>
+              '<option value="' +
+              (isToMonth ? monthEnd(value) : value + "-01") +
+              '">' +
+              monthLabel(value) +
+              "</option>",
+          )
+          .join("");
+        const selected = isToMonth
+          ? monthEnd(defaultValue)
+          : defaultValue + "-01";
+        select.value = selected;
+        input.id = id + "Native";
+        input.hidden = true;
+        input.value = selected;
+        input.closest("label")?.querySelector("span") &&
+          (input.closest("label").querySelector("span").textContent = label);
+        input.replaceWith(select);
+        select.addEventListener("change", () => {
+          input.value = select.value;
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+      });
+    });
+  };
+  new MutationObserver(update).observe(panel, { childList: true });
+  update();
 })();
 
 /* Use one consistent reporting-period menu in the financial and print dashboards. */
-(()=>{
-  const periodOrder=['all','last3','last6','monthly','yearly','custom'];
-  const periodSelects=['budgetPeriodFilter','budgetPortfolioPeriodFilter','copierChartPeriod','copierTablePeriod'];
-  const fiscalSelects=[
-    ['budgetPeriodFilter','budgetPeriodValue'],
-    ['budgetPortfolioPeriodFilter','budgetPortfolioPeriodValue'],
-    ['copierChartPeriod','copierChartMonth'],
-    ['copierTablePeriod','copierTableMonth']
+(() => {
+  const periodOrder = ["all", "last3", "last6", "monthly", "yearly", "custom"];
+  const periodSelects = [
+    "budgetPeriodFilter",
+    "budgetPortfolioPeriodFilter",
+    "copierChartPeriod",
+    "copierTablePeriod",
   ];
-  const sortPeriods=select=>{
-    if(!select||select.dataset.reportingPeriodOrder==='ready')return;
-    const options=[...select.options];
-    if(!periodOrder.every(value=>options.some(option=>option.value===value)))return;
-    const selected=select.value;
-    periodOrder.forEach(value=>select.append(options.find(option=>option.value===value)));
-    select.value=selected;
-    select.dataset.reportingPeriodOrder='ready';
+  const fiscalSelects = [
+    ["budgetPeriodFilter", "budgetPeriodValue"],
+    ["budgetPortfolioPeriodFilter", "budgetPortfolioPeriodValue"],
+    ["copierChartPeriod", "copierChartMonth"],
+    ["copierTablePeriod", "copierTableMonth"],
+  ];
+  const sortPeriods = (select) => {
+    if (!select || select.dataset.reportingPeriodOrder === "ready") return;
+    const options = [...select.options];
+    if (
+      !periodOrder.every((value) =>
+        options.some((option) => option.value === value),
+      )
+    )
+      return;
+    const selected = select.value;
+    periodOrder.forEach((value) =>
+      select.append(options.find((option) => option.value === value)),
+    );
+    select.value = selected;
+    select.dataset.reportingPeriodOrder = "ready";
   };
-  const restrictFiscalYear=([periodId,valueId])=>{
-    const period=document.getElementById(periodId),value=document.getElementById(valueId);
-    if(!period||!value||period.value!=='yearly'||(value.options.length===1&&value.value==='2026'))return;
-    value.replaceChildren(new Option('FY 2026-2027','2026'));
+  const restrictFiscalYear = ([periodId, valueId]) => {
+    const period = document.getElementById(periodId),
+      value = document.getElementById(valueId);
+    if (
+      !period ||
+      !value ||
+      period.value !== "yearly" ||
+      (value.options.length === 1 && value.value === "2026")
+    )
+      return;
+    value.replaceChildren(new Option("FY 2026-2027", "2026"));
   };
-  const apply=()=>{
-    periodSelects.forEach(id=>sortPeriods(document.getElementById(id)));
+  const apply = () => {
+    periodSelects.forEach((id) => sortPeriods(document.getElementById(id)));
     fiscalSelects.forEach(restrictFiscalYear);
   };
-  document.addEventListener('change',event=>{
-    if(periodSelects.includes(event.target.id))requestAnimationFrame(apply);
-  },true);
-  new MutationObserver(()=>requestAnimationFrame(apply)).observe(document.body,{childList:true,subtree:true});
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',apply,{once:true});else apply();
+  document.addEventListener(
+    "change",
+    (event) => {
+      if (periodSelects.includes(event.target.id)) requestAnimationFrame(apply);
+    },
+    true,
+  );
+  new MutationObserver(() => requestAnimationFrame(apply)).observe(
+    document.body,
+    { childList: true, subtree: true },
+  );
+  if (document.readyState === "loading")
+    document.addEventListener("DOMContentLoaded", apply, { once: true });
+  else apply();
 })();
 
 /* Fixed Asset Overview hardware specification columns. */
-(()=>{
-  const setup=()=>{
-  const panel=document.getElementById('fixedassetsDashboard');
-  if(!panel)return;
-  const assetCode=record=>{const companyCode=String(record.cc||'').trim(),code=String(record.code??'').trim();return companyCode?(code&&code!=='-'?companyCode+'-'+(/^\d+$/.test(code)?code.padStart(4,'0'):code):companyCode):(code||'—')};
-  const value=value=>value===undefined||value===null||value===''?'—':String(value);
-  const enhance=()=>{
-    const table=panel.querySelector('.fixed-asset-overview-table-card .unified-data-table');
-    if(!table||table.dataset.hardwareSpecsReady)return;
-    const header=[...table.tHead.rows[0].cells];
-    if(header[4]?.textContent.trim()!=='Asset Type')return;
-    const records=window.FIXED_ASSETS_DATA?.records||[];
-    const labels=['Brand','Generation','CPU','GPU','RAM','HDD','Screen Size'];
-    labels.slice().reverse().forEach(label=>header[4].insertAdjacentHTML('afterend','<th>'+label+'</th>'));
-    [...table.tBodies[0].rows].forEach(row=>{
-      const cells=row.cells,code=cells[0]?.textContent.trim(),company=cells[1]?.textContent.trim(),department=cells[2]?.textContent.trim(),user=cells[3]?.textContent.trim(),type=cells[4]?.textContent.trim();
-      const record=records.find(item=>assetCode(item)===code&&(item.c||'—')===company&&(item.d||'—')===department&&(item.u||'—')===user&&(item.t||'—')===type);
-      const specs=[record?.b,record?.g,record?.cpu,record?.gpu,record?.ram,record?.hdd,record?.s===''||record?.s===undefined?'—':String(record.s)+'\"'];
-      specs.slice().reverse().forEach(spec=>cells[4].insertAdjacentHTML('afterend','<td>'+value(spec)+'</td>'));
-      const generation=row.cells[6];
-      if(generation&&/^[2-5](?:nd|rd|th) Gen$/.test(generation.textContent.trim()))generation.innerHTML='<span class="fixed-asset-legacy-generation">'+generation.textContent.trim()+'</span>';
+(() => {
+  const setup = () => {
+    const panel = document.getElementById("fixedassetsDashboard");
+    if (!panel) return;
+    const assetCode = (record) => {
+      const companyCode = String(record.cc || "").trim(),
+        code = String(record.code ?? "").trim();
+      return companyCode
+        ? code && code !== "-"
+          ? companyCode +
+            "-" +
+            (/^\d+$/.test(code) ? code.padStart(4, "0") : code)
+          : companyCode
+        : code || "—";
+    };
+    const value = (value) =>
+      value === undefined || value === null || value === ""
+        ? "—"
+        : String(value);
+    const enhance = () => {
+      const table = panel.querySelector(
+        ".fixed-asset-overview-table-card .unified-data-table",
+      );
+      if (!table || table.dataset.hardwareSpecsReady) return;
+      const header = [...table.tHead.rows[0].cells];
+      if (header[4]?.textContent.trim() !== "Asset Type") return;
+      const records = window.FIXED_ASSETS_DATA?.records || [];
+      const labels = [
+        "Brand",
+        "Generation",
+        "CPU",
+        "GPU",
+        "RAM",
+        "HDD",
+        "Screen Size",
+      ];
+      labels
+        .slice()
+        .reverse()
+        .forEach((label) =>
+          header[4].insertAdjacentHTML("afterend", "<th>" + label + "</th>"),
+        );
+      const usedRecords = new Set();
+      [...table.tBodies[0].rows].forEach((row) => {
+        const cells = row.cells,
+          code = cells[0]?.textContent.trim(),
+          company = cells[1]?.textContent.trim(),
+          department = cells[2]?.textContent.trim(),
+          user = cells[3]?.textContent.trim(),
+          type = cells[4]?.textContent.trim(),
+          same = (left, right) =>
+            String(left ?? "").trim() === String(right ?? "").trim();
+        const matches = records.filter(
+            (item) =>
+              same(assetCode(item), code) &&
+              same(item.c, company) &&
+              same(item.d, department) &&
+              same(item.u, user) &&
+              same(item.t, type),
+          ),
+          record = matches.find((item) => !usedRecords.has(item)) || matches[0];
+        if (record) usedRecords.add(record);
+        const screen = record?.s,
+          specs = [
+            record?.b,
+            record?.g,
+            record?.cpu,
+            record?.gpu,
+            record?.ram,
+            record?.hdd,
+            screen === undefined || screen === null || screen === ""
+              ? "—"
+              : screen === "-"
+                ? "-"
+                : String(screen) + '\"',
+          ];
+        specs
+          .slice()
+          .reverse()
+          .forEach((spec) =>
+            cells[4].insertAdjacentHTML(
+              "afterend",
+              "<td>" + value(spec) + "</td>",
+            ),
+          );
+        const generation = row.cells[6];
+        if (
+          generation &&
+          /^[2-5](?:nd|rd|th) Gen$/.test(generation.textContent.trim())
+        )
+          generation.innerHTML =
+            '<span class="fixed-asset-legacy-generation">' +
+            generation.textContent.trim() +
+            "</span>";
+      });
+      const total = table.tFoot?.rows[0]?.cells[1];
+      if (total) total.colSpan = 15;
+      table.dataset.hardwareSpecsReady = "true";
+    };
+    new MutationObserver(() => requestAnimationFrame(enhance)).observe(panel, {
+      childList: true,
+      subtree: true,
     });
-    const total=table.tFoot?.rows[0]?.cells[1];
-    if(total)total.colSpan=15;
-    table.dataset.hardwareSpecsReady='true';
+    requestAnimationFrame(enhance);
   };
-  new MutationObserver(()=>requestAnimationFrame(enhance)).observe(panel,{childList:true,subtree:true});
-  requestAnimationFrame(enhance);
-  };
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',setup,{once:true});else setup();
+  if (document.readyState === "loading")
+    document.addEventListener("DOMContentLoaded", setup, { once: true });
+  else setup();
 })();
 
 /* Shared card structure for filter and chart components. */
-(function(){
-  const selector='.unified-filter-card,.unified-chart-card';
-  const apply=root=>{if(root instanceof Element&&root.matches(selector))root.classList.add('card');root.querySelectorAll?.(selector).forEach(card=>card.classList.add('card'))};
+(function () {
+  const selector = ".unified-filter-card,.unified-chart-card";
+  const apply = (root) => {
+    if (root instanceof Element && root.matches(selector))
+      root.classList.add("card");
+    root
+      .querySelectorAll?.(selector)
+      .forEach((card) => card.classList.add("card"));
+  };
   apply(document);
-  new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>{if(node.nodeType===1)apply(node)}))).observe(document.body,{childList:true,subtree:true});
+  new MutationObserver((records) =>
+    records.forEach((record) =>
+      record.addedNodes.forEach((node) => {
+        if (node.nodeType === 1) apply(node);
+      }),
+    ),
+  ).observe(document.body, { childList: true, subtree: true });
 })();
 
 /* Bind the third-level period expansion directly to each rendered period row. */
-(()=>{
-  const number=value=>new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(Number(value)||0);
-  const bind=()=>document.querySelectorAll('#budgetPortfolioBody .budget-monthly-row:not([data-category-expand-bound])').forEach(periodRow=>{
-    periodRow.dataset.categoryExpandBound='true';
-    periodRow.addEventListener('click',event=>{
-      event.stopPropagation();
-      const body=periodRow.parentElement,company=body.querySelector('.budget-company-row.selected')?.dataset.budgetCompany,month=periodRow.cells[0]?.textContent.match(/(?:Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|Jan|Feb|Mar)-\d{2}/)?.[0],source=document.getElementById('budgetExpenseDashboard')?.__budgetExpenseDetailData;
-      if(!body||!company||!month||!source)return;
-      const wasOpen=periodRow.classList.contains('category-detail-open');
-      body.querySelectorAll('.budget-month-category-row').forEach(row=>row.remove());
-      body.querySelectorAll('.budget-monthly-row.category-detail-open').forEach(row=>row.classList.remove('category-detail-open'));
-      if(wasOpen)return;
-      const department=document.getElementById('budgetExpenseDepartmentFilter')?.value||'all',approvedRows=(source.budgets||[]).filter(item=>item.company===company&&item.month===month),actualRows=(source.expenses||[]).filter(item=>item.company===company&&item.month===month&&(department==='all'||item.department===department)),categories=[...new Set([...approvedRows,...actualRows].map(item=>item.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
-      let insertionPoint=periodRow.nextSibling;
-      categories.forEach(category=>{
-        const approved=approvedRows.filter(item=>item.category===category).reduce((sum,item)=>sum+(Number(item.amount)||0),0),actual=actualRows.filter(item=>item.category===category).reduce((sum,item)=>sum+(Number(item.amount)||0),0),variance=approved-actual,utilization=approved?actual/approved*100:0,status=utilization<=80?'On Budget':(utilization<=100?'Review Budget':'Over Budget'),detail=document.createElement('tr');
-        detail.className='budget-month-category-row';
-        detail.innerHTML=`<td>${category}</td><td>${number(approved)}</td><td>${number(actual)}</td><td class="${variance<0?'budget-overrun':''}">${number(variance)}</td><td><div class="budget-utilization"><span><i style="width:${Math.min(100,utilization)}%"></i></span><b>${utilization.toFixed(1)}%</b><em class="budget-status ${utilization>100?'over':(utilization>80?'review':'on')}">${status}</em></div></td>`;
-        body.insertBefore(detail,insertionPoint);
+(() => {
+  const number = (value) =>
+    new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(
+      Number(value) || 0,
+    );
+  const bind = () =>
+    document
+      .querySelectorAll(
+        "#budgetPortfolioBody .budget-monthly-row:not([data-category-expand-bound])",
+      )
+      .forEach((periodRow) => {
+        periodRow.dataset.categoryExpandBound = "true";
+        periodRow.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const body = periodRow.parentElement,
+            company = body.querySelector(".budget-company-row.selected")
+              ?.dataset.budgetCompany,
+            month = periodRow.cells[0]?.textContent.match(
+              /(?:Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|Jan|Feb|Mar)-\d{2}/,
+            )?.[0],
+            source = document.getElementById(
+              "budgetExpenseDashboard",
+            )?.__budgetExpenseDetailData;
+          if (!body || !company || !month || !source) return;
+          const wasOpen = periodRow.classList.contains("category-detail-open");
+          body
+            .querySelectorAll(".budget-month-category-row")
+            .forEach((row) => row.remove());
+          body
+            .querySelectorAll(".budget-monthly-row.category-detail-open")
+            .forEach((row) => row.classList.remove("category-detail-open"));
+          if (wasOpen) return;
+          const department =
+              document.getElementById("budgetExpenseDepartmentFilter")?.value ||
+              "all",
+            approvedRows = (source.budgets || []).filter(
+              (item) => item.company === company && item.month === month,
+            ),
+            actualRows = (source.expenses || []).filter(
+              (item) =>
+                item.company === company &&
+                item.month === month &&
+                (department === "all" || item.department === department),
+            ),
+            categories = [
+              ...new Set(
+                [...approvedRows, ...actualRows]
+                  .map((item) => item.category)
+                  .filter(Boolean),
+              ),
+            ].sort((a, b) => a.localeCompare(b));
+          let insertionPoint = periodRow.nextSibling;
+          categories.forEach((category) => {
+            const approved = approvedRows
+                .filter((item) => item.category === category)
+                .reduce((sum, item) => sum + (Number(item.amount) || 0), 0),
+              actual = actualRows
+                .filter((item) => item.category === category)
+                .reduce((sum, item) => sum + (Number(item.amount) || 0), 0),
+              variance = approved - actual,
+              utilization = approved ? (actual / approved) * 100 : 0,
+              status =
+                utilization <= 80
+                  ? "On Budget"
+                  : utilization <= 100
+                    ? "Review Budget"
+                    : "Over Budget",
+              detail = document.createElement("tr");
+            detail.className = "budget-month-category-row";
+            detail.innerHTML = `<td>${category}</td><td>${number(approved)}</td><td>${number(actual)}</td><td class="${variance < 0 ? "budget-overrun" : ""}">${number(variance)}</td><td><div class="budget-utilization"><span><i style="width:${Math.min(100, utilization)}%"></i></span><b>${utilization.toFixed(1)}%</b><em class="budget-status ${utilization > 100 ? "over" : utilization > 80 ? "review" : "on"}">${status}</em></div></td>`;
+            body.insertBefore(detail, insertionPoint);
+          });
+          periodRow.classList.add("category-detail-open");
+        });
       });
-      periodRow.classList.add('category-detail-open');
+  const observe = () =>
+    new MutationObserver(bind).observe(document.body, {
+      childList: true,
+      subtree: true,
     });
-  });
-  const observe=()=>new MutationObserver(bind).observe(document.body,{childList:true,subtree:true});
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{bind();observe()});else{bind();observe()}
+  if (document.readyState === "loading")
+    document.addEventListener("DOMContentLoaded", () => {
+      bind();
+      observe();
+    });
+  else {
+    bind();
+    observe();
+  }
 })();
 
 /* Copier filter dependency: departments belong only to the selected company. */
-(function(){
-  const prefixes=['copierChart','copierTable'];
-  const escapeHtml=value=>String(value).replace(/[&<>"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[char]));
-  const syncDepartments=()=>{
-    const records=window.COPIER_PRINTER_DATA?.records||[];
-    const company=document.getElementById('copierChartCompany')?.value||'all';
-    const enabled=company!=='all';
-    const departments=[...new Set(records.filter(row=>row.company===company).map(row=>row.department))].sort();
-    prefixes.forEach(prefix=>{
-      const select=document.getElementById(prefix+'Department');
-      const label=select?.closest('label');
-      if(!select||!label)return;
-      const selectedDepartment=select.value;
-      label.hidden=!enabled;
-      select.disabled=!enabled;
-      if(!enabled){select.innerHTML='<option value="all">Select a company first</option>';return;}
-      select.innerHTML='<option value="all">All departments</option>'+departments.map(department=>'<option value="'+escapeHtml(department)+'">'+escapeHtml(department)+'</option>').join('');
-      select.value=departments.includes(selectedDepartment)?selectedDepartment:'all';
+(function () {
+  const prefixes = ["copierChart", "copierTable"];
+  const escapeHtml = (value) =>
+    String(value).replace(
+      /[&<>"]/g,
+      (char) =>
+        ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[char],
+    );
+  const syncDepartments = () => {
+    const records = window.COPIER_PRINTER_DATA?.records || [];
+    const company =
+      document.getElementById("copierChartCompany")?.value || "all";
+    const enabled = company !== "all";
+    const departments = [
+      ...new Set(
+        records
+          .filter((row) => row.company === company)
+          .map((row) => row.department),
+      ),
+    ].sort();
+    prefixes.forEach((prefix) => {
+      const select = document.getElementById(prefix + "Department");
+      const label = select?.closest("label");
+      if (!select || !label) return;
+      const selectedDepartment = select.value;
+      label.hidden = !enabled;
+      select.disabled = !enabled;
+      if (!enabled) {
+        select.innerHTML =
+          '<option value="all">Select a company first</option>';
+        return;
+      }
+      select.innerHTML =
+        '<option value="all">All departments</option>' +
+        departments
+          .map(
+            (department) =>
+              '<option value="' +
+              escapeHtml(department) +
+              '">' +
+              escapeHtml(department) +
+              "</option>",
+          )
+          .join("");
+      select.value = departments.includes(selectedDepartment)
+        ? selectedDepartment
+        : "all";
     });
   };
-  document.addEventListener('change',event=>{
-    if(prefixes.some(prefix=>event.target.id?.startsWith(prefix)))setTimeout(syncDepartments,0);
-  },true);
-  const addTableReset=()=>{
-    const heading=document.getElementById('copierTableFilters')?.closest('.unified-filter-card')?.querySelector('.unified-filter-heading');
-    if(!heading||document.getElementById('copierTableResetFilters'))return;
-    const button=document.createElement('button');
-    button.id='copierTableResetFilters';button.type='button';button.className='btn';button.textContent='Reset filters';
-    button.addEventListener('click',()=>document.getElementById('copierResetFilters')?.click());
+  document.addEventListener(
+    "change",
+    (event) => {
+      if (prefixes.some((prefix) => event.target.id?.startsWith(prefix)))
+        setTimeout(syncDepartments, 0);
+    },
+    true,
+  );
+  const addTableReset = () => {
+    const heading = document
+      .getElementById("copierTableFilters")
+      ?.closest(".unified-filter-card")
+      ?.querySelector(".unified-filter-heading");
+    if (!heading || document.getElementById("copierTableResetFilters")) return;
+    const button = document.createElement("button");
+    button.id = "copierTableResetFilters";
+    button.type = "button";
+    button.className = "btn";
+    button.textContent = "Reset filters";
+    button.addEventListener("click", () =>
+      document.getElementById("copierResetFilters")?.click(),
+    );
     heading.append(button);
   };
-  window.addEventListener('load',()=>{syncDepartments();addTableReset()},{once:true});
+  window.addEventListener(
+    "load",
+    () => {
+      syncDepartments();
+      addTableReset();
+    },
+    { once: true },
+  );
 })();
 
 /* Shared horizontal-bar treatment for Copier department printing volume. */
-(function(){
-  if(!window.Chart)return;
+(function () {
+  if (!window.Chart) return;
   Chart.register({
-    id:'copierDepartmentBarStyle',
-    beforeUpdate(chart){
-      if(chart.canvas?.id!=='copierDepartmentChart'||chart.config.type!=='bar')return;
-      const dark=document.body.classList.contains('dark');
-      const canvasWrap=chart.canvas.parentElement;
-      if(canvasWrap)canvasWrap.style.height=Math.max(280,chart.data.labels.length*30+70)+'px';
-      const gradient=chart.ctx.createLinearGradient(0,0,chart.width,0);
-      gradient.addColorStop(0,dark?'#d94a42':'#d12a31');
-      gradient.addColorStop(1,dark?'#f08a54':'#f38c47');
-      const dataset=chart.data.datasets[0];
-      dataset.backgroundColor=gradient;
-      dataset.borderColor=dark?'#ff8f70':'#d12a31';
-      dataset.borderWidth=1.5;
-      dataset.borderRadius=8;
-      dataset.barThickness=22;
-      dataset.categoryPercentage=.74;
-      dataset.barPercentage=.9;
-      chart.options.scales.y.ticks.padding=9;
-      chart.options.scales.y.ticks.font={family:'Poppins',size:10,weight:'600'};
-      chart.options.scales.x.ticks.font={family:'Poppins',size:9};
-      const compactAmount=value=>{
-        const amount=Number(value)||0;
-        const unit=amount>=1e9?['B',1e9]:amount>=1e6?['M',1e6]:amount>=1e3?['K',1e3]:['',1];
-        const scaled=amount/unit[1];
-        return (scaled>=100?scaled.toFixed(0):scaled>=10?scaled.toFixed(1):scaled.toFixed(2)).replace(/\.0+$|(?<=\.[0-9])0+$/,'')+unit[0];
+    id: "copierDepartmentBarStyle",
+    beforeUpdate(chart) {
+      if (
+        chart.canvas?.id !== "copierDepartmentChart" ||
+        chart.config.type !== "bar"
+      )
+        return;
+      const dark = document.body.classList.contains("dark");
+      const canvasWrap = chart.canvas.parentElement;
+      if (canvasWrap)
+        canvasWrap.style.height =
+          Math.max(280, chart.data.labels.length * 30 + 70) + "px";
+      const gradient = chart.ctx.createLinearGradient(0, 0, chart.width, 0);
+      gradient.addColorStop(0, dark ? "#d94a42" : "#d12a31");
+      gradient.addColorStop(1, dark ? "#f08a54" : "#f38c47");
+      const dataset = chart.data.datasets[0];
+      dataset.backgroundColor = gradient;
+      dataset.borderColor = dark ? "#ff8f70" : "#d12a31";
+      dataset.borderWidth = 1.5;
+      dataset.borderRadius = 8;
+      dataset.barThickness = 22;
+      dataset.categoryPercentage = 0.74;
+      dataset.barPercentage = 0.9;
+      chart.options.scales.y.ticks.padding = 9;
+      chart.options.scales.y.ticks.font = {
+        family: "Poppins",
+        size: 10,
+        weight: "600",
       };
-      chart.options.scales.x.ticks.callback=compactAmount;
-    }
+      chart.options.scales.x.ticks.font = { family: "Poppins", size: 9 };
+      const compactAmount = (value) => {
+        const amount = Number(value) || 0;
+        const unit =
+          amount >= 1e9
+            ? ["B", 1e9]
+            : amount >= 1e6
+              ? ["M", 1e6]
+              : amount >= 1e3
+                ? ["K", 1e3]
+                : ["", 1];
+        const scaled = amount / unit[1];
+        return (
+          (scaled >= 100
+            ? scaled.toFixed(0)
+            : scaled >= 10
+              ? scaled.toFixed(1)
+              : scaled.toFixed(2)
+          ).replace(/\.0+$|(?<=\.[0-9])0+$/, "") + unit[0]
+        );
+      };
+      chart.options.scales.x.ticks.callback = compactAmount;
+    },
   });
 })();
 
 /* Keep doughnut tooltips clear of the chart centre. */
-(function(){
-  if(!window.Chart?.Tooltip?.positioners)return;
-  Chart.Tooltip.positioners.dashboardDoughnutOutside=function(items){
-    const item=items[0];
-    if(!item)return false;
-    const point=item.element.tooltipPosition();
-    const area=this.chart.chartArea;
-    const centreX=(area.left+area.right)/2;
-    const centreY=(area.top+area.bottom)/2;
-    const xOffset=point.x>=centreX?54:-54;
-    const yOffset=point.y>=centreY?16:-16;
-    return {x:point.x+xOffset,y:point.y+yOffset};
+(function () {
+  if (!window.Chart?.Tooltip?.positioners) return;
+  Chart.Tooltip.positioners.dashboardDoughnutOutside = function (items) {
+    const item = items[0];
+    if (!item) return false;
+    const point = item.element.tooltipPosition();
+    const area = this.chart.chartArea;
+    const centreX = (area.left + area.right) / 2;
+    const centreY = (area.top + area.bottom) / 2;
+    const xOffset = point.x >= centreX ? 54 : -54;
+    const yOffset = point.y >= centreY ? 16 : -16;
+    return { x: point.x + xOffset, y: point.y + yOffset };
   };
   Chart.register({
-    id:'dashboardDoughnutTooltipPosition',
-    beforeUpdate(chart){
-      if(!['budgetCategoryChart','copierDeviceChart'].includes(chart.canvas?.id))return;
-      const tooltip=chart.options.plugins?.tooltip;
-      if(!tooltip)return;
-      tooltip.position='dashboardDoughnutOutside';
-      tooltip.caretPadding=12;
-    }
+    id: "dashboardDoughnutTooltipPosition",
+    beforeUpdate(chart) {
+      if (
+        !["budgetCategoryChart", "copierDeviceChart"].includes(chart.canvas?.id)
+      )
+        return;
+      const tooltip = chart.options.plugins?.tooltip;
+      if (!tooltip) return;
+      tooltip.position = "dashboardDoughnutOutside";
+      tooltip.caretPadding = 12;
+    },
   });
 })();
 
 /* Refine the Budget category chart heading. */
-(function(){
-  window.addEventListener('load',()=>{
-    const header=document.getElementById('budgetCategoryChart')?.closest('.unified-chart-card')?.querySelector('.unified-chart-header');
-    if(!header)return;
-    header.querySelector('h2').textContent='Category Spending Overview';
-    header.querySelector('p').textContent='Actual spend across technology categories';
-  },{once:true});
+(function () {
+  window.addEventListener(
+    "load",
+    () => {
+      const header = document
+        .getElementById("budgetCategoryChart")
+        ?.closest(".unified-chart-card")
+        ?.querySelector(".unified-chart-header");
+      if (!header) return;
+      header.querySelector("h2").textContent = "Category Spending Overview";
+      header.querySelector("p").textContent =
+        "Actual spend across technology categories";
+    },
+    { once: true },
+  );
 })();
 
 /* Centre label for the Copier device doughnut chart. */
-(function(){
-  if(!window.Chart)return;
+(function () {
+  if (!window.Chart) return;
   Chart.register({
-    id:'copierDeviceCentreLabel',
-    afterDatasetsDraw(chart){
-      if(chart.canvas?.id!=='copierDeviceChart')return;
-      const total=chart.data.datasets[0]?.data.reduce((sum,value)=>sum+(Number(value)||0),0)||0;
-      const isAmount=document.getElementById('copierPieMetric')?.value==='totalAmount';
-      const compact=value=>{
-        const unit=value>=1e9?['B',1e9]:value>=1e6?['M',1e6]:value>=1e3?['K',1e3]:['',1];
-        const amount=value/unit[1];
-        return (amount>=100?amount.toFixed(0):amount>=10?amount.toFixed(1):amount.toFixed(2)).replace(/\.0+$|(?<=\.[0-9])0+$/,'')+unit[0];
+    id: "copierDeviceCentreLabel",
+    afterDatasetsDraw(chart) {
+      if (chart.canvas?.id !== "copierDeviceChart") return;
+      const total =
+        chart.data.datasets[0]?.data.reduce(
+          (sum, value) => sum + (Number(value) || 0),
+          0,
+        ) || 0;
+      const isAmount =
+        document.getElementById("copierPieMetric")?.value === "totalAmount";
+      const compact = (value) => {
+        const unit =
+          value >= 1e9
+            ? ["B", 1e9]
+            : value >= 1e6
+              ? ["M", 1e6]
+              : value >= 1e3
+                ? ["K", 1e3]
+                : ["", 1];
+        const amount = value / unit[1];
+        return (
+          (amount >= 100
+            ? amount.toFixed(0)
+            : amount >= 10
+              ? amount.toFixed(1)
+              : amount.toFixed(2)
+          ).replace(/\.0+$|(?<=\.[0-9])0+$/, "") + unit[0]
+        );
       };
-      const dark=document.body.classList.contains('dark');
-      const {ctx,chartArea:{left,right,top,bottom}}=chart;
-      const x=(left+right)/2,y=(top+bottom)/2;
-      ctx.save();ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.fillStyle=dark?'#cdb8b8':'#8b777a';ctx.font='700 9px Poppins';ctx.fillText(isAmount?'TOTAL AMOUNT':'TOTAL PAGES',x,y-13);
-      ctx.fillStyle=dark?'#fff0e9':'#3c2b30';ctx.font='700 22px Poppins';ctx.fillText(compact(total),x,y+10);
+      const dark = document.body.classList.contains("dark");
+      const {
+        ctx,
+        chartArea: { left, right, top, bottom },
+      } = chart;
+      const x = (left + right) / 2,
+        y = (top + bottom) / 2;
+      ctx.save();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = dark ? "#cdb8b8" : "#8b777a";
+      ctx.font = "700 9px Poppins";
+      ctx.fillText(isAmount ? "TOTAL AMOUNT" : "TOTAL PAGES", x, y - 13);
+      ctx.fillStyle = dark ? "#fff0e9" : "#3c2b30";
+      ctx.font = "700 22px Poppins";
+      ctx.fillText(compact(total), x, y + 10);
       ctx.restore();
-    }
+    },
   });
 })();
 
 /* Present monthly print activity with the same comparison treatment as financial trends. */
-(function(){
-  if(!window.Chart)return;
+(function () {
+  if (!window.Chart) return;
   Chart.register({
-    id:'copierMonthlyUsageStyle',
-    beforeUpdate(chart){
-      if(!['copierMonthlyChart','budgetSummaryChart'].includes(chart.canvas?.id))return;
-      const dark=document.body.classList.contains('dark'),isBar=chart.config.type==='bar';
-      const [colorPages,bwPages]=chart.data.datasets;
-      if(colorPages){
-        colorPages.borderColor=isBar?'transparent':(dark?'#4eb4cd':'#16866a');
-        colorPages.backgroundColor='transparent';
-        colorPages.hoverBackgroundColor='transparent';
-        colorPages.borderWidth=isBar?0:3;
-        colorPages.hoverBorderWidth=0;
-        colorPages.tension=isBar?0:.42;
-        colorPages.pointRadius=isBar?0:4;
-        colorPages.pointHoverRadius=isBar?0:6;
-        colorPages.pointBackgroundColor=dark?'#4eb4cd':'#16866a';
+    id: "copierMonthlyUsageStyle",
+    beforeUpdate(chart) {
+      if (
+        !["copierMonthlyChart", "budgetSummaryChart"].includes(chart.canvas?.id)
+      )
+        return;
+      const dark = document.body.classList.contains("dark"),
+        isBar = chart.config.type === "bar";
+      const [colorPages, bwPages] = chart.data.datasets;
+      if (colorPages) {
+        colorPages.borderColor = isBar
+          ? "transparent"
+          : dark
+            ? "#4eb4cd"
+            : "#16866a";
+        colorPages.backgroundColor = "transparent";
+        colorPages.hoverBackgroundColor = "transparent";
+        colorPages.borderWidth = isBar ? 0 : 3;
+        colorPages.hoverBorderWidth = 0;
+        colorPages.tension = isBar ? 0 : 0.42;
+        colorPages.pointRadius = isBar ? 0 : 4;
+        colorPages.pointHoverRadius = isBar ? 0 : 6;
+        colorPages.pointBackgroundColor = dark ? "#4eb4cd" : "#16866a";
       }
-      if(bwPages){
-        bwPages.borderColor=isBar?'transparent':(dark?'#ff8755':'#d12a31');
-        bwPages.backgroundColor='transparent';
-        bwPages.hoverBackgroundColor='transparent';
-        bwPages.borderWidth=isBar?0:3;
-        bwPages.hoverBorderWidth=0;
-        bwPages.tension=isBar?0:.42;
-        bwPages.pointRadius=isBar?0:4;
-        bwPages.pointHoverRadius=isBar?0:6;
-        bwPages.pointBackgroundColor=dark?'#ff8755':'#d12a31';
+      if (bwPages) {
+        bwPages.borderColor = isBar
+          ? "transparent"
+          : dark
+            ? "#ff8755"
+            : "#d12a31";
+        bwPages.backgroundColor = "transparent";
+        bwPages.hoverBackgroundColor = "transparent";
+        bwPages.borderWidth = isBar ? 0 : 3;
+        bwPages.hoverBorderWidth = 0;
+        bwPages.tension = isBar ? 0 : 0.42;
+        bwPages.pointRadius = isBar ? 0 : 4;
+        bwPages.pointHoverRadius = isBar ? 0 : 6;
+        bwPages.pointBackgroundColor = dark ? "#ff8755" : "#d12a31";
       }
-      const scales=chart.options.scales;
-      if(scales?.x?.grid)scales.x.grid.color=dark?'rgba(255,221,208,.17)':'rgba(125,92,87,.18)';
-      if(scales?.y?.grid)scales.y.grid.color=dark?'rgba(255,221,208,.17)':'rgba(125,92,87,.18)';
+      const scales = chart.options.scales;
+      if (scales?.x?.grid)
+        scales.x.grid.color = dark
+          ? "rgba(255,221,208,.17)"
+          : "rgba(125,92,87,.18)";
+      if (scales?.y?.grid)
+        scales.y.grid.color = dark
+          ? "rgba(255,221,208,.17)"
+          : "rgba(125,92,87,.18)";
     },
-    beforeDatasetsUpdate(chart){
-      if(!['copierMonthlyChart','budgetSummaryChart'].includes(chart.canvas?.id)||!chart.chartArea)return;
-      const isBar=chart.config.type==='bar';
-      const [colorPages,bwPages]=chart.data.datasets;
-      if(colorPages){
-        if(!isBar){colorPages.backgroundColor='transparent';colorPages.hoverBackgroundColor='transparent'}
-        colorPages.fill=false;
+    beforeDatasetsUpdate(chart) {
+      if (
+        !["copierMonthlyChart", "budgetSummaryChart"].includes(
+          chart.canvas?.id,
+        ) ||
+        !chart.chartArea
+      )
+        return;
+      const isBar = chart.config.type === "bar";
+      const [colorPages, bwPages] = chart.data.datasets;
+      if (colorPages) {
+        if (!isBar) {
+          colorPages.backgroundColor = "transparent";
+          colorPages.hoverBackgroundColor = "transparent";
+        }
+        colorPages.fill = false;
       }
-      if(bwPages){
-        if(!isBar){bwPages.backgroundColor='transparent';bwPages.hoverBackgroundColor='transparent'}
-        bwPages.fill=false;
+      if (bwPages) {
+        if (!isBar) {
+          bwPages.backgroundColor = "transparent";
+          bwPages.hoverBackgroundColor = "transparent";
+        }
+        bwPages.fill = false;
       }
     },
-    afterDatasetsDraw(chart){
-      if(!['copierMonthlyChart','budgetSummaryChart'].includes(chart.canvas?.id)||chart.config.type!=='bar')return;
-      const dark=document.body.classList.contains('dark'),ctx=chart.ctx,draw=(datasetIndex,start,end)=>chart.getDatasetMeta(datasetIndex).data.forEach(bar=>{const props=bar.getProps(['x','y','base','width'],false),left=props.x-props.width/2,right=props.x+props.width/2,top=Math.min(props.y,props.base),bottom=Math.max(props.y,props.base),radius=Math.min(10,props.width/2,(bottom-top)/2),fill=ctx.createLinearGradient(left,0,right,0);fill.addColorStop(0,start);fill.addColorStop(1,end);ctx.beginPath();ctx.moveTo(left,bottom);ctx.lineTo(left,top+radius);ctx.quadraticCurveTo(left,top,left+radius,top);ctx.lineTo(right-radius,top);ctx.quadraticCurveTo(right,top,right,top+radius);ctx.lineTo(right,bottom);ctx.closePath();ctx.fillStyle=fill;ctx.fill()});
-      draw(0,dark?'#229681':'#16866a',dark?'#72d5e5':'#4eb4cd');
-      draw(1,dark?'#e95148':'#d12a31',dark?'#ff9569':'#ff8755');
-    }
+    afterDatasetsDraw(chart) {
+      if (
+        !["copierMonthlyChart", "budgetSummaryChart"].includes(
+          chart.canvas?.id,
+        ) ||
+        chart.config.type !== "bar"
+      )
+        return;
+      const dark = document.body.classList.contains("dark"),
+        ctx = chart.ctx,
+        draw = (datasetIndex, start, end) =>
+          chart.getDatasetMeta(datasetIndex).data.forEach((bar) => {
+            const props = bar.getProps(["x", "y", "base", "width"], false),
+              left = props.x - props.width / 2,
+              right = props.x + props.width / 2,
+              top = Math.min(props.y, props.base),
+              bottom = Math.max(props.y, props.base),
+              radius = Math.min(10, props.width / 2, (bottom - top) / 2),
+              fill = ctx.createLinearGradient(left, 0, right, 0);
+            fill.addColorStop(0, start);
+            fill.addColorStop(1, end);
+            ctx.beginPath();
+            ctx.moveTo(left, bottom);
+            ctx.lineTo(left, top + radius);
+            ctx.quadraticCurveTo(left, top, left + radius, top);
+            ctx.lineTo(right - radius, top);
+            ctx.quadraticCurveTo(right, top, right, top + radius);
+            ctx.lineTo(right, bottom);
+            ctx.closePath();
+            ctx.fillStyle = fill;
+            ctx.fill();
+          });
+      draw(0, dark ? "#229681" : "#16866a", dark ? "#72d5e5" : "#4eb4cd");
+      draw(1, dark ? "#e95148" : "#d12a31", dark ? "#ff9569" : "#ff8755");
+    },
   });
-  window.addEventListener('load',()=>{
-    const card=document.getElementById('copierMonthlyChart')?.closest('.unified-chart-card');
-    const header=card?.querySelector('.unified-chart-header');
-    if(!card||!header)return;
-    card.classList.add('copier-monthly-chart-card');
-    header.querySelector('h2').textContent='Color vs B/W Usage Summary';
-    header.querySelector('p').textContent='Track monthly color and black-and-white print volumes';
-  },{once:true});
+  window.addEventListener(
+    "load",
+    () => {
+      const card = document
+        .getElementById("copierMonthlyChart")
+        ?.closest(".unified-chart-card");
+      const header = card?.querySelector(".unified-chart-header");
+      if (!card || !header) return;
+      card.classList.add("copier-monthly-chart-card");
+      header.querySelector("h2").textContent = "Color vs B/W Usage Summary";
+      header.querySelector("p").textContent =
+        "Track monthly color and black-and-white print volumes";
+    },
+    { once: true },
+  );
 })();
 
 /* Clarify the device utilisation card. */
-(function(){
-  window.addEventListener('load',()=>{
-    const header=document.getElementById('copierDeviceChart')?.closest('.unified-chart-card')?.querySelector('.unified-chart-header');
-    if(!header)return;
-    header.querySelector('h2').textContent='Device Print Utilisation';
-    header.querySelector('p').textContent='Compare page volume across connected print devices.';
-  },{once:true});
+(function () {
+  window.addEventListener(
+    "load",
+    () => {
+      const header = document
+        .getElementById("copierDeviceChart")
+        ?.closest(".unified-chart-card")
+        ?.querySelector(".unified-chart-header");
+      if (!header) return;
+      header.querySelector("h2").textContent = "Device Print Utilisation";
+      header.querySelector("p").textContent =
+        "Total amount by copier and printer";
+    },
+    { once: true },
+  );
 })();
 
 /* Present the Copier & Printer detail table as a company-level operational register. */
-(function(){
-  const updateCompanyNote=()=>{
-    const table=document.querySelector('#copierprinterusageDashboard .unified-data-table');
-    const note=document.getElementById('copierUsageTableNote');
-    if(!table||!note)return;
-    const companyRows=table.querySelectorAll('tbody tr.copier-company-row');
-    const visibleCompanies=new Set(companyRows.length?[...companyRows].map(row=>row.cells[0]?.textContent.trim()):[...table.querySelectorAll('tbody tr td:nth-child(2)')].map(cell=>cell.textContent.trim()).filter(Boolean));
-    const allCompanies=new Set((window.COPIER_PRINTER_DATA?.records||[]).map(record=>record.company).filter(Boolean));
-    note.textContent='Showing '+visibleCompanies.size+' of '+allCompanies.size+' companies';
+(function () {
+  const updateCompanyNote = () => {
+    const table = document.querySelector(
+      "#copierprinterusageDashboard .unified-data-table",
+    );
+    const note = document.getElementById("copierUsageTableNote");
+    if (!table || !note) return;
+    const companyRows = table.querySelectorAll("tbody tr.copier-company-row");
+    const visibleCompanies = new Set(
+      companyRows.length
+        ? [...companyRows].map((row) => row.cells[0]?.textContent.trim())
+        : [...table.querySelectorAll("tbody tr td:nth-child(2)")]
+            .map((cell) => cell.textContent.trim())
+            .filter(Boolean),
+    );
+    const allCompanies = new Set(
+      (window.COPIER_PRINTER_DATA?.records || [])
+        .map((record) => record.company)
+        .filter(Boolean),
+    );
+    note.textContent =
+      "Showing " +
+      visibleCompanies.size +
+      " of " +
+      allCompanies.size +
+      " companies";
   };
-  window.addEventListener('load',()=>{
-    const table=document.querySelector('#copierprinterusageDashboard .unified-table-card');
-    const title=table?.querySelector('.unified-table-title');
-    if(title){
-      title.querySelector('h2').textContent='Copier & Printer Usage Performance';
-      title.querySelector('p').textContent='Detailed page volume and operating cost by department and device';
-    }
-    const body=document.getElementById('copierUsageTableBody');
-    if(body)new MutationObserver(updateCompanyNote).observe(body,{childList:true});
-    updateCompanyNote();
-  },{once:true});
+  window.addEventListener(
+    "load",
+    () => {
+      const table = document.querySelector(
+        "#copierprinterusageDashboard .unified-table-card",
+      );
+      const title = table?.querySelector(".unified-table-title");
+      if (title) {
+        title.querySelector("h2").textContent =
+          "Copier & Printer Usage Performance";
+        title.querySelector("p").textContent =
+          "Detailed page volume and operating cost by department and device";
+      }
+      const body = document.getElementById("copierUsageTableBody");
+      if (body)
+        new MutationObserver(updateCompanyNote).observe(body, {
+          childList: true,
+        });
+      updateCompanyNote();
+    },
+    { once: true },
+  );
 })();
 
 /* Convert visible print records into a compact company drill-down table. */
-(function(){
-  const number=value=>Number(String(value||'').replace(/[^0-9.-]/g,''))||0;
-  const format=value=>Number(value||0).toLocaleString();
-  const groupBy=(items,key)=>items.reduce((map,item)=>{const value=item[key];if(!map.has(value))map.set(value,[]);map.get(value).push(item);return map},new Map());
-  const makeId=value=>String(value).replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'').toLowerCase();
-  const expandedCopierRows=new Set();
-  const renderNested=()=>{
-    const body=document.getElementById('copierUsageTableBody');
-    const table=body?.closest('table');
-    if(!body||!table)return;
-    const recordKey=item=>[item.period,item.company,item.department,item.copier||item.device].join('\u0001');
-    const sourceRecords=window.COPIER_PRINTER_DATA?.records||[];
-    const sourceByKey=new Map(sourceRecords.map(item=>[recordKey(item),item]));
-    const raw=[...body.rows].filter(row=>row.cells.length===8).map(row=>{
-      const item={period:row.cells[0].textContent.trim(),company:row.cells[1].textContent.trim(),department:row.cells[2].textContent.trim(),device:row.cells[3].textContent.trim(),color:number(row.cells[4].textContent),bw:number(row.cells[5].textContent),total:number(row.cells[6].textContent),cost:number(row.cells[7].textContent)};
-      const sourceItem=sourceByKey.get(recordKey(item))||{};
-      return {...item,pagesCost:Number(sourceItem.pagesCost)||0,suppliesCost:Number(sourceItem.suppliesCost??sourceItem.cost)||item.cost,totalAmount:Number(sourceItem.totalAmount)||((Number(sourceItem.pagesCost)||0)+(Number(sourceItem.suppliesCost??sourceItem.cost)||item.cost))};
-    });
-    if(!raw.length)return;
-    const measures=['color','bw','total','pagesCost','suppliesCost','totalAmount'];
-    const totals=items=>Object.fromEntries(measures.map(key=>[key,items.reduce((sum,item)=>sum+(Number(item[key])||0),0)]));
-    const cells=(label,values)=>'<td>'+label+'</td>'+measures.map(key=>'<td>'+format(values[key])+'</td>').join('');
-    table.querySelector('thead').innerHTML='<tr><th>Company</th><th>Color Pages</th><th>B/W Pages</th><th>Total Pages</th><th>Pages Cost (MMK)</th><th>Cartridge Cost (MMK)</th><th>Total Amount (MMK)</th></tr>';
-    const rows=[];
-    for(const [company,companyItems] of groupBy(raw,'company')){
-      const companyTotals=totals(companyItems);
-      if(!(companyTotals.total>0||companyTotals.totalAmount>0))continue;
-      const companyId='copier-company-'+makeId(company);
-      rows.push('<tr class="copier-company-row" data-target="'+companyId+'">'+cells(company,companyTotals)+'</tr>');
-      for(const [department,departmentItems] of groupBy(companyItems,'department')){
-        const departmentTotals=totals(departmentItems);
-        if(!(departmentTotals.total>0||departmentTotals.totalAmount>0))continue;
-        const departmentId=companyId+'-'+makeId(department);
-        rows.push('<tr class="copier-department-row" data-parent="'+companyId+'" data-target="'+departmentId+'" hidden>'+cells(department,departmentTotals)+'</tr>');
-        for(const [period,periodItems] of groupBy(departmentItems,'period')){
-          const periodTotals=totals(periodItems);
-          if(!(periodTotals.total>0||periodTotals.totalAmount>0))continue;
-          const periodId=departmentId+'-'+makeId(period);
-          rows.push('<tr class="copier-period-row" data-parent="'+departmentId+'" data-target="'+periodId+'" hidden>'+cells('<span class="copier-period-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16"></path></svg>'+period+'</span>',periodTotals)+'</tr>');
-          rows.push(periodItems.filter(item=>item.total>0||item.totalAmount>0).map(item=>'<tr class="copier-device-row" data-parent="'+periodId+'" hidden>'+cells(item.device,item)+'</tr>').join(''));
+(function () {
+  const number = (value) =>
+    Number(String(value || "").replace(/[^0-9.-]/g, "")) || 0;
+  const format = (value) => Number(value || 0).toLocaleString();
+  const groupBy = (items, key) =>
+    items.reduce((map, item) => {
+      const value = item[key];
+      if (!map.has(value)) map.set(value, []);
+      map.get(value).push(item);
+      return map;
+    }, new Map());
+  const makeId = (value) =>
+    String(value)
+      .replace(/[^a-z0-9]+/gi, "-")
+      .replace(/^-|-$/g, "")
+      .toLowerCase();
+  const expandedCopierRows = new Set();
+  const renderNested = () => {
+    const body = document.getElementById("copierUsageTableBody");
+    const table = body?.closest("table");
+    if (!body || !table) return;
+    const recordKey = (item) =>
+      [
+        item.period,
+        item.company,
+        item.department,
+        item.copier || item.device,
+      ].join("\u0001");
+    const sourceRecords = window.COPIER_PRINTER_DATA?.records || [];
+    const sourceByKey = new Map(
+      sourceRecords.map((item) => [recordKey(item), item]),
+    );
+    const raw = [...body.rows]
+      .filter((row) => row.cells.length === 8)
+      .map((row) => {
+        const item = {
+          period: row.cells[0].textContent.trim(),
+          company: row.cells[1].textContent.trim(),
+          department: row.cells[2].textContent.trim(),
+          device: row.cells[3].textContent.trim(),
+          color: number(row.cells[4].textContent),
+          bw: number(row.cells[5].textContent),
+          total: number(row.cells[6].textContent),
+          cost: number(row.cells[7].textContent),
+        };
+        const sourceItem = sourceByKey.get(recordKey(item)) || {};
+        return {
+          ...item,
+          pagesCost: Number(sourceItem.pagesCost) || 0,
+          suppliesCost:
+            Number(sourceItem.suppliesCost ?? sourceItem.cost) || item.cost,
+          totalAmount:
+            Number(sourceItem.totalAmount) ||
+            (Number(sourceItem.pagesCost) || 0) +
+              (Number(sourceItem.suppliesCost ?? sourceItem.cost) || item.cost),
+        };
+      });
+    if (!raw.length) return;
+    const measures = [
+      "color",
+      "bw",
+      "total",
+      "pagesCost",
+      "suppliesCost",
+      "totalAmount",
+    ];
+    const totals = (items) =>
+      Object.fromEntries(
+        measures.map((key) => [
+          key,
+          items.reduce((sum, item) => sum + (Number(item[key]) || 0), 0),
+        ]),
+      );
+    const cells = (label, values) =>
+      "<td>" +
+      label +
+      "</td>" +
+      measures.map((key) => "<td>" + format(values[key]) + "</td>").join("");
+    table.querySelector("thead").innerHTML =
+      "<tr><th>Company</th><th>Color Pages</th><th>B/W Pages</th><th>Total Pages</th><th>Pages Cost (MMK)</th><th>Cartridge Cost (MMK)</th><th>Total Amount (MMK)</th></tr>";
+    const rows = [];
+    for (const [company, companyItems] of groupBy(raw, "company")) {
+      const companyTotals = totals(companyItems);
+      if (!(companyTotals.total > 0 || companyTotals.totalAmount > 0)) continue;
+      const companyId = "copier-company-" + makeId(company);
+      rows.push(
+        '<tr class="copier-company-row" data-target="' +
+          companyId +
+          '">' +
+          cells(company, companyTotals) +
+          "</tr>",
+      );
+      for (const [department, departmentItems] of groupBy(
+        companyItems,
+        "department",
+      )) {
+        const departmentTotals = totals(departmentItems);
+        if (!(departmentTotals.total > 0 || departmentTotals.totalAmount > 0))
+          continue;
+        const departmentId = companyId + "-" + makeId(department);
+        rows.push(
+          '<tr class="copier-department-row" data-parent="' +
+            companyId +
+            '" data-target="' +
+            departmentId +
+            '" hidden>' +
+            cells(department, departmentTotals) +
+            "</tr>",
+        );
+        for (const [period, periodItems] of groupBy(
+          departmentItems,
+          "period",
+        )) {
+          const periodTotals = totals(periodItems);
+          if (!(periodTotals.total > 0 || periodTotals.totalAmount > 0))
+            continue;
+          const periodId = departmentId + "-" + makeId(period);
+          rows.push(
+            '<tr class="copier-period-row" data-parent="' +
+              departmentId +
+              '" data-target="' +
+              periodId +
+              '" hidden>' +
+              cells(
+                '<span class="copier-period-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16"></path></svg>' +
+                  period +
+                  "</span>",
+                periodTotals,
+              ) +
+              "</tr>",
+          );
+          rows.push(
+            periodItems
+              .filter((item) => item.total > 0 || item.totalAmount > 0)
+              .map(
+                (item) =>
+                  '<tr class="copier-device-row" data-parent="' +
+                  periodId +
+                  '" hidden>' +
+                  cells(item.device, item) +
+                  "</tr>",
+              )
+              .join(""),
+          );
         }
       }
     }
-    body.innerHTML=rows.join('');
-    [...expandedCopierRows].sort((left,right)=>left.length-right.length).forEach(target=>{const row=body.querySelector('[data-target="'+target+'"]');if(!row)return;row.hidden=false;row.classList.add('is-expanded');setChildren(body,target,true)});
-    table.querySelector('tfoot').innerHTML='<tr><th>Grand Total</th>'+measures.map(key=>'<th>'+format(totals(raw)[key])+'</th>').join('')+'</tr>';
+    body.innerHTML = rows.join("");
+    [...expandedCopierRows]
+      .sort((left, right) => left.length - right.length)
+      .forEach((target) => {
+        const row = body.querySelector('[data-target="' + target + '"]');
+        if (!row) return;
+        row.hidden = false;
+        row.classList.add("is-expanded");
+        setChildren(body, target, true);
+      });
+    table.querySelector("tfoot").innerHTML =
+      "<tr><th>Grand Total</th>" +
+      measures
+        .map((key) => "<th>" + format(totals(raw)[key]) + "</th>")
+        .join("") +
+      "</tr>";
   };
-  const setChildren=(body,parent,visible)=>body.querySelectorAll('[data-parent="'+parent+'"]').forEach(row=>{row.hidden=!visible;if(!visible&&row.dataset.target)setChildren(body,row.dataset.target,false)});
-  window.addEventListener('load',()=>{
-    const body=document.getElementById('copierUsageTableBody');
-    if(!body)return;
-    body.addEventListener('click',event=>{
-      const row=event.target.closest('tr[data-target]');
-      if(!row)return;
-      const children=[...body.querySelectorAll('[data-parent="'+row.dataset.target+'"]')];
-      const open=children.some(child=>!child.hidden);
-      if(!open){
-        const siblingSelector=row.classList.contains('copier-company-row')?'.copier-company-row':row.classList.contains('copier-department-row')?'.copier-department-row[data-parent="'+row.dataset.parent+'"]':'.copier-period-row[data-parent="'+row.dataset.parent+'"]';
-        body.querySelectorAll(siblingSelector).forEach(sibling=>{
-          if(sibling===row)return;
-          setChildren(body,sibling.dataset.target,false);
-          sibling.classList.remove('is-expanded');
-          [...expandedCopierRows].filter(target=>target===sibling.dataset.target||target.startsWith(sibling.dataset.target+'-')).forEach(target=>expandedCopierRows.delete(target));
-        });
-      }
-      setChildren(body,row.dataset.target,!open);
-      row.classList.toggle('is-expanded',!open);
-      if(open)[...expandedCopierRows].filter(target=>target===row.dataset.target||target.startsWith(row.dataset.target+'-')).forEach(target=>expandedCopierRows.delete(target));
-      else expandedCopierRows.add(row.dataset.target);
+  const setChildren = (body, parent, visible) =>
+    body.querySelectorAll('[data-parent="' + parent + '"]').forEach((row) => {
+      row.hidden = !visible;
+      if (!visible && row.dataset.target)
+        setChildren(body, row.dataset.target, false);
     });
-    new MutationObserver(()=>{if([...body.rows].some(row=>row.cells.length===8))renderNested()}).observe(body,{childList:true});
-    renderNested();
-  },{once:true});
+  window.addEventListener(
+    "load",
+    () => {
+      const body = document.getElementById("copierUsageTableBody");
+      if (!body) return;
+      body.addEventListener("click", (event) => {
+        const row = event.target.closest("tr[data-target]");
+        if (!row) return;
+        const children = [
+          ...body.querySelectorAll(
+            '[data-parent="' + row.dataset.target + '"]',
+          ),
+        ];
+        const open = children.some((child) => !child.hidden);
+        if (!open) {
+          const siblingSelector = row.classList.contains("copier-company-row")
+            ? ".copier-company-row"
+            : row.classList.contains("copier-department-row")
+              ? '.copier-department-row[data-parent="' +
+                row.dataset.parent +
+                '"]'
+              : '.copier-period-row[data-parent="' + row.dataset.parent + '"]';
+          body.querySelectorAll(siblingSelector).forEach((sibling) => {
+            if (sibling === row) return;
+            setChildren(body, sibling.dataset.target, false);
+            sibling.classList.remove("is-expanded");
+            [...expandedCopierRows]
+              .filter(
+                (target) =>
+                  target === sibling.dataset.target ||
+                  target.startsWith(sibling.dataset.target + "-"),
+              )
+              .forEach((target) => expandedCopierRows.delete(target));
+          });
+        }
+        setChildren(body, row.dataset.target, !open);
+        row.classList.toggle("is-expanded", !open);
+        if (open)
+          [...expandedCopierRows]
+            .filter(
+              (target) =>
+                target === row.dataset.target ||
+                target.startsWith(row.dataset.target + "-"),
+            )
+            .forEach((target) => expandedCopierRows.delete(target));
+        else expandedCopierRows.add(row.dataset.target);
+      });
+      new MutationObserver(() => {
+        if ([...body.rows].some((row) => row.cells.length === 8))
+          renderNested();
+      }).observe(body, { childList: true });
+      renderNested();
+    },
+    { once: true },
+  );
 })();
 
 /* Refine the detailed print record controls. */
-(function(){
-  window.addEventListener('load',()=>{
-    const filterCard=document.getElementById('copierTableFilters')?.closest('.unified-filter-card');
-    const heading=filterCard?.querySelector('.unified-filter-heading');
-    if(!heading)return;
-    heading.querySelector('h2').textContent='Printer Record Analytics';
-    heading.querySelector('p').textContent='Focus the register by reporting period, company, department, or device';
-  },{once:true});
+(function () {
+  window.addEventListener(
+    "load",
+    () => {
+      const filterCard = document
+        .getElementById("copierTableFilters")
+        ?.closest(".unified-filter-card");
+      const heading = filterCard?.querySelector(".unified-filter-heading");
+      if (!heading) return;
+      heading.querySelector("h2").textContent = "Printer Record Analytics";
+      heading.querySelector("p").textContent =
+        "Focus the register by reporting period, company, department, or device";
+    },
+    { once: true },
+  );
 })();
 
 /* Present Copier device legend values in the shared strong/small format. */
-(function(){
-  const formatLegend=()=>{
-    const legend=document.getElementById('copierDeviceLegend');
-    if(!legend)return;
-    legend.querySelectorAll('b:not([data-unit-ready])').forEach(value=>{
-      const text=value.textContent.trim(),match=text.match(/^(.*?)(\s+(?:MMK|pages))$/i);
-      if(!match)return;
-      value.dataset.unitReady='true';
-      value.innerHTML='<strong>'+match[1].trim()+'</strong><small>'+match[2].trim()+'</small>';
+(function () {
+  const formatLegend = () => {
+    const legend = document.getElementById("copierDeviceLegend");
+    if (!legend) return;
+    legend.querySelectorAll("b:not([data-unit-ready])").forEach((value) => {
+      const text = value.textContent.trim(),
+        match = text.match(/^(.*?)(\s+(?:MMK|pages))$/i);
+      if (!match) return;
+      value.dataset.unitReady = "true";
+      value.innerHTML =
+        "<strong>" +
+        match[1].trim() +
+        "</strong><small>" +
+        match[2].trim() +
+        "</small>";
     });
   };
-  window.addEventListener('load',()=>{
-    formatLegend();
-    const legend=document.getElementById('copierDeviceLegend');
-    if(legend)new MutationObserver(formatLegend).observe(legend,{childList:true,subtree:true});
-  },{once:true});
+  window.addEventListener(
+    "load",
+    () => {
+      formatLegend();
+      const legend = document.getElementById("copierDeviceLegend");
+      if (legend)
+        new MutationObserver(formatLegend).observe(legend, {
+          childList: true,
+          subtree: true,
+        });
+    },
+    { once: true },
+  );
 })();
 
 /* Clarify the Copier department chart heading. */
-(function(){
-  window.addEventListener('load',()=>{
-    const header=document.getElementById('copierDepartmentChart')?.closest('.unified-chart-card')?.querySelector('.unified-chart-header');
-    if(!header)return;
-    // The dashboard opens with all companies selected, so the first chart is
-    // grouped by company. The live renderer changes this heading when filters change.
-    header.querySelector('h2').textContent='Company Print Activity';
-    header.querySelector('p').textContent='Compare total amount across companies';
-  },{once:true});
+(function () {
+  window.addEventListener(
+    "load",
+    () => {
+      const header = document
+        .getElementById("copierDepartmentChart")
+        ?.closest(".unified-chart-card")
+        ?.querySelector(".unified-chart-header");
+      if (!header) return;
+      // The dashboard opens with all companies selected, so the first chart is
+      // grouped by company. The live renderer changes this heading when filters change.
+      header.querySelector("h2").textContent = "Company Print Activity";
+      header.querySelector("p").textContent =
+        "Compare total amount across companies";
+    },
+    { once: true },
+  );
 })();
 
 /* Redraw Copier charts with the active theme palette after a theme change. */
-(function(){
-  window.addEventListener('load',()=>{
-    document.querySelector('.theme-toggle')?.addEventListener('click',()=>requestAnimationFrame(()=>{
-      document.getElementById('copierDepartmentChartType')?.dispatchEvent(new Event('change'));
-    }));
-  },{once:true});
+(function () {
+  window.addEventListener(
+    "load",
+    () => {
+      document.querySelector(".theme-toggle")?.addEventListener("click", () =>
+        requestAnimationFrame(() => {
+          document
+            .getElementById("copierDepartmentChartType")
+            ?.dispatchEvent(new Event("change"));
+        }),
+      );
+    },
+    { once: true },
+  );
 })();
 
 /* Refine the Copier analytics filter heading. */
-(function(){
-  window.addEventListener('load',()=>{
-    const heading=document.getElementById('copierChartFilters')?.closest('.unified-filter-card')?.querySelector('.unified-filter-heading');
-    if(!heading)return;
-    heading.querySelector('h2').textContent='Print Performance Analysis';
-    heading.querySelector('p').textContent='Analyze print volume, color usage, and operating cost across your organization';
-  },{once:true});
+(function () {
+  window.addEventListener(
+    "load",
+    () => {
+      const heading = document
+        .getElementById("copierChartFilters")
+        ?.closest(".unified-filter-card")
+        ?.querySelector(".unified-filter-heading");
+      if (!heading) return;
+      heading.querySelector("h2").textContent = "Print Performance Analysis";
+      heading.querySelector("p").textContent =
+        "Analyze print volume, color usage, and operating cost across your organization";
+    },
+    { once: true },
+  );
 })();
 
 /* Purpose-specific icons for the Copier KPI cards. */
-(function(){
-  const icons=[
+(function () {
+  const icons = [
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>',
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c4.4 0 8 3.6 8 8 0 2.9-1.6 5.5-4 6.9-.7.4-1.5-.1-1.5-.9v-1.3a2.4 2.4 0 0 0-4.8 0 2.4 2.4 0 0 1-2.4 2.4H7A4 4 0 0 1 3 14c0-6.1 4-11 9-11Z"/><circle cx="8" cy="10" r=".8"/><circle cx="12" cy="7" r=".8"/><circle cx="16" cy="10" r=".8"/></svg>',
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 4v16a8 8 0 0 1 0-16Z"/><path d="M8 8h.01M8 12h.01M8 16h.01"/></svg>',
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v2H6.5A2.5 2.5 0 0 0 4 11.5v5A2.5 2.5 0 0 0 6.5 19H20v-8H6.5"/><circle cx="16" cy="14" r="1"/></svg>'
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v2H6.5A2.5 2.5 0 0 0 4 11.5v5A2.5 2.5 0 0 0 6.5 19H20v-8H6.5"/><circle cx="16" cy="14" r="1"/></svg>',
   ];
-  window.addEventListener('load',()=>document.querySelectorAll('#copierprinterusageDashboard .unified-kpi-icon').forEach((node,index)=>{if(icons[index])node.innerHTML=icons[index]}),{once:true});
+  window.addEventListener(
+    "load",
+    () =>
+      document
+        .querySelectorAll("#copierprinterusageDashboard .unified-kpi-icon")
+        .forEach((node, index) => {
+          if (icons[index]) node.innerHTML = icons[index];
+        }),
+    { once: true },
+  );
 })();
 
 /* Keep the Copier cost unit compact and aligned with the KPI value. */
-(function(){
-  const formatCostUnit=()=>{
-    const value=document.getElementById('copierTotalCost');
-    if(!value||value.dataset.copierCostFormatted===value.textContent)return;
-    const amount=value.textContent.replace(/\s*MMK\s*$/,'').trim();
-    if(amount){value.textContent=amount;value.dataset.copierCostFormatted=amount;}
+(function () {
+  const formatCostUnit = () => {
+    const value = document.getElementById("copierTotalCost");
+    if (!value || value.dataset.copierCostFormatted === value.textContent)
+      return;
+    const amount = value.textContent.replace(/\s*MMK\s*$/, "").trim();
+    if (amount) {
+      value.textContent = amount;
+      value.dataset.copierCostFormatted = amount;
+    }
   };
-  window.addEventListener('load',()=>{
-    formatCostUnit();
-    const value=document.getElementById('copierTotalCost');
-    if(value)new MutationObserver(formatCostUnit).observe(value,{childList:true});
-  },{once:true});
+  window.addEventListener(
+    "load",
+    () => {
+      formatCostUnit();
+      const value = document.getElementById("copierTotalCost");
+      if (value)
+        new MutationObserver(formatCostUnit).observe(value, {
+          childList: true,
+        });
+    },
+    { once: true },
+  );
 })();
 
 /* Site Coverage table search, filter and editable coverage controls */
-(function(){
- function filterSiteCoverage(){const table=document.querySelector('.site-assignment-matrix');if(!table)return;const query=(document.getElementById('siteCoverageSearch')?.value||'').trim().toLowerCase(),coverage=document.getElementById('siteCoverageFilter')?.value||'All coverage';let shown=0;table.querySelectorAll('tbody tr').forEach(row=>{const model=row.querySelector('.coverage-select')?.value||row.querySelector('.coverage-badge')?.textContent.trim()||'',searchable=(row.textContent+' '+(row.dataset.team||'')).toLowerCase(),visible=(!query||searchable.includes(query))&&(coverage==='All coverage'||coverage===model);row.hidden=!visible;if(visible)shown++});const count=document.getElementById('siteCoverageCount');if(count)count.textContent='Showing '+shown+' of '+table.tBodies[0].rows.length+' companies - 7 Members'}
- const storageKey='siteCoverageMatrixDB';
- function updateRowTeam(row){const headers=[...row.closest('table').querySelectorAll('thead th')].slice(3),cells=[...row.querySelectorAll('.assignment-cell')];row.dataset.team=cells.map((cell,index)=>cell.textContent.includes('✓')?headers[index]?.textContent.trim():'').filter(Boolean).join(' ')}
- function saveSiteCoverage(){const table=document.querySelector('.site-assignment-matrix');if(!table||table.dataset.storageReady!=='true')return;const rows=[...table.tBodies[0].rows].map(row=>({location:row.cells[0].textContent.trim(),coverage:row.querySelector('.coverage-select')?.value||'Scheduled',assignments:[...row.querySelectorAll('.assignment-cell')].map(cell=>cell.textContent.includes('✓'))}));localStorage.setItem(storageKey,JSON.stringify(rows))}
- function restoreSiteCoverage(table){if(!table||table.dataset.storageReady==='true')return;if(table.dataset.readonly==='true'){table.dataset.storageReady='true';return}let saved;try{saved=JSON.parse(localStorage.getItem(storageKey))}catch(e){}const rows=[...table.tBodies[0].rows];if(Array.isArray(saved)&&saved.length===rows.length)rows.forEach((row,index)=>{const record=saved[index];if(!record)return;row.cells[0].textContent=record.location||row.cells[0].textContent;const select=row.querySelector('.coverage-select');if(select&&['Full-Time','Scheduled','Planned'].includes(record.coverage)){select.value=record.coverage;select.className='coverage-select '+record.coverage.toLowerCase().replace('-','')}[...row.querySelectorAll('.assignment-cell')].forEach((cell,cellIndex)=>{const assigned=!!record.assignments?.[cellIndex];cell.textContent=assigned?'✓':'';cell.setAttribute('aria-checked',assigned?'true':'false')});updateAssignedCount(row);updateRowTeam(row)});table.dataset.storageReady='true'}
- function updateAssignedCount(row){if(!row)return;const count=[...row.querySelectorAll('.assignment-cell')].filter(cell=>cell.textContent.includes('✓')).length,target=row.cells[2];if(target)target.textContent=count}
- function toggleAssignment(cell){const row=cell.closest('tr'),assigned=!cell.textContent.includes('✓');cell.textContent=assigned?'✓':'';cell.setAttribute('aria-checked',assigned?'true':'false');updateAssignedCount(row);updateRowTeam(row);saveSiteCoverage();filterSiteCoverage()}
- document.addEventListener('input',event=>{if(event.target.id==='siteCoverageSearch')filterSiteCoverage();if(event.target.matches('.site-assignment-matrix .assignment-cell')){const row=event.target.closest('tr');updateAssignedCount(row);updateRowTeam(row);saveSiteCoverage()}else if(event.target.matches('.site-assignment-matrix tbody td:first-child'))saveSiteCoverage()});
- document.addEventListener('change',event=>{if(event.target.id==='siteCoverageFilter')filterSiteCoverage();if(event.target.matches('.coverage-select')){event.target.className='coverage-select '+event.target.value.toLowerCase().replace('-','');saveSiteCoverage();filterSiteCoverage()}});
- document.addEventListener('click',event=>{const cell=event.target.closest('.site-assignment-matrix:not([data-readonly="true"]) .assignment-cell');if(cell){event.preventDefault();toggleAssignment(cell)}});
- document.addEventListener('keydown',event=>{const cell=event.target.closest?.('.site-assignment-matrix:not([data-readonly="true"]) .assignment-cell');if(cell&&(event.key==='Enter'||event.key===' ')){event.preventDefault();toggleAssignment(cell)}});
- document.addEventListener('click',event=>{const button=event.target.closest('.btn.primary'),table=document.querySelector('.site-assignment-matrix:not([data-readonly="true"])');if(!button||!table||active!=='Manpower')return;event.preventDefault();event.stopImmediatePropagation();saveSiteCoverage();sessionStorage.setItem('manpowerVisualTab','onsite');show('Site coverage changes saved')},true);
- function addSiteSummary(card){if(!card||card.parentElement?.querySelector('.unified-kpi-grid'))return;const chartCard=card.previousElementSibling?.classList.contains('site-team-coverage-card')?card.previousElementSibling:null,target=chartCard||card;target.insertAdjacentHTML('beforebegin','<section class="unified-kpi-grid"><article class="summary-card tone-orange"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><b>Total Locations</b><small>All supported sites</small></div><strong>12</strong></article><article class="summary-card tone-green"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a7 7 0 0 1 12-4.9M16 19l2 2 4-5"/></svg></span><div><b>Full-Time</b><small>Dedicated coverage</small></div><strong>5</strong></article><article class="summary-card tone-yellow"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18M8 14h3M8 17h6"/><circle cx="17" cy="16" r="2"/></svg></span><div><b>Scheduled</b><small>Recurring support</small></div><strong>6</strong></article><article class="summary-card tone-red"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><path d="M4 20V6a2 2 0 0 1 2-2h9l5 5v11H4Z"/><path d="M15 4v5h5M8 14h8M8 17h5"/></svg></span><div><b>Planned</b><small>Upcoming coverage</small></div><strong>1</strong></article></section>')}
- function addSiteOverviewTitle(card){const summary=card?.parentElement?.querySelector('.unified-kpi-grid');if(!summary||summary.previousElementSibling?.classList.contains('site-overview-heading'))return;summary.insertAdjacentHTML('beforebegin','<div class="planning-visual-heading site-overview-heading"><div><h2>Company Coverage Overview</h2><p>Support presence across 15 companies</p></div></div>')}
- function clearUnassigned(){document.querySelectorAll('.site-assignment-matrix:not([data-readonly="true"]) .assignment-cell').forEach(cell=>{if(cell.textContent.trim()==='—')cell.textContent='';cell.removeAttribute('contenteditable');cell.setAttribute('role','checkbox');cell.setAttribute('tabindex','0');cell.setAttribute('aria-checked',cell.textContent.includes('✓')?'true':'false')});document.querySelectorAll('.site-assignment-matrix tbody td:nth-child(3)').forEach(cell=>{cell.removeAttribute('contenteditable');cell.classList.add('assigned-total');cell.setAttribute('aria-readonly','true')});document.querySelectorAll('.site-assignment-matrix').forEach(restoreSiteCoverage);document.querySelectorAll('.site-assignment-matrix').forEach(table=>{const card=table.closest('.unified-table-card');addSiteSummary(card);addSiteOverviewTitle(card)})}
- clearUnassigned();new MutationObserver(records=>records.some(record=>record.addedNodes.length)&&clearUnassigned()).observe(document.body,{childList:true,subtree:true});
+(function () {
+  function filterSiteCoverage() {
+    const table = document.querySelector(".site-assignment-matrix");
+    if (!table) return;
+    const query = (document.getElementById("siteCoverageSearch")?.value || "")
+        .trim()
+        .toLowerCase(),
+      coverage =
+        document.getElementById("siteCoverageFilter")?.value || "All coverage";
+    let shown = 0;
+    table.querySelectorAll("tbody tr").forEach((row) => {
+      const model =
+          row.querySelector(".coverage-select")?.value ||
+          row.querySelector(".coverage-badge")?.textContent.trim() ||
+          "",
+        searchable = (
+          row.textContent +
+          " " +
+          (row.dataset.team || "")
+        ).toLowerCase(),
+        visible =
+          (!query || searchable.includes(query)) &&
+          (coverage === "All coverage" || coverage === model);
+      row.hidden = !visible;
+      if (visible) shown++;
+    });
+    const count = document.getElementById("siteCoverageCount");
+    if (count)
+      count.textContent =
+        "Showing " +
+        shown +
+        " of " +
+        table.tBodies[0].rows.length +
+        " companies - 7 Members";
+  }
+  const storageKey = "siteCoverageMatrixDB";
+  function updateRowTeam(row) {
+    const headers = [
+        ...row.closest("table").querySelectorAll("thead th"),
+      ].slice(3),
+      cells = [...row.querySelectorAll(".assignment-cell")];
+    row.dataset.team = cells
+      .map((cell, index) =>
+        cell.textContent.includes("✓")
+          ? headers[index]?.textContent.trim()
+          : "",
+      )
+      .filter(Boolean)
+      .join(" ");
+  }
+  function saveSiteCoverage() {
+    const table = document.querySelector(".site-assignment-matrix");
+    if (!table || table.dataset.storageReady !== "true") return;
+    const rows = [...table.tBodies[0].rows].map((row) => ({
+      location: row.cells[0].textContent.trim(),
+      coverage: row.querySelector(".coverage-select")?.value || "Scheduled",
+      assignments: [...row.querySelectorAll(".assignment-cell")].map((cell) =>
+        cell.textContent.includes("✓"),
+      ),
+    }));
+    localStorage.setItem(storageKey, JSON.stringify(rows));
+  }
+  function restoreSiteCoverage(table) {
+    if (!table || table.dataset.storageReady === "true") return;
+    if (table.dataset.readonly === "true") {
+      table.dataset.storageReady = "true";
+      return;
+    }
+    let saved;
+    try {
+      saved = JSON.parse(localStorage.getItem(storageKey));
+    } catch (e) {}
+    const rows = [...table.tBodies[0].rows];
+    if (Array.isArray(saved) && saved.length === rows.length)
+      rows.forEach((row, index) => {
+        const record = saved[index];
+        if (!record) return;
+        row.cells[0].textContent = record.location || row.cells[0].textContent;
+        const select = row.querySelector(".coverage-select");
+        if (
+          select &&
+          ["Full-Time", "Scheduled", "Planned"].includes(record.coverage)
+        ) {
+          select.value = record.coverage;
+          select.className =
+            "coverage-select " + record.coverage.toLowerCase().replace("-", "");
+        }
+        [...row.querySelectorAll(".assignment-cell")].forEach(
+          (cell, cellIndex) => {
+            const assigned = !!record.assignments?.[cellIndex];
+            cell.textContent = assigned ? "✓" : "";
+            cell.setAttribute("aria-checked", assigned ? "true" : "false");
+          },
+        );
+        updateAssignedCount(row);
+        updateRowTeam(row);
+      });
+    table.dataset.storageReady = "true";
+  }
+  function updateAssignedCount(row) {
+    if (!row) return;
+    const count = [...row.querySelectorAll(".assignment-cell")].filter((cell) =>
+        cell.textContent.includes("✓"),
+      ).length,
+      target = row.cells[2];
+    if (target) target.textContent = count;
+  }
+  function toggleAssignment(cell) {
+    const row = cell.closest("tr"),
+      assigned = !cell.textContent.includes("✓");
+    cell.textContent = assigned ? "✓" : "";
+    cell.setAttribute("aria-checked", assigned ? "true" : "false");
+    updateAssignedCount(row);
+    updateRowTeam(row);
+    saveSiteCoverage();
+    filterSiteCoverage();
+  }
+  document.addEventListener("input", (event) => {
+    if (event.target.id === "siteCoverageSearch") filterSiteCoverage();
+    if (event.target.matches(".site-assignment-matrix .assignment-cell")) {
+      const row = event.target.closest("tr");
+      updateAssignedCount(row);
+      updateRowTeam(row);
+      saveSiteCoverage();
+    } else if (
+      event.target.matches(".site-assignment-matrix tbody td:first-child")
+    )
+      saveSiteCoverage();
+  });
+  document.addEventListener("change", (event) => {
+    if (event.target.id === "siteCoverageFilter") filterSiteCoverage();
+    if (event.target.matches(".coverage-select")) {
+      event.target.className =
+        "coverage-select " + event.target.value.toLowerCase().replace("-", "");
+      saveSiteCoverage();
+      filterSiteCoverage();
+    }
+  });
+  document.addEventListener("click", (event) => {
+    const cell = event.target.closest(
+      '.site-assignment-matrix:not([data-readonly="true"]) .assignment-cell',
+    );
+    if (cell) {
+      event.preventDefault();
+      toggleAssignment(cell);
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    const cell = event.target.closest?.(
+      '.site-assignment-matrix:not([data-readonly="true"]) .assignment-cell',
+    );
+    if (cell && (event.key === "Enter" || event.key === " ")) {
+      event.preventDefault();
+      toggleAssignment(cell);
+    }
+  });
+  document.addEventListener(
+    "click",
+    (event) => {
+      const button = event.target.closest(".btn.primary"),
+        table = document.querySelector(
+          '.site-assignment-matrix:not([data-readonly="true"])',
+        );
+      if (!button || !table || active !== "Manpower") return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      saveSiteCoverage();
+      sessionStorage.setItem("manpowerVisualTab", "onsite");
+      show("Site coverage changes saved");
+    },
+    true,
+  );
+  function addSiteSummary(card) {
+    if (!card || card.parentElement?.querySelector(".unified-kpi-grid")) return;
+    const chartCard = card.previousElementSibling?.classList.contains(
+        "site-team-coverage-card",
+      )
+        ? card.previousElementSibling
+        : null,
+      target = chartCard || card;
+    target.insertAdjacentHTML(
+      "beforebegin",
+      '<section class="unified-kpi-grid"><article class="summary-card tone-orange"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div><b>Total Locations</b><small>All supported sites</small></div><strong>12</strong></article><article class="summary-card tone-green"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a7 7 0 0 1 12-4.9M16 19l2 2 4-5"/></svg></span><div><b>Full-Time</b><small>Dedicated coverage</small></div><strong>5</strong></article><article class="summary-card tone-yellow"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18M8 14h3M8 17h6"/><circle cx="17" cy="16" r="2"/></svg></span><div><b>Scheduled</b><small>Recurring support</small></div><strong>6</strong></article><article class="summary-card tone-red"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><path d="M4 20V6a2 2 0 0 1 2-2h9l5 5v11H4Z"/><path d="M15 4v5h5M8 14h8M8 17h5"/></svg></span><div><b>Planned</b><small>Upcoming coverage</small></div><strong>1</strong></article></section>',
+    );
+  }
+  function addSiteOverviewTitle(card) {
+    const summary = card?.parentElement?.querySelector(".unified-kpi-grid");
+    if (
+      !summary ||
+      summary.previousElementSibling?.classList.contains(
+        "site-overview-heading",
+      )
+    )
+      return;
+    summary.insertAdjacentHTML(
+      "beforebegin",
+      '<div class="planning-visual-heading site-overview-heading"><div><h2>Company Coverage Overview</h2><p>Support presence across 15 companies</p></div></div>',
+    );
+  }
+  function clearUnassigned() {
+    document
+      .querySelectorAll(
+        '.site-assignment-matrix:not([data-readonly="true"]) .assignment-cell',
+      )
+      .forEach((cell) => {
+        if (cell.textContent.trim() === "—") cell.textContent = "";
+        cell.removeAttribute("contenteditable");
+        cell.setAttribute("role", "checkbox");
+        cell.setAttribute("tabindex", "0");
+        cell.setAttribute(
+          "aria-checked",
+          cell.textContent.includes("✓") ? "true" : "false",
+        );
+      });
+    document
+      .querySelectorAll(".site-assignment-matrix tbody td:nth-child(3)")
+      .forEach((cell) => {
+        cell.removeAttribute("contenteditable");
+        cell.classList.add("assigned-total");
+        cell.setAttribute("aria-readonly", "true");
+      });
+    document
+      .querySelectorAll(".site-assignment-matrix")
+      .forEach(restoreSiteCoverage);
+    document.querySelectorAll(".site-assignment-matrix").forEach((table) => {
+      const card = table.closest(".unified-table-card");
+      addSiteSummary(card);
+      addSiteOverviewTitle(card);
+    });
+  }
+  clearUnassigned();
+  new MutationObserver(
+    (records) =>
+      records.some((record) => record.addedNodes.length) && clearUnassigned(),
+  ).observe(document.body, { childList: true, subtree: true });
 })();
-
 
 /* Keep Microsoft 365 License totals permanently read-only */
-(function(){
- function lockLicenseTotal(){const table=document.querySelector('[data-table="license-utilization"] table');if(table)table.classList.add('m365-license-table');document.querySelectorAll('[data-table="license-utilization"] tr.total-row td').forEach(cell=>{cell.classList.add('derived-cell');cell.setAttribute('aria-readonly','true')})}
- document.addEventListener('beforeinput',event=>{if(event.target.closest?.('[data-table="license-utilization"] tr.total-row'))event.preventDefault()},true);
- lockLicenseTotal();new MutationObserver(records=>records.some(record=>record.addedNodes.length)&&lockLicenseTotal()).observe(document.body,{childList:true,subtree:true});
+(function () {
+  function lockLicenseTotal() {
+    const table = document.querySelector(
+      '[data-table="license-utilization"] table',
+    );
+    if (table) table.classList.add("m365-license-table");
+    document
+      .querySelectorAll('[data-table="license-utilization"] tr.total-row td')
+      .forEach((cell) => {
+        cell.classList.add("derived-cell");
+        cell.setAttribute("aria-readonly", "true");
+      });
+  }
+  document.addEventListener(
+    "beforeinput",
+    (event) => {
+      if (
+        event.target.closest?.(
+          '[data-table="license-utilization"] tr.total-row',
+        )
+      )
+        event.preventDefault();
+    },
+    true,
+  );
+  lockLicenseTotal();
+  new MutationObserver(
+    (records) =>
+      records.some((record) => record.addedNodes.length) && lockLicenseTotal(),
+  ).observe(document.body, { childList: true, subtree: true });
 })();
 
-
-
-(function(){
- function recolorCharts(){
-   const dark=document.body.classList.contains('dark');
-   if(window.bar){const ds=bar.data.datasets[0];ds.backgroundColor=bar.config.type==='line'?(dark?'rgba(255,139,87,.16)':'rgba(209,42,49,.12)'):(dark?'#f27642':'#d12a31');ds.borderColor=dark?'#ff9b6f':'#d12a31';ds.borderWidth=3;bar.options.scales.x.ticks.color=dark?'#d9c4c2':'#827477';bar.options.scales.y.ticks.color=dark?'#d9c4c2':'#827477';bar.options.scales.y.grid.color=dark?'#522e35':'#f1e4dd';bar.update()}
-   if(window.donut){donut.data.datasets[0].backgroundColor=dark?['#ff8755','#f6c768','#da5a62','#9e7942']:['#d12a31','#f06428','#d6a13b','#8d5754'];donut.data.datasets[0].borderColor=dark?'#32171e':'#fffaf6';donut.update()}
- }
- window.toggleTheme=function(){document.body.classList.toggle('dark');localStorage.setItem('itHubTheme',document.body.classList.contains('dark')?'dark':'light');recolorCharts()};
- const toggle=document.querySelector('.theme-toggle');if(toggle){toggle.onclick=window.toggleTheme;toggle.setAttribute('aria-label','Toggle dark mode');toggle.setAttribute('title','Switch light or dark theme')}
- const baseCharts=window.charts;window.charts=function(){baseCharts();recolorCharts()};
- recolorCharts();
+(function () {
+  function recolorCharts() {
+    const dark = document.body.classList.contains("dark");
+    if (window.bar) {
+      const ds = bar.data.datasets[0];
+      ds.backgroundColor =
+        bar.config.type === "line"
+          ? dark
+            ? "rgba(255,139,87,.16)"
+            : "rgba(209,42,49,.12)"
+          : dark
+            ? "#f27642"
+            : "#d12a31";
+      ds.borderColor = dark ? "#ff9b6f" : "#d12a31";
+      ds.borderWidth = 3;
+      bar.options.scales.x.ticks.color = dark ? "#d9c4c2" : "#827477";
+      bar.options.scales.y.ticks.color = dark ? "#d9c4c2" : "#827477";
+      bar.options.scales.y.grid.color = dark ? "#522e35" : "#f1e4dd";
+      bar.update();
+    }
+    if (window.donut) {
+      donut.data.datasets[0].backgroundColor = dark
+        ? ["#ff8755", "#f6c768", "#da5a62", "#9e7942"]
+        : ["#d12a31", "#f06428", "#d6a13b", "#8d5754"];
+      donut.data.datasets[0].borderColor = dark ? "#32171e" : "#fffaf6";
+      donut.update();
+    }
+  }
+  window.toggleTheme = function () {
+    document.body.classList.toggle("dark");
+    localStorage.setItem(
+      "itHubTheme",
+      document.body.classList.contains("dark") ? "dark" : "light",
+    );
+    recolorCharts();
+  };
+  const toggle = document.querySelector(".theme-toggle");
+  if (toggle) {
+    toggle.onclick = window.toggleTheme;
+    toggle.setAttribute("aria-label", "Toggle dark mode");
+    toggle.setAttribute("title", "Switch light or dark theme");
+  }
+  const baseCharts = window.charts;
+  window.charts = function () {
+    baseCharts();
+    recolorCharts();
+  };
+  recolorCharts();
 })();
 
-
-
-(function(){
- const navEl=document.getElementById('nav');
- function decorateNav(){
-  navEl.querySelectorAll('button').forEach(button=>{if(button.dataset.decorated)return;const text=button.textContent.trim();const found=menu.find(item=>text.endsWith(item[1]));if(found){button.innerHTML='<span class="nav-icon">'+found[0]+'</span><span class="nav-text">'+found[1]+'</span>';button.dataset.decorated='yes'}})
- }
- const observer=new MutationObserver(decorateNav);observer.observe(navEl,{childList:true});decorateNav();
- const brand=document.querySelector('.brand');
- if(brand&&!document.querySelector('.collapse-btn')){const collapse=document.createElement('button');collapse.className='collapse-btn';collapse.innerHTML='‹';collapse.title='Collapse menu';collapse.onclick=()=>{side.classList.toggle('collapsed');localStorage.setItem('itHubSidebar',side.classList.contains('collapsed')?'collapsed':'open')};brand.append(collapse);if(localStorage.getItem('itHubSidebar')==='collapsed')side.classList.add('collapsed')}
- function updateBrandCharts(){
-   const dark=document.body.classList.contains('dark');
-   if(window.bar){const dataSet=bar.data.datasets[0],ctx=bar.ctx,gradient=ctx.createLinearGradient(0,0,0,bar.height);gradient.addColorStop(0,dark?'#ff9365':'#d12a31');gradient.addColorStop(1,dark?'#b64138':'#f5a044');dataSet.backgroundColor=bar.config.type==='line'?(dark?'rgba(255,139,87,.16)':'rgba(209,42,49,.10)'):gradient;dataSet.borderColor=dark?'#ff986c':'#d12a31';dataSet.borderWidth=3;dataSet.pointRadius=4;dataSet.pointHoverRadius=6;dataSet.pointBackgroundColor=dark?'#ffc06b':'#f06428';bar.options.scales.x.ticks.color=dark?'#dfc8c5':'#7d6663';bar.options.scales.y.ticks.color=dark?'#dfc8c5':'#7d6663';bar.options.scales.y.grid.color=dark?'#533035':'#f1e2db';bar.update()}
-   if(window.donut){donut.data.datasets[0].backgroundColor=dark?['#ff8452','#f7c66a','#d85962','#a57943']:['#d12a31','#f06428','#d6a13b','#8d5754'];donut.data.datasets[0].borderColor=dark?'#32171e':'#fffaf7';donut.data.datasets[0].borderWidth=5;donut.options.plugins.brandCentre={label:'TOTAL',value:donut.data.datasets[0].data.reduce((a,b)=>a+b,0),dark};donut.update()}
- }
- if(!Chart.registry.plugins.get('brandCentre'))Chart.register({id:'brandCentre',afterDatasetsDraw(chart,args,opts){if(chart.canvas.id!=='pie'||!opts)return;const c=chart.ctx,a=chart.chartArea,x=(a.left+a.right)/2,y=(a.top+a.bottom)/2;c.save();c.textAlign='center';c.fillStyle=opts.dark?'#e4cbc6':'#8b5d52';c.font='700 10px Arial';c.fillText(opts.label,x,y-4);c.fillStyle=opts.dark?'#fff3e9':'#3d2525';c.font='700 22px Arial';c.fillText(opts.value,x,y+19);c.restore()}});
- const previousCharts=window.charts;window.charts=function(){previousCharts();updateBrandCharts()};
- const previousToggle=window.toggleTheme;window.toggleTheme=function(){previousToggle();updateBrandCharts()};updateBrandCharts();
+(function () {
+  const navEl = document.getElementById("nav");
+  function decorateNav() {
+    navEl.querySelectorAll("button").forEach((button) => {
+      if (button.dataset.decorated) return;
+      const text = button.textContent.trim();
+      const found = menu.find((item) => text.endsWith(item[1]));
+      if (found) {
+        button.innerHTML =
+          '<span class="nav-icon">' +
+          found[0] +
+          '</span><span class="nav-text">' +
+          found[1] +
+          "</span>";
+        button.dataset.decorated = "yes";
+      }
+    });
+  }
+  const observer = new MutationObserver(decorateNav);
+  observer.observe(navEl, { childList: true });
+  decorateNav();
+  const brand = document.querySelector(".brand");
+  if (brand && !document.querySelector(".collapse-btn")) {
+    const collapse = document.createElement("button");
+    collapse.className = "collapse-btn";
+    collapse.innerHTML = "‹";
+    collapse.title = "Collapse menu";
+    collapse.onclick = () => {
+      side.classList.toggle("collapsed");
+      localStorage.setItem(
+        "itHubSidebar",
+        side.classList.contains("collapsed") ? "collapsed" : "open",
+      );
+    };
+    brand.append(collapse);
+    if (localStorage.getItem("itHubSidebar") === "collapsed")
+      side.classList.add("collapsed");
+  }
+  function updateBrandCharts() {
+    const dark = document.body.classList.contains("dark");
+    if (window.bar) {
+      const dataSet = bar.data.datasets[0],
+        ctx = bar.ctx,
+        gradient = ctx.createLinearGradient(0, 0, 0, bar.height);
+      gradient.addColorStop(0, dark ? "#ff9365" : "#d12a31");
+      gradient.addColorStop(1, dark ? "#b64138" : "#f5a044");
+      dataSet.backgroundColor =
+        bar.config.type === "line"
+          ? dark
+            ? "rgba(255,139,87,.16)"
+            : "rgba(209,42,49,.10)"
+          : gradient;
+      dataSet.borderColor = dark ? "#ff986c" : "#d12a31";
+      dataSet.borderWidth = 3;
+      dataSet.pointRadius = 4;
+      dataSet.pointHoverRadius = 6;
+      dataSet.pointBackgroundColor = dark ? "#ffc06b" : "#f06428";
+      bar.options.scales.x.ticks.color = dark ? "#dfc8c5" : "#7d6663";
+      bar.options.scales.y.ticks.color = dark ? "#dfc8c5" : "#7d6663";
+      bar.options.scales.y.grid.color = dark ? "#533035" : "#f1e2db";
+      bar.update();
+    }
+    if (window.donut) {
+      donut.data.datasets[0].backgroundColor = dark
+        ? ["#ff8452", "#f7c66a", "#d85962", "#a57943"]
+        : ["#d12a31", "#f06428", "#d6a13b", "#8d5754"];
+      donut.data.datasets[0].borderColor = dark ? "#32171e" : "#fffaf7";
+      donut.data.datasets[0].borderWidth = 5;
+      donut.options.plugins.brandCentre = {
+        label: "TOTAL",
+        value: donut.data.datasets[0].data.reduce((a, b) => a + b, 0),
+        dark,
+      };
+      donut.update();
+    }
+  }
+  if (!Chart.registry.plugins.get("brandCentre"))
+    Chart.register({
+      id: "brandCentre",
+      afterDatasetsDraw(chart, args, opts) {
+        if (chart.canvas.id !== "pie" || !opts) return;
+        const c = chart.ctx,
+          a = chart.chartArea,
+          x = (a.left + a.right) / 2,
+          y = (a.top + a.bottom) / 2;
+        c.save();
+        c.textAlign = "center";
+        c.fillStyle = opts.dark ? "#e4cbc6" : "#8b5d52";
+        c.font = "700 10px Arial";
+        c.fillText(opts.label, x, y - 4);
+        c.fillStyle = opts.dark ? "#fff3e9" : "#3d2525";
+        c.font = "700 22px Arial";
+        c.fillText(opts.value, x, y + 19);
+        c.restore();
+      },
+    });
+  const previousCharts = window.charts;
+  window.charts = function () {
+    previousCharts();
+    updateBrandCharts();
+  };
+  const previousToggle = window.toggleTheme;
+  window.toggleTheme = function () {
+    previousToggle();
+    updateBrandCharts();
+  };
+  updateBrandCharts();
 })();
 
-
-
-(function(){
- buildNav();page(active);
- function applyProfessionalCharts(){
-   const dark=document.body.classList.contains('dark');
-   const colors=dark?['#ff8452','#f7c66a','#d85962','#a57943','#d98957','#c75b71','#e2af4d']:['#d12a31','#f06428','#d6a13b','#8d5754','#e48654','#b94958','#c89435'];
-   if(window.bar){const set=bar.data.datasets[0],ctx=bar.ctx,g=ctx.createLinearGradient(0,0,0,bar.height);g.addColorStop(0,dark?'#ff9569':'#d12a31');g.addColorStop(1,dark?'#cc4e40':'#f4a044');set.backgroundColor=bar.config.type==='line'?(dark?'rgba(255,132,82,.16)':'rgba(209,42,49,.12)'):g;set.borderColor=dark?'#ff9569':'#d12a31';set.pointBackgroundColor='#f3ad4a';set.pointBorderColor=dark?'#32171e':'#fffaf7';set.pointRadius=4;set.pointHoverRadius=7;set.borderWidth=3;bar.update()}
-   if(window.donut){donut.data.datasets[0].backgroundColor=donut.data.labels.map((_,i)=>colors[i%colors.length]);donut.data.datasets[0].borderColor=dark?'#32171e':'#fffaf7';donut.data.datasets[0].borderWidth=5;donut.options.plugins.brandCentre={label:'STATUS',value:donut.data.datasets[0].data.reduce((a,b)=>a+b,0),dark};donut.update();(document.getElementById('microsoft365LicenseLegend')||document.getElementById('legend')).innerHTML=donut.data.labels.map((label,i)=>'<div><span><i class="dot" style="background:'+colors[i%colors.length]+'"></i>'+label+'</span><b>'+donut.data.datasets[0].data[i]+' records</b></div>').join('')}
- }
- const oldCharts=window.charts;window.charts=function(){oldCharts();applyProfessionalCharts()};
- const oldTheme=window.toggleTheme;window.toggleTheme=function(){oldTheme();applyProfessionalCharts()};
- /* A file updates the currently open page only. Sheet names never create menus. */
- file.onchange=e=>{const upload=e.target.files[0];if(!upload)return;const reader=new FileReader();reader.onload=result=>{const workbook=XLSX.read(result.target.result,{type:'array'});const normal=x=>String(x).toLowerCase().replace(/[^a-z0-9]/g,'');const preferred=workbook.SheetNames.find(name=>normal(name)===normal(active))||workbook.SheetNames[0];const rows=XLSX.utils.sheet_to_json(workbook.Sheets[preferred],{defval:''});if(!rows.length)return show('No data rows found in the selected worksheet');data[active]=rows;page(active);show('Excel data updated for '+active+' only')};reader.readAsArrayBuffer(upload)};
- applyProfessionalCharts();
+(function () {
+  buildNav();
+  page(active);
+  function applyProfessionalCharts() {
+    const dark = document.body.classList.contains("dark");
+    const colors = dark
+      ? [
+          "#ff8452",
+          "#f7c66a",
+          "#d85962",
+          "#a57943",
+          "#d98957",
+          "#c75b71",
+          "#e2af4d",
+        ]
+      : [
+          "#d12a31",
+          "#f06428",
+          "#d6a13b",
+          "#8d5754",
+          "#e48654",
+          "#b94958",
+          "#c89435",
+        ];
+    if (window.bar) {
+      const set = bar.data.datasets[0],
+        ctx = bar.ctx,
+        g = ctx.createLinearGradient(0, 0, 0, bar.height);
+      g.addColorStop(0, dark ? "#ff9569" : "#d12a31");
+      g.addColorStop(1, dark ? "#cc4e40" : "#f4a044");
+      set.backgroundColor =
+        bar.config.type === "line"
+          ? dark
+            ? "rgba(255,132,82,.16)"
+            : "rgba(209,42,49,.12)"
+          : g;
+      set.borderColor = dark ? "#ff9569" : "#d12a31";
+      set.pointBackgroundColor = "#f3ad4a";
+      set.pointBorderColor = dark ? "#32171e" : "#fffaf7";
+      set.pointRadius = 4;
+      set.pointHoverRadius = 7;
+      set.borderWidth = 3;
+      bar.update();
+    }
+    if (window.donut) {
+      donut.data.datasets[0].backgroundColor = donut.data.labels.map(
+        (_, i) => colors[i % colors.length],
+      );
+      donut.data.datasets[0].borderColor = dark ? "#32171e" : "#fffaf7";
+      donut.data.datasets[0].borderWidth = 5;
+      donut.options.plugins.brandCentre = {
+        label: "STATUS",
+        value: donut.data.datasets[0].data.reduce((a, b) => a + b, 0),
+        dark,
+      };
+      donut.update();
+      (
+        document.getElementById("microsoft365LicenseLegend") ||
+        document.getElementById("legend")
+      ).innerHTML = donut.data.labels
+        .map(
+          (label, i) =>
+            '<div><span><i class="dot" style="background:' +
+            colors[i % colors.length] +
+            '"></i>' +
+            label +
+            "</span><b>" +
+            donut.data.datasets[0].data[i] +
+            " records</b></div>",
+        )
+        .join("");
+    }
+  }
+  const oldCharts = window.charts;
+  window.charts = function () {
+    oldCharts();
+    applyProfessionalCharts();
+  };
+  const oldTheme = window.toggleTheme;
+  window.toggleTheme = function () {
+    oldTheme();
+    applyProfessionalCharts();
+  };
+  /* A file updates the currently open page only. Sheet names never create menus. */
+  file.onchange = (e) => {
+    const upload = e.target.files[0];
+    if (!upload) return;
+    const reader = new FileReader();
+    reader.onload = (result) => {
+      const workbook = XLSX.read(result.target.result, { type: "array" });
+      const normal = (x) =>
+        String(x)
+          .toLowerCase()
+          .replace(/[^a-z0-9]/g, "");
+      const preferred =
+        workbook.SheetNames.find((name) => normal(name) === normal(active)) ||
+        workbook.SheetNames[0];
+      const rows = XLSX.utils.sheet_to_json(workbook.Sheets[preferred], {
+        defval: "",
+      });
+      if (!rows.length)
+        return show("No data rows found in the selected worksheet");
+      data[active] = rows;
+      page(active);
+      show("Excel data updated for " + active + " only");
+    };
+    reader.readAsArrayBuffer(upload);
+  };
+  applyProfessionalCharts();
 })();
 
-
-
-(function(){
- /* Replace the earlier centre-label renderer so no undefined text can be drawn. */
- const previousCentre=Chart.registry.plugins.get('brandCentre'); if(previousCentre) Chart.unregister(previousCentre);
- Chart.register({id:'brandCentre',afterDatasetsDraw(chart,args,opts){if(chart.canvas.id!=='pie'||!opts||!Number.isFinite(opts.total))return;const dark=document.body.classList.contains('dark'),area=chart.chartArea,ctx=chart.ctx,x=(area.left+area.right)/2,y=(area.top+area.bottom)/2;ctx.save();ctx.textAlign='center';ctx.fillStyle=dark?'#f2dcd6':'#7d5048';ctx.font='700 10px Poppins, Arial';ctx.fillText(opts.label||'PORTFOLIO',x,y-5);ctx.fillStyle=dark?'#fff7f0':'#351d20';ctx.font='700 22px Poppins, Arial';ctx.fillText(String(opts.total),x,y+19);ctx.restore()}});
- function syncDashboardVisuals(){
-   const dark=document.body.classList.contains('dark');
-   const palette=dark?['#ff8755','#f5c66b','#d85b64','#ad7d45','#dd925e','#c75f78','#e1b253']:['#d12a31','#f06428','#d6a13b','#8d5754','#e38152','#b84758','#c28e34'];
-   if(typeof bar!=='undefined'&&bar){const dataset=bar.data.datasets[0],gradient=bar.ctx.createLinearGradient(0,0,0,bar.height);gradient.addColorStop(0,dark?'#ff9469':'#d12a31');gradient.addColorStop(1,dark?'#bd493e':'#f3a047');dataset.backgroundColor=bar.config.type==='line'?(dark?'rgba(255,135,85,.17)':'rgba(209,42,49,.12)'):gradient;dataset.borderColor=dark?'#ff986d':'#d12a31';dataset.pointBackgroundColor='#f0a541';dataset.pointBorderColor=dark?'#32171e':'#fffaf7';dataset.borderWidth=3;dataset.pointRadius=4;dataset.pointHoverRadius=7;bar.options.scales.x.ticks.color=dark?'#e5ccc7':'#806864';bar.options.scales.x.ticks.callback=function(v){const label=this.getLabelForValue(v);return label.length>22?label.slice(0,21)+'…':label};bar.options.scales.x.ticks.maxRotation=35;bar.options.scales.x.ticks.minRotation=35;bar.options.scales.y.ticks.color=dark?'#e5ccc7':'#806864';bar.options.scales.y.grid.color=dark?'#553137':'#f1e2db';bar.update()}
-   if(typeof donut!=='undefined'&&donut){const values=donut.data.datasets[0].data;donut.data.datasets[0].backgroundColor=donut.data.labels.map((_,i)=>palette[i%palette.length]);donut.data.datasets[0].borderColor=dark?'#32171e':'#fffaf7';donut.data.datasets[0].borderWidth=5;donut.options.plugins.brandCentre={total:values.reduce((a,b)=>a+b,0),dark};donut.update();(document.getElementById('microsoft365LicenseLegend')||document.getElementById('legend')).innerHTML=donut.data.labels.map((label,i)=>'<div><span><i class="dot" style="background:'+palette[i%palette.length]+'"></i>'+label+'</span><b>'+values[i]+' records</b></div>').join('')}
- }
- /* Any edit to the table now refreshes KPI cards, the line/bar chart, and the pie chart. */
- document.addEventListener('focusout',event=>{if(event.target.matches('td[contenteditable]'))setTimeout(()=>{render();syncDashboardVisuals()},0)});
- const chartFunction=window.charts;window.charts=function(){chartFunction();syncDashboardVisuals()};
- const themeFunction=window.toggleTheme;window.toggleTheme=function(){themeFunction();syncDashboardVisuals()};
- syncDashboardVisuals();
+(function () {
+  /* Replace the earlier centre-label renderer so no undefined text can be drawn. */
+  const previousCentre = Chart.registry.plugins.get("brandCentre");
+  if (previousCentre) Chart.unregister(previousCentre);
+  Chart.register({
+    id: "brandCentre",
+    afterDatasetsDraw(chart, args, opts) {
+      if (chart.canvas.id !== "pie" || !opts || !Number.isFinite(opts.total))
+        return;
+      const dark = document.body.classList.contains("dark"),
+        area = chart.chartArea,
+        ctx = chart.ctx,
+        x = (area.left + area.right) / 2,
+        y = (area.top + area.bottom) / 2;
+      ctx.save();
+      ctx.textAlign = "center";
+      ctx.fillStyle = dark ? "#f2dcd6" : "#7d5048";
+      ctx.font = "700 10px Poppins, Arial";
+      ctx.fillText(opts.label || "PORTFOLIO", x, y - 5);
+      ctx.fillStyle = dark ? "#fff7f0" : "#351d20";
+      ctx.font = "700 22px Poppins, Arial";
+      ctx.fillText(String(opts.total), x, y + 19);
+      ctx.restore();
+    },
+  });
+  function syncDashboardVisuals() {
+    const dark = document.body.classList.contains("dark");
+    const palette = dark
+      ? [
+          "#ff8755",
+          "#f5c66b",
+          "#d85b64",
+          "#ad7d45",
+          "#dd925e",
+          "#c75f78",
+          "#e1b253",
+        ]
+      : [
+          "#d12a31",
+          "#f06428",
+          "#d6a13b",
+          "#8d5754",
+          "#e38152",
+          "#b84758",
+          "#c28e34",
+        ];
+    if (typeof bar !== "undefined" && bar) {
+      const dataset = bar.data.datasets[0],
+        gradient = bar.ctx.createLinearGradient(0, 0, 0, bar.height);
+      gradient.addColorStop(0, dark ? "#ff9469" : "#d12a31");
+      gradient.addColorStop(1, dark ? "#bd493e" : "#f3a047");
+      dataset.backgroundColor =
+        bar.config.type === "line"
+          ? dark
+            ? "rgba(255,135,85,.17)"
+            : "rgba(209,42,49,.12)"
+          : gradient;
+      dataset.borderColor = dark ? "#ff986d" : "#d12a31";
+      dataset.pointBackgroundColor = "#f0a541";
+      dataset.pointBorderColor = dark ? "#32171e" : "#fffaf7";
+      dataset.borderWidth = 3;
+      dataset.pointRadius = 4;
+      dataset.pointHoverRadius = 7;
+      bar.options.scales.x.ticks.color = dark ? "#e5ccc7" : "#806864";
+      bar.options.scales.x.ticks.callback = function (v) {
+        const label = this.getLabelForValue(v);
+        return label.length > 22 ? label.slice(0, 21) + "…" : label;
+      };
+      bar.options.scales.x.ticks.maxRotation = 35;
+      bar.options.scales.x.ticks.minRotation = 35;
+      bar.options.scales.y.ticks.color = dark ? "#e5ccc7" : "#806864";
+      bar.options.scales.y.grid.color = dark ? "#553137" : "#f1e2db";
+      bar.update();
+    }
+    if (typeof donut !== "undefined" && donut) {
+      const values = donut.data.datasets[0].data;
+      donut.data.datasets[0].backgroundColor = donut.data.labels.map(
+        (_, i) => palette[i % palette.length],
+      );
+      donut.data.datasets[0].borderColor = dark ? "#32171e" : "#fffaf7";
+      donut.data.datasets[0].borderWidth = 5;
+      donut.options.plugins.brandCentre = {
+        total: values.reduce((a, b) => a + b, 0),
+        dark,
+      };
+      donut.update();
+      (
+        document.getElementById("microsoft365LicenseLegend") ||
+        document.getElementById("legend")
+      ).innerHTML = donut.data.labels
+        .map(
+          (label, i) =>
+            '<div><span><i class="dot" style="background:' +
+            palette[i % palette.length] +
+            '"></i>' +
+            label +
+            "</span><b>" +
+            values[i] +
+            " records</b></div>",
+        )
+        .join("");
+    }
+  }
+  /* Any edit to the table now refreshes KPI cards, the line/bar chart, and the pie chart. */
+  document.addEventListener("focusout", (event) => {
+    if (event.target.matches("td[contenteditable]"))
+      setTimeout(() => {
+        render();
+        syncDashboardVisuals();
+      }, 0);
+  });
+  const chartFunction = window.charts;
+  window.charts = function () {
+    chartFunction();
+    syncDashboardVisuals();
+  };
+  const themeFunction = window.toggleTheme;
+  window.toggleTheme = function () {
+    themeFunction();
+    syncDashboardVisuals();
+  };
+  syncDashboardVisuals();
 })();
 
-
-
-(function(){
- const serviceTicketDefaults=[];
- sample['Copier & Printer Usage']=[{Device:'Head Office Copier',Company:'Nature Alliance',Location:'Head Office',MonoPages:4280,ColorPages:760,Status:'Active'},{Device:'Finance Printer',Company:'Nature Valley',Location:'Finance Office',MonoPages:2150,ColorPages:320,Status:'Active'},{Device:'Operations Copier',Company:'Innobuilder',Location:'Operations Office',MonoPages:3340,ColorPages:510,Status:'Active'},{Device:'Branch Printer',Company:'Arise',Location:'Branch Office',MonoPages:1840,ColorPages:245,Status:'Maintenance'}];
- const allowed=['Dashboard','Manpower','Budget & Expense','Copier & Printer Usage','Service Tickets','Fixed Assets','Microsoft 365','FY Comparison'];
- const routes={'Dashboard':'#/','Manpower':'#/manpower','Budget & Expense':'#/budget-expense','FY Comparison':'#/fy-comparison','Copier & Printer Usage':'#/copier-printer-usage','Service Tickets':'#/service-tickets','Fixed Assets':'#/fixed-assets','Microsoft 365':'#/microsoft-365'};
- const routePages=Object.fromEntries(Object.entries(routes).map(([page,path])=>[path.toLowerCase(),page]));const routeKey=()=>location.hash.toLowerCase()||'#/';
- const icons={'Dashboard':'🏠','Manpower':'👥','Budget & Expense':'💰','Copier & Printer Usage':'🖨️','Service Tickets':'🎫','Fixed Assets':'💻','Microsoft 365':'<img src="assets/images/microsoft-365.png?v=4" alt="" width="21" height="21">','FY Comparison':'<img src="assets/images/comparison-icon.png" alt="" width="21" height="21">'};
- function limitPages(){
-   const refreshTicketSample=localStorage.getItem('serviceTicketSampleVersion')!=='3';
-   if(refreshTicketSample)data['Service Tickets']=JSON.parse(JSON.stringify(serviceTicketDefaults));
-   const clean={};allowed.forEach(name=>{clean[name]=Array.isArray(data[name])?data[name]:(Array.isArray(sample[name])?JSON.parse(JSON.stringify(sample[name])):[])});data=clean;
-   try{const saved=JSON.parse(localStorage.getItem('itHubData')||'{}'),savedClean={};allowed.forEach(name=>{savedClean[name]=name==='Service Tickets'&&refreshTicketSample?clean[name]:(Array.isArray(saved[name])?saved[name]:clean[name])});data=savedClean;localStorage.setItem('itHubData',JSON.stringify(savedClean));if(refreshTicketSample)localStorage.setItem('serviceTicketSampleVersion','3')}catch(e){}
- }
- function syncActive(name){[...nav.children].forEach(button=>{const selected=button.querySelector('.nav-text')?.textContent===name;button.classList.toggle('active',selected);button.setAttribute('aria-current',selected?'page':'false')});[...tabs.children].forEach(button=>button.classList.toggle('active',button.textContent===name))}function go(name,push=true){if(push&&routeKey()!==routes[name].toLowerCase())history.pushState({page:name},'',routes[name]);page(name);syncActive(name)}
- window.buildNav=function(){
-   limitPages();nav.innerHTML=tabs.innerHTML='';
-   allowed.forEach(name=>{const a=document.createElement('button'),b=document.createElement('button');a.innerHTML='<span class="nav-icon">'+icons[name]+'</span><span class="nav-text">'+name+'</span>';a.dataset.decorated='yes';a.dataset.href=routes[name];a.dataset.page=name;a.onclick=()=>go(name);b.textContent=name;b.onclick=()=>go(name);nav.append(a);tabs.append(b)});
- };
- window.addEventListener('popstate',()=>go(routePages[routeKey()]||'Dashboard',false));window.addEventListener('hashchange',()=>go(routePages[routeKey()]||'Dashboard',false));
- limitPages();buildNav();const requested=routePages[routeKey()]||'Dashboard';if(!routePages[routeKey()])history.replaceState({page:requested},'',routes[requested]);go(requested,false);
- const brand=document.querySelector('.brand span');if(brand)brand.innerHTML='<strong>Nature A</strong><small>Digital Hub</small>';
+(function () {
+  const serviceTicketDefaults = [];
+  sample["Copier & Printer Usage"] = [
+    {
+      Device: "Head Office Copier",
+      Company: "Nature Alliance",
+      Location: "Head Office",
+      MonoPages: 4280,
+      ColorPages: 760,
+      Status: "Active",
+    },
+    {
+      Device: "Finance Printer",
+      Company: "Nature Valley",
+      Location: "Finance Office",
+      MonoPages: 2150,
+      ColorPages: 320,
+      Status: "Active",
+    },
+    {
+      Device: "Operations Copier",
+      Company: "Innobuilder",
+      Location: "Operations Office",
+      MonoPages: 3340,
+      ColorPages: 510,
+      Status: "Active",
+    },
+    {
+      Device: "Branch Printer",
+      Company: "Arise",
+      Location: "Branch Office",
+      MonoPages: 1840,
+      ColorPages: 245,
+      Status: "Maintenance",
+    },
+  ];
+  const allowed = [
+    "Dashboard",
+    "Manpower",
+    "Budget & Expense",
+    "Copier & Printer Usage",
+    "Service Tickets",
+    "Fixed Assets",
+    "Microsoft 365",
+    "FY Comparison",
+  ];
+  const routes = {
+    Dashboard: "#/",
+    Manpower: "#/manpower",
+    "Budget & Expense": "#/budget-expense",
+    "FY Comparison": "#/fy-comparison",
+    "Copier & Printer Usage": "#/copier-printer-usage",
+    "Service Tickets": "#/service-tickets",
+    "Fixed Assets": "#/fixed-assets",
+    "Microsoft 365": "#/microsoft-365",
+  };
+  const routePages = Object.fromEntries(
+    Object.entries(routes).map(([page, path]) => [path.toLowerCase(), page]),
+  );
+  const routeKey = () => location.hash.toLowerCase() || "#/";
+  const icons = {
+    Dashboard: "🏠",
+    Manpower: "👥",
+    "Budget & Expense": "💰",
+    "Copier & Printer Usage": "🖨️",
+    "Service Tickets": "🎫",
+    "Fixed Assets": "💻",
+    "Microsoft 365":
+      '<img src="assets/images/microsoft-365.png?v=4" alt="" width="21" height="21">',
+    "FY Comparison":
+      '<img src="assets/images/comparison-icon.png" alt="" width="21" height="21">',
+  };
+  function limitPages() {
+    const refreshTicketSample =
+      localStorage.getItem("serviceTicketSampleVersion") !== "3";
+    if (refreshTicketSample)
+      data["Service Tickets"] = JSON.parse(
+        JSON.stringify(serviceTicketDefaults),
+      );
+    const clean = {};
+    allowed.forEach((name) => {
+      clean[name] = Array.isArray(data[name])
+        ? data[name]
+        : Array.isArray(sample[name])
+          ? JSON.parse(JSON.stringify(sample[name]))
+          : [];
+    });
+    data = clean;
+    try {
+      const saved = JSON.parse(localStorage.getItem("itHubData") || "{}"),
+        savedClean = {};
+      allowed.forEach((name) => {
+        savedClean[name] =
+          name === "Service Tickets" && refreshTicketSample
+            ? clean[name]
+            : Array.isArray(saved[name])
+              ? saved[name]
+              : clean[name];
+      });
+      data = savedClean;
+      localStorage.setItem("itHubData", JSON.stringify(savedClean));
+      if (refreshTicketSample)
+        localStorage.setItem("serviceTicketSampleVersion", "3");
+    } catch (e) {}
+  }
+  function syncActive(name) {
+    [...nav.children].forEach((button) => {
+      const selected = button.querySelector(".nav-text")?.textContent === name;
+      button.classList.toggle("active", selected);
+      button.setAttribute("aria-current", selected ? "page" : "false");
+    });
+    [...tabs.children].forEach((button) =>
+      button.classList.toggle("active", button.textContent === name),
+    );
+  }
+  function go(name, push = true) {
+    if (push && routeKey() !== routes[name].toLowerCase())
+      history.pushState({ page: name }, "", routes[name]);
+    page(name);
+    syncActive(name);
+  }
+  window.buildNav = function () {
+    limitPages();
+    nav.innerHTML = tabs.innerHTML = "";
+    allowed.forEach((name) => {
+      const a = document.createElement("button"),
+        b = document.createElement("button");
+      a.innerHTML =
+        '<span class="nav-icon">' +
+        icons[name] +
+        '</span><span class="nav-text">' +
+        name +
+        "</span>";
+      a.dataset.decorated = "yes";
+      a.dataset.href = routes[name];
+      a.dataset.page = name;
+      a.onclick = () => go(name);
+      b.textContent = name;
+      b.onclick = () => go(name);
+      nav.append(a);
+      tabs.append(b);
+    });
+  };
+  window.addEventListener("popstate", () =>
+    go(routePages[routeKey()] || "Dashboard", false),
+  );
+  window.addEventListener("hashchange", () =>
+    go(routePages[routeKey()] || "Dashboard", false),
+  );
+  limitPages();
+  buildNav();
+  const requested = routePages[routeKey()] || "Dashboard";
+  if (!routePages[routeKey()])
+    history.replaceState({ page: requested }, "", routes[requested]);
+  go(requested, false);
+  const brand = document.querySelector(".brand span");
+  if (brand)
+    brand.innerHTML = "<strong>Nature A</strong><small>Digital Hub</small>";
 })();
 
-
-
-(function(){
- if(typeof Chart==='undefined')return;
- Chart.defaults.animation.duration=900;
- Chart.defaults.animation.easing='easeOutQuart';
- if(typeof window.charts==='function')window.charts();
+(function () {
+  if (typeof Chart === "undefined") return;
+  Chart.defaults.animation.duration = 900;
+  Chart.defaults.animation.easing = "easeOutQuart";
+  if (typeof window.charts === "function") window.charts();
 })();
 
-
-
-(function(){
- function applyChartTheme(){
-   const dark=document.body.classList.contains('dark');
-   const text=dark?'#e8d1cc':'#806864',grid=dark?'#553137':'#f1e2db',card=dark?'#32171e':'#fffaf7';
-   const status=dark?['#ff8755','#f5c66b','#d85b64','#ad7d45']:['#d12a31','#f06428','#d6a13b','#8d5754'];
-   Chart.defaults.color=text;
-   Object.assign(Chart.defaults.plugins.tooltip,{backgroundColor:'#171114',titleColor:'#fff7f2',bodyColor:'#fff7f2',borderColor:'#d99284',borderWidth:2,position:'nearest',padding:10,cornerRadius:8,caretPadding:10,boxPadding:4,titleFont:{family:'Poppins',size:11,weight:'700'},bodyFont:{family:'Poppins',size:12,weight:'600'}});
-   if(window.bar){
-     const ds=bar.data.datasets[0],ctx=bar.ctx,gradient=ctx.createLinearGradient(0,0,0,bar.height||250);
-     gradient.addColorStop(0,dark?'#ff9569':'#d12a31');gradient.addColorStop(1,dark?'#bd493e':'#f3a047');
-     ds.backgroundColor=bar.config.type==='line'?(dark?'rgba(255,135,85,.18)':'rgba(209,42,49,.12)'):gradient;
-     ds.borderColor=dark?'#ff986d':'#d12a31';ds.pointBackgroundColor=dark?'#ffc06b':'#f06428';ds.pointBorderColor=card;
-     bar.options.scales.x.ticks.color=text;bar.options.scales.y.ticks.color=text;bar.options.scales.x.grid.color='transparent';bar.options.scales.y.grid.color=grid;
-     bar.options.plugins.tooltip={backgroundColor:'#171114',titleColor:'#fff7f2',bodyColor:'#fff7f2',borderColor:'#d99284',borderWidth:2,position:'nearest',padding:10,cornerRadius:8,caretPadding:10,boxPadding:4,titleFont:{family:'Poppins',size:11,weight:'700'},bodyFont:{family:'Poppins',size:12,weight:'600'}};
-     bar.update();
-   }
-   if(window.donut){
-     const values=donut.data.datasets[0].data;
-     donut.data.datasets[0].backgroundColor=donut.data.labels.map((_,i)=>status[i%status.length]);donut.data.datasets[0].borderColor=card;donut.data.datasets[0].borderWidth=5;
-     donut.options.plugins.brandCentre={total:values.reduce((a,b)=>a+b,0),dark};
-     donut.options.plugins.tooltip={backgroundColor:'#171114',titleColor:'#fff7f2',bodyColor:'#fff7f2',borderColor:'#d99284',borderWidth:2,position:'nearest',padding:10,cornerRadius:8,caretPadding:10,boxPadding:4,titleFont:{family:'Poppins',size:11,weight:'700'},bodyFont:{family:'Poppins',size:12,weight:'600'}};
-     donut.update();(document.getElementById('microsoft365LicenseLegend')||document.getElementById('legend')).innerHTML=donut.data.labels.map((label,i)=>'<div><span><i class="dot" style="background:'+status[i%status.length]+'"></i>'+label+'</span><b>'+values[i]+' records</b></div>').join('');
-   }
- }
- window.toggleTheme=function(){const dark=!document.body.classList.contains('dark');document.body.classList.toggle('dark',dark);localStorage.setItem('itHubTheme',dark?'dark':'light');const label=document.getElementById('themeText');if(label)label.textContent=dark?'Dark':'Light';if(window.bar&&bar.stop)bar.stop();if(window.donut&&donut.stop)donut.stop();window.charts();applyChartTheme()};
- const toggle=document.querySelector('.theme-toggle');if(toggle)toggle.onclick=window.toggleTheme;
- applyChartTheme();
+(function () {
+  function applyChartTheme() {
+    const dark = document.body.classList.contains("dark");
+    const text = dark ? "#e8d1cc" : "#806864",
+      grid = dark ? "#553137" : "#f1e2db",
+      card = dark ? "#32171e" : "#fffaf7";
+    const status = dark
+      ? ["#ff8755", "#f5c66b", "#d85b64", "#ad7d45"]
+      : ["#d12a31", "#f06428", "#d6a13b", "#8d5754"];
+    Chart.defaults.color = text;
+    Object.assign(Chart.defaults.plugins.tooltip, {
+      backgroundColor: "#171114",
+      titleColor: "#fff7f2",
+      bodyColor: "#fff7f2",
+      borderColor: "#d99284",
+      borderWidth: 2,
+      position: "nearest",
+      padding: 10,
+      cornerRadius: 8,
+      caretPadding: 10,
+      boxPadding: 4,
+      titleFont: { family: "Poppins", size: 11, weight: "700" },
+      bodyFont: { family: "Poppins", size: 12, weight: "600" },
+    });
+    if (window.bar) {
+      const ds = bar.data.datasets[0],
+        ctx = bar.ctx,
+        gradient = ctx.createLinearGradient(0, 0, 0, bar.height || 250);
+      gradient.addColorStop(0, dark ? "#ff9569" : "#d12a31");
+      gradient.addColorStop(1, dark ? "#bd493e" : "#f3a047");
+      ds.backgroundColor =
+        bar.config.type === "line"
+          ? dark
+            ? "rgba(255,135,85,.18)"
+            : "rgba(209,42,49,.12)"
+          : gradient;
+      ds.borderColor = dark ? "#ff986d" : "#d12a31";
+      ds.pointBackgroundColor = dark ? "#ffc06b" : "#f06428";
+      ds.pointBorderColor = card;
+      bar.options.scales.x.ticks.color = text;
+      bar.options.scales.y.ticks.color = text;
+      bar.options.scales.x.grid.color = "transparent";
+      bar.options.scales.y.grid.color = grid;
+      bar.options.plugins.tooltip = {
+        backgroundColor: "#171114",
+        titleColor: "#fff7f2",
+        bodyColor: "#fff7f2",
+        borderColor: "#d99284",
+        borderWidth: 2,
+        position: "nearest",
+        padding: 10,
+        cornerRadius: 8,
+        caretPadding: 10,
+        boxPadding: 4,
+        titleFont: { family: "Poppins", size: 11, weight: "700" },
+        bodyFont: { family: "Poppins", size: 12, weight: "600" },
+      };
+      bar.update();
+    }
+    if (window.donut) {
+      const values = donut.data.datasets[0].data;
+      donut.data.datasets[0].backgroundColor = donut.data.labels.map(
+        (_, i) => status[i % status.length],
+      );
+      donut.data.datasets[0].borderColor = card;
+      donut.data.datasets[0].borderWidth = 5;
+      donut.options.plugins.brandCentre = {
+        total: values.reduce((a, b) => a + b, 0),
+        dark,
+      };
+      donut.options.plugins.tooltip = {
+        backgroundColor: "#171114",
+        titleColor: "#fff7f2",
+        bodyColor: "#fff7f2",
+        borderColor: "#d99284",
+        borderWidth: 2,
+        position: "nearest",
+        padding: 10,
+        cornerRadius: 8,
+        caretPadding: 10,
+        boxPadding: 4,
+        titleFont: { family: "Poppins", size: 11, weight: "700" },
+        bodyFont: { family: "Poppins", size: 12, weight: "600" },
+      };
+      donut.update();
+      (
+        document.getElementById("microsoft365LicenseLegend") ||
+        document.getElementById("legend")
+      ).innerHTML = donut.data.labels
+        .map(
+          (label, i) =>
+            '<div><span><i class="dot" style="background:' +
+            status[i % status.length] +
+            '"></i>' +
+            label +
+            "</span><b>" +
+            values[i] +
+            " records</b></div>",
+        )
+        .join("");
+    }
+  }
+  window.toggleTheme = function () {
+    const dark = !document.body.classList.contains("dark");
+    document.body.classList.toggle("dark", dark);
+    localStorage.setItem("itHubTheme", dark ? "dark" : "light");
+    const label = document.getElementById("themeText");
+    if (label) label.textContent = dark ? "Dark" : "Light";
+    if (window.bar && bar.stop) bar.stop();
+    if (window.donut && donut.stop) donut.stop();
+    window.charts();
+    applyChartTheme();
+  };
+  const toggle = document.querySelector(".theme-toggle");
+  if (toggle) toggle.onclick = window.toggleTheme;
+  applyChartTheme();
 })();
 
-
-
-window.exportXlsx=function(){
- const visibleTable=document.querySelector('#table table');
- if(!visibleTable)return show('No table data to export');
- const workbook=XLSX.utils.table_to_book(visibleTable,{sheet:active.slice(0,31),raw:true});
- const filePage=active.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
- XLSX.writeFile(workbook,'Nature-A-Digital-Hub-'+filePage+'.xlsx');
- show(active+' table exported');
+window.exportXlsx = function () {
+  const visibleTable = document.querySelector("#table table");
+  if (!visibleTable) return show("No table data to export");
+  const workbook = XLSX.utils.table_to_book(visibleTable, {
+    sheet: active.slice(0, 31),
+    raw: true,
+  });
+  const filePage = active
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+  XLSX.writeFile(workbook, "Nature-A-Digital-Hub-" + filePage + ".xlsx");
+  show(active + " table exported");
 };
 
-
-
-(function(){
- const companyDefaults=[
-  {Company:'AIP','Total Account':25,'Business Basic':5,'Business Standard':9,'Premium P1':1,'E3 (No Team)':3,F1:0,'Defender for Business':0,'Defender for Office (Plan 1)':4,'Defender for Office (Plan 2)':1,'Power BI Pro':2,'Exchange Online Archiving':0},
-  {Company:'Nature Allliance','Total Account':152,'Business Basic':95,'Business Standard':44,'Premium P1':4,'E3 (No Team)':0,F1:1,'Defender for Business':1,'Defender for Office (Plan 1)':4,'Defender for Office (Plan 2)':1,'Power BI Pro':1,'Exchange Online Archiving':1},
-  {Company:'Innobuilder','Total Account':75,'Business Basic':52,'Business Standard':23,'Premium P1':0,'E3 (No Team)':0,F1:0,'Defender for Business':0,'Defender for Office (Plan 1)':0,'Defender for Office (Plan 2)':0,'Power BI Pro':0,'Exchange Online Archiving':0},
-  {Company:'Nature Valley','Total Account':33,'Business Basic':19,'Business Standard':14,'Premium P1':0,'E3 (No Team)':0,F1:0,'Defender for Business':0,'Defender for Office (Plan 1)':0,'Defender for Office (Plan 2)':0,'Power BI Pro':0,'Exchange Online Archiving':0},
-  {Company:'PIP Myanmar','Total Account':48,'Business Basic':35,'Business Standard':13,'Premium P1':0,'E3 (No Team)':0,F1:0,'Defender for Business':0,'Defender for Office (Plan 1)':0,'Defender for Office (Plan 2)':0,'Power BI Pro':0,'Exchange Online Archiving':0},
-  {Company:'Prime Asset','Total Account':4,'Business Basic':1,'Business Standard':3,'Premium P1':0,'E3 (No Team)':0,F1:0,'Defender for Business':0,'Defender for Office (Plan 1)':0,'Defender for Office (Plan 2)':0,'Power BI Pro':0,'Exchange Online Archiving':0},
-  {Company:'Kuthen Estate','Total Account':5,'Business Basic':3,'Business Standard':2,'Premium P1':0,'E3 (No Team)':0,F1:0,'Defender for Business':0,'Defender for Office (Plan 1)':0,'Defender for Office (Plan 2)':0,'Power BI Pro':0,'Exchange Online Archiving':0},
-  {Company:'Solid Alliance','Total Account':1,'Business Basic':0,'Business Standard':1,'Premium P1':0,'E3 (No Team)':0,F1:0,'Defender for Business':0,'Defender for Office (Plan 1)':0,'Defender for Office (Plan 2)':0,'Power BI Pro':0,'Exchange Online Archiving':0},
-  {Company:'Nature Build','Total Account':1,'Business Basic':0,'Business Standard':1,'Premium P1':0,'E3 (No Team)':0,F1:0,'Defender for Business':0,'Defender for Office (Plan 1)':0,'Defender for Office (Plan 2)':0,'Power BI Pro':0,'Exchange Online Archiving':0},
-  {Company:'Total','Total Account':344,'Business Basic':210,'Business Standard':110,'Premium P1':5,'E3 (No Team)':3,F1:1,'Defender for Business':1,'Defender for Office (Plan 1)':8,'Defender for Office (Plan 2)':2,'Power BI Pro':3,'Exchange Online Archiving':1}
- ];
- const licenseDefaults=[
-  {Licenses:'Exchange Online Archiving',Features:'Add-on','Total Licenses':2,'Active Users':1,'Available License':1},
-  {Licenses:'Business Basic',Features:'Business','Total Licenses':215,'Active Users':210,'Available License':5},
-  {Licenses:'Business Standard',Features:'Business','Total Licenses':115,'Active Users':110,'Available License':5},
-  {Licenses:'E3 (No Team)',Features:'Enterprise','Total Licenses':3,'Active Users':3,'Available License':0},
-  {Licenses:'F1',Features:'Frontline','Total Licenses':3,'Active Users':1,'Available License':2},
-  {Licenses:'Defender for Business',Features:'Security Add-on','Total Licenses':3,'Active Users':1,'Available License':2},
-  {Licenses:'Defender for Office (Plan 1)',Features:'Security Add-on','Total Licenses':8,'Active Users':8,'Available License':0},
-  {Licenses:'Defender for Office (Plan 2)',Features:'Security Add-on','Total Licenses':3,'Active Users':2,'Available License':1},
-  {Licenses:'Premium P1',Features:'Identity / Security','Total Licenses':5,'Active Users':5,'Available License':0},
-  {Licenses:'Power BI Pro',Features:'Analytics','Total Licenses':3,'Active Users':3,'Available License':0},
-  {Licenses:'Total',Features:'','Total Licenses':360,'Active Users':344,'Available License':16}
- ];
- const clone=x=>JSON.parse(JSON.stringify(x));
- function validCompany(rows){return Array.isArray(rows)&&rows.length&&Object.prototype.hasOwnProperty.call(rows[0],'Company')}
- function loadCompany(){if(Array.isArray(window.MICROSOFT_LICENSE_DATA?.companies))return clone(window.MICROSOFT_LICENSE_DATA.companies);try{const saved=JSON.parse(localStorage.getItem('m365CompanyDB'));if(validCompany(saved))return saved}catch(e){}return clone(companyDefaults)}
- function loadLicenses(){if(Array.isArray(window.MICROSOFT_LICENSE_DATA?.licenses))return clone(window.MICROSOFT_LICENSE_DATA.licenses);try{const saved=JSON.parse(localStorage.getItem('m365LicensesDB'));if(Array.isArray(saved)&&saved.length&&saved[0].Licenses)return saved}catch(e){}return clone(licenseDefaults)}
- let licenseRows=loadLicenses();
- data['Microsoft 365']=loadCompany();
- function escCell(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function renderLicenses(){
-  let card=document.querySelector('[data-table="license-utilization"]');
-  if(active!=='Microsoft 365'){if(card)card.remove();return}
-  if(!card){card=document.createElement('section');card.className='card unified-table-card';card.dataset.table='license-utilization';document.querySelector('.tablecard').after(card)}
-  const keys=Object.keys(licenseRows[0]||{});
-  card.className='card unified-table-card';card.innerHTML='<div class="head"><div><h2>License Summary</h2><div class="table-note">LicensesDB · '+(licenseRows.length-1)+' license types</div></div></div><div class="table-scroll"><table><thead><tr>'+keys.map(k=>'<th>'+escCell(k)+'</th>').join('')+'</tr></thead><tbody>'+licenseRows.map((row,index)=>'<tr data-index="'+index+'" class="'+(row.Licenses==='Total'?'total-row':'')+'">'+keys.map(k=>'<td>'+escCell(row[k])+'</td>').join('')+'</tr>').join('')+'</tbody></table></div><div class="foot">Showing '+(licenseRows.length-1)+' license records plus totals</div>';
- }
- const baseTable=window.table;
- window.table=function(){baseTable();if(active==='Microsoft 365'){document.getElementById('ttitle').textContent='Company License Allocation';const rows=document.querySelectorAll('#table tbody tr');if(rows.length){const last=rows[rows.length-1];last.classList.add('total-row');last.querySelectorAll('[contenteditable]').forEach(cell=>cell.removeAttribute('contenteditable'))}renderLicenses()}else{renderLicenses()}};
- const basePage=window.page;
- window.page=function(name){if(name==='Microsoft 365'&&!validCompany(data[name]))data[name]=loadCompany();basePage(name);if(name==='Microsoft 365'){document.getElementById('ttitle').textContent='Company License Allocation';renderLicenses()}};
- const saveButton=document.querySelector('.btn.primary');if(saveButton)saveButton.addEventListener('click',()=>{if(active==='Microsoft 365'){localStorage.setItem('m365CompanyDB',JSON.stringify(data['Microsoft 365']));localStorage.setItem('m365LicensesDB',JSON.stringify(licenseRows))}});
- window.exportXlsx=function(){
-  const tables=[...document.querySelectorAll(active==='Microsoft 365'?'#table table,[data-table="license-utilization"] table':'#table table')];if(!tables.length)return show('No table data to export');
-  const workbook=XLSX.utils.book_new();tables.forEach((table,index)=>{const sheet=XLSX.utils.table_to_sheet(table,{raw:true});XLSX.utils.book_append_sheet(workbook,sheet,active==='Microsoft 365'?(index===0?'CompanyDB':'LicensesDB'):active.slice(0,31))});
-  XLSX.writeFile(workbook,'Nature-A-Digital-Hub-'+active.toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.xlsx');show((active==='Microsoft 365'?'Two tables':'Table')+' exported');
- };
- if(active==='Microsoft 365'){data['Microsoft 365']=loadCompany();render()}
-})();
-
-
-
-(function(){
- const licenseSeed=[{Licenses:'Exchange Online Archiving',Features:'Add-on','Total Licenses':2,'Active Users':1,'Available License':1},{Licenses:'Business Basic',Features:'Business','Total Licenses':215,'Active Users':210,'Available License':5},{Licenses:'Business Standard',Features:'Business','Total Licenses':115,'Active Users':110,'Available License':5},{Licenses:'E3 (No Team)',Features:'Enterprise','Total Licenses':3,'Active Users':3,'Available License':0},{Licenses:'F1',Features:'Frontline','Total Licenses':3,'Active Users':1,'Available License':2},{Licenses:'Defender for Business',Features:'Security Add-on','Total Licenses':3,'Active Users':1,'Available License':2},{Licenses:'Defender for Office (Plan 1)',Features:'Security Add-on','Total Licenses':8,'Active Users':8,'Available License':0},{Licenses:'Defender for Office (Plan 2)',Features:'Security Add-on','Total Licenses':3,'Active Users':2,'Available License':1},{Licenses:'Premium P1',Features:'Identity / Security','Total Licenses':5,'Active Users':5,'Available License':0},{Licenses:'Power BI Pro',Features:'Analytics','Total Licenses':3,'Active Users':3,'Available License':0},{Licenses:'Total',Features:'','Total Licenses':360,'Active Users':344,'Available License':16}];
- let licenses=Array.isArray(window.MICROSOFT_LICENSE_DATA?.licenses)?JSON.parse(JSON.stringify(window.MICROSOFT_LICENSE_DATA.licenses)):null;try{if(!licenses)licenses=JSON.parse(localStorage.getItem('m365LicensesDB'))}catch(e){}if(!Array.isArray(licenses)||!licenses.length)licenses=JSON.parse(JSON.stringify(licenseSeed));
- const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const slug=value=>String(value).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
- function companies(){return data['Microsoft 365']||[]}
- function recalculate(){
-  const rows=companies(),normal=rows.filter(row=>row.Company!=='Total'),total=rows.find(row=>row.Company==='Total')||{Company:'Total'};if(!rows.includes(total))rows.push(total);
-  const licenseNames=licenses.filter(row=>row.Licenses!=='Total').map(row=>row.Licenses);
-  normal.forEach(row=>row['Total Account']=licenseNames.reduce((sum,name)=>sum+(Number(row[name])||0),0));
-  total['Total Account']=normal.reduce((sum,row)=>sum+(Number(row['Total Account'])||0),0);licenseNames.forEach(name=>total[name]=normal.reduce((sum,row)=>sum+(Number(row[name])||0),0));
-  licenses.filter(row=>row.Licenses!=='Total').forEach(row=>{row['Total Licenses']=Number(row['Total Licenses'])||0;row['Active Users']=Number(row['Active Users'])||0;row['Available License']=Number(row['Available License'])||0});
-  let licenseTotal=licenses.find(row=>row.Licenses==='Total');if(!licenseTotal){licenseTotal={Licenses:'Total',Features:''};licenses.push(licenseTotal)};['Total Licenses','Active Users','Available License'].forEach(key=>licenseTotal[key]=licenses.filter(row=>row.Licenses!=='Total').reduce((sum,row)=>sum+(Number(row[key])||0),0));
-  localStorage.setItem('m365CompanyDB',JSON.stringify(rows));localStorage.setItem('m365LicensesDB',JSON.stringify(licenses));localStorage.setItem('itHubData',JSON.stringify(data));
- }
- function title(icon,title,sub){return '<div class="unified-table-title"><span class="unified-table-title-icon">'+icon+'</span><div><h2>'+title+'</h2><p>'+sub+'</p></div></div>'}
- function renderCompany(){
-  const rows=companies(),normal=rows.filter(row=>row.Company!=='Total').sort((a,b)=>(Number(b['Total Account'])||0)-(Number(a['Total Account'])||0)),companyOptions=normal.slice().sort((left,right)=>String(left.Company||'').localeCompare(String(right.Company||''))),total=rows.find(row=>row.Company==='Total'),keys=Object.keys(rows[0]||{}),q=(document.getElementById('m365CompanySearch')?.value||'').toLowerCase(),selected=document.getElementById('m365CompanyFilter')?.value||'All';
-  const shown=normal.filter(row=>(selected==='All'||row.Company===selected)&&row.Company.toLowerCase().includes(q));
-  document.querySelector('#microsoft365Dashboard>.unified-table-card:not([data-table="license-utilization"]) .unified-table-head,main>.tablecard .head').innerHTML=title('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 21h18M5 21V7l7-4v18M12 10h7v11M8 9h1M8 13h1M8 17h1M15 14h1M15 18h1"/></svg>','Company License Distribution','License allocation summary')+'<div class="tools"><input id="m365CompanySearch" class="search" placeholder="Search company..." value="'+escapeHtml(q)+'"><select id="m365CompanyFilter" class="filter"><option value="All">All companies</option>'+companyOptions.map(row=>'<option '+(row.Company===selected?'selected':'')+'>'+escapeHtml(row.Company)+'</option>').join('')+'</select></div>';
-  const display=shown.concat(total?[total]:[]),companyTable=document.getElementById('table');companyTable.className='unified-table-scroll';companyTable.innerHTML='<table class="m365-company-table"><thead><tr>'+keys.map(key=>'<th>'+escapeHtml(key)+'</th>').join('')+'</tr></thead><tbody>'+display.map(row=>{const index=rows.indexOf(row),isTotal=row.Company==='Total';return '<tr data-index="'+index+'" class="'+(isTotal?'total-row':'')+'">'+keys.map(key=>'<td'+(isTotal?' class="derived-cell"':'')+'>'+escapeHtml(row[key])+'</td>').join('')+'</tr>'}).join('')+'</tbody></table>';foot.className='unified-table-footer';foot.textContent='Showing '+shown.length+' of '+normal.length+' companies';
-  document.getElementById('m365CompanySearch').oninput=null;document.getElementById('m365CompanyFilter').onchange=null;
- }
-function renderLicenses(){
-  let card=document.querySelector('[data-table="license-utilization"]');if(!card){card=document.createElement('section');card.className='card unified-table-card';card.dataset.table='license-utilization';document.querySelector('.tablecard').after(card)};
-  const normal=licenses.filter(row=>row.Licenses!=='Total').sort((left,right)=>String(left.Licenses||'').localeCompare(String(right.Licenses||''))),total=licenses.find(row=>row.Licenses==='Total'),keys=Object.keys(licenses[0]||{}),q=(document.getElementById('m365LicenseSearch')?.value||'').toLowerCase(),selected=document.getElementById('m365FeatureFilter')?.value||'All',features=[...new Set(normal.map(row=>row.Features))];
-  const shown=normal.filter(row=>(selected==='All'||row.Features===selected)&&Object.values(row).join(' ').toLowerCase().includes(q));
-  card.className='card unified-table-card';card.innerHTML='<div class="unified-table-head">'+title('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h5M8 16h4"/><circle cx="16" cy="16" r="3"/><path d="m14.7 16 1 1 1.8-2"/></svg>','Microsoft 365 License Utilization','License capacity summary')+'<div class="tools"><input id="m365LicenseSearch" class="search" placeholder="Search licenses..." value="'+escapeHtml(q)+'"><select id="m365FeatureFilter" class="filter"><option value="All">All features</option>'+features.map(feature=>'<option '+(feature===selected?'selected':'')+'>'+escapeHtml(feature)+'</option>').join('')+'</select></div></div><div class="unified-table-scroll"><table><thead><tr>'+keys.map(key=>'<th>'+escapeHtml(key)+'</th>').join('')+'</tr></thead><tbody>'+shown.concat(total?[total]:[]).map(row=>{const index=licenses.indexOf(row),isTotal=row.Licenses==='Total';return '<tr data-index="'+index+'" class="'+(isTotal?'total-row':'')+'">'+keys.map(key=>key==='Features'&&!isTotal?'<td><span class="feature-badge feature-'+slug(row[key])+'">'+escapeHtml(row[key])+'</span></td>':'<td'+(isTotal?' class="derived-cell"':'')+'>'+escapeHtml(row[key])+'</td>').join('')+'</tr>'}).join('')+'</tbody></table></div><div class="unified-table-footer">Showing '+shown.length+' of '+normal.length+' licenses</div>';
-  document.getElementById('m365LicenseSearch').oninput=null;document.getElementById('m365FeatureFilter').onchange=null;
- }
- window.renderM365Licenses=renderLicenses; const priorTable=window.table;window.table=function(){if(active!=='Microsoft 365'){const card=document.querySelector('[data-table="license-utilization"]');if(card)card.remove();return priorTable()}recalculate();renderCompany();renderLicenses()};
- const priorPage=window.page;window.page=function(name){priorPage(name);if(name==='Microsoft 365'){recalculate();renderCompany();renderLicenses()}};
- const saveButton=document.querySelector('.btn.primary');if(saveButton)saveButton.addEventListener('click',()=>{if(active==='Microsoft 365')recalculate()});
- recalculate();if(active==='Microsoft 365'){renderCompany();renderLicenses();charts()}
-})();
-
-
-
-(function(){
- const icons={company:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4v18M12 9h7v12M8 9h1M8 13h1M8 17h1M15 13h1M15 17h1"/></svg>',license:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h6M7 13h10M7 16h7"/></svg>',users:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>',available:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg>'};
- function renderM365Kpis(){
-  const kpiSection=document.querySelector('#microsoft365Dashboard > .unified-kpi-grid')||document.getElementById('kpis');if(!kpiSection)return;
-  if(active!=='Microsoft 365')return
-  let companies=[];try{companies=JSON.parse(localStorage.getItem('m365CompanyDB'))||data['Microsoft 365']||[]}catch(e){companies=data['Microsoft 365']||[]}
-  let licenses=[];try{licenses=JSON.parse(localStorage.getItem('m365LicensesDB'))||[]}catch(e){}
-  const selectedLicense=document.getElementById('m365CompanyLicenseFilter')?.value||document.getElementById('m365PieFilter')?.value||'All',companyCount=companies.filter(row=>row.Company&&row.Company!=='Total').length,visibleLicenses=licenses.filter(row=>row.Licenses&&row.Licenses!=='Total'&&(selectedLicense==='All'||row.Licenses===selectedLicense)),total={'Total Licenses':visibleLicenses.reduce((sum,row)=>sum+(Number(row['Total Licenses'])||0),0),'Active Users':visibleLicenses.reduce((sum,row)=>sum+(Number(row['Active Users'])||0),0),'Available License':visibleLicenses.reduce((sum,row)=>sum+(Number(row['Available License'])||0),0)};
-  const cards=[
-   ['Total Companies',companyCount,'Companies in the license portfolio','tone-orange',icons.company],
-   ['Total Licenses',Number(total['Total Licenses'])||0,selectedLicense==='All'?'Purchased Microsoft 365 capacity':selectedLicense,'tone-green',icons.license],
-   ['Active Users',Number(total['Active Users'])||0,selectedLicense==='All'?'Licenses currently assigned':'Assigned for '+selectedLicense,'tone-yellow',icons.users],
-   ['Available Licenses',Number(total['Available License'])||0,selectedLicense==='All'?'Capacity ready to assign':'Available for '+selectedLicense,'tone-blue',icons.available]
+(function () {
+  const companyDefaults = [
+    {
+      Company: "AIP",
+      "Total Account": 25,
+      "Business Basic": 5,
+      "Business Standard": 9,
+      "Premium P1": 1,
+      "E3 (No Team)": 3,
+      F1: 0,
+      "Defender for Business": 0,
+      "Defender for Office (Plan 1)": 4,
+      "Defender for Office (Plan 2)": 1,
+      "Power BI Pro": 2,
+      "Exchange Online Archiving": 0,
+    },
+    {
+      Company: "Nature Allliance",
+      "Total Account": 152,
+      "Business Basic": 95,
+      "Business Standard": 44,
+      "Premium P1": 4,
+      "E3 (No Team)": 0,
+      F1: 1,
+      "Defender for Business": 1,
+      "Defender for Office (Plan 1)": 4,
+      "Defender for Office (Plan 2)": 1,
+      "Power BI Pro": 1,
+      "Exchange Online Archiving": 1,
+    },
+    {
+      Company: "Innobuilder",
+      "Total Account": 75,
+      "Business Basic": 52,
+      "Business Standard": 23,
+      "Premium P1": 0,
+      "E3 (No Team)": 0,
+      F1: 0,
+      "Defender for Business": 0,
+      "Defender for Office (Plan 1)": 0,
+      "Defender for Office (Plan 2)": 0,
+      "Power BI Pro": 0,
+      "Exchange Online Archiving": 0,
+    },
+    {
+      Company: "Nature Valley",
+      "Total Account": 33,
+      "Business Basic": 19,
+      "Business Standard": 14,
+      "Premium P1": 0,
+      "E3 (No Team)": 0,
+      F1: 0,
+      "Defender for Business": 0,
+      "Defender for Office (Plan 1)": 0,
+      "Defender for Office (Plan 2)": 0,
+      "Power BI Pro": 0,
+      "Exchange Online Archiving": 0,
+    },
+    {
+      Company: "PIP Myanmar",
+      "Total Account": 48,
+      "Business Basic": 35,
+      "Business Standard": 13,
+      "Premium P1": 0,
+      "E3 (No Team)": 0,
+      F1: 0,
+      "Defender for Business": 0,
+      "Defender for Office (Plan 1)": 0,
+      "Defender for Office (Plan 2)": 0,
+      "Power BI Pro": 0,
+      "Exchange Online Archiving": 0,
+    },
+    {
+      Company: "Prime Asset",
+      "Total Account": 4,
+      "Business Basic": 1,
+      "Business Standard": 3,
+      "Premium P1": 0,
+      "E3 (No Team)": 0,
+      F1: 0,
+      "Defender for Business": 0,
+      "Defender for Office (Plan 1)": 0,
+      "Defender for Office (Plan 2)": 0,
+      "Power BI Pro": 0,
+      "Exchange Online Archiving": 0,
+    },
+    {
+      Company: "Kuthen Estate",
+      "Total Account": 5,
+      "Business Basic": 3,
+      "Business Standard": 2,
+      "Premium P1": 0,
+      "E3 (No Team)": 0,
+      F1: 0,
+      "Defender for Business": 0,
+      "Defender for Office (Plan 1)": 0,
+      "Defender for Office (Plan 2)": 0,
+      "Power BI Pro": 0,
+      "Exchange Online Archiving": 0,
+    },
+    {
+      Company: "Solid Alliance",
+      "Total Account": 1,
+      "Business Basic": 0,
+      "Business Standard": 1,
+      "Premium P1": 0,
+      "E3 (No Team)": 0,
+      F1: 0,
+      "Defender for Business": 0,
+      "Defender for Office (Plan 1)": 0,
+      "Defender for Office (Plan 2)": 0,
+      "Power BI Pro": 0,
+      "Exchange Online Archiving": 0,
+    },
+    {
+      Company: "Nature Build",
+      "Total Account": 1,
+      "Business Basic": 0,
+      "Business Standard": 1,
+      "Premium P1": 0,
+      "E3 (No Team)": 0,
+      F1: 0,
+      "Defender for Business": 0,
+      "Defender for Office (Plan 1)": 0,
+      "Defender for Office (Plan 2)": 0,
+      "Power BI Pro": 0,
+      "Exchange Online Archiving": 0,
+    },
+    {
+      Company: "Total",
+      "Total Account": 344,
+      "Business Basic": 210,
+      "Business Standard": 110,
+      "Premium P1": 5,
+      "E3 (No Team)": 3,
+      F1: 1,
+      "Defender for Business": 1,
+      "Defender for Office (Plan 1)": 8,
+      "Defender for Office (Plan 2)": 2,
+      "Power BI Pro": 3,
+      "Exchange Online Archiving": 1,
+    },
   ];
-  kpiSection.className='unified-kpi-grid';
-  kpiSection.innerHTML=cards.map(card=>'<article class="unified-kpi-card '+card[3]+'"><span class="unified-kpi-icon" aria-hidden="true">'+card[4]+'</span><div><b>'+card[0]+'</b><small>'+card[2]+'</small></div><strong>'+card[1].toLocaleString()+'</strong></article>').join('');
- }
- const previousCharts=window.charts;window.charts=function(){previousCharts();renderM365Kpis()};
- const previousPage=window.page;window.page=function(name){previousPage(name);renderM365Kpis()};
-
- window.renderM365Kpis=renderM365Kpis;renderM365Kpis();
+  const licenseDefaults = [
+    {
+      Licenses: "Exchange Online Archiving",
+      Features: "Add-on",
+      "Total Licenses": 2,
+      "Active Users": 1,
+      "Available License": 1,
+    },
+    {
+      Licenses: "Business Basic",
+      Features: "Business",
+      "Total Licenses": 215,
+      "Active Users": 210,
+      "Available License": 5,
+    },
+    {
+      Licenses: "Business Standard",
+      Features: "Business",
+      "Total Licenses": 115,
+      "Active Users": 110,
+      "Available License": 5,
+    },
+    {
+      Licenses: "E3 (No Team)",
+      Features: "Enterprise",
+      "Total Licenses": 3,
+      "Active Users": 3,
+      "Available License": 0,
+    },
+    {
+      Licenses: "F1",
+      Features: "Frontline",
+      "Total Licenses": 3,
+      "Active Users": 1,
+      "Available License": 2,
+    },
+    {
+      Licenses: "Defender for Business",
+      Features: "Security Add-on",
+      "Total Licenses": 3,
+      "Active Users": 1,
+      "Available License": 2,
+    },
+    {
+      Licenses: "Defender for Office (Plan 1)",
+      Features: "Security Add-on",
+      "Total Licenses": 8,
+      "Active Users": 8,
+      "Available License": 0,
+    },
+    {
+      Licenses: "Defender for Office (Plan 2)",
+      Features: "Security Add-on",
+      "Total Licenses": 3,
+      "Active Users": 2,
+      "Available License": 1,
+    },
+    {
+      Licenses: "Premium P1",
+      Features: "Identity / Security",
+      "Total Licenses": 5,
+      "Active Users": 5,
+      "Available License": 0,
+    },
+    {
+      Licenses: "Power BI Pro",
+      Features: "Analytics",
+      "Total Licenses": 3,
+      "Active Users": 3,
+      "Available License": 0,
+    },
+    {
+      Licenses: "Total",
+      Features: "",
+      "Total Licenses": 360,
+      "Active Users": 344,
+      "Available License": 16,
+    },
+  ];
+  const clone = (x) => JSON.parse(JSON.stringify(x));
+  function validCompany(rows) {
+    return (
+      Array.isArray(rows) &&
+      rows.length &&
+      Object.prototype.hasOwnProperty.call(rows[0], "Company")
+    );
+  }
+  function loadCompany() {
+    if (Array.isArray(window.MICROSOFT_LICENSE_DATA?.companies))
+      return clone(window.MICROSOFT_LICENSE_DATA.companies);
+    try {
+      const saved = JSON.parse(localStorage.getItem("m365CompanyDB"));
+      if (validCompany(saved)) return saved;
+    } catch (e) {}
+    return clone(companyDefaults);
+  }
+  function loadLicenses() {
+    if (Array.isArray(window.MICROSOFT_LICENSE_DATA?.licenses))
+      return clone(window.MICROSOFT_LICENSE_DATA.licenses);
+    try {
+      const saved = JSON.parse(localStorage.getItem("m365LicensesDB"));
+      if (Array.isArray(saved) && saved.length && saved[0].Licenses)
+        return saved;
+    } catch (e) {}
+    return clone(licenseDefaults);
+  }
+  let licenseRows = loadLicenses();
+  data["Microsoft 365"] = loadCompany();
+  function escCell(value) {
+    return String(value ?? "").replace(
+      /[&<>"']/g,
+      (c) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[c],
+    );
+  }
+  function renderLicenses() {
+    let card = document.querySelector('[data-table="license-utilization"]');
+    if (active !== "Microsoft 365") {
+      if (card) card.remove();
+      return;
+    }
+    if (!card) {
+      card = document.createElement("section");
+      card.className = "card unified-table-card";
+      card.dataset.table = "license-utilization";
+      document.querySelector(".tablecard").after(card);
+    }
+    const keys = Object.keys(licenseRows[0] || {});
+    card.className = "card unified-table-card";
+    card.innerHTML =
+      '<div class="head"><div><h2>License Summary</h2><div class="table-note">LicensesDB · ' +
+      (licenseRows.length - 1) +
+      ' license types</div></div></div><div class="table-scroll"><table><thead><tr>' +
+      keys.map((k) => "<th>" + escCell(k) + "</th>").join("") +
+      "</tr></thead><tbody>" +
+      licenseRows
+        .map(
+          (row, index) =>
+            '<tr data-index="' +
+            index +
+            '" class="' +
+            (row.Licenses === "Total" ? "total-row" : "") +
+            '">' +
+            keys.map((k) => "<td>" + escCell(row[k]) + "</td>").join("") +
+            "</tr>",
+        )
+        .join("") +
+      '</tbody></table></div><div class="foot">Showing ' +
+      (licenseRows.length - 1) +
+      " license records plus totals</div>";
+  }
+  const baseTable = window.table;
+  window.table = function () {
+    baseTable();
+    if (active === "Microsoft 365") {
+      document.getElementById("ttitle").textContent =
+        "Company License Allocation";
+      const rows = document.querySelectorAll("#table tbody tr");
+      if (rows.length) {
+        const last = rows[rows.length - 1];
+        last.classList.add("total-row");
+        last
+          .querySelectorAll("[contenteditable]")
+          .forEach((cell) => cell.removeAttribute("contenteditable"));
+      }
+      renderLicenses();
+    } else {
+      renderLicenses();
+    }
+  };
+  const basePage = window.page;
+  window.page = function (name) {
+    if (name === "Microsoft 365" && !validCompany(data[name]))
+      data[name] = loadCompany();
+    basePage(name);
+    if (name === "Microsoft 365") {
+      document.getElementById("ttitle").textContent =
+        "Company License Allocation";
+      renderLicenses();
+    }
+  };
+  const saveButton = document.querySelector(".btn.primary");
+  if (saveButton)
+    saveButton.addEventListener("click", () => {
+      if (active === "Microsoft 365") {
+        localStorage.setItem(
+          "m365CompanyDB",
+          JSON.stringify(data["Microsoft 365"]),
+        );
+        localStorage.setItem("m365LicensesDB", JSON.stringify(licenseRows));
+      }
+    });
+  window.exportXlsx = function () {
+    const tables = [
+      ...document.querySelectorAll(
+        active === "Microsoft 365"
+          ? '#table table,[data-table="license-utilization"] table'
+          : "#table table",
+      ),
+    ];
+    if (!tables.length) return show("No table data to export");
+    const workbook = XLSX.utils.book_new();
+    tables.forEach((table, index) => {
+      const sheet = XLSX.utils.table_to_sheet(table, { raw: true });
+      XLSX.utils.book_append_sheet(
+        workbook,
+        sheet,
+        active === "Microsoft 365"
+          ? index === 0
+            ? "CompanyDB"
+            : "LicensesDB"
+          : active.slice(0, 31),
+      );
+    });
+    XLSX.writeFile(
+      workbook,
+      "Nature-A-Digital-Hub-" +
+        active.toLowerCase().replace(/[^a-z0-9]+/g, "-") +
+        ".xlsx",
+    );
+    show((active === "Microsoft 365" ? "Two tables" : "Table") + " exported");
+  };
+  if (active === "Microsoft 365") {
+    data["Microsoft 365"] = loadCompany();
+    render();
+  }
 })();
 
-
-
-(function(){
- function sync(){const current=active;document.querySelectorAll('#nav button').forEach(button=>{const selected=(button.dataset.page||button.querySelector('.nav-text')?.textContent)===current;button.classList.toggle('active',selected);button.setAttribute('aria-current',selected?'page':'false')})}
- window.addEventListener('pageshow',sync);window.addEventListener('popstate',sync);document.getElementById('nav').addEventListener('click',()=>queueMicrotask(sync));sync();
+(function () {
+  const licenseSeed = [
+    {
+      Licenses: "Exchange Online Archiving",
+      Features: "Add-on",
+      "Total Licenses": 2,
+      "Active Users": 1,
+      "Available License": 1,
+    },
+    {
+      Licenses: "Business Basic",
+      Features: "Business",
+      "Total Licenses": 215,
+      "Active Users": 210,
+      "Available License": 5,
+    },
+    {
+      Licenses: "Business Standard",
+      Features: "Business",
+      "Total Licenses": 115,
+      "Active Users": 110,
+      "Available License": 5,
+    },
+    {
+      Licenses: "E3 (No Team)",
+      Features: "Enterprise",
+      "Total Licenses": 3,
+      "Active Users": 3,
+      "Available License": 0,
+    },
+    {
+      Licenses: "F1",
+      Features: "Frontline",
+      "Total Licenses": 3,
+      "Active Users": 1,
+      "Available License": 2,
+    },
+    {
+      Licenses: "Defender for Business",
+      Features: "Security Add-on",
+      "Total Licenses": 3,
+      "Active Users": 1,
+      "Available License": 2,
+    },
+    {
+      Licenses: "Defender for Office (Plan 1)",
+      Features: "Security Add-on",
+      "Total Licenses": 8,
+      "Active Users": 8,
+      "Available License": 0,
+    },
+    {
+      Licenses: "Defender for Office (Plan 2)",
+      Features: "Security Add-on",
+      "Total Licenses": 3,
+      "Active Users": 2,
+      "Available License": 1,
+    },
+    {
+      Licenses: "Premium P1",
+      Features: "Identity / Security",
+      "Total Licenses": 5,
+      "Active Users": 5,
+      "Available License": 0,
+    },
+    {
+      Licenses: "Power BI Pro",
+      Features: "Analytics",
+      "Total Licenses": 3,
+      "Active Users": 3,
+      "Available License": 0,
+    },
+    {
+      Licenses: "Total",
+      Features: "",
+      "Total Licenses": 360,
+      "Active Users": 344,
+      "Available License": 16,
+    },
+  ];
+  let licenses = Array.isArray(window.MICROSOFT_LICENSE_DATA?.licenses)
+    ? JSON.parse(JSON.stringify(window.MICROSOFT_LICENSE_DATA.licenses))
+    : null;
+  try {
+    if (!licenses)
+      licenses = JSON.parse(localStorage.getItem("m365LicensesDB"));
+  } catch (e) {}
+  if (!Array.isArray(licenses) || !licenses.length)
+    licenses = JSON.parse(JSON.stringify(licenseSeed));
+  const escapeHtml = (value) =>
+    String(value ?? "").replace(
+      /[&<>"']/g,
+      (c) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[c],
+    );
+  const slug = (value) =>
+    String(value)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+  function companies() {
+    return data["Microsoft 365"] || [];
+  }
+  function recalculate() {
+    const rows = companies(),
+      normal = rows.filter((row) => row.Company !== "Total"),
+      total = rows.find((row) => row.Company === "Total") || {
+        Company: "Total",
+      };
+    if (!rows.includes(total)) rows.push(total);
+    const licenseNames = licenses
+      .filter((row) => row.Licenses !== "Total")
+      .map((row) => row.Licenses);
+    normal.forEach(
+      (row) =>
+        (row["Total Account"] = licenseNames.reduce(
+          (sum, name) => sum + (Number(row[name]) || 0),
+          0,
+        )),
+    );
+    total["Total Account"] = normal.reduce(
+      (sum, row) => sum + (Number(row["Total Account"]) || 0),
+      0,
+    );
+    licenseNames.forEach(
+      (name) =>
+        (total[name] = normal.reduce(
+          (sum, row) => sum + (Number(row[name]) || 0),
+          0,
+        )),
+    );
+    licenses
+      .filter((row) => row.Licenses !== "Total")
+      .forEach((row) => {
+        row["Total Licenses"] = Number(row["Total Licenses"]) || 0;
+        row["Active Users"] = Number(row["Active Users"]) || 0;
+        row["Available License"] = Number(row["Available License"]) || 0;
+      });
+    let licenseTotal = licenses.find((row) => row.Licenses === "Total");
+    if (!licenseTotal) {
+      licenseTotal = { Licenses: "Total", Features: "" };
+      licenses.push(licenseTotal);
+    }
+    ["Total Licenses", "Active Users", "Available License"].forEach(
+      (key) =>
+        (licenseTotal[key] = licenses
+          .filter((row) => row.Licenses !== "Total")
+          .reduce((sum, row) => sum + (Number(row[key]) || 0), 0)),
+    );
+    localStorage.setItem("m365CompanyDB", JSON.stringify(rows));
+    localStorage.setItem("m365LicensesDB", JSON.stringify(licenses));
+    localStorage.setItem("itHubData", JSON.stringify(data));
+  }
+  function title(icon, title, sub) {
+    return (
+      '<div class="unified-table-title"><span class="unified-table-title-icon">' +
+      icon +
+      "</span><div><h2>" +
+      title +
+      "</h2><p>" +
+      sub +
+      "</p></div></div>"
+    );
+  }
+  function renderCompany() {
+    const rows = companies(),
+      normal = rows
+        .filter((row) => row.Company !== "Total")
+        .sort(
+          (a, b) =>
+            (Number(b["Total Account"]) || 0) -
+            (Number(a["Total Account"]) || 0),
+        ),
+      companyOptions = normal
+        .slice()
+        .sort((left, right) =>
+          String(left.Company || "").localeCompare(String(right.Company || "")),
+        ),
+      total = rows.find((row) => row.Company === "Total"),
+      keys = Object.keys(rows[0] || {}),
+      q = (
+        document.getElementById("m365CompanySearch")?.value || ""
+      ).toLowerCase(),
+      selected = document.getElementById("m365CompanyFilter")?.value || "All";
+    const shown = normal.filter(
+      (row) =>
+        (selected === "All" || row.Company === selected) &&
+        row.Company.toLowerCase().includes(q),
+    );
+    document.querySelector(
+      '#microsoft365Dashboard>.unified-table-card:not([data-table="license-utilization"]) .unified-table-head,main>.tablecard .head',
+    ).innerHTML =
+      title(
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 21h18M5 21V7l7-4v18M12 10h7v11M8 9h1M8 13h1M8 17h1M15 14h1M15 18h1"/></svg>',
+        "Company License Distribution",
+        "License allocation summary",
+      ) +
+      '<div class="tools"><input id="m365CompanySearch" class="search" placeholder="Search company..." value="' +
+      escapeHtml(q) +
+      '"><select id="m365CompanyFilter" class="filter"><option value="All">All companies</option>' +
+      companyOptions
+        .map(
+          (row) =>
+            "<option " +
+            (row.Company === selected ? "selected" : "") +
+            ">" +
+            escapeHtml(row.Company) +
+            "</option>",
+        )
+        .join("") +
+      "</select></div>";
+    const display = shown.concat(total ? [total] : []),
+      companyTable = document.getElementById("table");
+    companyTable.className = "unified-table-scroll";
+    companyTable.innerHTML =
+      '<table class="m365-company-table"><thead><tr>' +
+      keys.map((key) => "<th>" + escapeHtml(key) + "</th>").join("") +
+      "</tr></thead><tbody>" +
+      display
+        .map((row) => {
+          const index = rows.indexOf(row),
+            isTotal = row.Company === "Total";
+          return (
+            '<tr data-index="' +
+            index +
+            '" class="' +
+            (isTotal ? "total-row" : "") +
+            '">' +
+            keys
+              .map(
+                (key) =>
+                  "<td" +
+                  (isTotal ? ' class="derived-cell"' : "") +
+                  ">" +
+                  escapeHtml(row[key]) +
+                  "</td>",
+              )
+              .join("") +
+            "</tr>"
+          );
+        })
+        .join("") +
+      "</tbody></table>";
+    foot.className = "unified-table-footer";
+    foot.textContent =
+      "Showing " + shown.length + " of " + normal.length + " companies";
+    document.getElementById("m365CompanySearch").oninput = null;
+    document.getElementById("m365CompanyFilter").onchange = null;
+  }
+  function renderLicenses() {
+    let card = document.querySelector('[data-table="license-utilization"]');
+    if (!card) {
+      card = document.createElement("section");
+      card.className = "card unified-table-card";
+      card.dataset.table = "license-utilization";
+      document.querySelector(".tablecard").after(card);
+    }
+    const normal = licenses
+        .filter((row) => row.Licenses !== "Total")
+        .sort((left, right) =>
+          String(left.Licenses || "").localeCompare(
+            String(right.Licenses || ""),
+          ),
+        ),
+      total = licenses.find((row) => row.Licenses === "Total"),
+      keys = Object.keys(licenses[0] || {}),
+      q = (
+        document.getElementById("m365LicenseSearch")?.value || ""
+      ).toLowerCase(),
+      selected = document.getElementById("m365FeatureFilter")?.value || "All",
+      features = [...new Set(normal.map((row) => row.Features))];
+    const shown = normal.filter(
+      (row) =>
+        (selected === "All" || row.Features === selected) &&
+        Object.values(row).join(" ").toLowerCase().includes(q),
+    );
+    card.className = "card unified-table-card";
+    card.innerHTML =
+      '<div class="unified-table-head">' +
+      title(
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h5M8 16h4"/><circle cx="16" cy="16" r="3"/><path d="m14.7 16 1 1 1.8-2"/></svg>',
+        "Microsoft 365 License Utilization",
+        "License capacity summary",
+      ) +
+      '<div class="tools"><input id="m365LicenseSearch" class="search" placeholder="Search licenses..." value="' +
+      escapeHtml(q) +
+      '"><select id="m365FeatureFilter" class="filter"><option value="All">All features</option>' +
+      features
+        .map(
+          (feature) =>
+            "<option " +
+            (feature === selected ? "selected" : "") +
+            ">" +
+            escapeHtml(feature) +
+            "</option>",
+        )
+        .join("") +
+      '</select></div></div><div class="unified-table-scroll"><table><thead><tr>' +
+      keys.map((key) => "<th>" + escapeHtml(key) + "</th>").join("") +
+      "</tr></thead><tbody>" +
+      shown
+        .concat(total ? [total] : [])
+        .map((row) => {
+          const index = licenses.indexOf(row),
+            isTotal = row.Licenses === "Total";
+          return (
+            '<tr data-index="' +
+            index +
+            '" class="' +
+            (isTotal ? "total-row" : "") +
+            '">' +
+            keys
+              .map((key) =>
+                key === "Features" && !isTotal
+                  ? '<td><span class="feature-badge feature-' +
+                    slug(row[key]) +
+                    '">' +
+                    escapeHtml(row[key]) +
+                    "</span></td>"
+                  : "<td" +
+                    (isTotal ? ' class="derived-cell"' : "") +
+                    ">" +
+                    escapeHtml(row[key]) +
+                    "</td>",
+              )
+              .join("") +
+            "</tr>"
+          );
+        })
+        .join("") +
+      '</tbody></table></div><div class="unified-table-footer">Showing ' +
+      shown.length +
+      " of " +
+      normal.length +
+      " licenses</div>";
+    document.getElementById("m365LicenseSearch").oninput = null;
+    document.getElementById("m365FeatureFilter").onchange = null;
+  }
+  window.renderM365Licenses = renderLicenses;
+  const priorTable = window.table;
+  window.table = function () {
+    if (active !== "Microsoft 365") {
+      const card = document.querySelector('[data-table="license-utilization"]');
+      if (card) card.remove();
+      return priorTable();
+    }
+    recalculate();
+    renderCompany();
+    renderLicenses();
+  };
+  const priorPage = window.page;
+  window.page = function (name) {
+    priorPage(name);
+    if (name === "Microsoft 365") {
+      recalculate();
+      renderCompany();
+      renderLicenses();
+    }
+  };
+  const saveButton = document.querySelector(".btn.primary");
+  if (saveButton)
+    saveButton.addEventListener("click", () => {
+      if (active === "Microsoft 365") recalculate();
+    });
+  recalculate();
+  if (active === "Microsoft 365") {
+    renderCompany();
+    renderLicenses();
+    charts();
+  }
 })();
 
+(function () {
+  const icons = {
+    company:
+      '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4v18M12 9h7v12M8 9h1M8 13h1M8 17h1M15 13h1M15 17h1"/></svg>',
+    license:
+      '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h6M7 13h10M7 16h7"/></svg>',
+    users:
+      '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+    available:
+      '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg>',
+  };
+  function renderM365Kpis() {
+    const kpiSection =
+      document.querySelector("#microsoft365Dashboard > .unified-kpi-grid") ||
+      document.getElementById("kpis");
+    if (!kpiSection) return;
+    if (active !== "Microsoft 365") return;
+    let companies = [];
+    try {
+      companies =
+        JSON.parse(localStorage.getItem("m365CompanyDB")) ||
+        data["Microsoft 365"] ||
+        [];
+    } catch (e) {
+      companies = data["Microsoft 365"] || [];
+    }
+    let licenses = [];
+    try {
+      licenses = JSON.parse(localStorage.getItem("m365LicensesDB")) || [];
+    } catch (e) {}
+    const selectedLicense =
+        document.getElementById("m365CompanyLicenseFilter")?.value ||
+        document.getElementById("m365PieFilter")?.value ||
+        "All",
+      companyCount = companies.filter(
+        (row) => row.Company && row.Company !== "Total",
+      ).length,
+      visibleLicenses = licenses.filter(
+        (row) =>
+          row.Licenses &&
+          row.Licenses !== "Total" &&
+          (selectedLicense === "All" || row.Licenses === selectedLicense),
+      ),
+      total = {
+        "Total Licenses": visibleLicenses.reduce(
+          (sum, row) => sum + (Number(row["Total Licenses"]) || 0),
+          0,
+        ),
+        "Active Users": visibleLicenses.reduce(
+          (sum, row) => sum + (Number(row["Active Users"]) || 0),
+          0,
+        ),
+        "Available License": visibleLicenses.reduce(
+          (sum, row) => sum + (Number(row["Available License"]) || 0),
+          0,
+        ),
+      };
+    const cards = [
+      [
+        "Total Companies",
+        companyCount,
+        "Companies in the license portfolio",
+        "tone-orange",
+        icons.company,
+      ],
+      [
+        "Total Licenses",
+        Number(total["Total Licenses"]) || 0,
+        selectedLicense === "All"
+          ? "Purchased Microsoft 365 capacity"
+          : selectedLicense,
+        "tone-green",
+        icons.license,
+      ],
+      [
+        "Active Users",
+        Number(total["Active Users"]) || 0,
+        selectedLicense === "All"
+          ? "Licenses currently assigned"
+          : "Assigned for " + selectedLicense,
+        "tone-yellow",
+        icons.users,
+      ],
+      [
+        "Available Licenses",
+        Number(total["Available License"]) || 0,
+        selectedLicense === "All"
+          ? "Capacity ready to assign"
+          : "Available for " + selectedLicense,
+        "tone-blue",
+        icons.available,
+      ],
+    ];
+    kpiSection.className = "unified-kpi-grid";
+    kpiSection.innerHTML = cards
+      .map(
+        (card) =>
+          '<article class="unified-kpi-card ' +
+          card[3] +
+          '"><span class="unified-kpi-icon" aria-hidden="true">' +
+          card[4] +
+          "</span><div><b>" +
+          card[0] +
+          "</b><small>" +
+          card[2] +
+          "</small></div><strong>" +
+          card[1].toLocaleString() +
+          "</strong></article>",
+      )
+      .join("");
+    window.refreshMainDashboardMetrics?.();
+  }
+  const previousCharts = window.charts;
+  window.charts = function () {
+    previousCharts();
+    renderM365Kpis();
+  };
+  const previousPage = window.page;
+  window.page = function (name) {
+    previousPage(name);
+    renderM365Kpis();
+  };
 
+  window.renderM365Kpis = renderM365Kpis;
+  renderM365Kpis();
+})();
 
-(function(){
- const routes={'Dashboard':'#/','Manpower':'#/manpower','Budget & Expense':'#/budget-expense','FY Comparison':'#/fy-comparison','Copier & Printer Usage':'#/copier-printer-usage','Service Tickets':'#/service-tickets','Fixed Assets':'#/fixed-assets','Microsoft 365':'#/microsoft-365'};
- const routePages=Object.fromEntries(Object.entries(routes).map(([page,path])=>[path.toLowerCase(),page]));const routeKey=()=>location.hash.toLowerCase()||'#/';
- const pageMeta={'Dashboard':['IT Management Overview','A complete view of your digital operations and performance.'],'Manpower':['Manpower','Digital team capacity and workload.'],'Budget & Expense':['Budget & Expense','Monitor technology budgets, spending and cost performance at a glance.'],'FY Comparison':['FY Comparison','Compare financial-year performance across the digital portfolio.'],'Copier & Printer Usage':['Copier & Printer Usage','Device activity, print volumes and operational status.'],'Service Tickets':['Service Tickets','Service demand, issue trends and team allocation insights.'],'Fixed Assets':['Fixed Assets','Technology assets, ownership and lifecycle status.'],'Microsoft 365':['Microsoft 365','Company licensing, users, and subscription capacity.']};
- function syncNavigation(name){document.querySelectorAll('#nav button').forEach(button=>{const selected=(button.dataset.page||button.querySelector('.nav-text')?.textContent)===name;button.classList.toggle('active',selected);button.setAttribute('aria-current',selected?'page':'false');button.dataset.href=routes[button.dataset.page||button.querySelector('.nav-text')?.textContent]||''});document.querySelectorAll('#tabs button').forEach(button=>button.classList.toggle('active',button.textContent===name))}
- function restoreGenericTableShell(){const primary=document.querySelector('main > section.card.tablecard'),head=primary?.querySelector('.head');if(head&&!document.getElementById('search'))head.innerHTML='<h2 id="ttitle"></h2><div class="tools"><input class="search" id="search" oninput="table()" placeholder="Search records..."><select class="filter" id="filter" onchange="table()"></select></div>'}
- window.navigateHubPage=function(name,push=true){
-  if(!routes[name])name='Dashboard';
-  if(push&&name===active){syncNavigation(name);return}
-  /* Keep menu changes inside the current document; the visible URL is synchronized
+(function () {
+  function sync() {
+    const current = active;
+    document.querySelectorAll("#nav button").forEach((button) => {
+      const selected =
+        (button.dataset.page ||
+          button.querySelector(".nav-text")?.textContent) === current;
+      button.classList.toggle("active", selected);
+      button.setAttribute("aria-current", selected ? "page" : "false");
+    });
+  }
+  window.addEventListener("pageshow", sync);
+  window.addEventListener("popstate", sync);
+  document
+    .getElementById("nav")
+    .addEventListener("click", () => queueMicrotask(sync));
+  sync();
+})();
+
+(function () {
+  const routes = {
+    Dashboard: "#/",
+    Manpower: "#/manpower",
+    "Budget & Expense": "#/budget-expense",
+    "FY Comparison": "#/fy-comparison",
+    "Copier & Printer Usage": "#/copier-printer-usage",
+    "Service Tickets": "#/service-tickets",
+    "Fixed Assets": "#/fixed-assets",
+    "Microsoft 365": "#/microsoft-365",
+  };
+  const routePages = Object.fromEntries(
+    Object.entries(routes).map(([page, path]) => [path.toLowerCase(), page]),
+  );
+  const routeKey = () => location.hash.toLowerCase() || "#/";
+  const pageMeta = {
+    Dashboard: [
+      "IT Management Overview",
+      "A complete view of your digital operations and performance.",
+    ],
+    Manpower: ["Manpower", "Digital team capacity and workload."],
+    "Budget & Expense": [
+      "Budget & Expense",
+      "Monitor technology budgets, spending and cost performance at a glance.",
+    ],
+    "FY Comparison": [
+      "FY Comparison",
+      "Compare financial-year performance across the digital portfolio.",
+    ],
+    "Copier & Printer Usage": [
+      "Copier & Printer Usage",
+      "Device activity, print volumes and operational status.",
+    ],
+    "Service Tickets": [
+      "Service Tickets",
+      "Service demand, issue trends and team allocation insights.",
+    ],
+    "Fixed Assets": [
+      "Fixed Assets",
+      "Technology assets, ownership and lifecycle status.",
+    ],
+    "Microsoft 365": [
+      "Microsoft 365",
+      "Company licensing, users, and subscription capacity.",
+    ],
+  };
+  function syncNavigation(name) {
+    document.querySelectorAll("#nav button").forEach((button) => {
+      const selected =
+        (button.dataset.page ||
+          button.querySelector(".nav-text")?.textContent) === name;
+      button.classList.toggle("active", selected);
+      button.setAttribute("aria-current", selected ? "page" : "false");
+      button.dataset.href =
+        routes[
+          button.dataset.page || button.querySelector(".nav-text")?.textContent
+        ] || "";
+    });
+    document
+      .querySelectorAll("#tabs button")
+      .forEach((button) =>
+        button.classList.toggle("active", button.textContent === name),
+      );
+  }
+  function restoreGenericTableShell() {
+    const primary = document.querySelector("main > section.card.tablecard"),
+      head = primary?.querySelector(".head");
+    if (head && !document.getElementById("search"))
+      head.innerHTML =
+        '<h2 id="ttitle"></h2><div class="tools"><input class="search" id="search" oninput="table()" placeholder="Search records..."><select class="filter" id="filter" onchange="table()"></select></div>';
+  }
+  window.navigateHubPage = function (name, push = true) {
+    if (!routes[name]) name = "Dashboard";
+    if (push && name === active) {
+      syncNavigation(name);
+      return;
+    }
+    /* Keep menu changes inside the current document; the visible URL is synchronized
      after rendering with replaceState so navigation remains refresh-free. */
-  active=name;sessionStorage.setItem('itHubActive',name);crumb.textContent=name;h1.textContent=pageMeta[name][0];sub.textContent=pageMeta[name][1];side.classList.remove('open');
-  if(name==='Microsoft 365'){const genericChartTitle=document.getElementById('ctitle');if(genericChartTitle)genericChartTitle.textContent='Microsoft 365 performance';table();charts()}else{restoreGenericTableShell();const pageSearch=document.getElementById('search');if(pageSearch)pageSearch.value='';render()}
-  syncNavigation(name);document.title='Nature A Digital Hub · '+name;
-  if(push&&routeKey()!==routes[name].toLowerCase())history.replaceState({page:name},'',routes[name]);
- };
- document.querySelectorAll('#nav button').forEach(button=>{const name=button.dataset.page||button.querySelector('.nav-text')?.textContent;button.dataset.page=name;button.dataset.href=routes[name];button.onclick=()=>window.navigateHubPage(name,true)});
- document.querySelectorAll('#tabs button').forEach(button=>button.onclick=()=>window.navigateHubPage(button.textContent,true));
- window.addEventListener('popstate',()=>window.navigateHubPage(routePages[routeKey()]||'Dashboard',false));window.addEventListener('hashchange',()=>window.navigateHubPage(routePages[routeKey()]||'Dashboard',false));
- window.navigateHubPage(routePages[routeKey()]||active||'Dashboard',false);
+    active = name;
+    sessionStorage.setItem("itHubActive", name);
+    crumb.textContent = name;
+    h1.textContent = pageMeta[name][0];
+    sub.textContent = pageMeta[name][1];
+    side.classList.remove("open");
+    if (name === "Microsoft 365") {
+      const genericChartTitle = document.getElementById("ctitle");
+      if (genericChartTitle)
+        genericChartTitle.textContent = "Microsoft 365 performance";
+      table();
+      charts();
+    } else {
+      restoreGenericTableShell();
+      const pageSearch = document.getElementById("search");
+      if (pageSearch) pageSearch.value = "";
+      render();
+    }
+    syncNavigation(name);
+    document.title = "Nature A Digital Hub · " + name;
+    if (push && routeKey() !== routes[name].toLowerCase())
+      history.replaceState({ page: name }, "", routes[name]);
+  };
+  document.querySelectorAll("#nav button").forEach((button) => {
+    const name =
+      button.dataset.page || button.querySelector(".nav-text")?.textContent;
+    button.dataset.page = name;
+    button.dataset.href = routes[name];
+    button.onclick = () => window.navigateHubPage(name, true);
+  });
+  document
+    .querySelectorAll("#tabs button")
+    .forEach(
+      (button) =>
+        (button.onclick = () =>
+          window.navigateHubPage(button.textContent, true)),
+    );
+  window.addEventListener("popstate", () =>
+    window.navigateHubPage(routePages[routeKey()] || "Dashboard", false),
+  );
+  window.addEventListener("hashchange", () =>
+    window.navigateHubPage(routePages[routeKey()] || "Dashboard", false),
+  );
+  window.navigateHubPage(
+    routePages[routeKey()] || active || "Dashboard",
+    false,
+  );
 })();
 
-
-
-(function(){
- function renderCompanyRanking(){
-  const chartTypeControl=document.getElementById('m365CompanyChartType')||document.getElementById('type');
-  if(active!=='Microsoft 365'){if(chartTypeControl)chartTypeControl.disabled=false;chart.parentElement.style.height='250px';return}
-  const selectedLicense=document.getElementById('m365CompanyLicenseFilter')?.value||document.getElementById('m365PieFilter')?.value||'All',metric=selectedLicense==='All'?'Total Account':selectedLicense,licenseOptions=Object.keys((data['Microsoft 365']||[]).find(row=>row.Company&&row.Company!=='Total')||{}).filter(key=>!['Company','Total Account'].includes(key)).sort((left,right)=>left.localeCompare(right)),rows=(data['Microsoft 365']||[]).filter(row=>row.Company&&row.Company!=='Total'&&(selectedLicense==='All'||Number(row[metric])>0)).sort((a,b)=>(Number(b[metric])||0)-(Number(a[metric])||0));
-  const compactViewport=window.innerWidth<=460,phoneViewport=window.innerWidth<=700,rowHeight=compactViewport?37:(phoneViewport?39:38),minimumHeight=compactViewport?400:(phoneViewport?420:390),chartHeight=Math.max(minimumHeight,rows.length*rowHeight+74);chart.parentElement.style.setProperty('height',chartHeight+'px','important');const selectedType=chartTypeControl?.value==='line'?'line':'bar',isLine=selectedType==='line';if(chartTypeControl)chartTypeControl.disabled=false;const dark=document.body.classList.contains('dark'),text=dark?'#e8d1cc':'#806864',grid=dark?'#553137':'#eaded9',tooltipTheme={displayColors:true,backgroundColor:'#171114',titleColor:'#fff7f2',bodyColor:'#fff7f2',borderColor:'#d99284',borderWidth:2,position:'nearest',padding:10,cornerRadius:8,caretPadding:10,boxPadding:4,titleFont:{family:'Poppins',size:11,weight:'700'},bodyFont:{family:'Poppins',size:12,weight:'600'}},ctx=chart.getContext('2d'),gradient=ctx.createLinearGradient(0,0,chart.clientWidth||700,0);
-  gradient.addColorStop(0,dark?'#c94a42':'#d12a31');gradient.addColorStop(1,dark?'#ef8563':'#f38c47');
-  const registered=Chart.getChart('chart');if(registered)registered.destroy();if(typeof bar!=='undefined'&&bar&&bar!==registered&&typeof bar.destroy==='function'){try{bar.destroy()}catch(e){}}if(chartTypeControl)chartTypeControl.disabled=false;
-  bar=new Chart(chart,{type:selectedType,data:{labels:rows.map(row=>row.Company),datasets:[{label:selectedLicense==='All'?'Total Accounts':selectedLicense,data:rows.map(row=>Number(row[metric])||0),backgroundColor:isLine?(dark?'rgba(255,135,85,.10)':'rgba(209,42,49,.10)'):gradient,borderColor:dark?'#ff8755':'#d12a31',borderWidth:isLine?2.5:1.5,borderRadius:isLine?0:7,barThickness:isLine?undefined:(phoneViewport?20:24),categoryPercentage:.74,barPercentage:.9,fill:isLine,tension:.34,pointRadius:isLine?4:0,pointHoverRadius:isLine?6:0,pointBackgroundColor:dark?'#ff9a70':'#c9252d'}]},options:{indexAxis:isLine?'x':'y',responsive:true,maintainAspectRatio:false,animation:{duration:900,easing:'easeOutCubic'},plugins:{legend:{display:false},tooltip:{...tooltipTheme,callbacks:{label:context=>' '+context.raw.toLocaleString()+' Accounts',labelColor:context=>({borderColor:context.dataset.borderColor,backgroundColor:context.dataset.borderColor,borderWidth:1,borderRadius:2})}}},scales:isLine?{x:{offset:false,grid:{color:grid},ticks:{padding:8,color:text,maxRotation:0,minRotation:0,font:{family:'Poppins',size:9,weight:'500'}}},y:{beginAtZero:true,grid:{color:grid},ticks:{color:text,precision:0,font:{family:'Poppins',size:10}}}}:{y:{offset:true,grid:{display:false},ticks:{padding:9,color:text,font:{family:'Poppins',size:10,weight:'600'}}},x:{beginAtZero:true,grid:{color:grid},ticks:{color:text,font:{family:'Poppins',size:10},precision:0},title:{display:true,text:'Total '+rows.reduce((sum,row)=>sum+(Number(row[metric])||0),0).toLocaleString()+' accounts',color:text,font:{family:'Poppins',size:10,weight:'600'}}}}}});
-  chart.dataset.orientation='horizontal-left-to-right';chart.dataset.source='Company,'+metric;chart.dataset.excludesTotal='true';chart.dataset.order='descending';const chartTitle=document.querySelector('#microsoft365Dashboard .unified-chart-header h2')||document.getElementById('ctitle');if(chartTitle)chartTitle.textContent='Company Account Distribution';const caption=chartTitle?.parentElement.querySelector('p');if(caption)caption.textContent=selectedLicense==='All'?'Comparative account allocation':selectedLicense+' allocation';const chartHeader=chartTitle?.closest('.unified-chart-header,.title');chartHeader?.querySelector('#m365CompanyLicenseFilter')?.remove();if(chartHeader){const filter=document.createElement('select');filter.id='m365CompanyLicenseFilter';filter.className='filter unified-chart-select';filter.setAttribute('aria-label','Filter company account distribution by license');filter.innerHTML='<option value="All">All licenses</option>'+licenseOptions.map(license=>'<option value="'+license.replace(/"/g,'&quot;')+'" '+(license===selectedLicense?'selected':'')+'>'+license+'</option>').join('');filter.addEventListener('change',()=>{const pieFilter=document.getElementById('m365PieFilter'),licenseSearch=document.getElementById('m365LicenseSearch');if(pieFilter&&[...pieFilter.options].some(option=>option.value===filter.value))pieFilter.value=filter.value;if(licenseSearch){licenseSearch.value=filter.value==='All'?'':filter.value;licenseSearch.dispatchEvent(new Event('input',{bubbles:true}))}window.renderM365LicenseAvailabilityPie?.();window.renderM365Kpis?.();renderCompanyRanking()});chartHeader.insertBefore(filter,chartTypeControl||null)}
- }
- window.renderM365CompanyRanking=renderCompanyRanking;const previousCharts=window.charts;window.charts=function(){previousCharts();renderCompanyRanking()};
- const previousNavigate=window.navigateHubPage;if(previousNavigate)window.navigateHubPage=function(name,push=true){previousNavigate(name,push);renderCompanyRanking()};
- renderCompanyRanking();
-})();
-
-
-
-(function(){
- function licenseData(){try{return JSON.parse(localStorage.getItem('m365LicensesDB'))||[]}catch(e){return[]}}
- function renderLicenseAvailabilityPie(){
-  const licenseLegend=document.getElementById('microsoft365LicenseLegend')||document.getElementById('legend');
-  if(active!=='Microsoft 365'||!licenseLegend)return;
-  const all=licenseData(),licenseRows=all.filter(row=>row.Licenses&&row.Licenses!=='Total').sort((a,b)=>(Number(b['Available License'])||0)-(Number(a['Available License'])||0)),availableRows=licenseRows.filter(row=>(Number(row['Available License'])||0)>0),current=document.getElementById('m365CompanyLicenseFilter')?.value||document.getElementById('m365PieFilter')?.value||'All',selected=current==='All'||licenseRows.some(row=>row.Licenses===current)?current:'All',rows=selected==='All'?availableRows:availableRows.filter(row=>row.Licenses===selected),displayTotal=rows.reduce((sum,row)=>sum+(Number(row['Available License'])||0),0),dark=document.body.classList.contains('dark');
-  const colors=dark?['#ff8755','#f5c66b','#d85b64','#ad7d45','#8f6dde','#4eb4cd','#e28b9b']:['#d12a31','#f06428','#d6a13b','#8d5754','#7656b5','#3194ad','#bb6676'];
-  const registered=Chart.getChart('pie');if(registered)registered.destroy();if(typeof donut!=='undefined'&&donut&&donut!==registered&&typeof donut.destroy==='function'){try{donut.destroy()}catch(e){}}
-  donut=new Chart(pie,{type:'doughnut',data:{labels:rows.map(row=>row.Licenses),datasets:[{label:'Available Licenses',data:rows.map(row=>Number(row['Available License'])||0),backgroundColor:rows.map((_,index)=>colors[index%colors.length]),borderColor:dark?'#32171e':'#fffaf7',borderWidth:5,hoverOffset:4,cutout:'66%'}]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:900,easing:'easeOutCubic'},animations:{rotate:{duration:0},scale:{duration:0}},transitions:{active:{animation:{duration:0}}},plugins:{legend:{display:false},brandCentre:{total:displayTotal,label:'LICENSES',dark},tooltip:{displayColors:true,backgroundColor:'#171114',titleColor:'#fff7f2',bodyColor:'#fff7f2',borderColor:'#d99284',borderWidth:2,padding:10,callbacks:{label:context=>' '+context.raw.toLocaleString()+' Available',labelColor:context=>({backgroundColor:context.dataset.backgroundColor[context.dataIndex],borderColor:'transparent',borderWidth:0,borderRadius:2})}}}}});
-  const pieCard=pie.closest('.unified-chart-card,.card'),titleWrap=pieCard.querySelector('.unified-chart-header,.title'),title=titleWrap.querySelector('h2'),caption=titleWrap.querySelector('p');title.textContent='Available Licenses';caption.removeAttribute('class');caption.textContent=selected==='All'?'Unassigned Microsoft 365 Licenses':'Availability for '+selected;
-  titleWrap.querySelector('#m365PieFilter')?.remove();if(licenseRows.length){const filter=document.createElement('select');filter.id='m365PieFilter';filter.className='filter unified-chart-select';filter.setAttribute('aria-label','Filter available licenses');filter.innerHTML='<option value="All">All licenses</option>'+licenseRows.slice().sort((left,right)=>left.Licenses.localeCompare(right.Licenses)).map(row=>'<option value="'+row.Licenses.replace(/"/g,'&quot;')+'" '+(row.Licenses===selected?'selected':'')+'>'+row.Licenses+'</option>').join('');filter.onchange=()=>{const licenseSearch=document.getElementById('m365LicenseSearch'),companyFilter=document.getElementById('m365CompanyLicenseFilter');if(companyFilter&&[...companyFilter.options].some(option=>option.value===filter.value))companyFilter.value=filter.value;if(licenseSearch){licenseSearch.value=filter.value==='All'?'':filter.value;licenseSearch.dispatchEvent(new Event('input',{bubbles:true}))}renderLicenseAvailabilityPie();window.renderM365CompanyRanking?.();window.renderM365Kpis?.()};titleWrap.append(filter)}requestAnimationFrame(()=>window.refreshUnifiedChartControls?.())
-  licenseLegend.className='unified-chart-legend';licenseLegend.innerHTML=rows.length?rows.map((row,index)=>'<div><span class="m365-license-name"><i class="dot" style="background:'+colors[index%colors.length]+'"></i>'+row.Licenses+'</span><b class="m365-license-availability"><strong>'+Number(row['Available License']).toLocaleString()+'</strong><small>available</small></b></div>').join(''):'<div class="m365-no-licenses"><span>All licenses are fully assigned</span><b class="m365-license-availability"><strong>0</strong><small>available</small></b></div>';
-  pie.dataset.source='Licenses,Available License';pie.dataset.zeroAvailability='omitted';pie.dataset.availableTotal=String(displayTotal);pie.dataset.sort='highest-to-lowest';pie.dataset.filter=selected;const pieLayout=pie.closest('.unified-pie-layout,.piegrid');if(pieLayout)pieLayout.className='unified-pie-layout';pie.parentElement.className='unified-pie-canvas';
- }
- window.renderM365LicenseAvailabilityPie=renderLicenseAvailabilityPie;const previousCharts=window.charts;window.charts=function(){previousCharts();renderLicenseAvailabilityPie()};
- const previousToggle=window.toggleTheme;window.toggleTheme=function(){previousToggle();renderLicenseAvailabilityPie()};const toggle=document.querySelector('.theme-toggle');if(toggle)toggle.onclick=window.toggleTheme;
- const previousNavigate=window.navigateHubPage;if(previousNavigate)window.navigateHubPage=function(name,push=true){previousNavigate(name,push);renderLicenseAvailabilityPie()};
- renderLicenseAvailabilityPie();
-})();
-
-
-
-(function(){
- const migrationKey='m365PipBusinessBasic35';
- if(localStorage.getItem(migrationKey)==='done')return;
- let companies;
- try{companies=JSON.parse(localStorage.getItem('m365CompanyDB'))}catch(e){}
- if(!Array.isArray(companies)||!companies.length)companies=(data['Microsoft 365']||[]);
- const pip=companies.find(row=>row.Company==='PIP Myanmar');
- if(pip){
-  pip['Business Basic']=35;
-  const totalRow=companies.find(row=>row.Company==='Total');
-  const licenseKeys=Object.keys(pip).filter(key=>key!=='Company'&&key!=='Total Account');
-  pip['Total Account']=licenseKeys.reduce((sum,key)=>sum+(Number(pip[key])||0),0);
-  if(totalRow){
-   totalRow['Total Account']=companies.filter(row=>row.Company!=='Total').reduce((sum,row)=>sum+(Number(row['Total Account'])||0),0);
-   licenseKeys.forEach(key=>totalRow[key]=companies.filter(row=>row.Company!=='Total').reduce((sum,row)=>sum+(Number(row[key])||0),0));
+(function () {
+  function renderCompanyRanking() {
+    const chartTypeControl =
+      document.getElementById("m365CompanyChartType") ||
+      document.getElementById("type");
+    if (active !== "Microsoft 365") {
+      if (chartTypeControl) chartTypeControl.disabled = false;
+      chart.parentElement.style.height = "250px";
+      return;
+    }
+    const selectedLicense =
+        document.getElementById("m365CompanyLicenseFilter")?.value ||
+        document.getElementById("m365PieFilter")?.value ||
+        "All",
+      metric = selectedLicense === "All" ? "Total Account" : selectedLicense,
+      licenseOptions = Object.keys(
+        (data["Microsoft 365"] || []).find(
+          (row) => row.Company && row.Company !== "Total",
+        ) || {},
+      )
+        .filter((key) => !["Company", "Total Account"].includes(key))
+        .sort((left, right) => left.localeCompare(right)),
+      rows = (data["Microsoft 365"] || [])
+        .filter(
+          (row) =>
+            row.Company &&
+            row.Company !== "Total" &&
+            (selectedLicense === "All" || Number(row[metric]) > 0),
+        )
+        .sort((a, b) => (Number(b[metric]) || 0) - (Number(a[metric]) || 0));
+    const compactViewport = window.innerWidth <= 460,
+      phoneViewport = window.innerWidth <= 700,
+      rowHeight = compactViewport ? 37 : phoneViewport ? 39 : 38,
+      minimumHeight = compactViewport ? 400 : phoneViewport ? 420 : 390,
+      chartHeight = Math.max(minimumHeight, rows.length * rowHeight + 74);
+    chart.parentElement.style.setProperty(
+      "height",
+      chartHeight + "px",
+      "important",
+    );
+    const selectedType = chartTypeControl?.value === "line" ? "line" : "bar",
+      isLine = selectedType === "line";
+    if (chartTypeControl) chartTypeControl.disabled = false;
+    const dark = document.body.classList.contains("dark"),
+      text = dark ? "#e8d1cc" : "#806864",
+      grid = dark ? "#553137" : "#eaded9",
+      tooltipTheme = {
+        displayColors: true,
+        backgroundColor: "#171114",
+        titleColor: "#fff7f2",
+        bodyColor: "#fff7f2",
+        borderColor: "#d99284",
+        borderWidth: 2,
+        position: "nearest",
+        padding: 10,
+        cornerRadius: 8,
+        caretPadding: 10,
+        boxPadding: 4,
+        titleFont: { family: "Poppins", size: 11, weight: "700" },
+        bodyFont: { family: "Poppins", size: 12, weight: "600" },
+      },
+      ctx = chart.getContext("2d"),
+      gradient = ctx.createLinearGradient(0, 0, chart.clientWidth || 700, 0);
+    gradient.addColorStop(0, dark ? "#c94a42" : "#d12a31");
+    gradient.addColorStop(1, dark ? "#ef8563" : "#f38c47");
+    const registered = Chart.getChart("chart");
+    if (registered) registered.destroy();
+    if (
+      typeof bar !== "undefined" &&
+      bar &&
+      bar !== registered &&
+      typeof bar.destroy === "function"
+    ) {
+      try {
+        bar.destroy();
+      } catch (e) {}
+    }
+    if (chartTypeControl) chartTypeControl.disabled = false;
+    bar = new Chart(chart, {
+      type: selectedType,
+      data: {
+        labels: rows.map((row) => row.Company),
+        datasets: [
+          {
+            label:
+              selectedLicense === "All" ? "Total Accounts" : selectedLicense,
+            data: rows.map((row) => Number(row[metric]) || 0),
+            backgroundColor: isLine
+              ? dark
+                ? "rgba(255,135,85,.10)"
+                : "rgba(209,42,49,.10)"
+              : gradient,
+            borderColor: dark ? "#ff8755" : "#d12a31",
+            borderWidth: isLine ? 2.5 : 1.5,
+            borderRadius: isLine ? 0 : 7,
+            barThickness: isLine ? undefined : phoneViewport ? 20 : 24,
+            categoryPercentage: 0.74,
+            barPercentage: 0.9,
+            fill: isLine,
+            tension: 0.34,
+            pointRadius: isLine ? 4 : 0,
+            pointHoverRadius: isLine ? 6 : 0,
+            pointBackgroundColor: dark ? "#ff9a70" : "#c9252d",
+          },
+        ],
+      },
+      options: {
+        indexAxis: isLine ? "x" : "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 900, easing: "easeOutCubic" },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            ...tooltipTheme,
+            callbacks: {
+              label: (context) =>
+                " " + context.raw.toLocaleString() + " Accounts",
+              labelColor: (context) => ({
+                borderColor: context.dataset.borderColor,
+                backgroundColor: context.dataset.borderColor,
+                borderWidth: 1,
+                borderRadius: 2,
+              }),
+            },
+          },
+        },
+        scales: isLine
+          ? {
+              x: {
+                offset: false,
+                grid: { color: grid },
+                ticks: {
+                  padding: 8,
+                  color: text,
+                  maxRotation: 0,
+                  minRotation: 0,
+                  font: { family: "Poppins", size: 9, weight: "500" },
+                },
+              },
+              y: {
+                beginAtZero: true,
+                grid: { color: grid },
+                ticks: {
+                  color: text,
+                  precision: 0,
+                  font: { family: "Poppins", size: 10 },
+                },
+              },
+            }
+          : {
+              y: {
+                offset: true,
+                grid: { display: false },
+                ticks: {
+                  padding: 9,
+                  color: text,
+                  font: { family: "Poppins", size: 10, weight: "600" },
+                },
+              },
+              x: {
+                beginAtZero: true,
+                grid: { color: grid },
+                ticks: {
+                  color: text,
+                  font: { family: "Poppins", size: 10 },
+                  precision: 0,
+                },
+                title: {
+                  display: true,
+                  text:
+                    "Total " +
+                    rows
+                      .reduce((sum, row) => sum + (Number(row[metric]) || 0), 0)
+                      .toLocaleString() +
+                    " accounts",
+                  color: text,
+                  font: { family: "Poppins", size: 10, weight: "600" },
+                },
+              },
+            },
+      },
+    });
+    chart.dataset.orientation = "horizontal-left-to-right";
+    chart.dataset.source = "Company," + metric;
+    chart.dataset.excludesTotal = "true";
+    chart.dataset.order = "descending";
+    const chartTitle =
+      document.querySelector(
+        "#microsoft365Dashboard .unified-chart-header h2",
+      ) || document.getElementById("ctitle");
+    if (chartTitle) chartTitle.textContent = "Company Account Distribution";
+    const caption = chartTitle?.parentElement.querySelector("p");
+    if (caption)
+      caption.textContent =
+        selectedLicense === "All"
+          ? "Comparative account allocation"
+          : selectedLicense + " allocation";
+    const chartHeader = chartTitle?.closest(".unified-chart-header,.title");
+    chartHeader?.querySelector("#m365CompanyLicenseFilter")?.remove();
+    if (chartHeader) {
+      const filter = document.createElement("select");
+      filter.id = "m365CompanyLicenseFilter";
+      filter.className = "filter unified-chart-select";
+      filter.setAttribute(
+        "aria-label",
+        "Filter company account distribution by license",
+      );
+      filter.innerHTML =
+        '<option value="All">All licenses</option>' +
+        licenseOptions
+          .map(
+            (license) =>
+              '<option value="' +
+              license.replace(/"/g, "&quot;") +
+              '" ' +
+              (license === selectedLicense ? "selected" : "") +
+              ">" +
+              license +
+              "</option>",
+          )
+          .join("");
+      filter.addEventListener("change", () => {
+        const pieFilter = document.getElementById("m365PieFilter"),
+          licenseSearch = document.getElementById("m365LicenseSearch");
+        if (
+          pieFilter &&
+          [...pieFilter.options].some((option) => option.value === filter.value)
+        )
+          pieFilter.value = filter.value;
+        if (licenseSearch) {
+          licenseSearch.value = filter.value === "All" ? "" : filter.value;
+          licenseSearch.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+        window.renderM365LicenseAvailabilityPie?.();
+        window.renderM365Kpis?.();
+        renderCompanyRanking();
+      });
+      chartHeader.insertBefore(filter, chartTypeControl || null);
+    }
   }
-  data['Microsoft 365']=companies;
-  localStorage.setItem('m365CompanyDB',JSON.stringify(companies));
-  localStorage.setItem('itHubData',JSON.stringify(data));
- }
- localStorage.setItem(migrationKey,'done');
- location.reload();
+  window.renderM365CompanyRanking = renderCompanyRanking;
+  const previousCharts = window.charts;
+  window.charts = function () {
+    previousCharts();
+    renderCompanyRanking();
+  };
+  const previousNavigate = window.navigateHubPage;
+  if (previousNavigate)
+    window.navigateHubPage = function (name, push = true) {
+      previousNavigate(name, push);
+      renderCompanyRanking();
+    };
+  renderCompanyRanking();
 })();
 
+(function () {
+  function licenseData() {
+    try {
+      return JSON.parse(localStorage.getItem("m365LicensesDB")) || [];
+    } catch (e) {
+      return [];
+    }
+  }
+  function renderLicenseAvailabilityPie() {
+    const licenseLegend =
+      document.getElementById("microsoft365LicenseLegend") ||
+      document.getElementById("legend");
+    if (active !== "Microsoft 365" || !licenseLegend) return;
+    const all = licenseData(),
+      licenseRows = all
+        .filter((row) => row.Licenses && row.Licenses !== "Total")
+        .sort(
+          (a, b) =>
+            (Number(b["Available License"]) || 0) -
+            (Number(a["Available License"]) || 0),
+        ),
+      availableRows = licenseRows.filter(
+        (row) => (Number(row["Available License"]) || 0) > 0,
+      ),
+      current =
+        document.getElementById("m365CompanyLicenseFilter")?.value ||
+        document.getElementById("m365PieFilter")?.value ||
+        "All",
+      selected =
+        current === "All" || licenseRows.some((row) => row.Licenses === current)
+          ? current
+          : "All",
+      rows =
+        selected === "All"
+          ? availableRows
+          : availableRows.filter((row) => row.Licenses === selected),
+      displayTotal = rows.reduce(
+        (sum, row) => sum + (Number(row["Available License"]) || 0),
+        0,
+      ),
+      dark = document.body.classList.contains("dark");
+    const colors = dark
+      ? [
+          "#ff8755",
+          "#f5c66b",
+          "#d85b64",
+          "#ad7d45",
+          "#8f6dde",
+          "#4eb4cd",
+          "#e28b9b",
+        ]
+      : [
+          "#d12a31",
+          "#f06428",
+          "#d6a13b",
+          "#8d5754",
+          "#7656b5",
+          "#3194ad",
+          "#bb6676",
+        ];
+    const registered = Chart.getChart("pie");
+    if (registered) registered.destroy();
+    if (
+      typeof donut !== "undefined" &&
+      donut &&
+      donut !== registered &&
+      typeof donut.destroy === "function"
+    ) {
+      try {
+        donut.destroy();
+      } catch (e) {}
+    }
+    donut = new Chart(pie, {
+      type: "doughnut",
+      data: {
+        labels: rows.map((row) => row.Licenses),
+        datasets: [
+          {
+            label: "Available Licenses",
+            data: rows.map((row) => Number(row["Available License"]) || 0),
+            backgroundColor: rows.map(
+              (_, index) => colors[index % colors.length],
+            ),
+            borderColor: dark ? "#32171e" : "#fffaf7",
+            borderWidth: 5,
+            hoverOffset: 4,
+            cutout: "66%",
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 900, easing: "easeOutCubic" },
+        animations: { rotate: { duration: 0 }, scale: { duration: 0 } },
+        transitions: { active: { animation: { duration: 0 } } },
+        plugins: {
+          legend: { display: false },
+          brandCentre: { total: displayTotal, label: "LICENSES", dark },
+          tooltip: {
+            displayColors: true,
+            backgroundColor: "#171114",
+            titleColor: "#fff7f2",
+            bodyColor: "#fff7f2",
+            borderColor: "#d99284",
+            borderWidth: 2,
+            padding: 10,
+            callbacks: {
+              label: (context) =>
+                " " + context.raw.toLocaleString() + " Available",
+              labelColor: (context) => ({
+                backgroundColor:
+                  context.dataset.backgroundColor[context.dataIndex],
+                borderColor: "transparent",
+                borderWidth: 0,
+                borderRadius: 2,
+              }),
+            },
+          },
+        },
+      },
+    });
+    const pieCard = pie.closest(".unified-chart-card,.card"),
+      titleWrap = pieCard.querySelector(".unified-chart-header,.title"),
+      title = titleWrap.querySelector("h2"),
+      caption = titleWrap.querySelector("p");
+    title.textContent = "Available Licenses";
+    caption.removeAttribute("class");
+    caption.textContent =
+      selected === "All"
+        ? "Unassigned Microsoft 365 Licenses"
+        : "Availability for " + selected;
+    titleWrap.querySelector("#m365PieFilter")?.remove();
+    if (licenseRows.length) {
+      const filter = document.createElement("select");
+      filter.id = "m365PieFilter";
+      filter.className = "filter unified-chart-select";
+      filter.setAttribute("aria-label", "Filter available licenses");
+      filter.innerHTML =
+        '<option value="All">All licenses</option>' +
+        licenseRows
+          .slice()
+          .sort((left, right) => left.Licenses.localeCompare(right.Licenses))
+          .map(
+            (row) =>
+              '<option value="' +
+              row.Licenses.replace(/"/g, "&quot;") +
+              '" ' +
+              (row.Licenses === selected ? "selected" : "") +
+              ">" +
+              row.Licenses +
+              "</option>",
+          )
+          .join("");
+      filter.onchange = () => {
+        const licenseSearch = document.getElementById("m365LicenseSearch"),
+          companyFilter = document.getElementById("m365CompanyLicenseFilter");
+        if (
+          companyFilter &&
+          [...companyFilter.options].some(
+            (option) => option.value === filter.value,
+          )
+        )
+          companyFilter.value = filter.value;
+        if (licenseSearch) {
+          licenseSearch.value = filter.value === "All" ? "" : filter.value;
+          licenseSearch.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+        renderLicenseAvailabilityPie();
+        window.renderM365CompanyRanking?.();
+        window.renderM365Kpis?.();
+      };
+      titleWrap.append(filter);
+    }
+    requestAnimationFrame(() => window.refreshUnifiedChartControls?.());
+    licenseLegend.className = "unified-chart-legend";
+    licenseLegend.innerHTML = rows.length
+      ? rows
+          .map(
+            (row, index) =>
+              '<div><span class="m365-license-name"><i class="dot" style="background:' +
+              colors[index % colors.length] +
+              '"></i>' +
+              row.Licenses +
+              '</span><b class="m365-license-availability"><strong>' +
+              Number(row["Available License"]).toLocaleString() +
+              "</strong><small>available</small></b></div>",
+          )
+          .join("")
+      : '<div class="m365-no-licenses"><span>All licenses are fully assigned</span><b class="m365-license-availability"><strong>0</strong><small>available</small></b></div>';
+    pie.dataset.source = "Licenses,Available License";
+    pie.dataset.zeroAvailability = "omitted";
+    pie.dataset.availableTotal = String(displayTotal);
+    pie.dataset.sort = "highest-to-lowest";
+    pie.dataset.filter = selected;
+    const pieLayout = pie.closest(".unified-pie-layout,.piegrid");
+    if (pieLayout) pieLayout.className = "unified-pie-layout";
+    pie.parentElement.className = "unified-pie-canvas";
+  }
+  window.renderM365LicenseAvailabilityPie = renderLicenseAvailabilityPie;
+  const previousCharts = window.charts;
+  window.charts = function () {
+    previousCharts();
+    renderLicenseAvailabilityPie();
+  };
+  const previousToggle = window.toggleTheme;
+  window.toggleTheme = function () {
+    previousToggle();
+    renderLicenseAvailabilityPie();
+  };
+  const toggle = document.querySelector(".theme-toggle");
+  if (toggle) toggle.onclick = window.toggleTheme;
+  const previousNavigate = window.navigateHubPage;
+  if (previousNavigate)
+    window.navigateHubPage = function (name, push = true) {
+      previousNavigate(name, push);
+      renderLicenseAvailabilityPie();
+    };
+  renderLicenseAvailabilityPie();
+})();
+
+(function () {
+  const migrationKey = "m365PipBusinessBasic35";
+  if (localStorage.getItem(migrationKey) === "done") return;
+  let companies;
+  try {
+    companies = JSON.parse(localStorage.getItem("m365CompanyDB"));
+  } catch (e) {}
+  if (!Array.isArray(companies) || !companies.length)
+    companies = data["Microsoft 365"] || [];
+  const pip = companies.find((row) => row.Company === "PIP Myanmar");
+  if (pip) {
+    pip["Business Basic"] = 35;
+    const totalRow = companies.find((row) => row.Company === "Total");
+    const licenseKeys = Object.keys(pip).filter(
+      (key) => key !== "Company" && key !== "Total Account",
+    );
+    pip["Total Account"] = licenseKeys.reduce(
+      (sum, key) => sum + (Number(pip[key]) || 0),
+      0,
+    );
+    if (totalRow) {
+      totalRow["Total Account"] = companies
+        .filter((row) => row.Company !== "Total")
+        .reduce((sum, row) => sum + (Number(row["Total Account"]) || 0), 0);
+      licenseKeys.forEach(
+        (key) =>
+          (totalRow[key] = companies
+            .filter((row) => row.Company !== "Total")
+            .reduce((sum, row) => sum + (Number(row[key]) || 0), 0)),
+      );
+    }
+    data["Microsoft 365"] = companies;
+    localStorage.setItem("m365CompanyDB", JSON.stringify(companies));
+    localStorage.setItem("itHubData", JSON.stringify(data));
+  }
+  localStorage.setItem(migrationKey, "done");
+  location.reload();
+})();
+
+/* Service Ticket Distribution uses a measured entrance animation for readable comparisons. */
+if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
+  Chart.register({
+    id: "ticketDistributionEntrance",
+    beforeInit(chart) {
+      if (
+        !["ticketCompanyChart", "ticketProblemChart"].includes(chart.canvas?.id)
+      )
+        return;
+      chart.options.animation = { duration: 1450, easing: "easeOutCubic" };
+    },
+  });
 /* Service Tickets analytics dashboard powered by Tickets1.xlsx */
-(function(){
- const importedSource=Array.isArray(window.TICKETS_DATA)?window.TICKETS_DATA:[];
- let source=importedSource.map(row=>({...row}));
- try{const saved=JSON.parse(localStorage.getItem('serviceTicketData')||'null');if(Array.isArray(saved)&&saved.length)source=saved}catch(e){}
- if(!source.length)return;
- const clean=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
- const validDates=source.map(row=>new Date(row.completedAt)).filter(date=>!Number.isNaN(date.getTime()));
- const latestDate=new Date(Math.max(...validDates.map(date=>date.getTime())));
- const monthKey=date=>date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0');
- const months=[...new Set(validDates.map(monthKey))].sort().reverse();
- const years=[...new Set(validDates.map(date=>date.getFullYear()))].sort((a,b)=>b-a);
- const companies=[...new Set(source.map(row=>row.company).filter(Boolean))].sort();
- const problems=[...new Set(source.map(row=>row.problem).filter(Boolean))].sort();
- const assigneeOrder=['Soe Maung Maung','Khin Maung Thant','Khon Tay Za','Khaing Zaw Shein','Than Toe Aung','Htin Kyaw Lin','Saw Wai Htun Ko'];
- const assignees=assigneeOrder.filter(name=>source.some(row=>row.assignedTo===name));
- const assigneeLabel=name=>name==='Saw Wai Htun Ko'?'Saw Wai Tun Ko':name;
- let ticketBarChart,ticketPieChart;
- const state={range:'all',month:months[0]||'',year:String(years[0]||''),company:'All companies',problem:'All problems',assignee:'All assignees',companyChartType:'bar',from:months[months.length-1]||'',to:months[0]||'',search:''};
+(function () {
+  const importedSource = Array.isArray(window.TICKETS_DATA)
+    ? window.TICKETS_DATA
+    : [];
+  let source = importedSource.map((row) => ({ ...row }));
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem("serviceTicketData") || "null",
+    );
+    if (Array.isArray(saved) && saved.length) source = saved;
+  } catch (e) {}
+  if (!source.length) return;
+  const clean = (value) =>
+    String(value ?? "").replace(
+      /[&<>"']/g,
+      (char) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[char],
+    );
+  const validDates = source
+    .map((row) => new Date(row.completedAt))
+    .filter((date) => !Number.isNaN(date.getTime()));
+  const latestDate = new Date(
+    Math.max(...validDates.map((date) => date.getTime())),
+  );
+  const monthKey = (date) =>
+    date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0");
+  const months = [...new Set(validDates.map(monthKey))].sort().reverse();
+  const years = [...new Set(validDates.map((date) => date.getFullYear()))].sort(
+    (a, b) => b - a,
+  );
+  const companies = [
+    ...new Set(source.map((row) => row.company).filter(Boolean)),
+  ].sort();
+  const problems = [
+    ...new Set(source.map((row) => row.problem).filter(Boolean)),
+  ].sort();
+  const assigneeOrder = [
+    "Soe Maung Maung",
+    "Khin Maung Thant",
+    "Khon Tay Za",
+    "Khaing Zaw Shein",
+    "Than Toe Aung",
+    "Htin Kyaw Lin",
+    "Saw Wai Htun Ko",
+  ];
+  const assignees = assigneeOrder.filter((name) =>
+    source.some((row) => row.assignedTo === name),
+  );
+  const assigneeLabel = (name) =>
+    name === "Saw Wai Htun Ko" ? "Saw Wai Tun Ko" : name;
+  let ticketBarChart, ticketPieChart;
+  const state = {
+    range: "all",
+    month: months[0] || "",
+    year: String(years[0] || ""),
+    company: "All companies",
+    problem: "All problems",
+    assignee: "All assignees",
+    companyChartType: "bar",
+    from: months[months.length - 1] || "",
+    to: months[0] || "",
+    search: "",
+  };
 
- function ensurePanel(){
-  let panel=document.getElementById('serviceTicketsDashboard');
-  if(panel)return panel;
-  panel=document.createElement('section');panel.id='serviceTicketsDashboard';panel.hidden=true;
-  const hero=document.querySelector('main>.hero');hero?.insertAdjacentElement('afterend',panel);
-  return panel;
- }
- function setBaseVisible(visible){
-  const baseKpis=document.getElementById('kpis'),baseGrid=document.querySelector('main>.grid'),baseTable=document.querySelector('main>section.card.tablecard');
-  if(baseKpis)baseKpis.hidden=!visible;if(baseGrid)baseGrid.hidden=!visible;if(baseTable)baseTable.hidden=!visible;
- }
- function optionList(values,current){return values.map(value=>'<option value="'+clean(value)+'" '+(String(value)===String(current)?'selected':'')+'>'+clean(value)+'</option>').join('')}
- function monthLabel(value){const [year,month]=value.split('-').map(Number);return new Date(year,month-1,1).toLocaleDateString(undefined,{month:'short'})+'-'+String(year).slice(-2)}
- function monthOptionList(current=state.month,descending=true){const values=descending?months:[...months].reverse();return values.map(value=>'<option value="'+value+'" '+(value===current?'selected':'')+'>'+clean(monthLabel(value))+'</option>').join('')}
- function renderShell(){
-  const panel=ensurePanel();
-  panel.innerHTML='<section class="unified-kpi-grid"><article class="unified-kpi-card tone-orange"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3.5h6v3H9zM9 11h6M9 15h4"/></svg></span><div><b>Total Tickets</b><small id="ticketTotalSubtitle">Selected period</small></div><strong id="ticketTotal">0</strong></article><article class="unified-kpi-card tone-green"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4v18M12 9h7v12M8 9h1M8 13h1M8 17h1M15 13h1M15 17h1"/></svg></span><div><b>Companies</b><small id="ticketCompaniesSubtitle">With ticket activity</small></div><strong id="ticketCompanies">0</strong></article><article class="unified-kpi-card tone-yellow"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="m12 2.5 8 4.5v10l-8 4.5L4 17V7z"/><path d="M12 8v5M12 16h.01"/></svg></span><div><b>Error Issues</b><small id="ticketProblemsSubtitle">Distinct categories</small></div><strong id="ticketProblems">0</strong></article><article class="unified-kpi-card tone-blue"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="7"/><path d="M9 3h6M12 6V3M12 10v4l3 2"/></svg></span><div><b>Average Duration</b><small id="ticketDurationSubtitle">Resolution time</small></div><strong id="ticketDuration">0m</strong></article></section><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Ticket Analytics</h2><p>Explore company demand and recurring issues over any period</p></div><button type="button" id="ticketReset" class="btn">Reset filters</button></div><div class="unified-filter-grid"><label><span>Period</span><select id="ticketRange" class="filter"><option value="all">All data</option><option value="month">Monthly</option><option value="3m">Last 3 months</option><option value="6m">Last 6 months</option><option value="year">Yearly</option><option value="custom">Custom range</option></select></label><label id="ticketMonthField"><span>Month</span><select id="ticketMonth" class="filter">'+monthOptionList()+'</select></label><label id="ticketYearField"><span>Year</span><select id="ticketYear" class="filter">'+optionList(years,state.year)+'</select></label><label id="ticketFromField"><span>From</span><input id="ticketFrom" class="filter" type="date"></label><label id="ticketToField"><span>To</span><input id="ticketTo" class="filter" type="date"></label><label><span>Company</span><select id="ticketCompany" class="filter"><option>All companies</option>'+optionList(companies,state.company)+'</select></label><label><span>Problem</span><select id="ticketProblem" class="filter"><option>All problems</option>'+optionList(problems,state.problem)+'</select></label></div></section><section class="unified-chart-grid"><article class="unified-chart-card"><div class="unified-chart-header"><div><h2>Tickets by Company</h2><p>Support demand ranked from highest to lowest</p></div><span id="ticketCompanyChartTotal">0 tickets</span></div><div class="unified-bar-canvas"><canvas id="ticketCompanyChart"></canvas></div></article><article class="unified-chart-card"><div class="unified-chart-header"><div><h2>Problems by Category</h2><p>Issue distribution for the selected period</p></div><span id="ticketProblemChartTotal">0 types</span></div><div class="unified-pie-layout"><div class="unified-pie-canvas"><canvas id="ticketProblemChart"></canvas></div><div id="ticketProblemLegend" class="unified-chart-legend"></div></div></article></section><section class="card unified-table-card"><div class="unified-table-head"><div><h2>Company Assignment Summary</h2><p>Ticket allocation across companies and team members</p></div><input id="ticketSearch" class="search" placeholder="Search companies..."></div><div class="unified-table-scroll"><table class="unified-data-table" id="ticketAssignmentTable"><thead><tr><th>Company</th><th>Total</th>'+assignees.map(name=>'<th>'+clean(name)+'</th>').join('')+'</tr></thead><tbody id="ticketTableBody"></tbody><tfoot id="ticketTableTotal"></tfoot></table></div><div class="unified-table-footer" id="ticketTableFoot"></div></section>';
-  const assigneeField=document.createElement('label');assigneeField.innerHTML='<span>Assigned To</span><select id="ticketAssignee" class="filter"><option value="All assignees">All assignees</option>'+assignees.map(name=>'<option value="'+clean(name)+'">'+clean(assigneeLabel(name))+'</option>').join('')+'</select>';panel.querySelector('.unified-filter-grid').append(assigneeField);
-  const tableTitle=panel.querySelector('.unified-table-head>div');if(tableTitle){tableTitle.className='unified-table-title';tableTitle.innerHTML='<span class="unified-table-title-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h5M8 16h4"/><circle cx="16" cy="16" r="3"/><path d="m14.7 16 1 1 1.8-2"/></svg></span><div><h2>Service Ticket Allocation</h2><p>Ticket allocation across companies and team members</p></div>'}
-  const companyChartTitle=panel.querySelector('#ticketCompanyChartTotal')?.closest('.unified-chart-header');if(companyChartTitle){companyChartTitle.querySelector('h2').textContent='Service Ticket Distribution';companyChartTitle.querySelector('p').textContent='Ticket volume across supported companies';companyChartTitle.querySelector('#ticketCompanyChartTotal').outerHTML='<select id="ticketCompanyChartType" class="filter unified-chart-select" aria-label="Company chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select>';panel.querySelector('#ticketCompanyChartType').value=state.companyChartType;panel.querySelector('#ticketCompanyChartType').addEventListener('change',event=>{state.companyChartType=event.target.value;drawCharts(filteredRows())})}
-  const problemCard=panel.querySelector('.unified-pie-layout')?.closest('.unified-chart-card'),problemTitle=problemCard?.querySelector('.unified-chart-header');if(problemTitle){problemTitle.querySelector('h2').textContent='Service Error Distribution';problemTitle.querySelector('p').textContent='Recorded tickets across error issues';problemTitle.querySelector('#ticketProblemChartTotal')?.remove();problemTitle.insertAdjacentHTML('beforeend','<select id="ticketPieProblemFilter" class="filter unified-chart-select" aria-label="Filter issue distribution by problem"><option value="All problems">All problems</option>'+optionList(problems,state.problem)+'</select>');panel.querySelector('#ticketPieProblemFilter').value=state.problem;panel.querySelector('#ticketPieProblemFilter').addEventListener('change',event=>{state.problem=event.target.value;panel.querySelector('#ticketProblem').value=state.problem;applyFilters()})}
-  panel.querySelectorAll('#ticketAssignmentTable thead th').forEach((heading,index)=>{if(index>=2)heading.textContent=assigneeLabel(assignees[index-2])});
-  panel.querySelector('#ticketRange').value=state.range;panel.querySelector('#ticketCompany').value=state.company;panel.querySelector('#ticketProblem').value=state.problem;panel.querySelector('#ticketAssignee').value=state.assignee;panel.querySelector('#ticketFrom').value=state.from;panel.querySelector('#ticketTo').value=state.to;
-  panel.querySelectorAll('#ticketFrom,#ticketTo').forEach(input=>{input.addEventListener('click',()=>{if(typeof input.showPicker==='function')try{input.showPicker()}catch(e){}})});
-  panel.querySelectorAll('#ticketRange,#ticketMonth,#ticketYear,#ticketCompany,#ticketProblem,#ticketAssignee,#ticketFrom,#ticketTo').forEach(control=>control.addEventListener('change',()=>{state.range=panel.querySelector('#ticketRange').value;state.month=panel.querySelector('#ticketMonth').value;state.year=panel.querySelector('#ticketYear').value;state.company=panel.querySelector('#ticketCompany').value;state.problem=panel.querySelector('#ticketProblem').value;state.assignee=panel.querySelector('#ticketAssignee').value;state.from=panel.querySelector('#ticketFrom').value;state.to=panel.querySelector('#ticketTo').value;applyFilters()}));
-  panel.querySelector('#ticketSearch').addEventListener('input',event=>{state.search=event.target.value;applyFilters()});
-  panel.querySelector('#ticketReset').onclick=()=>{Object.assign(state,{range:'all',month:months[0]||'',year:String(years[0]||''),company:'All companies',problem:'All problems',assignee:'All assignees',from:'',to:'',search:''});renderShell();applyFilters()};
- }
- function rangeBounds(){
-  let start=null,end=null;
-  if(state.range==='month'&&state.month){const [year,month]=state.month.split('-').map(Number);start=new Date(year,month-1,1);end=new Date(year,month,1)}
-  if(state.range==='3m'||state.range==='6m'){const count=state.range==='3m'?3:6;start=new Date(latestDate.getFullYear(),latestDate.getMonth()-count+1,1);end=new Date(latestDate.getFullYear(),latestDate.getMonth()+1,1)}
-  if(state.range==='year'&&state.year){start=new Date(Number(state.year),0,1);end=new Date(Number(state.year)+1,0,1)}
-  if(state.range==='custom'){
-   if(state.from){const [year,month]=state.from.split('-').map(Number);start=new Date(year,month-1,1)}
-   if(state.to){const [year,month]=state.to.split('-').map(Number);end=new Date(year,month,1)}
+  function ensurePanel() {
+    let panel = document.getElementById("serviceTicketsDashboard");
+    if (panel) return panel;
+    panel = document.createElement("section");
+    panel.id = "serviceTicketsDashboard";
+    panel.hidden = true;
+    const hero = document.querySelector("main>.hero");
+    hero?.insertAdjacentElement("afterend", panel);
+    return panel;
   }
-  return{start,end};
- }
- function filteredRows(){
-  const {start,end}=rangeBounds(),query=state.search.trim().toLowerCase();
-  return source.filter(row=>{const date=new Date(row.completedAt),valid=!Number.isNaN(date.getTime());if(start&&(!valid||date<start))return false;if(end&&(!valid||date>=end))return false;if(state.company!=='All companies'&&row.company!==state.company)return false;if(state.problem!=='All problems'&&row.problem!==state.problem)return false;if(state.assignee!=='All assignees'&&row.assignedTo!==state.assignee)return false;if(query&&!String(row.company).toLowerCase().includes(query))return false;return true});
- }
- function countBy(rows,key){const counts={};rows.forEach(row=>{const value=row[key]||'Unspecified';counts[value]=(counts[value]||0)+1});return Object.entries(counts).sort((a,b)=>b[1]-a[1])}
- function formatDuration(minutes){const value=Math.round(minutes||0);if(value>=1440)return Math.floor(value/1440)+'d '+Math.round(value%1440/60)+'h';if(value>=60)return Math.floor(value/60)+'h '+value%60+'m';return value+'m'}
- function filterLabel(){
-  if(state.range==='month'&&state.month){const [year,month]=state.month.split('-').map(Number);return new Date(year,month-1,1).toLocaleDateString(undefined,{month:'short',year:'numeric'})}
-  if(state.range==='3m')return 'Last 3 months';if(state.range==='6m')return 'Last 6 months';if(state.range==='year')return state.year||'Selected year';if(state.range==='custom')return state.from&&state.to?'Custom date range':'Custom range';return 'All data';
- }
- function updateTicketKpiSubtitles(rows,companyCount,problemCount){
-  const selected=[];if(state.company!=='All companies')selected.push(state.company);if(state.problem!=='All problems')selected.push(state.problem);if(state.assignee!=='All assignees')selected.push(assigneeLabel(state.assignee));const scope=selected.length?selected.join(' · '):filterLabel();
-  const text=(id,value)=>{const node=document.getElementById(id);if(node)node.textContent=value};
-  text('ticketTotalSubtitle',rows.length?scope:'No tickets');text('ticketCompaniesSubtitle',state.company==='All companies'?'All companies':state.company);text('ticketProblemsSubtitle',state.problem==='All problems'?'All error issues':state.problem);text('ticketDurationSubtitle','Across '+rows.length+' ticket'+(rows.length===1?'':'s'));
- }
- function updateControlVisibility(){const panel=ensurePanel();panel.querySelector('#ticketMonthField').hidden=state.range!=='month';panel.querySelector('#ticketYearField').hidden=state.range!=='year';panel.querySelector('#ticketFromField').hidden=state.range!=='custom';panel.querySelector('#ticketToField').hidden=state.range!=='custom'}
- function drawCharts(rows){
-  const dark=document.body.classList.contains('dark'),text=dark?'#d9c4c2':'#806864',grid=dark?'#553137':'#eaded9',companyCounts=countBy(rows,'company'),problemCounts=countBy(rows,'problem'),problemColors=['#d12a31','#f06428','#d6a13b','#7656b5','#3194ad','#16866a','#b94f78','#5677b9','#9a6a3a'],tooltipTheme={displayColors:true,backgroundColor:'#171114',titleColor:'#fff7f2',bodyColor:'#fff7f2',borderColor:'#d99284',borderWidth:2,position:'nearest',padding:10,cornerRadius:8,caretPadding:10,boxPadding:4,titleFont:{family:'Poppins',size:11,weight:'700'},bodyFont:{family:'Poppins',size:12,weight:'600'}};
-  if(ticketBarChart)ticketBarChart.destroy();if(ticketPieChart)ticketPieChart.destroy();
-  const isLine=state.companyChartType==='line';
-  const selectedCompany=state.company!=='All companies',selectedProblem=state.problem!=='All problems';
-  const chartItems=selectedProblem?countBy(rows,'assignedTo'):selectedCompany?problemCounts:companyCounts;
-  const chartHeader=document.getElementById('ticketCompanyChart')?.closest('.unified-chart-card')?.querySelector('.unified-chart-header');
-  if(chartHeader){
-    const heading=chartHeader.querySelector('h2'),subtitle=chartHeader.querySelector('p');
-    if(heading)heading.textContent=selectedProblem?'Ticket Assignment Distribution':selectedCompany?'Problem Distribution':'Service Ticket Distribution';
-    if(subtitle)subtitle.textContent=selectedProblem?'Assigned-to workload for '+state.problem:selectedCompany?'Problem types reported by '+state.company:'Ticket volume across supported companies';
+  function setBaseVisible(visible) {
+    const baseKpis = document.getElementById("kpis"),
+      baseGrid = document.querySelector("main>.grid"),
+      baseTable = document.querySelector("main>section.card.tablecard");
+    if (baseKpis) baseKpis.hidden = !visible;
+    if (baseGrid) baseGrid.hidden = !visible;
+    if (baseTable) baseTable.hidden = !visible;
   }
-  const companyCanvas=document.getElementById('ticketCompanyChart'),companyWrap=companyCanvas.parentElement,companyHeight=Math.min(window.innerWidth<=700?340:410,Math.max(window.innerWidth<=460?250:300,chartItems.length*40+80));if(companyWrap)companyWrap.style.height=(isLine?'390':companyHeight)+'px';const companyContext=companyCanvas.getContext('2d'),companyGradient=companyContext.createLinearGradient(0,0,companyCanvas.clientWidth||700,0);companyGradient.addColorStop(0,dark?'#c94a42':'#d12a31');companyGradient.addColorStop(1,dark?'#ef8563':'#f38c47');
-  ticketBarChart=new Chart(companyCanvas,{type:isLine?'line':'bar',data:{labels:chartItems.map(item=>selectedProblem?assigneeLabel(item[0]):item[0]),datasets:[{data:chartItems.map(item=>item[1]),backgroundColor:isLine?(dark?'rgba(255,135,85,.18)':'rgba(224,82,56,.14)'):companyGradient,borderColor:dark?'#ff8755':'#d12a31',borderWidth:isLine?2.5:1.5,borderRadius:isLine?0:7,barThickness:isLine?undefined:24,categoryPercentage:isLine?undefined:.74,barPercentage:isLine?undefined:.9,pointRadius:isLine?4:0,pointHoverRadius:isLine?6:0,pointBackgroundColor:dark?'#ff9a70':'#d12a31',fill:isLine,tension:isLine?.3:0}]},options:{indexAxis:isLine?'x':'y',responsive:true,maintainAspectRatio:false,animation:{duration:0},plugins:{legend:{display:false},tooltip:{...tooltipTheme,callbacks:{label:context=>' '+Number(context.raw||0).toLocaleString()+' Tickets',labelColor:context=>({borderColor:context.dataset.borderColor,backgroundColor:context.dataset.borderColor,borderWidth:1,borderRadius:2})}}},scales:{x:{beginAtZero:!isLine,grid:{color:grid},ticks:{color:text,precision:isLine?undefined:0,font:{family:'Poppins',size:9},maxRotation:isLine?35:0,minRotation:0},title:{display:!isLine,text:'Total: '+rows.length.toLocaleString()+' Tickets',color:text,font:{family:'Poppins',size:10,weight:'600'}}},y:{beginAtZero:isLine,grid:{display:isLine,color:grid},ticks:{color:text,precision:isLine?0:undefined,font:{family:'Poppins',size:9}}}}}});
-  if(!Chart.registry.plugins.get('ticketProblemCentre'))Chart.register({id:'ticketProblemCentre',afterDatasetsDraw(instance,args,options){if(instance.canvas.id!=='ticketProblemChart'||!options)return;const area=instance.chartArea,context=instance.ctx,x=(area.left+area.right)/2,y=(area.top+area.bottom)/2;context.save();context.textAlign='center';context.fillStyle=options.dark?'#bfa7a4':'#9a7773';context.font='600 9px Poppins, Arial';context.fillText('TICKETS',x,y-5);context.fillStyle=options.dark?'#ead7d3':'#5b4446';context.font='700 21px Poppins, Arial';context.fillText(String(options.total||0),x,y+19);context.restore()}});
-  ticketPieChart=new Chart(document.getElementById('ticketProblemChart'),{type:'doughnut',data:{labels:problemCounts.map(item=>item[0]),datasets:[{data:problemCounts.map(item=>item[1]),backgroundColor:problemColors,borderColor:dark?'#32171e':'#fff',borderWidth:4,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'66%',plugins:{legend:{display:false},ticketProblemCentre:{total:rows.length,dark},tooltip:{...tooltipTheme,callbacks:{title:context=>context[0]?.label||'Selected Error',label:context=>' '+Number(context.raw||0).toLocaleString()+' Tickets',labelColor:context=>({backgroundColor:context.dataset.backgroundColor[context.dataIndex],borderColor:'transparent',borderWidth:0,borderRadius:2})}}}}});
-  const pieFilter=document.getElementById('ticketPieProblemFilter');if(pieFilter)pieFilter.value=state.problem;
-  document.getElementById('ticketProblemLegend').innerHTML=problemCounts.map((item,index)=>'<div><span><i style="background:'+problemColors[index%problemColors.length]+'"></i>'+clean(item[0])+'</span><b><strong>'+item[1]+'</strong><small> ticket'+(item[1]===1?'':'s')+'</small></b></div>').join('');
- }
- function applyFilters(){
-  const panel=ensurePanel(),rows=filteredRows(),companyCount=new Set(rows.map(row=>row.company)).size,problemCount=new Set(rows.map(row=>row.problem)).size,average=rows.length?rows.reduce((sum,row)=>sum+(Number(row.durationMinutes)||0),0)/rows.length:0;
-  updateControlVisibility();panel.querySelector('#ticketTotal').textContent=rows.length.toLocaleString();panel.querySelector('#ticketCompanies').textContent=companyCount;panel.querySelector('#ticketProblems').textContent=problemCount;panel.querySelector('#ticketDuration').textContent=formatDuration(average);updateTicketKpiSubtitles(rows,companyCount,problemCount);
-  const grouped=new Map();rows.forEach(row=>{if(!grouped.has(row.company))grouped.set(row.company,{total:0,people:{}});const item=grouped.get(row.company);item.total++;item.people[row.assignedTo]=(item.people[row.assignedTo]||0)+1});
-  const summary=[...grouped.entries()].sort((a,b)=>a[0].localeCompare(b[0]));
-  panel.querySelector('#ticketTableBody').innerHTML=summary.map(([company,item])=>'<tr><td><b>'+clean(company==='Pyay'?'PYAY':company)+'</b></td><td><strong>'+item.total+'</strong></td>'+assignees.map(name=>'<td>'+(item.people[name]||'')+'</td>').join('')+'</tr>').join('');
-  panel.querySelector('#ticketTableTotal').innerHTML='<tr><th>Grand Total</th><th>'+rows.length+'</th>'+assignees.map(name=>'<th>'+rows.filter(row=>row.assignedTo===name).length+'</th>').join('')+'</tr>';
-  panel.querySelector('#ticketTableFoot').textContent='Showing '+summary.length+' of '+summary.length+' companies';drawCharts(rows);
- }
- function showFor(name){const panel=ensurePanel(),selected=name==='Service Tickets';document.body.classList.toggle('service-tickets-page',selected);panel.hidden=!selected;if(selected){setBaseVisible(false);renderShell();applyFilters()}else if(name!=='Budget & Expense')setBaseVisible(true)}
- const navigate=window.navigateHubPage;window.navigateHubPage=function(name,push=true){const same=push&&name===active;navigate(name,push);if(!same)showFor(name)};
- const theme=window.toggleTheme;window.toggleTheme=function(){theme();if(active==='Service Tickets')applyFilters()};const themeButton=document.querySelector('.theme-toggle');if(themeButton)themeButton.onclick=window.toggleTheme;
- showFor(active);
+  function optionList(values, current) {
+    return values
+      .map(
+        (value) =>
+          '<option value="' +
+          clean(value) +
+          '" ' +
+          (String(value) === String(current) ? "selected" : "") +
+          ">" +
+          clean(value) +
+          "</option>",
+      )
+      .join("");
+  }
+  function monthLabel(value) {
+    const [year, month] = value.split("-").map(Number);
+    return (
+      new Date(year, month - 1, 1).toLocaleDateString(undefined, {
+        month: "short",
+      }) +
+      "-" +
+      String(year).slice(-2)
+    );
+  }
+  function monthOptionList(current = state.month, descending = true) {
+    const values = descending ? months : [...months].reverse();
+    return values
+      .map(
+        (value) =>
+          '<option value="' +
+          value +
+          '" ' +
+          (value === current ? "selected" : "") +
+          ">" +
+          clean(monthLabel(value)) +
+          "</option>",
+      )
+      .join("");
+  }
+  function renderShell() {
+    const panel = ensurePanel();
+    panel.innerHTML =
+      '<section class="unified-kpi-grid"><article class="unified-kpi-card tone-orange"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3.5h6v3H9zM9 11h6M9 15h4"/></svg></span><div><b>Total Tickets</b><small id="ticketTotalSubtitle">Selected period</small></div><strong id="ticketTotal">0</strong></article><article class="unified-kpi-card tone-green"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4v18M12 9h7v12M8 9h1M8 13h1M8 17h1M15 13h1M15 17h1"/></svg></span><div><b>Companies</b><small id="ticketCompaniesSubtitle">With ticket activity</small></div><strong id="ticketCompanies">0</strong></article><article class="unified-kpi-card tone-yellow"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="m12 2.5 8 4.5v10l-8 4.5L4 17V7z"/><path d="M12 8v5M12 16h.01"/></svg></span><div><b>Error Issues</b><small id="ticketProblemsSubtitle">Distinct categories</small></div><strong id="ticketProblems">0</strong></article><article class="unified-kpi-card tone-blue"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="7"/><path d="M9 3h6M12 6V3M12 10v4l3 2"/></svg></span><div><b>Average Duration</b><small id="ticketDurationSubtitle">Resolution time</small></div><strong id="ticketDuration">0m</strong></article></section><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Ticket Analytics</h2><p>Explore company demand and recurring issues over any period</p></div><button type="button" id="ticketReset" class="btn">Reset filters</button></div><div class="unified-filter-grid"><label><span>Period</span><select id="ticketRange" class="filter"><option value="all">All data</option><option value="month">Monthly</option><option value="3m">Last 3 months</option><option value="6m">Last 6 months</option><option value="year">Yearly</option><option value="custom">Custom range</option></select></label><label id="ticketMonthField"><span>Month</span><select id="ticketMonth" class="filter">' +
+      monthOptionList() +
+      '</select></label><label id="ticketYearField"><span>Year</span><select id="ticketYear" class="filter">' +
+      optionList(years, state.year) +
+      '</select></label><label id="ticketFromField"><span>From</span><input id="ticketFrom" class="filter" type="date"></label><label id="ticketToField"><span>To</span><input id="ticketTo" class="filter" type="date"></label><label><span>Company</span><select id="ticketCompany" class="filter"><option>All companies</option>' +
+      optionList(companies, state.company) +
+      '</select></label><label><span>Problem</span><select id="ticketProblem" class="filter"><option>All problems</option>' +
+      optionList(problems, state.problem) +
+      '</select></label></div></section><section class="unified-chart-grid"><article class="unified-chart-card"><div class="unified-chart-header"><div><h2>Tickets by Company</h2><p>Support demand ranked from highest to lowest</p></div><span id="ticketCompanyChartTotal">0 tickets</span></div><div class="unified-bar-canvas"><canvas id="ticketCompanyChart"></canvas></div></article><article class="unified-chart-card"><div class="unified-chart-header"><div><h2>Problems by Category</h2><p>Issue distribution for the selected period</p></div><span id="ticketProblemChartTotal">0 types</span></div><div class="unified-pie-layout"><div class="unified-pie-canvas"><canvas id="ticketProblemChart"></canvas></div><div id="ticketProblemLegend" class="unified-chart-legend"></div></div></article></section><section class="card unified-table-card"><div class="unified-table-head"><div><h2>Company Assignment Summary</h2><p>Ticket allocation across companies and team members</p></div><input id="ticketSearch" class="search" placeholder="Search companies..."></div><div class="unified-table-scroll"><table class="unified-data-table" id="ticketAssignmentTable"><thead><tr><th>Company</th><th>Total</th>' +
+      assignees.map((name) => "<th>" + clean(name) + "</th>").join("") +
+      '</tr></thead><tbody id="ticketTableBody"></tbody><tfoot id="ticketTableTotal"></tfoot></table></div><div class="unified-table-footer" id="ticketTableFoot"></div></section>';
+    const assigneeField = document.createElement("label");
+    assigneeField.innerHTML =
+      '<span>Assigned To</span><select id="ticketAssignee" class="filter"><option value="All assignees">All assignees</option>' +
+      assignees
+        .map(
+          (name) =>
+            '<option value="' +
+            clean(name) +
+            '">' +
+            clean(assigneeLabel(name)) +
+            "</option>",
+        )
+        .join("") +
+      "</select>";
+    panel.querySelector(".unified-filter-grid").append(assigneeField);
+    const tableTitle = panel.querySelector(".unified-table-head>div");
+    if (tableTitle) {
+      tableTitle.className = "unified-table-title";
+      tableTitle.innerHTML =
+        '<span class="unified-table-title-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h5M8 16h4"/><circle cx="16" cy="16" r="3"/><path d="m14.7 16 1 1 1.8-2"/></svg></span><div><h2>Service Ticket Allocation</h2><p>Ticket allocation across companies and team members</p></div>';
+    }
+    const companyChartTitle = panel
+      .querySelector("#ticketCompanyChartTotal")
+      ?.closest(".unified-chart-header");
+    if (companyChartTitle) {
+      companyChartTitle.querySelector("h2").textContent =
+        "Service Ticket Distribution";
+      companyChartTitle.querySelector("p").textContent =
+        "Ticket volume across supported companies";
+      companyChartTitle.querySelector("#ticketCompanyChartTotal").outerHTML =
+        '<select id="ticketCompanyChartType" class="filter unified-chart-select" aria-label="Company chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select>';
+      panel.querySelector("#ticketCompanyChartType").value =
+        state.companyChartType;
+      panel
+        .querySelector("#ticketCompanyChartType")
+        .addEventListener("change", (event) => {
+          state.companyChartType = event.target.value;
+          drawCharts(filteredRows());
+        });
+    }
+    const problemCard = panel
+        .querySelector(".unified-pie-layout")
+        ?.closest(".unified-chart-card"),
+      problemTitle = problemCard?.querySelector(".unified-chart-header");
+    if (problemTitle) {
+      problemTitle.querySelector("h2").textContent =
+        "Service Error Distribution";
+      problemTitle.querySelector("p").textContent =
+        "Recorded tickets across error issues";
+      problemTitle.querySelector("#ticketProblemChartTotal")?.remove();
+      problemTitle.insertAdjacentHTML(
+        "beforeend",
+        '<select id="ticketPieProblemFilter" class="filter unified-chart-select" aria-label="Filter issue distribution by problem"><option value="All problems">All problems</option>' +
+          optionList(problems, state.problem) +
+          "</select>",
+      );
+      panel.querySelector("#ticketPieProblemFilter").value = state.problem;
+      panel
+        .querySelector("#ticketPieProblemFilter")
+        .addEventListener("change", (event) => {
+          state.problem = event.target.value;
+          panel.querySelector("#ticketProblem").value = state.problem;
+          applyFilters();
+        });
+    }
+    panel
+      .querySelectorAll("#ticketAssignmentTable thead th")
+      .forEach((heading, index) => {
+        if (index >= 2)
+          heading.textContent = assigneeLabel(assignees[index - 2]);
+      });
+    panel.querySelector("#ticketRange").value = state.range;
+    panel.querySelector("#ticketCompany").value = state.company;
+    panel.querySelector("#ticketProblem").value = state.problem;
+    panel.querySelector("#ticketAssignee").value = state.assignee;
+    panel.querySelector("#ticketFrom").value = state.from;
+    panel.querySelector("#ticketTo").value = state.to;
+    panel.querySelectorAll("#ticketFrom,#ticketTo").forEach((input) => {
+      input.addEventListener("click", () => {
+        if (typeof input.showPicker === "function")
+          try {
+            input.showPicker();
+          } catch (e) {}
+      });
+    });
+    panel
+      .querySelectorAll(
+        "#ticketRange,#ticketMonth,#ticketYear,#ticketCompany,#ticketProblem,#ticketAssignee,#ticketFrom,#ticketTo",
+      )
+      .forEach((control) =>
+        control.addEventListener("change", () => {
+          state.range = panel.querySelector("#ticketRange").value;
+          state.month = panel.querySelector("#ticketMonth").value;
+          state.year = panel.querySelector("#ticketYear").value;
+          state.company = panel.querySelector("#ticketCompany").value;
+          state.problem = panel.querySelector("#ticketProblem").value;
+          state.assignee = panel.querySelector("#ticketAssignee").value;
+          state.from = panel.querySelector("#ticketFrom").value;
+          state.to = panel.querySelector("#ticketTo").value;
+          applyFilters();
+        }),
+      );
+    panel.querySelector("#ticketSearch").addEventListener("input", (event) => {
+      state.search = event.target.value;
+      applyFilters();
+    });
+    panel.querySelector("#ticketReset").onclick = () => {
+      Object.assign(state, {
+        range: "all",
+        month: months[0] || "",
+        year: String(years[0] || ""),
+        company: "All companies",
+        problem: "All problems",
+        assignee: "All assignees",
+        from: "",
+        to: "",
+        search: "",
+      });
+      renderShell();
+      applyFilters();
+    };
+  }
+  function rangeBounds() {
+    let start = null,
+      end = null;
+    if (state.range === "month" && state.month) {
+      const [year, month] = state.month.split("-").map(Number);
+      start = new Date(year, month - 1, 1);
+      end = new Date(year, month, 1);
+    }
+    if (state.range === "3m" || state.range === "6m") {
+      const count = state.range === "3m" ? 3 : 6;
+      start = new Date(
+        latestDate.getFullYear(),
+        latestDate.getMonth() - count + 1,
+        1,
+      );
+      end = new Date(latestDate.getFullYear(), latestDate.getMonth() + 1, 1);
+    }
+    if (state.range === "year" && state.year) {
+      start = new Date(Number(state.year), 0, 1);
+      end = new Date(Number(state.year) + 1, 0, 1);
+    }
+    if (state.range === "custom") {
+      if (state.from) {
+        const [year, month] = state.from.split("-").map(Number);
+        start = new Date(year, month - 1, 1);
+      }
+      if (state.to) {
+        const [year, month] = state.to.split("-").map(Number);
+        end = new Date(year, month, 1);
+      }
+    }
+    return { start, end };
+  }
+  function filteredRows() {
+    const { start, end } = rangeBounds(),
+      query = state.search.trim().toLowerCase();
+    return source.filter((row) => {
+      const date = new Date(row.completedAt),
+        valid = !Number.isNaN(date.getTime());
+      if (start && (!valid || date < start)) return false;
+      if (end && (!valid || date >= end)) return false;
+      if (state.company !== "All companies" && row.company !== state.company)
+        return false;
+      if (state.problem !== "All problems" && row.problem !== state.problem)
+        return false;
+      if (
+        state.assignee !== "All assignees" &&
+        row.assignedTo !== state.assignee
+      )
+        return false;
+      if (query && !String(row.company).toLowerCase().includes(query))
+        return false;
+      return true;
+    });
+  }
+  function countBy(rows, key) {
+    const counts = {};
+    rows.forEach((row) => {
+      const value = row[key] || "Unspecified";
+      counts[value] = (counts[value] || 0) + 1;
+    });
+    return Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  }
+  function formatDuration(minutes) {
+    const value = Math.round(minutes || 0);
+    if (value >= 1440)
+      return (
+        Math.floor(value / 1440) + "d " + Math.round((value % 1440) / 60) + "h"
+      );
+    if (value >= 60) return Math.floor(value / 60) + "h " + (value % 60) + "m";
+    return value + "m";
+  }
+  function filterLabel() {
+    if (state.range === "month" && state.month) {
+      const [year, month] = state.month.split("-").map(Number);
+      return new Date(year, month - 1, 1).toLocaleDateString(undefined, {
+        month: "short",
+        year: "numeric",
+      });
+    }
+    if (state.range === "3m") return "Last 3 months";
+    if (state.range === "6m") return "Last 6 months";
+    if (state.range === "year") return state.year || "Selected year";
+    if (state.range === "custom")
+      return state.from && state.to ? "Custom date range" : "Custom range";
+    return "All data";
+  }
+  function updateTicketKpiSubtitles(rows, companyCount, problemCount) {
+    const selected = [];
+    if (state.company !== "All companies") selected.push(state.company);
+    if (state.problem !== "All problems") selected.push(state.problem);
+    if (state.assignee !== "All assignees")
+      selected.push(assigneeLabel(state.assignee));
+    const scope = selected.length ? selected.join(" · ") : filterLabel();
+    const text = (id, value) => {
+      const node = document.getElementById(id);
+      if (node) node.textContent = value;
+    };
+    text("ticketTotalSubtitle", rows.length ? scope : "No tickets");
+    text(
+      "ticketCompaniesSubtitle",
+      state.company === "All companies" ? "All companies" : state.company,
+    );
+    text(
+      "ticketProblemsSubtitle",
+      state.problem === "All problems" ? "All error issues" : state.problem,
+    );
+    text(
+      "ticketDurationSubtitle",
+      "Across " + rows.length + " ticket" + (rows.length === 1 ? "" : "s"),
+    );
+  }
+  function updateControlVisibility() {
+    const panel = ensurePanel();
+    panel.querySelector("#ticketMonthField").hidden = state.range !== "month";
+    panel.querySelector("#ticketYearField").hidden = state.range !== "year";
+    panel.querySelector("#ticketFromField").hidden = state.range !== "custom";
+    panel.querySelector("#ticketToField").hidden = state.range !== "custom";
+  }
+  function drawCharts(rows) {
+    const dark = document.body.classList.contains("dark"),
+      text = dark ? "#d9c4c2" : "#806864",
+      grid = dark ? "#553137" : "#eaded9",
+      companyCounts = countBy(rows, "company"),
+      problemCounts = countBy(rows, "problem"),
+      problemColors = [
+        "#d12a31",
+        "#f06428",
+        "#d6a13b",
+        "#7656b5",
+        "#3194ad",
+        "#16866a",
+        "#b94f78",
+        "#5677b9",
+        "#9a6a3a",
+      ],
+      tooltipTheme = {
+        displayColors: true,
+        backgroundColor: "#171114",
+        titleColor: "#fff7f2",
+        bodyColor: "#fff7f2",
+        borderColor: "#d99284",
+        borderWidth: 2,
+        position: "nearest",
+        padding: 10,
+        cornerRadius: 8,
+        caretPadding: 10,
+        boxPadding: 4,
+        titleFont: { family: "Poppins", size: 11, weight: "700" },
+        bodyFont: { family: "Poppins", size: 12, weight: "600" },
+      };
+    if (ticketBarChart) ticketBarChart.destroy();
+    if (ticketPieChart) ticketPieChart.destroy();
+    const isLine = state.companyChartType === "line";
+    const selectedCompany = state.company !== "All companies",
+      selectedProblem = state.problem !== "All problems";
+    const chartItems = selectedProblem
+      ? countBy(rows, "assignedTo")
+      : selectedCompany
+        ? problemCounts
+        : companyCounts;
+    const chartHeader = document
+      .getElementById("ticketCompanyChart")
+      ?.closest(".unified-chart-card")
+      ?.querySelector(".unified-chart-header");
+    if (chartHeader) {
+      const heading = chartHeader.querySelector("h2"),
+        subtitle = chartHeader.querySelector("p");
+      if (heading)
+        heading.textContent = selectedProblem
+          ? "Ticket Assignment Distribution"
+          : selectedCompany
+            ? "Problem Distribution"
+            : "Service Ticket Distribution";
+      if (subtitle)
+        subtitle.textContent = selectedProblem
+          ? "Assigned-to workload for " + state.problem
+          : selectedCompany
+            ? "Problem types reported by " + state.company
+            : "Ticket volume across supported companies";
+    }
+    const companyCanvas = document.getElementById("ticketCompanyChart"),
+      companyWrap = companyCanvas.parentElement,
+      companyHeight = Math.min(
+        window.innerWidth <= 700 ? 340 : 410,
+        Math.max(
+          window.innerWidth <= 460 ? 250 : 300,
+          chartItems.length * 40 + 80,
+        ),
+      );
+    if (companyWrap)
+      companyWrap.style.height = (isLine ? "390" : companyHeight) + "px";
+    const companyContext = companyCanvas.getContext("2d"),
+      companyGradient = companyContext.createLinearGradient(
+        0,
+        0,
+        companyCanvas.clientWidth || 700,
+        0,
+      );
+    companyGradient.addColorStop(0, dark ? "#c94a42" : "#d12a31");
+    companyGradient.addColorStop(1, dark ? "#ef8563" : "#f38c47");
+    ticketBarChart = new Chart(companyCanvas, {
+      type: isLine ? "line" : "bar",
+      data: {
+        labels: chartItems.map((item) =>
+          selectedProblem ? assigneeLabel(item[0]) : item[0],
+        ),
+        datasets: [
+          {
+            data: chartItems.map((item) => item[1]),
+            backgroundColor: isLine
+              ? dark
+                ? "rgba(255,135,85,.18)"
+                : "rgba(224,82,56,.14)"
+              : companyGradient,
+            borderColor: dark ? "#ff8755" : "#d12a31",
+            borderWidth: isLine ? 2.5 : 1.5,
+            borderRadius: isLine ? 0 : 7,
+            barThickness: isLine ? undefined : 24,
+            categoryPercentage: isLine ? undefined : 0.74,
+            barPercentage: isLine ? undefined : 0.9,
+            pointRadius: isLine ? 4 : 0,
+            pointHoverRadius: isLine ? 6 : 0,
+            pointBackgroundColor: dark ? "#ff9a70" : "#d12a31",
+            fill: isLine,
+            tension: isLine ? 0.3 : 0,
+          },
+        ],
+      },
+      options: {
+        indexAxis: isLine ? "x" : "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 0 },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            ...tooltipTheme,
+            callbacks: {
+              label: (context) =>
+                " " + Number(context.raw || 0).toLocaleString() + " Tickets",
+              labelColor: (context) => ({
+                borderColor: context.dataset.borderColor,
+                backgroundColor: context.dataset.borderColor,
+                borderWidth: 1,
+                borderRadius: 2,
+              }),
+            },
+          },
+        },
+        scales: {
+          x: {
+            beginAtZero: !isLine,
+            grid: { color: grid },
+            ticks: {
+              color: text,
+              precision: isLine ? undefined : 0,
+              font: { family: "Poppins", size: 9 },
+              maxRotation: isLine ? 35 : 0,
+              minRotation: 0,
+            },
+            title: {
+              display: !isLine,
+              text: "Total: " + rows.length.toLocaleString() + " Tickets",
+              color: text,
+              font: { family: "Poppins", size: 10, weight: "600" },
+            },
+          },
+          y: {
+            beginAtZero: isLine,
+            grid: { display: isLine, color: grid },
+            ticks: {
+              color: text,
+              precision: isLine ? 0 : undefined,
+              font: { family: "Poppins", size: 9 },
+            },
+          },
+        },
+      },
+    });
+    if (!Chart.registry.plugins.get("ticketProblemCentre"))
+      Chart.register({
+        id: "ticketProblemCentre",
+        afterDatasetsDraw(instance, args, options) {
+          if (instance.canvas.id !== "ticketProblemChart" || !options) return;
+          const area = instance.chartArea,
+            context = instance.ctx,
+            x = (area.left + area.right) / 2,
+            y = (area.top + area.bottom) / 2;
+          context.save();
+          context.textAlign = "center";
+          context.fillStyle = options.dark ? "#bfa7a4" : "#9a7773";
+          context.font = "600 9px Poppins, Arial";
+          context.fillText("TICKETS", x, y - 5);
+          context.fillStyle = options.dark ? "#ead7d3" : "#5b4446";
+          context.font = "700 21px Poppins, Arial";
+          context.fillText(String(options.total || 0), x, y + 19);
+          context.restore();
+        },
+      });
+    ticketPieChart = new Chart(document.getElementById("ticketProblemChart"), {
+      type: "doughnut",
+      data: {
+        labels: problemCounts.map((item) => item[0]),
+        datasets: [
+          {
+            data: problemCounts.map((item) => item[1]),
+            backgroundColor: problemColors,
+            borderColor: dark ? "#32171e" : "#fff",
+            borderWidth: 4,
+            hoverOffset: 4,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: "66%",
+        plugins: {
+          legend: { display: false },
+          ticketProblemCentre: { total: rows.length, dark },
+          tooltip: {
+            ...tooltipTheme,
+            callbacks: {
+              title: (context) => context[0]?.label || "Selected Error",
+              label: (context) =>
+                " " + Number(context.raw || 0).toLocaleString() + " Tickets",
+              labelColor: (context) => ({
+                backgroundColor:
+                  context.dataset.backgroundColor[context.dataIndex],
+                borderColor: "transparent",
+                borderWidth: 0,
+                borderRadius: 2,
+              }),
+            },
+          },
+        },
+      },
+    });
+    const pieFilter = document.getElementById("ticketPieProblemFilter");
+    if (pieFilter) pieFilter.value = state.problem;
+    document.getElementById("ticketProblemLegend").innerHTML = problemCounts
+      .map(
+        (item, index) =>
+          '<div><span><i style="background:' +
+          problemColors[index % problemColors.length] +
+          '"></i>' +
+          clean(item[0]) +
+          "</span><b><strong>" +
+          item[1] +
+          "</strong><small> ticket" +
+          (item[1] === 1 ? "" : "s") +
+          "</small></b></div>",
+      )
+      .join("");
+  }
+  function applyFilters() {
+    const panel = ensurePanel(),
+      rows = filteredRows(),
+      companyCount = new Set(rows.map((row) => row.company)).size,
+      problemCount = new Set(rows.map((row) => row.problem)).size,
+      average = rows.length
+        ? rows.reduce(
+            (sum, row) => sum + (Number(row.durationMinutes) || 0),
+            0,
+          ) / rows.length
+        : 0;
+    updateControlVisibility();
+    panel.querySelector("#ticketTotal").textContent =
+      rows.length.toLocaleString();
+    panel.querySelector("#ticketCompanies").textContent = companyCount;
+    panel.querySelector("#ticketProblems").textContent = problemCount;
+    panel.querySelector("#ticketDuration").textContent =
+      formatDuration(average);
+    updateTicketKpiSubtitles(rows, companyCount, problemCount);
+    const grouped = new Map();
+    rows.forEach((row) => {
+      if (!grouped.has(row.company))
+        grouped.set(row.company, { total: 0, people: {} });
+      const item = grouped.get(row.company);
+      item.total++;
+      item.people[row.assignedTo] = (item.people[row.assignedTo] || 0) + 1;
+    });
+    const summary = [...grouped.entries()].sort((a, b) =>
+      a[0].localeCompare(b[0]),
+    );
+    panel.querySelector("#ticketTableBody").innerHTML = summary
+      .map(
+        ([company, item]) =>
+          "<tr><td><b>" +
+          clean(company === "Pyay" ? "PYAY" : company) +
+          "</b></td><td><strong>" +
+          item.total +
+          "</strong></td>" +
+          assignees
+            .map((name) => "<td>" + (item.people[name] || "") + "</td>")
+            .join("") +
+          "</tr>",
+      )
+      .join("");
+    panel.querySelector("#ticketTableTotal").innerHTML =
+      "<tr><th>Grand Total</th><th>" +
+      rows.length +
+      "</th>" +
+      assignees
+        .map(
+          (name) =>
+            "<th>" +
+            rows.filter((row) => row.assignedTo === name).length +
+            "</th>",
+        )
+        .join("") +
+      "</tr>";
+    panel.querySelector("#ticketTableFoot").textContent =
+      "Showing " + summary.length + " of " + summary.length + " companies";
+    drawCharts(rows);
+  }
+  function showFor(name) {
+    const panel = ensurePanel(),
+      selected = name === "Service Tickets";
+    document.body.classList.toggle("service-tickets-page", selected);
+    panel.hidden = !selected;
+    if (selected) {
+      setBaseVisible(false);
+      renderShell();
+      applyFilters();
+    } else if (name !== "Budget & Expense") setBaseVisible(true);
+  }
+  const navigate = window.navigateHubPage;
+  window.navigateHubPage = function (name, push = true) {
+    const same = push && name === active;
+    navigate(name, push);
+    if (!same) showFor(name);
+  };
+  const theme = window.toggleTheme;
+  window.toggleTheme = function () {
+    theme();
+    if (active === "Service Tickets") applyFilters();
+  };
+  const themeButton = document.querySelector(".theme-toggle");
+  if (themeButton) themeButton.onclick = window.toggleTheme;
+  showFor(active);
 })();
 
 /* Digital Service Functions: accessible single-open accordion */
-(function(){
- function measure(group){const list=group.querySelector(':scope>ul');if(list)group.style.setProperty('--accordion-height',(list.scrollHeight+48)+'px')}
- function rename(root){const names={'Data Center':'Data Center Management','User Support':'User Support & Services','Security':'IT Security','ELV':'Extra-Low Voltage','Projects':'IT Projects'};root.querySelectorAll('.digital-function-group h3').forEach(title=>{if(names[title.textContent.trim()])title.textContent=names[title.textContent.trim()]})}
- function initialize(root){root.querySelectorAll('.digital-functions-grid').forEach(grid=>{if(grid.dataset.accordionReady)return;grid.dataset.accordionReady='true';const groups=[...grid.querySelectorAll('.digital-function-group')],columns=[document.createElement('div'),document.createElement('div')];columns.forEach(column=>column.className='digital-function-column');groups.forEach((group,index)=>{group.style.setProperty('--function-order',index);columns[index%2].append(group);const header=group.querySelector(':scope>header');if(!header)return;header.setAttribute('role','button');header.setAttribute('tabindex','0');header.setAttribute('aria-expanded',index===0?'true':'false');group.classList.toggle('is-open',index===0)});grid.replaceChildren(...columns);requestAnimationFrame(()=>requestAnimationFrame(()=>groups.forEach(measure)))});}
- function activate(header){const group=header.closest('.digital-function-group'),grid=group?.closest('.digital-functions-grid');if(!grid)return;const closeActive=group.classList.contains('is-open');grid.querySelectorAll('.digital-function-group').forEach(measure);requestAnimationFrame(()=>grid.querySelectorAll('.digital-function-group').forEach(item=>{const open=!closeActive&&item===group;item.classList.toggle('is-open',open);item.querySelector(':scope>header')?.setAttribute('aria-expanded',open?'true':'false');if(open)requestAnimationFrame(()=>measure(item))}));}
- document.addEventListener('click',event=>{const header=event.target.closest('.digital-function-group>header');if(header)activate(header)});
- document.addEventListener('keydown',event=>{const header=event.target.closest?.('.digital-function-group>header');if(header&&(event.key==='Enter'||event.key===' ')){event.preventDefault();activate(header)}});
- initialize(document);rename(document);new MutationObserver(records=>{if(records.some(record=>record.addedNodes.length)){initialize(document);rename(document)}}).observe(document.body,{childList:true,subtree:true});window.addEventListener('resize',()=>document.querySelectorAll('.digital-function-group').forEach(measure),{passive:true});document.fonts?.ready.then(()=>document.querySelectorAll('.digital-function-group').forEach(measure));
+(function () {
+  function measure(group) {
+    const list = group.querySelector(":scope>ul");
+    if (list)
+      group.style.setProperty(
+        "--accordion-height",
+        list.scrollHeight + 48 + "px",
+      );
+  }
+  function rename(root) {
+    const names = {
+      "Data Center": "Data Center Management",
+      "User Support": "User Support & Services",
+      Security: "IT Security",
+      ELV: "Extra-Low Voltage",
+      Projects: "IT Projects",
+    };
+    root.querySelectorAll(".digital-function-group h3").forEach((title) => {
+      if (names[title.textContent.trim()])
+        title.textContent = names[title.textContent.trim()];
+    });
+  }
+  function initialize(root) {
+    root.querySelectorAll(".digital-functions-grid").forEach((grid) => {
+      if (grid.dataset.accordionReady) return;
+      grid.dataset.accordionReady = "true";
+      const groups = [...grid.querySelectorAll(".digital-function-group")],
+        columns = [
+          document.createElement("div"),
+          document.createElement("div"),
+        ];
+      columns.forEach(
+        (column) => (column.className = "digital-function-column"),
+      );
+      groups.forEach((group, index) => {
+        group.style.setProperty("--function-order", index);
+        columns[index % 2].append(group);
+        const header = group.querySelector(":scope>header");
+        if (!header) return;
+        header.setAttribute("role", "button");
+        header.setAttribute("tabindex", "0");
+        header.setAttribute("aria-expanded", index === 0 ? "true" : "false");
+        group.classList.toggle("is-open", index === 0);
+      });
+      grid.replaceChildren(...columns);
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => groups.forEach(measure)),
+      );
+    });
+  }
+  function activate(header) {
+    const group = header.closest(".digital-function-group"),
+      grid = group?.closest(".digital-functions-grid");
+    if (!grid) return;
+    const closeActive = group.classList.contains("is-open");
+    grid.querySelectorAll(".digital-function-group").forEach(measure);
+    requestAnimationFrame(() =>
+      grid.querySelectorAll(".digital-function-group").forEach((item) => {
+        const open = !closeActive && item === group;
+        item.classList.toggle("is-open", open);
+        item
+          .querySelector(":scope>header")
+          ?.setAttribute("aria-expanded", open ? "true" : "false");
+        if (open) requestAnimationFrame(() => measure(item));
+      }),
+    );
+  }
+  document.addEventListener("click", (event) => {
+    const header = event.target.closest(".digital-function-group>header");
+    if (header) activate(header);
+  });
+  document.addEventListener("keydown", (event) => {
+    const header = event.target.closest?.(".digital-function-group>header");
+    if (header && (event.key === "Enter" || event.key === " ")) {
+      event.preventDefault();
+      activate(header);
+    }
+  });
+  initialize(document);
+  rename(document);
+  new MutationObserver((records) => {
+    if (records.some((record) => record.addedNodes.length)) {
+      initialize(document);
+      rename(document);
+    }
+  }).observe(document.body, { childList: true, subtree: true });
+  window.addEventListener(
+    "resize",
+    () => document.querySelectorAll(".digital-function-group").forEach(measure),
+    { passive: true },
+  );
+  document.fonts?.ready.then(() =>
+    document.querySelectorAll(".digital-function-group").forEach(measure),
+  );
 })();
 
+(function () {
+  const icons = {
+    total:
+      '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M16 21v-2.2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V21"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2.2a4 4 0 0 0-3-3.8M16.5 3.2a4 4 0 0 1 0 7.6"/></svg>',
+    current:
+      '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="9" cy="8" r="4"/><path d="M3 21v-2a6 6 0 0 1 12 0v2M16 11l2 2 4-5"/></svg>',
+    vacant:
+      '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M16 11h6"/></svg>',
+    capacity:
+      '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 19a8 8 0 1 1 16 0"/><path d="m12 15 4-5"/><path d="M7 19h10"/></svg>',
+  };
+  function renderManpowerKpis() {
+    const section = document.getElementById("kpis");
+    if (!section) return;
+    section.className = "unified-kpi-grid";
+    if (active !== "Manpower") return;
+    const cards = [
+      ["Current Manpower", "9", icons.current, "Active team members"],
+      ["Planned Headcount", "13", icons.total, "Target workforce capacity"],
+      ["Hiring Vacancies", "4", icons.vacant, "Roles open for hiring"],
+      [
+        "Workforce Capacity",
+        "67%",
+        icons.capacity,
+        "Positions currently filled",
+      ],
+    ];
+    section.className = "unified-kpi-grid";
+    section.innerHTML = cards
+      .map(
+        (card) =>
+          '<article class="unified-kpi-card"><div class="kt"><span>' +
+          card[0] +
+          '</span><b class="unified-kpi-icon">' +
+          card[2] +
+          '</b></div><div class="num">' +
+          card[1] +
+          '</div><div class="up unified-kpi-context">' +
+          card[3] +
+          "</div></article>",
+      )
+      .join("");
+  }
+  const previousCharts = window.charts;
+  window.charts = function () {
+    previousCharts();
+    renderManpowerKpis();
+  };
+  const previousPage = window.page;
+  window.page = function (name) {
+    previousPage(name);
+    renderManpowerKpis();
+  };
+  const previousNavigate = window.navigateHubPage;
+  if (previousNavigate)
+    window.navigateHubPage = function (name, push = true) {
+      previousNavigate(name, push);
+      renderManpowerKpis();
+    };
+  renderManpowerKpis();
+})();
 
-
-(function(){
- const icons={
-  total:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M16 21v-2.2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V21"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2.2a4 4 0 0 0-3-3.8M16.5 3.2a4 4 0 0 1 0 7.6"/></svg>',
-  current:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="9" cy="8" r="4"/><path d="M3 21v-2a6 6 0 0 1 12 0v2M16 11l2 2 4-5"/></svg>',
-  vacant:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M16 11h6"/></svg>',
-  capacity:'<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 19a8 8 0 1 1 16 0"/><path d="m12 15 4-5"/><path d="M7 19h10"/></svg>'
- };
- function renderManpowerKpis(){
-  const section=document.getElementById('kpis');if(!section)return;
-  section.className='unified-kpi-grid';
-  if(active!=='Manpower')return;
-  const cards=[
-   ['Current Manpower','9',icons.current,'Active team members'],
-   ['Planned Headcount','13',icons.total,'Target workforce capacity'],
-   ['Hiring Vacancies','4',icons.vacant,'Roles open for hiring'],
-   ['Workforce Capacity','67%',icons.capacity,'Positions currently filled']
+(function () {
+  const defaults = [
+    {
+      Employee: "U Wai Toe Kyaw",
+      Position: "Director",
+      Division: "Director",
+      "Role Level": "D-1",
+    },
+    {
+      Employee: "U Myo Aung",
+      Position: "IT Manager",
+      Division: "Manager",
+      "Role Level": "P-3",
+    },
+    {
+      Employee: "U Soe Maung Maung",
+      Position: "Senior System Administrator",
+      Division: "Infrastructure",
+      "Role Level": "P-1",
+    },
+    {
+      Employee: "U Khin Maung Thant",
+      Position: "System Administrator",
+      Division: "Infrastructure",
+      "Role Level": "G-5",
+    },
+    {
+      Employee: "U Khon Tay Za",
+      Position: "System Administrator",
+      Division: "Infrastructure",
+      "Role Level": "G-5",
+    },
+    {
+      Employee: "U Khaing Zaw Shein",
+      Position: "Software Engineer",
+      Division: "Software Development",
+      "Role Level": "G-5",
+    },
+    {
+      Employee: "U Than Toe Aung",
+      Position: "System Administrator",
+      Division: "Infrastructure",
+      "Role Level": "G-5",
+    },
+    {
+      Employee: "U Htin Kyaw Lin",
+      Position: "System Administrator",
+      Division: "Infrastructure",
+      "Role Level": "G-5",
+    },
+    {
+      Employee: "U Saw Wai Htun Ko",
+      Position: "System Administrator",
+      Division: "Infrastructure",
+      "Role Level": "G-5",
+    },
   ];
-  section.className='unified-kpi-grid';
-  section.innerHTML=cards.map(card=>'<article class="unified-kpi-card"><div class="kt"><span>'+card[0]+'</span><b class="unified-kpi-icon">'+card[2]+'</b></div><div class="num">'+card[1]+'</div><div class="up unified-kpi-context">'+card[3]+'</div></article>').join('');
- }
- const previousCharts=window.charts;window.charts=function(){previousCharts();renderManpowerKpis()};
- const previousPage=window.page;window.page=function(name){previousPage(name);renderManpowerKpis()};
- const previousNavigate=window.navigateHubPage;if(previousNavigate)window.navigateHubPage=function(name,push=true){previousNavigate(name,push);renderManpowerKpis()};
- renderManpowerKpis();
+  let rows;
+  try {
+    rows = JSON.parse(localStorage.getItem("manpowerDirectoryDB"));
+  } catch (e) {}
+  if (!Array.isArray(rows) || !rows.length)
+    rows = defaults.map((row) => ({ ...row }));
+  window.MANPOWER_DIRECTORY_DATA = rows;
+  window.refreshManpowerDashboardKpis = () => {
+    const panel = document.getElementById("manpowerDashboard"),
+      planned = Number(panel?.dataset.plannedHeadcount) || 0,
+      current = Array.isArray(window.MANPOWER_DIRECTORY_DATA)
+        ? window.MANPOWER_DIRECTORY_DATA.length
+        : 0,
+      vacancies = Math.max(0, planned - current),
+      capacity = planned ? (current / planned) * 100 : 0,
+      set = (id, value) => {
+        const node = document.getElementById(id);
+        if (node) node.textContent = value;
+      };
+    set("manpowerCurrent", current.toLocaleString());
+    set("manpowerPlanned", planned.toLocaleString());
+    set("manpowerVacancies", vacancies.toLocaleString());
+    set("manpowerCapacity", capacity.toFixed(1) + "%");
+    set(
+      "manpowerCurrentSubtitle",
+      current === 1 ? "Active team member" : "Active team members",
+    );
+    set("manpowerPlannedSubtitle", "Target workforce capacity");
+    set(
+      "manpowerVacanciesSubtitle",
+      vacancies === 1 ? "Role open for hiring" : "Roles open for hiring",
+    );
+    set("manpowerCapacitySubtitle", "Positions currently filled");
+    window.refreshMainDashboardMetrics?.();
+  };
+  window.addEventListener("storage", (event) => {
+    if (event.key === "manpowerDirectoryDB")
+      window.refreshManpowerDashboardKpis();
+  });
+  window.refreshManpowerDashboardKpis();
+  const esc = (value) =>
+    String(value ?? "").replace(
+      /[&<>"']/g,
+      (char) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[char],
+    );
+  function renderDirectory() {
+    if (active !== "Manpower") return;
+    document.body.classList.add("manpower-page");
+    h1.textContent = "Manpower";
+    sub.textContent = "Digital workforce capacity and team structure.";
+    const card = document.querySelector(
+      "#manpowerDashboard>.unified-table-card,#manpowerDashboard>.tablecard,main>section.card.unified-table-card,main>section.card.tablecard",
+    );
+    if (!card) return;
+    const currentSearch =
+        document.getElementById("manpowerSearch")?.value || "",
+      currentDivision =
+        document.getElementById("manpowerDivisionFilter")?.value || "All",
+      divisions = [...new Set(rows.map((row) => row.Division))],
+      shown = rows.filter(
+        (row) =>
+          (currentDivision === "All" || row.Division === currentDivision) &&
+          Object.values(row)
+            .join(" ")
+            .toLowerCase()
+            .includes(currentSearch.toLowerCase()),
+      ),
+      keys = ["Employee", "Position", "Division", "Role Level"];
+    card.className = "card unified-table-card";
+    card.innerHTML =
+      '<div class="unified-table-head"><div class="unified-table-title"><span class="unified-table-title-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div><h2>Digital Workforce Directory</h2><p>People, Roles and Structure</p></div></div><div class="tools"><input id="manpowerSearch" class="search" placeholder="Search employees..." value="' +
+      esc(currentSearch) +
+      '"><select id="manpowerDivisionFilter" class="filter"><option value="All">All divisions</option>' +
+      divisions
+        .map(
+          (item) =>
+            "<option " +
+            (item === currentDivision ? "selected" : "") +
+            ">" +
+            esc(item) +
+            "</option>",
+        )
+        .join("") +
+      '</select></div></div><div class="unified-table-scroll"><table class="unified-data-table"><thead><tr>' +
+      keys.map((key) => "<th>" + esc(key) + "</th>").join("") +
+      "</tr></thead><tbody>" +
+      shown
+        .map(
+          (row) =>
+            '<tr data-index="' +
+            rows.indexOf(row) +
+            '">' +
+            keys
+              .map((key) =>
+                key === "Role Level"
+                  ? '<td class="role-level-cell"><span class="role-badge" data-level="' +
+                    esc(row[key]) +
+                    '">' +
+                    esc(row[key]) +
+                    "</span></td>"
+                  : "<td>" + esc(row[key]) + "</td>",
+              )
+              .join("") +
+            "</tr>",
+        )
+        .join("") +
+      '</tbody></table></div><div class="unified-table-footer">Showing ' +
+      shown.length +
+      " of " +
+      rows.length +
+      " employees</div>";
+    document.getElementById("manpowerSearch").oninput = renderDirectory;
+    document.getElementById("manpowerDivisionFilter").onchange =
+      renderDirectory;
+  }
+  const previousNavigate = window.navigateHubPage;
+  window.navigateHubPage = function (name, push = true) {
+    document.body.classList.toggle("manpower-page", name === "Manpower");
+    previousNavigate(name, push);
+    if (name === "Manpower") renderDirectory();
+  };
+  const previousPage = window.page;
+  window.page = function (name) {
+    document.body.classList.toggle("manpower-page", name === "Manpower");
+    previousPage(name);
+    if (name === "Manpower") renderDirectory();
+  };
+  if (active === "Manpower") renderDirectory();
 })();
 
-
-
-(function(){
-const defaults=[
-{Employee:'U Wai Toe Kyaw',Position:'Director',Division:'Director','Role Level':'D-1'},
-{Employee:'U Myo Aung',Position:'IT Manager',Division:'Manager','Role Level':'P-3'},
-{Employee:'U Soe Maung Maung',Position:'Senior System Administrator',Division:'Infrastructure','Role Level':'P-1'},
-{Employee:'U Khin Maung Thant',Position:'System Administrator',Division:'Infrastructure','Role Level':'G-5'},
-{Employee:'U Khon Tay Za',Position:'System Administrator',Division:'Infrastructure','Role Level':'G-5'},
-{Employee:'U Khaing Zaw Shein',Position:'Software Engineer',Division:'Software Development','Role Level':'G-5'},
-{Employee:'U Than Toe Aung',Position:'System Administrator',Division:'Infrastructure','Role Level':'G-5'},
-{Employee:'U Htin Kyaw Lin',Position:'System Administrator',Division:'Infrastructure','Role Level':'G-5'},
-{Employee:'U Saw Wai Htun Ko',Position:'System Administrator',Division:'Infrastructure','Role Level':'G-5'}];
-let rows;try{rows=JSON.parse(localStorage.getItem('manpowerDirectoryDB'))}catch(e){}if(!Array.isArray(rows)||!rows.length)rows=defaults.map(row=>({...row}));
-const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-function renderDirectory(){
- if(active!=='Manpower')return;
- document.body.classList.add('manpower-page');h1.textContent='Manpower';sub.textContent='Digital workforce capacity and team structure.';
- const card=document.querySelector('#manpowerDashboard>.unified-table-card,#manpowerDashboard>.tablecard,main>section.card.unified-table-card,main>section.card.tablecard');if(!card)return;
- const currentSearch=document.getElementById('manpowerSearch')?.value||'',currentDivision=document.getElementById('manpowerDivisionFilter')?.value||'All',divisions=[...new Set(rows.map(row=>row.Division))],shown=rows.filter(row=>(currentDivision==='All'||row.Division===currentDivision)&&Object.values(row).join(' ').toLowerCase().includes(currentSearch.toLowerCase())),keys=['Employee','Position','Division','Role Level'];
- card.className='card unified-table-card';card.innerHTML='<div class="unified-table-head"><div class="unified-table-title"><span class="unified-table-title-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div><h2>Digital Workforce Directory</h2><p>People, Roles and Structure</p></div></div><div class="tools"><input id="manpowerSearch" class="search" placeholder="Search employees..." value="'+esc(currentSearch)+'"><select id="manpowerDivisionFilter" class="filter"><option value="All">All divisions</option>'+divisions.map(item=>'<option '+(item===currentDivision?'selected':'')+'>'+esc(item)+'</option>').join('')+'</select></div></div><div class="unified-table-scroll"><table class="unified-data-table"><thead><tr>'+keys.map(key=>'<th>'+esc(key)+'</th>').join('')+'</tr></thead><tbody>'+shown.map(row=>'<tr data-index="'+rows.indexOf(row)+'">'+keys.map(key=>key==='Role Level'?'<td class="role-level-cell"><span class="role-badge" data-level="'+esc(row[key])+'">'+esc(row[key])+'</span></td>':'<td>'+esc(row[key])+'</td>').join('')+'</tr>').join('')+'</tbody></table></div><div class="unified-table-footer">Showing '+shown.length+' of '+rows.length+' employees</div>';
- document.getElementById('manpowerSearch').oninput=renderDirectory;document.getElementById('manpowerDivisionFilter').onchange=renderDirectory;
-}
-const previousNavigate=window.navigateHubPage;window.navigateHubPage=function(name,push=true){document.body.classList.toggle('manpower-page',name==='Manpower');previousNavigate(name,push);if(name==='Manpower')renderDirectory()};
-const previousPage=window.page;window.page=function(name){document.body.classList.toggle('manpower-page',name==='Manpower');previousPage(name);if(name==='Manpower')renderDirectory()};
-if(active==='Manpower')renderDirectory();
+(function () {
+  function restoreSharedTable() {
+    const cards = [
+        ...document.querySelectorAll(
+          "#manpowerDashboard>section.card,main>section.card",
+        ),
+      ],
+      card = cards.find((item) =>
+        item
+          .querySelector(".unified-table-title h2")
+          ?.textContent.includes("Digital Workforce Directory"),
+      );
+    if (!card) return;
+    const hero = document.querySelector("main>.hero");
+    if (card.parentElement?.id === "manpowerDashboard")
+      hero?.insertAdjacentElement("afterend", card);
+    card.className = "card tablecard";
+    card.innerHTML =
+      '<div class="head"><h2 id="ttitle">Records</h2><div class="tools"><input class="search" id="search" oninput="table()" placeholder="Search records..."><select class="filter" id="filter" onchange="table()"></select></div></div><div id="table"></div><div class="foot" id="foot"></div>';
+  }
+  const previousNavigate = window.navigateHubPage;
+  window.navigateHubPage = function (name, push = true) {
+    if (name !== "Manpower") restoreSharedTable();
+    previousNavigate(name, push);
+  };
+  const previousPage = window.page;
+  window.page = function (name) {
+    if (name !== "Manpower") restoreSharedTable();
+    previousPage(name);
+  };
 })();
 
-
-
-(function(){function restoreSharedTable(){const cards=[...document.querySelectorAll('#manpowerDashboard>section.card,main>section.card')],card=cards.find(item=>item.querySelector('.unified-table-title h2')?.textContent.includes('Digital Workforce Directory'));if(!card)return;const hero=document.querySelector('main>.hero');if(card.parentElement?.id==='manpowerDashboard')hero?.insertAdjacentElement('afterend',card);card.className='card tablecard';card.innerHTML='<div class="head"><h2 id="ttitle">Records</h2><div class="tools"><input class="search" id="search" oninput="table()" placeholder="Search records..."><select class="filter" id="filter" onchange="table()"></select></div></div><div id="table"></div><div class="foot" id="foot"></div>'}const previousNavigate=window.navigateHubPage;window.navigateHubPage=function(name,push=true){if(name!=='Manpower')restoreSharedTable();previousNavigate(name,push)};const previousPage=window.page;window.page=function(name){if(name!=='Manpower')restoreSharedTable();previousPage(name)}})();
-
-
-
-window.exportXlsx=function(){
- const tables=[...document.querySelectorAll('main table')].filter(table=>table.offsetParent!==null&&!table.closest('[hidden]'));
- if(!tables.length)return show('No table data to export');
- const workbook=XLSX.utils.book_new(),used=new Set();
- function sheetName(table,index){let name=table.closest('.unified-table-card')&&active==='Manpower'?'Workforce':table.classList.contains('site-assignment-matrix')?'Site Coverage':table.classList.contains('m365-company-table')?'Companies':table.closest('[data-table="license-utilization"]')?'Licenses':table.closest('#manpowerPlanningCard')?'Manpower Detail':active||('Table '+(index+1));name=String(name).replace(/[\\/?*:[\]]/g,' ').trim().slice(0,31)||('Table '+(index+1));let unique=name,suffix=2;while(used.has(unique))unique=(name.slice(0,27)+' '+suffix++).slice(0,31);used.add(unique);return unique}
- function tableSheet(table){const values=[...table.rows].map(row=>[...row.cells].map(cell=>{const select=cell.querySelector('select');if(select)return select.value;const people=[...cell.querySelectorAll('.assigned-team-list span')];if(people.length)return people.map(person=>person.textContent.trim()).join(', ');return cell.innerText.replace(/\s+/g,' ').trim()}));return XLSX.utils.aoa_to_sheet(values)}
- tables.forEach((table,index)=>XLSX.utils.book_append_sheet(workbook,tableSheet(table),sheetName(table,index)));
- const filePage=active.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');XLSX.writeFile(workbook,'Nature-A-Digital-Hub-'+filePage+'.xlsx');show((tables.length>1?tables.length+' tables':active+' table')+' exported');
+window.exportXlsx = function () {
+  const tables = [...document.querySelectorAll("main table")].filter(
+    (table) => table.offsetParent !== null && !table.closest("[hidden]"),
+  );
+  if (!tables.length) return show("No table data to export");
+  const workbook = XLSX.utils.book_new(),
+    used = new Set();
+  function sheetName(table, index) {
+    let name =
+      table.closest(".unified-table-card") && active === "Manpower"
+        ? "Workforce"
+        : table.classList.contains("site-assignment-matrix")
+          ? "Site Coverage"
+          : table.classList.contains("m365-company-table")
+            ? "Companies"
+            : table.closest('[data-table="license-utilization"]')
+              ? "Licenses"
+              : table.closest("#manpowerPlanningCard")
+                ? "Manpower Detail"
+                : active || "Table " + (index + 1);
+    name =
+      String(name)
+        .replace(/[\\/?*:[\]]/g, " ")
+        .trim()
+        .slice(0, 31) || "Table " + (index + 1);
+    let unique = name,
+      suffix = 2;
+    while (used.has(unique))
+      unique = (name.slice(0, 27) + " " + suffix++).slice(0, 31);
+    used.add(unique);
+    return unique;
+  }
+  function tableSheet(table) {
+    const values = [...table.rows].map((row) =>
+      [...row.cells].map((cell) => {
+        const select = cell.querySelector("select");
+        if (select) return select.value;
+        const people = [...cell.querySelectorAll(".assigned-team-list span")];
+        if (people.length)
+          return people.map((person) => person.textContent.trim()).join(", ");
+        return cell.innerText.replace(/\s+/g, " ").trim();
+      }),
+    );
+    return XLSX.utils.aoa_to_sheet(values);
+  }
+  tables.forEach((table, index) =>
+    XLSX.utils.book_append_sheet(
+      workbook,
+      tableSheet(table),
+      sheetName(table, index),
+    ),
+  );
+  const filePage = active
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+  XLSX.writeFile(workbook, "Nature-A-Digital-Hub-" + filePage + ".xlsx");
+  show(
+    (tables.length > 1 ? tables.length + " tables" : active + " table") +
+      " exported",
+  );
 };
 
-
-(function(){
-const tabs={structure:'Team Structure',onsite:'Company Coverage',future:'Workforce Plan',scope:'Service Portfolio'};
-const icons={structure:'<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="18" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M12 7.5v4M5 15.5v-4h14v4"/></svg>',onsite:'<svg viewBox="0 0 24 24"><path d="M20 10c0 5.2-8 11-8 11S4 15.2 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>',scope:'<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>',future:'<svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-6"/><path d="M15 7h4v4"/></svg>'};
-let selected=sessionStorage.getItem('manpowerVisualTab')||'structure',charts=[];
-function clearCharts(){charts.forEach(c=>{try{c.destroy()}catch(e){}});charts=[]}
-function colors(){const dark=document.body.classList.contains('dark');return{dark,text:dark?'#d9c4c2':'#806864',grid:dark?'#553137':'#eaded9',red:dark?'#ff8755':'#d12a31',orange:dark?'#f5c66b':'#f06428',fill:dark?'rgba(255,135,85,.16)':'rgba(209,42,49,.10)'}}
-function chart(id,type,labels,values,label){const el=document.getElementById(id);if(!el)return;const c=colors();charts.push(new Chart(el,{type,data:{labels,datasets:[{label,data:values,backgroundColor:type==='line'?c.fill:[c.red,c.orange,'#d6a13b','#7656b5','#3194ad','#16866a','#b94f78'],borderColor:type==='doughnut'?(c.dark?'#32171e':'#fff'):c.red,borderWidth:type==='doughnut'?3:2,borderRadius:type==='doughnut'?0:6,fill:type==='line',tension:.34}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:type==='doughnut'?{}:{x:{grid:{display:false},ticks:{color:c.text,font:{family:'Poppins',size:9}}},y:{beginAtZero:true,grid:{color:c.grid},ticks:{color:c.text,font:{family:'Poppins',size:9},precision:0}}}}}))}
-function siteCoverageChart(){const canvas=document.getElementById('siteCoveragePie'),table=document.querySelector('.site-assignment-matrix'),select=document.getElementById('siteTeamFilter'),details=document.getElementById('siteTeamDetails');if(!canvas||!table||!select||!details)return;if(!Chart.registry.plugins.get('siteCoverageCentre'))Chart.register({id:'siteCoverageCentre',afterDatasetsDraw(instance,args,options){if(instance.canvas.id!=='siteCoveragePie'||!options)return;const area=instance.chartArea,ctx=instance.ctx,x=(area.left+area.right)/2,y=(area.top+area.bottom)/2,dark=document.body.classList.contains('dark');ctx.save();ctx.textAlign='center';ctx.fillStyle=dark?'#cbb9bb':'#8a7476';ctx.font='600 10px Poppins, Arial';ctx.fillText('COMPANIES',x,y-6);ctx.fillStyle=dark?'#fff5ef':'#3f292d';ctx.font='700 24px Poppins, Arial';ctx.fillText(String(options.total||0),x,y+20);ctx.restore()}});const headers=[...table.querySelectorAll('thead th')].slice(3).map(th=>th.textContent.trim()),rows=[...table.tBodies[0].rows],models=['Full-Time','Scheduled','Planned'],palette=['#d12a31','#f06428','#d6a13b'],c=colors(),savedTeam=sessionStorage.getItem('siteCoverageTeamFilter');if(savedTeam&&[...select.options].some(option=>option.value===savedTeam))select.value=savedTeam;let instance;function update(){const member=select.value,memberIndex=headers.indexOf(member),matched=member==='All team members'?rows:rows.filter(row=>memberIndex>=0&&row.querySelectorAll('.assignment-cell')[memberIndex]?.textContent.includes('✓')),counts=models.map(model=>matched.filter(row=>row.querySelector('.coverage-badge')?.textContent.trim()===model).length),locations=matched.map(row=>({name:row.cells[0].textContent.trim(),model:row.querySelector('.coverage-badge')?.textContent.trim()||''}));if(instance)instance.destroy();instance=new Chart(canvas,{type:'doughnut',data:{labels:models,datasets:[{data:counts,backgroundColor:palette,borderColor:c.dark?'#32171e':'#fff',borderWidth:3,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{callbacks:{label:item=>' '+item.label+': '+item.raw+' company'+(item.raw===1?'':'ies')}},siteCoverageCentre:{total:locations.length}}}});charts.push(instance);details.innerHTML='<div class="site-team-detail-head"><b>'+(member==='All team members'?'All Supported Companies':member)+'</b><span>'+locations.length+' compan'+(locations.length===1?'y':'ies')+'</span></div><div class="site-team-location-list">'+locations.map(location=>'<span class="site-team-location"><b>'+location.name+'</b><em class="coverage-'+location.model.toLowerCase().replace('-','')+'">'+location.model+'</em></span>').join('')+'</div>'}select.onchange=()=>{sessionStorage.setItem('siteCoverageTeamFilter',select.value);update()};update()}
-function nav(){return '<nav class="unified-tabs">'+Object.entries(tabs).map(([k,v])=>'<button class="unified-tab '+(k===selected?'active':'')+'" data-tab="'+k+'">'+icons[k]+'<span>'+v+'</span></button>').join('')+'</nav>'}
-function structure(){return '<div class="planning-visual-heading"><div><h2>Team Structure &amp; Responsibility Matrix</h2><p>Reporting lines, roles and accountability</p></div></div><section class="unified-kpi-grid"><article class="summary-card tone-orange"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div><b>Team Members</b><small>Digital workforce</small></div><strong>9</strong></article><article class="summary-card tone-green"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3"/><path d="M6 21v-2a6 6 0 0 1 12 0v2M4 13h3M17 13h3M12 2v2"/></svg></span><div><b>Leadership</b><small>Governance roles</small></div><strong>2</strong></article><article class="summary-card tone-yellow"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"/></svg></span><div><b>Infrastructure</b><small>Operations team</small></div><strong>6</strong></article><article class="summary-card tone-blue"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg></span><div><b>Engineering</b><small>Software delivery</small></div><strong>1</strong></article></section><section class="visual-panel structure-org-panel"><div class="responsibility-org"><div class="org-leadership"><article class="org-role org-role-director"><span class="org-role-icon">◆</span><div><b>Director</b><small>Digital Strategy &amp; Governance</small></div></article><i class="org-link"></i><article class="org-role org-role-manager"><span class="org-role-icon">●</span><div><b>IT Manager</b><small>Operations &amp; Service Delivery</small></div></article><i class="org-link"></i><article class="org-profile org-profile-lead"><header><div><b>U Soe Maung Maung</b><small>Senior System Administrator</small></div><em>Lead</em></header><ul><li>Infrastructure operational lead</li><li>File sharing &amp; backup</li><li>Analysis PR/MR finalized</li><li class="org-highlight service"><strong>Group-wide in-house services</strong></li></ul></article></div><div class="org-team-tier"><div class="org-peer-grid"><article class="org-profile org-peer-card"><header><div><b>U Khin Maung Thant</b><small>System Administrator</small></div></header><ul><li class="org-highlight site"><strong>Arise Yetakon / GGM</strong></li><li>Microsoft Control</li><li>Ground Purchase / Report</li><li>ISO &amp; Audit</li><li>Monthly Report</li><li class="org-highlight service"><strong>Group-wide in-house services</strong></li></ul></article><article class="org-profile org-peer-card"><header><div><b>U Khaing Zaw Shein</b><small>Software Engineer</small></div></header><ul><li class="org-highlight site"><strong>Nature Alliance (HO)</strong></li><li>PR/MR Checkup</li><li>All SharePoint Support</li><li>Microsoft Control</li><li>Ground Purchase</li><li>Service Report</li><li class="org-highlight service"><strong>Group-wide in-house services</strong></li></ul></article><article class="org-profile org-peer-card"><header><div><b>U Khon Tay Za</b><small>System Administrator</small></div></header><ul><li><strong>Nature Alliance / Nature Valley</strong></li><li>Trend Micro</li><li>Petty cash support</li></ul></article><article class="org-profile org-peer-card"><header><div><b>U Htin Kyaw Lin</b><small>System Administrator</small></div></header><ul><li><strong>7 Aluminium Factory</strong></li><li>On-site systems support</li></ul></article><article class="org-profile org-peer-card"><header><div><b>U Than Toe Aung</b><small>System Administrator</small></div></header><ul><li><strong>Arise / GGM</strong></li><li>On-site systems support</li></ul></article><article class="org-profile org-peer-card"><header><div><b>U Saw Wai Htun Ko</b><small>System Administrator</small></div></header><ul><li><strong>Innobuilder</strong></li><li>CCTV monitoring support</li></ul></article></div></div><div class="shared-services"><div class="shared-services-title"><b>Shared Core Services</b><small>Assigned to U Khon Tay Za, U Htin Kyaw Lin, U Than Toe Aung and U Saw Wai Htun Ko</small></div><div class="shared-service-list"><span>Governance</span><span>ISO &amp; Audit</span><span>Fixed Asset Control</span><span>Budget &amp; Expenses</span><span>Procurement</span><span>Management Reporting</span></div></div></div></section>'}
-function onsite(){const people=['Soe Maung Maung','Khin Maung Thant','Khon Tay Za','Khaing Zaw Shein','Than Toe Aung','Htin Kyaw Lin','Saw Wai Htun Ko'],rows=[['Nature Alliance','Full-Time',4,[0,2,3,5]],['Nature Valley','Full-Time',4,[0,2,3,5]],['Innobuilder','Full-Time',3,[0,3,6]],['Prime Asset','Full-Time',4,[0,2,3,5]],['Arise','Full-Time',5,[0,1,3,4,6]],['Seven Aluminium','Scheduled',3,[0,2,5]],['Myanmar Safety Glass','Scheduled',3,[0,1,4]],['Great Golden Moon','Scheduled',3,[0,1,4]],['HTY Rice Factory','Scheduled',3,[0,1,4]],['Pyay Khityar','Scheduled',3,[0,1,4]],['Shwe Nay Chi','Scheduled',2,[0,2]],['Myanmar Shield','Scheduled',4,[0,2,3,5]],['Posco','Scheduled',3,[0,1,6]],['Radiant Rays','Scheduled',1,[0]],['Ayeyar Yoma','Planned',2,[0,3]]];const filterPeople=people;return '<section class="site-team-coverage-card"><div class="site-coverage-chart-grid site-coverage-pie-only"><article class="site-chart-card"><div class="site-chart-title"><div><h3>Team Site Coverage</h3><p>Assigned locations by coverage model</p></div><select id="siteTeamFilter" class="filter site-team-filter"><option>All team members</option>'+filterPeople.map(person=>'<option>'+person+'</option>').join('')+'</select></div><div class="site-chart-pie-layout"><div class="site-chart-canvas site-chart-pie"><canvas id="siteCoveragePie"></canvas></div><div id="siteTeamDetails" class="site-team-details"></div></div><div class="site-coverage-model-legend"><span><i class="model-full"></i>Full-Time</span><span><i class="model-scheduled"></i>Scheduled</span><span><i class="model-planned"></i>Planned</span></div></article></div></section><section class="card unified-table-card"><div class="unified-table-head"><div class="unified-table-title"><span class="unified-table-title-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/><path d="M8 21h8"/></svg></span><div><h2>Site Support Coverage</h2><p>Team assignments across supported locations</p></div></div><div class="tools"><input id="siteCoverageSearch" class="search" placeholder="Search locations or team..."><select id="siteCoverageFilter" class="filter"><option>All coverage</option><option>Full-Time</option><option>Scheduled</option><option>Planned</option></select></div></div><div class="unified-table-scroll"><table class="unified-data-table site-assignment-matrix" data-readonly="true"><thead><tr><th>Supported Location</th><th>Coverage Model</th><th>Assigned</th>'+people.map(person=>'<th>'+person+'</th>').join('')+'</tr></thead><tbody>'+rows.map(row=>'<tr data-team="'+row[3].map(index=>people[index]).join(' ')+'"><td>'+row[0]+'</td><td><span class="coverage-badge '+row[1].toLowerCase().replace('-','')+'">'+row[1]+'</span></td><td class="assigned-total">'+row[2]+'</td>'+people.map((person,index)=>'<td class="assignment-cell">'+(row[3].includes(index)?'✓':'')+'</td>').join('')+'</tr>').join('')+'</tbody></table></div><footer class="unified-table-footer"><span id="siteCoverageCount">Showing 15 of 15 locations - 7 Members</span></footer></section>'}
-function digitalFunctions(){const groups=[['Data Center',['Private Cloud Operation','Remote Access Management','Network Distribution Management','End-user Support','Call System','Data Center Hosting']],['IT Management',['Procurement','Vendor Management','Budgeting & Financial Control','Fixed Asset Management','Document Control','Online Meeting Facilitation','Electronic Document Management System']],['User Support',['Technical Support','Helpdesk','Ticketing System','Email & Data Drive','File Sharing','User Assets','User Training']],['System Management',['Server Administration','Network Management','Copier & Printer Network Management','Wireless Access Point','Physical & Virtual Server','Storage Management','Email System Administration','Backup']],['Security',['Cyber Security','Information Security','Port Security','Monitoring','Firewall']],['ELV',['CCTV','Door Access System','Meeting Room Conferencing']],['Branch Office',['Report','Technical Support','Central Management','Data Control']],['Projects',['Construction Site Lead','Analyst Device','Outsourcing Service','Office Renovation']],['Software',['Mobile App Development','Web Development','Software Design Architecture','Program Support','User Training Support','Technical Data Support','Customer Relation Management','Enterprise Resource Planning (ERP)','Database Management','Deployment User','Coordinator User & Vendor']],['Data Science',['Big Data Processing','Data Cleaning','Data Pipeline Building','Research & Development']]];return '<section class="digital-functions"><div class="digital-functions-heading"><h2>Digital Service Functions</h2><p>Operational capabilities delivered across infrastructure, support, engineering and data services</p></div><div class="digital-functions-grid">'+groups.map((group,index)=>'<article class="digital-function-group tone-'+((index%4)+1)+'"><header><span>'+String(index+1).padStart(2,'0')+'</span><h3>'+group[0]+'</h3></header><ul>'+group[1].map((item,itemIndex)=>'<li class="'+(itemIndex%2?'function-emphasis':'')+'">'+item+'</li>').join('')+'</ul></article>').join('')+'</div></section>'}
-function scope(){return '<div class="planning-visual-heading digital-services-heading"><div><h2>Core Services</h2><p>Secure, reliable digital services for business operations</p></div></div><section class="digital-service-grid service-portfolio-grid"><article class="digital-service-item tone-red"><span class="digital-service-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg></span><div><b>IT Governance</b><small>Strategy, policy, risk and investment oversight</small><i>Governance</i></div></article><article class="digital-service-item tone-amber"><span class="digital-service-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"/></svg></span><div><b>Infrastructure</b><small>Networks, servers, cloud platforms and availability</small><i>Operations</i></div></article><article class="digital-service-item tone-purple"><span class="digital-service-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg></span><div><b>Software Engineering</b><small>Applications, integrations and process automation</small><i>Engineering</i></div></article><article class="digital-service-item tone-blue"><span class="digital-service-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4 4 0 1 1 .8-7.9A5.5 5.5 0 0 1 18.5 12 3 3 0 0 1 18 18Z"/></svg></span><div><b>Microsoft 365</b><small>Identity, licensing, productivity and collaboration</small><i>Cloud</i></div></article><article class="digital-service-item tone-green"><span class="digital-service-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z"/><path d="M9 12h6M12 9v6"/></svg></span><div><b>Cybersecurity</b><small>Protection, monitoring, compliance and response</small><i>Security</i></div></article><article class="digital-service-item tone-orange"><span class="digital-service-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 16 0v5a3 3 0 0 1-3 3h-2v-7h5M4 13h5v7H7a3 3 0 0 1-3-3Z"/></svg></span><div><b>Service Support</b><small>User support, devices, requests and asset services</small><i>Service desk</i></div></article></section>'+digitalFunctions()}
-function future(){return `<div class="planning-visual-heading"><div><h2>Workforce Plan</h2><p>Planned capacity and priority recruitment needs</p></div></div><section class="unified-kpi-grid"><article class="summary-card tone-orange"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2.2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V21"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M16 11h6"/></svg></span><div><b>Planned Workforce</b><small>Target capacity</small></div><strong>12</strong></article><article class="summary-card tone-green"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"/></svg></span><div><b>Vacant Positions</b><small>Priority hiring</small></div><strong>4</strong></article><article class="summary-card tone-yellow"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"/></svg></span><div><b>Infrastructure</b><small>Operations roles</small></div><strong>2</strong></article><article class="summary-card tone-blue"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg></span><div><b>Software</b><small>Engineering roles</small></div><strong>2</strong></article></section><section class="visual-panel workforce-org"><div class="workforce-org-head"><div><h3>Proposed Digital Organization</h3><p>Future reporting structure, service ownership and recruitment priorities</p></div><span>Target Operating Model</span></div><div class="workforce-leaders"><article><b>U Wai Toe Kyaw</b><small>IT Director</small></article><i></i><article><b>U Myo Aung</b><small>IT Manager</small></article></div><div class="workforce-branches"><section class="workforce-branch infrastructure"><header><b>Infrastructure</b><small>Platforms, operations and enterprise support</small></header><div class="workforce-lead-role"><b>U Soe Maung Maung</b><small>Senior System Administrator</small></div><div class="workforce-functions"><article><b>Data Center</b><span>Cloud operations · Remote access · Hosting</span></article><article><b>IT Management</b><span>Procurement · Vendors · Assets · Reporting</span></article><article><b>User Support</b><span>Helpdesk · Ticketing · Training · Devices</span></article><article><b>Systems</b><span>Servers · Networks · Storage · Backup</span></article><article><b>Security</b><span>Cybersecurity · Monitoring · Firewall</span></article><article><b>ELV Systems</b><span>CCTV · Access control · Meeting rooms</span></article><article><b>Branch Support</b><span>Site services · Reporting · Data control</span></article><article><b>IT Projects</b><span>Delivery · Analysis · Outsourcing</span></article></div><div class="workforce-people"><article class="vacant"><b>Cloud Engineer</b><small>Vacant · 1</small></article><article><b>System Administrators</b><small>Htin Kyaw Lin · Than Toe Aung</small></article><article><b>System Administrators</b><small>Khon Tay Za · Khin Maung Thant</small></article><article><b>System Administrator</b><small>Saw Wai Htun Ko</small></article><article class="vacant"><b>System Administrator</b><small>Vacant · 1</small></article></div></section><section class="workforce-branch software"><header><b>Software Development</b><small>Applications, automation and data services</small></header><div class="workforce-lead-role vacant"><b>Senior Software Engineer</b><small>Vacant · 1</small></div><div class="workforce-functions"><article><b>Software</b><span>Web · Mobile · SharePoint · Integration</span></article><article><b>Data Science</b><span>Processing · Cleaning · Pipelines · Research</span></article></div><div class="workforce-people"><article><b>Software Engineer</b><small>U Khaing Zaw Shein</small></article><article class="vacant"><b>Software Engineer</b><small>Vacant · 1</small></article></div></section></div></section>`}
-const metricMeta={
-'Team Members':['people','+3 planned'],'Leadership':['leadership','Governance'],'Infrastructure':['server','Core team'],'Engineering':['code','Development'],'Planned Workforce':['people','Target capacity'],'Vacant Positions':['briefcase','Priority hiring'],'Software':['code','Senior SE + SE'],
-'Covered Sites':['location','5 locations'],'Active Assignments':['active','Active'],'Planned Coverage':['calendar','Planned'],'Full-Time Coverage':['clock','Dedicated'],
-'Proposed Roles':['briefcase','Proposal'],'Priority Roles':['flag','Priority'],'New Capabilities':['spark','Growth'],'Proposed Functions':['grid','Functions']};
-const metricSvg={people:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',leadership:'<path d="m12 3 7 4v5c0 4.6-3 7.6-7 9-4-1.4-7-4.4-7-9V7l7-4Z"/><path d="m9 12 2 2 4-4"/>',server:'<rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"/>',code:'<path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/>',location:'<path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/>',active:'<circle cx="9" cy="7" r="4"/><path d="M2 21v-2a7 7 0 0 1 12-4.9M16 19l2 2 4-5"/>',calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18M8 14h.01M12 14h.01M16 14h.01"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',briefcase:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"/>',flag:'<path d="M4 20V6a2 2 0 0 1 2-2h9l5 5v11H4Z"/><path d="M15 4v5h5M8 14h8M8 17h5"/>',spark:'<path d="m12 3 1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3ZM19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/>',grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>'};
-function enhanceMetrics(card){card.querySelectorAll('.visual-kpi').forEach((item,index)=>{const label=item.querySelector('span')?.textContent.trim(),meta=metricMeta[label]||['grid','Overview'];item.classList.add('metric-tone-'+((index%4)+1));item.insertAdjacentHTML('afterbegin','<i class="visual-kpi-icon"><svg viewBox="0 0 24 24" aria-hidden="true">'+metricSvg[meta[0]]+'</svg></i>');item.insertAdjacentHTML('beforeend','<em class="visual-kpi-badge">'+meta[1]+'</em>')});const shared=card.querySelector('.shared-services');if(shared){const assigned=new Set(['U Khon Tay Za','U Htin Kyaw Lin','U Than Toe Aung','U Saw Wai Htun Ko']),services=['ISO & Audit','Fixed Asset','PR/MR Prepare','Budget & Expenses','Stock Control','Routing Maintenance','Purchase Report','Printing Report'];card.querySelectorAll('.org-peer-card').forEach(profile=>{const name=profile.querySelector('header b')?.textContent.trim();if(name==='U Khon Tay Za'){const assignment=profile.querySelector('ul li strong');if(assignment)assignment.textContent='Nature Alliance (HO)'}if(!assigned.has(name))return;const list=profile.querySelector('ul');if(list)list.insertAdjacentHTML('beforeend','<li class="core-service-heading">Core Services</li>'+services.map(service=>'<li class="core-service-item">'+service+'</li>').join(''))});shared.remove()}const directorIcon=card.querySelector('.org-role-director .org-role-icon'),managerIcon=card.querySelector('.org-role-manager .org-role-icon'),leadHeader=card.querySelector('.org-profile-lead header');if(directorIcon)directorIcon.innerHTML='<svg viewBox="0 0 24 24"><path d="M12 3 4 7v5c0 4.8 3.2 7.7 8 9 4.8-1.3 8-4.2 8-9V7l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg>';if(managerIcon)managerIcon.innerHTML='<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20v-1a6 6 0 0 1 12 0v1M16 8h5M18.5 5.5v5"/></svg>';if(leadHeader)leadHeader.insertAdjacentHTML('afterbegin','<span class="lead-role-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"/></svg></span>')}
-function render(){let card=document.getElementById('manpowerPlanningCard');if(!card){card=document.createElement('section');card.id='manpowerPlanningCard';card.className='card unified-table-card';const directory=document.querySelector('#manpowerDashboard>.unified-table-card,#manpowerDashboard>.tablecard,main>section.card.unified-table-card,main>section.card.tablecard');if(directory)directory.insertAdjacentElement('afterend',card);else document.querySelector('main>.hero')?.insertAdjacentElement('afterend',card)}if(!card)return;card.hidden=active!=='Manpower';if(active!=='Manpower')return;clearCharts();card.className='card unified-table-card';card.innerHTML=nav()+'<div class="planning-visual-body">'+({structure:structure,onsite:onsite,scope:scope,future:future}[selected])()+'</div>';enhanceMetrics(card);card.querySelectorAll('.org-highlight.service').forEach(item=>{item.className='';item.textContent=item.textContent.trim()});card.querySelectorAll('.org-highlight.site').forEach(item=>item.classList.remove('org-highlight','site'));card.querySelectorAll('.unified-tab').forEach(b=>b.onclick=()=>{if(b.dataset.tab===selected)return;selected=b.dataset.tab;sessionStorage.setItem('manpowerVisualTab',selected);render()});if(selected==='structure')chart('structureChart','doughnut',['Leadership','Infrastructure','Engineering'],[2,6,1],'Team Members');if(selected==='onsite'){siteCoverageChart();const footer=document.getElementById('siteCoverageCount');if(footer)footer.textContent='Showing 15 of 15 locations - 7 Members'}if(selected==='scope')chart('scopeChart','line',['Governance','Infrastructure','M365','Software','Security','Support'],[70,95,88,65,78,92],'Coverage');if(selected==='future')chart('futureChart','bar',['Leadership','Infrastructure','Security','Cloud','Engineering','Support'],[1,1,1,1,2,2],'Headcount')}
-function init(){const nav=window.navigateHubPage;window.navigateHubPage=function(n,p=true){if(p&&n===active){document.querySelectorAll('#nav button').forEach(button=>{const name=button.dataset.page||button.querySelector('.nav-text')?.textContent;const current=name===active;button.classList.toggle('active',current);button.setAttribute('aria-current',current?'page':'false')});document.querySelectorAll('#tabs button').forEach(button=>button.classList.toggle('active',button.textContent===active));return}nav(n,p);render()};const pg=window.page;window.page=function(n){pg(n);render()};const toggle=window.toggleTheme;window.toggleTheme=function(){toggle();render()};const t=document.querySelector('.theme-toggle');if(t)t.onclick=window.toggleTheme;render()}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+(function () {
+  const tabs = {
+    structure: "Team Structure",
+    onsite: "Company Coverage",
+    future: "Workforce Plan",
+    scope: "Service Portfolio",
+  };
+  const icons = {
+    structure:
+      '<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="18" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M12 7.5v4M5 15.5v-4h14v4"/></svg>',
+    onsite:
+      '<svg viewBox="0 0 24 24"><path d="M20 10c0 5.2-8 11-8 11S4 15.2 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+    scope:
+      '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>',
+    future:
+      '<svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-6"/><path d="M15 7h4v4"/></svg>',
+  };
+  let selected = sessionStorage.getItem("manpowerVisualTab") || "structure",
+    charts = [];
+  function clearCharts() {
+    charts.forEach((c) => {
+      try {
+        c.destroy();
+      } catch (e) {}
+    });
+    charts = [];
+  }
+  function colors() {
+    const dark = document.body.classList.contains("dark");
+    return {
+      dark,
+      text: dark ? "#d9c4c2" : "#806864",
+      grid: dark ? "#553137" : "#eaded9",
+      red: dark ? "#ff8755" : "#d12a31",
+      orange: dark ? "#f5c66b" : "#f06428",
+      fill: dark ? "rgba(255,135,85,.16)" : "rgba(209,42,49,.10)",
+    };
+  }
+  function chart(id, type, labels, values, label) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const c = colors();
+    charts.push(
+      new Chart(el, {
+        type,
+        data: {
+          labels,
+          datasets: [
+            {
+              label,
+              data: values,
+              backgroundColor:
+                type === "line"
+                  ? c.fill
+                  : [
+                      c.red,
+                      c.orange,
+                      "#d6a13b",
+                      "#7656b5",
+                      "#3194ad",
+                      "#16866a",
+                      "#b94f78",
+                    ],
+              borderColor:
+                type === "doughnut" ? (c.dark ? "#32171e" : "#fff") : c.red,
+              borderWidth: type === "doughnut" ? 3 : 2,
+              borderRadius: type === "doughnut" ? 0 : 6,
+              fill: type === "line",
+              tension: 0.34,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales:
+            type === "doughnut"
+              ? {}
+              : {
+                  x: {
+                    grid: { display: false },
+                    ticks: {
+                      color: c.text,
+                      font: { family: "Poppins", size: 9 },
+                    },
+                  },
+                  y: {
+                    beginAtZero: true,
+                    grid: { color: c.grid },
+                    ticks: {
+                      color: c.text,
+                      font: { family: "Poppins", size: 9 },
+                      precision: 0,
+                    },
+                  },
+                },
+        },
+      }),
+    );
+  }
+  function siteCoverageChart() {
+    const canvas = document.getElementById("siteCoveragePie"),
+      table = document.querySelector(".site-assignment-matrix"),
+      select = document.getElementById("siteTeamFilter"),
+      details = document.getElementById("siteTeamDetails");
+    if (!canvas || !table || !select || !details) return;
+    if (!Chart.registry.plugins.get("siteCoverageCentre"))
+      Chart.register({
+        id: "siteCoverageCentre",
+        afterDatasetsDraw(instance, args, options) {
+          if (instance.canvas.id !== "siteCoveragePie" || !options) return;
+          const area = instance.chartArea,
+            ctx = instance.ctx,
+            x = (area.left + area.right) / 2,
+            y = (area.top + area.bottom) / 2,
+            dark = document.body.classList.contains("dark");
+          ctx.save();
+          ctx.textAlign = "center";
+          ctx.fillStyle = dark ? "#cbb9bb" : "#8a7476";
+          ctx.font = "600 10px Poppins, Arial";
+          ctx.fillText("COMPANIES", x, y - 6);
+          ctx.fillStyle = dark ? "#fff5ef" : "#3f292d";
+          ctx.font = "700 24px Poppins, Arial";
+          ctx.fillText(String(options.total || 0), x, y + 20);
+          ctx.restore();
+        },
+      });
+    const headers = [...table.querySelectorAll("thead th")]
+        .slice(3)
+        .map((th) => th.textContent.trim()),
+      rows = [...table.tBodies[0].rows],
+      models = ["Full-Time", "Scheduled", "Planned"],
+      palette = ["#d12a31", "#f06428", "#d6a13b"],
+      c = colors(),
+      savedTeam = sessionStorage.getItem("siteCoverageTeamFilter");
+    if (
+      savedTeam &&
+      [...select.options].some((option) => option.value === savedTeam)
+    )
+      select.value = savedTeam;
+    let instance;
+    function update() {
+      const member = select.value,
+        memberIndex = headers.indexOf(member),
+        matched =
+          member === "All team members"
+            ? rows
+            : rows.filter(
+                (row) =>
+                  memberIndex >= 0 &&
+                  row
+                    .querySelectorAll(".assignment-cell")
+                    [memberIndex]?.textContent.includes("✓"),
+              ),
+        counts = models.map(
+          (model) =>
+            matched.filter(
+              (row) =>
+                row.querySelector(".coverage-badge")?.textContent.trim() ===
+                model,
+            ).length,
+        ),
+        locations = matched.map((row) => ({
+          name: row.cells[0].textContent.trim(),
+          model: row.querySelector(".coverage-badge")?.textContent.trim() || "",
+        }));
+      if (instance) instance.destroy();
+      instance = new Chart(canvas, {
+        type: "doughnut",
+        data: {
+          labels: models,
+          datasets: [
+            {
+              data: counts,
+              backgroundColor: palette,
+              borderColor: c.dark ? "#32171e" : "#fff",
+              borderWidth: 3,
+              hoverOffset: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: "68%",
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (item) =>
+                  " " +
+                  item.label +
+                  ": " +
+                  item.raw +
+                  " company" +
+                  (item.raw === 1 ? "" : "ies"),
+              },
+            },
+            siteCoverageCentre: { total: locations.length },
+          },
+        },
+      });
+      charts.push(instance);
+      details.innerHTML =
+        '<div class="site-team-detail-head"><b>' +
+        (member === "All team members" ? "All Supported Companies" : member) +
+        "</b><span>" +
+        locations.length +
+        " compan" +
+        (locations.length === 1 ? "y" : "ies") +
+        '</span></div><div class="site-team-location-list">' +
+        locations
+          .map(
+            (location) =>
+              '<span class="site-team-location"><b>' +
+              location.name +
+              '</b><em class="coverage-' +
+              location.model.toLowerCase().replace("-", "") +
+              '">' +
+              location.model +
+              "</em></span>",
+          )
+          .join("") +
+        "</div>";
+    }
+    select.onchange = () => {
+      sessionStorage.setItem("siteCoverageTeamFilter", select.value);
+      update();
+    };
+    update();
+  }
+  function nav() {
+    return (
+      '<nav class="unified-tabs">' +
+      Object.entries(tabs)
+        .map(
+          ([k, v]) =>
+            '<button class="unified-tab ' +
+            (k === selected ? "active" : "") +
+            '" data-tab="' +
+            k +
+            '">' +
+            icons[k] +
+            "<span>" +
+            v +
+            "</span></button>",
+        )
+        .join("") +
+      "</nav>"
+    );
+  }
+  function structure() {
+    return '<div class="planning-visual-heading"><div><h2>Team Structure &amp; Responsibility Matrix</h2><p>Reporting lines, roles and accountability</p></div></div><section class="unified-kpi-grid"><article class="summary-card tone-orange"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div><b>Team Members</b><small>Digital workforce</small></div><strong>9</strong></article><article class="summary-card tone-green"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3"/><path d="M6 21v-2a6 6 0 0 1 12 0v2M4 13h3M17 13h3M12 2v2"/></svg></span><div><b>Leadership</b><small>Governance roles</small></div><strong>2</strong></article><article class="summary-card tone-yellow"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"/></svg></span><div><b>Infrastructure</b><small>Operations team</small></div><strong>6</strong></article><article class="summary-card tone-blue"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg></span><div><b>Engineering</b><small>Software delivery</small></div><strong>1</strong></article></section><section class="visual-panel structure-org-panel"><div class="responsibility-org"><div class="org-leadership"><article class="org-role org-role-director"><span class="org-role-icon">◆</span><div><b>Director</b><small>Digital Strategy &amp; Governance</small></div></article><i class="org-link"></i><article class="org-role org-role-manager"><span class="org-role-icon">●</span><div><b>IT Manager</b><small>Operations &amp; Service Delivery</small></div></article><i class="org-link"></i><article class="org-profile org-profile-lead"><header><div><b>U Soe Maung Maung</b><small>Senior System Administrator</small></div><em>Lead</em></header><ul><li>Infrastructure operational lead</li><li>File sharing &amp; backup</li><li>Analysis PR/MR finalized</li><li class="org-highlight service"><strong>Group-wide in-house services</strong></li></ul></article></div><div class="org-team-tier"><div class="org-peer-grid"><article class="org-profile org-peer-card"><header><div><b>U Khin Maung Thant</b><small>System Administrator</small></div></header><ul><li class="org-highlight site"><strong>Arise Yetakon / GGM</strong></li><li>Microsoft Control</li><li>Ground Purchase / Report</li><li>ISO &amp; Audit</li><li>Monthly Report</li><li class="org-highlight service"><strong>Group-wide in-house services</strong></li></ul></article><article class="org-profile org-peer-card"><header><div><b>U Khaing Zaw Shein</b><small>Software Engineer</small></div></header><ul><li class="org-highlight site"><strong>Nature Alliance (HO)</strong></li><li>PR/MR Checkup</li><li>All SharePoint Support</li><li>Microsoft Control</li><li>Ground Purchase</li><li>Service Report</li><li class="org-highlight service"><strong>Group-wide in-house services</strong></li></ul></article><article class="org-profile org-peer-card"><header><div><b>U Khon Tay Za</b><small>System Administrator</small></div></header><ul><li><strong>Nature Alliance / Nature Valley</strong></li><li>Trend Micro</li><li>Petty cash support</li></ul></article><article class="org-profile org-peer-card"><header><div><b>U Htin Kyaw Lin</b><small>System Administrator</small></div></header><ul><li><strong>7 Aluminium Factory</strong></li><li>On-site systems support</li></ul></article><article class="org-profile org-peer-card"><header><div><b>U Than Toe Aung</b><small>System Administrator</small></div></header><ul><li><strong>Arise / GGM</strong></li><li>On-site systems support</li></ul></article><article class="org-profile org-peer-card"><header><div><b>U Saw Wai Htun Ko</b><small>System Administrator</small></div></header><ul><li><strong>Innobuilder</strong></li><li>CCTV monitoring support</li></ul></article></div></div><div class="shared-services"><div class="shared-services-title"><b>Shared Core Services</b><small>Assigned to U Khon Tay Za, U Htin Kyaw Lin, U Than Toe Aung and U Saw Wai Htun Ko</small></div><div class="shared-service-list"><span>Governance</span><span>ISO &amp; Audit</span><span>Fixed Asset Control</span><span>Budget &amp; Expenses</span><span>Procurement</span><span>Management Reporting</span></div></div></div></section>';
+  }
+  function onsite() {
+    const people = [
+        "Soe Maung Maung",
+        "Khin Maung Thant",
+        "Khon Tay Za",
+        "Khaing Zaw Shein",
+        "Than Toe Aung",
+        "Htin Kyaw Lin",
+        "Saw Wai Htun Ko",
+      ],
+      rows = [
+        ["Nature Alliance", "Full-Time", 4, [0, 2, 3, 5]],
+        ["Nature Valley", "Full-Time", 4, [0, 2, 3, 5]],
+        ["Innobuilder", "Full-Time", 3, [0, 3, 6]],
+        ["Prime Asset", "Full-Time", 4, [0, 2, 3, 5]],
+        ["Arise", "Full-Time", 5, [0, 1, 3, 4, 6]],
+        ["Seven Aluminium", "Scheduled", 3, [0, 2, 5]],
+        ["Myanmar Safety Glass", "Scheduled", 3, [0, 1, 4]],
+        ["Great Golden Moon", "Scheduled", 3, [0, 1, 4]],
+        ["HTY Rice Factory", "Scheduled", 3, [0, 1, 4]],
+        ["Pyay Khityar", "Scheduled", 3, [0, 1, 4]],
+        ["Shwe Nay Chi", "Scheduled", 2, [0, 2]],
+        ["Myanmar Shield", "Scheduled", 4, [0, 2, 3, 5]],
+        ["Posco", "Scheduled", 3, [0, 1, 6]],
+        ["Radiant Rays", "Scheduled", 1, [0]],
+        ["Ayeyar Yoma", "Planned", 2, [0, 3]],
+      ];
+    const filterPeople = people;
+    return (
+      '<section class="site-team-coverage-card"><div class="site-coverage-chart-grid site-coverage-pie-only"><article class="site-chart-card"><div class="site-chart-title"><div><h3>Team Site Coverage</h3><p>Assigned locations by coverage model</p></div><select id="siteTeamFilter" class="filter site-team-filter"><option>All team members</option>' +
+      filterPeople.map((person) => "<option>" + person + "</option>").join("") +
+      '</select></div><div class="site-chart-pie-layout"><div class="site-chart-canvas site-chart-pie"><canvas id="siteCoveragePie"></canvas></div><div id="siteTeamDetails" class="site-team-details"></div></div><div class="site-coverage-model-legend"><span><i class="model-full"></i>Full-Time</span><span><i class="model-scheduled"></i>Scheduled</span><span><i class="model-planned"></i>Planned</span></div></article></div></section><section class="card unified-table-card"><div class="unified-table-head"><div class="unified-table-title"><span class="unified-table-title-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/><path d="M8 21h8"/></svg></span><div><h2>Site Support Coverage</h2><p>Team assignments across supported locations</p></div></div><div class="tools"><input id="siteCoverageSearch" class="search" placeholder="Search locations or team..."><select id="siteCoverageFilter" class="filter"><option>All coverage</option><option>Full-Time</option><option>Scheduled</option><option>Planned</option></select></div></div><div class="unified-table-scroll"><table class="unified-data-table site-assignment-matrix" data-readonly="true"><thead><tr><th>Supported Location</th><th>Coverage Model</th><th>Assigned</th>' +
+      people.map((person) => "<th>" + person + "</th>").join("") +
+      "</tr></thead><tbody>" +
+      rows
+        .map(
+          (row) =>
+            '<tr data-team="' +
+            row[3].map((index) => people[index]).join(" ") +
+            '"><td>' +
+            row[0] +
+            '</td><td><span class="coverage-badge ' +
+            row[1].toLowerCase().replace("-", "") +
+            '">' +
+            row[1] +
+            '</span></td><td class="assigned-total">' +
+            row[2] +
+            "</td>" +
+            people
+              .map(
+                (person, index) =>
+                  '<td class="assignment-cell">' +
+                  (row[3].includes(index) ? "✓" : "") +
+                  "</td>",
+              )
+              .join("") +
+            "</tr>",
+        )
+        .join("") +
+      '</tbody></table></div><footer class="unified-table-footer"><span id="siteCoverageCount">Showing 15 of 15 locations - 7 Members</span></footer></section>'
+    );
+  }
+  function digitalFunctions() {
+    const groups = [
+      [
+        "Data Center",
+        [
+          "Private Cloud Operation",
+          "Remote Access Management",
+          "Network Distribution Management",
+          "End-user Support",
+          "Call System",
+          "Data Center Hosting",
+        ],
+      ],
+      [
+        "IT Management",
+        [
+          "Procurement",
+          "Vendor Management",
+          "Budgeting & Financial Control",
+          "Fixed Asset Management",
+          "Document Control",
+          "Online Meeting Facilitation",
+          "Electronic Document Management System",
+        ],
+      ],
+      [
+        "User Support",
+        [
+          "Technical Support",
+          "Helpdesk",
+          "Ticketing System",
+          "Email & Data Drive",
+          "File Sharing",
+          "User Assets",
+          "User Training",
+        ],
+      ],
+      [
+        "System Management",
+        [
+          "Server Administration",
+          "Network Management",
+          "Copier & Printer Network Management",
+          "Wireless Access Point",
+          "Physical & Virtual Server",
+          "Storage Management",
+          "Email System Administration",
+          "Backup",
+        ],
+      ],
+      [
+        "Security",
+        [
+          "Cyber Security",
+          "Information Security",
+          "Port Security",
+          "Monitoring",
+          "Firewall",
+        ],
+      ],
+      ["ELV", ["CCTV", "Door Access System", "Meeting Room Conferencing"]],
+      [
+        "Branch Office",
+        ["Report", "Technical Support", "Central Management", "Data Control"],
+      ],
+      [
+        "Projects",
+        [
+          "Construction Site Lead",
+          "Analyst Device",
+          "Outsourcing Service",
+          "Office Renovation",
+        ],
+      ],
+      [
+        "Software",
+        [
+          "Mobile App Development",
+          "Web Development",
+          "Software Design Architecture",
+          "Program Support",
+          "User Training Support",
+          "Technical Data Support",
+          "Customer Relation Management",
+          "Enterprise Resource Planning (ERP)",
+          "Database Management",
+          "Deployment User",
+          "Coordinator User & Vendor",
+        ],
+      ],
+      [
+        "Data Science",
+        [
+          "Big Data Processing",
+          "Data Cleaning",
+          "Data Pipeline Building",
+          "Research & Development",
+        ],
+      ],
+    ];
+    return (
+      '<section class="digital-functions"><div class="digital-functions-heading"><h2>Digital Service Functions</h2><p>Operational capabilities delivered across infrastructure, support, engineering and data services</p></div><div class="digital-functions-grid">' +
+      groups
+        .map(
+          (group, index) =>
+            '<article class="digital-function-group tone-' +
+            ((index % 4) + 1) +
+            '"><header><span>' +
+            String(index + 1).padStart(2, "0") +
+            "</span><h3>" +
+            group[0] +
+            "</h3></header><ul>" +
+            group[1]
+              .map(
+                (item, itemIndex) =>
+                  '<li class="' +
+                  (itemIndex % 2 ? "function-emphasis" : "") +
+                  '">' +
+                  item +
+                  "</li>",
+              )
+              .join("") +
+            "</ul></article>",
+        )
+        .join("") +
+      "</div></section>"
+    );
+  }
+  function scope() {
+    return (
+      '<div class="planning-visual-heading digital-services-heading"><div><h2>Core Services</h2><p>Secure, reliable digital services for business operations</p></div></div><section class="digital-service-grid service-portfolio-grid"><article class="digital-service-item tone-red"><span class="digital-service-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg></span><div><b>IT Governance</b><small>Strategy, policy, risk and investment oversight</small><i>Governance</i></div></article><article class="digital-service-item tone-amber"><span class="digital-service-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"/></svg></span><div><b>Infrastructure</b><small>Networks, servers, cloud platforms and availability</small><i>Operations</i></div></article><article class="digital-service-item tone-purple"><span class="digital-service-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg></span><div><b>Software Engineering</b><small>Applications, integrations and process automation</small><i>Engineering</i></div></article><article class="digital-service-item tone-blue"><span class="digital-service-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4 4 0 1 1 .8-7.9A5.5 5.5 0 0 1 18.5 12 3 3 0 0 1 18 18Z"/></svg></span><div><b>Microsoft 365</b><small>Identity, licensing, productivity and collaboration</small><i>Cloud</i></div></article><article class="digital-service-item tone-green"><span class="digital-service-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z"/><path d="M9 12h6M12 9v6"/></svg></span><div><b>Cybersecurity</b><small>Protection, monitoring, compliance and response</small><i>Security</i></div></article><article class="digital-service-item tone-orange"><span class="digital-service-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 16 0v5a3 3 0 0 1-3 3h-2v-7h5M4 13h5v7H7a3 3 0 0 1-3-3Z"/></svg></span><div><b>Service Support</b><small>User support, devices, requests and asset services</small><i>Service desk</i></div></article></section>' +
+      digitalFunctions()
+    );
+  }
+  function future() {
+    return `<div class="planning-visual-heading"><div><h2>Workforce Plan</h2><p>Planned capacity and priority recruitment needs</p></div></div><section class="unified-kpi-grid"><article class="summary-card tone-orange"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2.2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V21"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M16 11h6"/></svg></span><div><b>Planned Workforce</b><small>Target capacity</small></div><strong>12</strong></article><article class="summary-card tone-green"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"/></svg></span><div><b>Vacant Positions</b><small>Priority hiring</small></div><strong>4</strong></article><article class="summary-card tone-yellow"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"/></svg></span><div><b>Infrastructure</b><small>Operations roles</small></div><strong>2</strong></article><article class="summary-card tone-blue"><span class="summary-card-icon"><svg viewBox="0 0 24 24"><path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/></svg></span><div><b>Software</b><small>Engineering roles</small></div><strong>2</strong></article></section><section class="visual-panel workforce-org"><div class="workforce-org-head"><div><h3>Proposed Digital Organization</h3><p>Future reporting structure, service ownership and recruitment priorities</p></div><span>Target Operating Model</span></div><div class="workforce-leaders"><article><b>U Wai Toe Kyaw</b><small>IT Director</small></article><i></i><article><b>U Myo Aung</b><small>IT Manager</small></article></div><div class="workforce-branches"><section class="workforce-branch infrastructure"><header><b>Infrastructure</b><small>Platforms, operations and enterprise support</small></header><div class="workforce-lead-role"><b>U Soe Maung Maung</b><small>Senior System Administrator</small></div><div class="workforce-functions"><article><b>Data Center</b><span>Cloud operations · Remote access · Hosting</span></article><article><b>IT Management</b><span>Procurement · Vendors · Assets · Reporting</span></article><article><b>User Support</b><span>Helpdesk · Ticketing · Training · Devices</span></article><article><b>Systems</b><span>Servers · Networks · Storage · Backup</span></article><article><b>Security</b><span>Cybersecurity · Monitoring · Firewall</span></article><article><b>ELV Systems</b><span>CCTV · Access control · Meeting rooms</span></article><article><b>Branch Support</b><span>Site services · Reporting · Data control</span></article><article><b>IT Projects</b><span>Delivery · Analysis · Outsourcing</span></article></div><div class="workforce-people"><article class="vacant"><b>Cloud Engineer</b><small>Vacant · 1</small></article><article><b>System Administrators</b><small>Htin Kyaw Lin · Than Toe Aung</small></article><article><b>System Administrators</b><small>Khon Tay Za · Khin Maung Thant</small></article><article><b>System Administrator</b><small>Saw Wai Htun Ko</small></article><article class="vacant"><b>System Administrator</b><small>Vacant · 1</small></article></div></section><section class="workforce-branch software"><header><b>Software Development</b><small>Applications, automation and data services</small></header><div class="workforce-lead-role vacant"><b>Senior Software Engineer</b><small>Vacant · 1</small></div><div class="workforce-functions"><article><b>Software</b><span>Web · Mobile · SharePoint · Integration</span></article><article><b>Data Science</b><span>Processing · Cleaning · Pipelines · Research</span></article></div><div class="workforce-people"><article><b>Software Engineer</b><small>U Khaing Zaw Shein</small></article><article class="vacant"><b>Software Engineer</b><small>Vacant · 1</small></article></div></section></div></section>`;
+  }
+  const metricMeta = {
+    "Team Members": ["people", "+3 planned"],
+    Leadership: ["leadership", "Governance"],
+    Infrastructure: ["server", "Core team"],
+    Engineering: ["code", "Development"],
+    "Planned Workforce": ["people", "Target capacity"],
+    "Vacant Positions": ["briefcase", "Priority hiring"],
+    Software: ["code", "Senior SE + SE"],
+    "Covered Sites": ["location", "5 locations"],
+    "Active Assignments": ["active", "Active"],
+    "Planned Coverage": ["calendar", "Planned"],
+    "Full-Time Coverage": ["clock", "Dedicated"],
+    "Proposed Roles": ["briefcase", "Proposal"],
+    "Priority Roles": ["flag", "Priority"],
+    "New Capabilities": ["spark", "Growth"],
+    "Proposed Functions": ["grid", "Functions"],
+  };
+  const metricSvg = {
+    people:
+      '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+    leadership:
+      '<path d="m12 3 7 4v5c0 4.6-3 7.6-7 9-4-1.4-7-4.4-7-9V7l7-4Z"/><path d="m9 12 2 2 4-4"/>',
+    server:
+      '<rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"/>',
+    code: '<path d="m8 9-4 3 4 3M16 9l4 3-4 3M14 5l-4 14"/>',
+    location:
+      '<path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/>',
+    active:
+      '<circle cx="9" cy="7" r="4"/><path d="M2 21v-2a7 7 0 0 1 12-4.9M16 19l2 2 4-5"/>',
+    calendar:
+      '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18M8 14h.01M12 14h.01M16 14h.01"/>',
+    clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    briefcase:
+      '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"/>',
+    flag: '<path d="M4 20V6a2 2 0 0 1 2-2h9l5 5v11H4Z"/><path d="M15 4v5h5M8 14h8M8 17h5"/>',
+    spark:
+      '<path d="m12 3 1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3ZM19 16l.7 2.3L22 19l-2.3.7L19 22l-.7-2.3L16 19l2.3-.7L19 16Z"/>',
+    grid: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+  };
+  function enhanceMetrics(card) {
+    card.querySelectorAll(".visual-kpi").forEach((item, index) => {
+      const label = item.querySelector("span")?.textContent.trim(),
+        meta = metricMeta[label] || ["grid", "Overview"];
+      item.classList.add("metric-tone-" + ((index % 4) + 1));
+      item.insertAdjacentHTML(
+        "afterbegin",
+        '<i class="visual-kpi-icon"><svg viewBox="0 0 24 24" aria-hidden="true">' +
+          metricSvg[meta[0]] +
+          "</svg></i>",
+      );
+      item.insertAdjacentHTML(
+        "beforeend",
+        '<em class="visual-kpi-badge">' + meta[1] + "</em>",
+      );
+    });
+    const shared = card.querySelector(".shared-services");
+    if (shared) {
+      const assigned = new Set([
+          "U Khon Tay Za",
+          "U Htin Kyaw Lin",
+          "U Than Toe Aung",
+          "U Saw Wai Htun Ko",
+        ]),
+        services = [
+          "ISO & Audit",
+          "Fixed Asset",
+          "PR/MR Prepare",
+          "Budget & Expenses",
+          "Stock Control",
+          "Routing Maintenance",
+          "Purchase Report",
+          "Printing Report",
+        ];
+      card.querySelectorAll(".org-peer-card").forEach((profile) => {
+        const name = profile.querySelector("header b")?.textContent.trim();
+        if (name === "U Khon Tay Za") {
+          const assignment = profile.querySelector("ul li strong");
+          if (assignment) assignment.textContent = "Nature Alliance (HO)";
+        }
+        if (!assigned.has(name)) return;
+        const list = profile.querySelector("ul");
+        if (list)
+          list.insertAdjacentHTML(
+            "beforeend",
+            '<li class="core-service-heading">Core Services</li>' +
+              services
+                .map(
+                  (service) =>
+                    '<li class="core-service-item">' + service + "</li>",
+                )
+                .join(""),
+          );
+      });
+      shared.remove();
+    }
+    const directorIcon = card.querySelector(
+        ".org-role-director .org-role-icon",
+      ),
+      managerIcon = card.querySelector(".org-role-manager .org-role-icon"),
+      leadHeader = card.querySelector(".org-profile-lead header");
+    if (directorIcon)
+      directorIcon.innerHTML =
+        '<svg viewBox="0 0 24 24"><path d="M12 3 4 7v5c0 4.8 3.2 7.7 8 9 4.8-1.3 8-4.2 8-9V7l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg>';
+    if (managerIcon)
+      managerIcon.innerHTML =
+        '<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20v-1a6 6 0 0 1 12 0v1M16 8h5M18.5 5.5v5"/></svg>';
+    if (leadHeader)
+      leadHeader.insertAdjacentHTML(
+        "afterbegin",
+        '<span class="lead-role-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"/></svg></span>',
+      );
+  }
+  function render() {
+    let card = document.getElementById("manpowerPlanningCard");
+    if (!card) {
+      card = document.createElement("section");
+      card.id = "manpowerPlanningCard";
+      card.className = "card unified-table-card";
+      const directory = document.querySelector(
+        "#manpowerDashboard>.unified-table-card,#manpowerDashboard>.tablecard,main>section.card.unified-table-card,main>section.card.tablecard",
+      );
+      if (directory) directory.insertAdjacentElement("afterend", card);
+      else
+        document
+          .querySelector("main>.hero")
+          ?.insertAdjacentElement("afterend", card);
+    }
+    if (!card) return;
+    card.hidden = active !== "Manpower";
+    if (active !== "Manpower") return;
+    clearCharts();
+    card.className = "card unified-table-card";
+    card.innerHTML =
+      nav() +
+      '<div class="planning-visual-body">' +
+      { structure: structure, onsite: onsite, scope: scope, future: future }[
+        selected
+      ]() +
+      "</div>";
+    enhanceMetrics(card);
+    card.querySelectorAll(".org-highlight.service").forEach((item) => {
+      item.className = "";
+      item.textContent = item.textContent.trim();
+    });
+    card
+      .querySelectorAll(".org-highlight.site")
+      .forEach((item) => item.classList.remove("org-highlight", "site"));
+    card.querySelectorAll(".unified-tab").forEach(
+      (b) =>
+        (b.onclick = () => {
+          if (b.dataset.tab === selected) return;
+          selected = b.dataset.tab;
+          sessionStorage.setItem("manpowerVisualTab", selected);
+          render();
+        }),
+    );
+    if (selected === "structure")
+      chart(
+        "structureChart",
+        "doughnut",
+        ["Leadership", "Infrastructure", "Engineering"],
+        [2, 6, 1],
+        "Team Members",
+      );
+    if (selected === "onsite") {
+      siteCoverageChart();
+      const footer = document.getElementById("siteCoverageCount");
+      if (footer) footer.textContent = "Showing 15 of 15 locations - 7 Members";
+    }
+    if (selected === "scope")
+      chart(
+        "scopeChart",
+        "line",
+        [
+          "Governance",
+          "Infrastructure",
+          "M365",
+          "Software",
+          "Security",
+          "Support",
+        ],
+        [70, 95, 88, 65, 78, 92],
+        "Coverage",
+      );
+    if (selected === "future")
+      chart(
+        "futureChart",
+        "bar",
+        [
+          "Leadership",
+          "Infrastructure",
+          "Security",
+          "Cloud",
+          "Engineering",
+          "Support",
+        ],
+        [1, 1, 1, 1, 2, 2],
+        "Headcount",
+      );
+  }
+  function init() {
+    const nav = window.navigateHubPage;
+    window.navigateHubPage = function (n, p = true) {
+      if (p && n === active) {
+        document.querySelectorAll("#nav button").forEach((button) => {
+          const name =
+            button.dataset.page ||
+            button.querySelector(".nav-text")?.textContent;
+          const current = name === active;
+          button.classList.toggle("active", current);
+          button.setAttribute("aria-current", current ? "page" : "false");
+        });
+        document
+          .querySelectorAll("#tabs button")
+          .forEach((button) =>
+            button.classList.toggle("active", button.textContent === active),
+          );
+        return;
+      }
+      nav(n, p);
+      render();
+    };
+    const pg = window.page;
+    window.page = function (n) {
+      pg(n);
+      render();
+    };
+    const toggle = window.toggleTheme;
+    window.toggleTheme = function () {
+      toggle();
+      render();
+    };
+    const t = document.querySelector(".theme-toggle");
+    if (t) t.onclick = window.toggleTheme;
+    render();
+  }
+  if (document.readyState === "loading")
+    document.addEventListener("DOMContentLoaded", init);
+  else init();
 })();
 
-
-(function(){
-function init(){
- const header=document.querySelector('header.top');if(!header)return;
- let button=document.getElementById('backToTop');
- if(!button){button=document.createElement('button');button.id='backToTop';button.className='back-to-top';button.type='button';button.setAttribute('aria-label','Back to top');button.setAttribute('title','Back to top');button.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>';document.body.appendChild(button)}
- function sync(){const y=window.scrollY||document.documentElement.scrollTop;header.classList.toggle('is-stuck',y>8);button.classList.toggle('show',y>280)}
- button.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));window.addEventListener('scroll',sync,{passive:true});window.addEventListener('pageshow',sync);sync();
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+(function () {
+  function init() {
+    const header = document.querySelector("header.top");
+    if (!header) return;
+    let button = document.getElementById("backToTop");
+    if (!button) {
+      button = document.createElement("button");
+      button.id = "backToTop";
+      button.className = "back-to-top";
+      button.type = "button";
+      button.setAttribute("aria-label", "Back to top");
+      button.setAttribute("title", "Back to top");
+      button.innerHTML =
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>';
+      document.body.appendChild(button);
+    }
+    function sync() {
+      const y = window.scrollY || document.documentElement.scrollTop;
+      header.classList.toggle("is-stuck", y > 8);
+      button.classList.toggle("show", y > 280);
+    }
+    button.addEventListener("click", () =>
+      window.scrollTo({ top: 0, behavior: "smooth" }),
+    );
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("pageshow", sync);
+    sync();
+  }
+  if (document.readyState === "loading")
+    document.addEventListener("DOMContentLoaded", init);
+  else init();
 })();
 
-
-(function(){
-function init(){
- const side=document.getElementById('side'),toggle=document.querySelector('.hamb');if(!side||!toggle)return;
- let backdrop=document.querySelector('.side-backdrop');if(!backdrop){backdrop=document.createElement('div');backdrop.className='side-backdrop';backdrop.setAttribute('aria-hidden','true');document.body.appendChild(backdrop)}
- const mobile=()=>window.matchMedia('(max-width:700px)').matches;
- function sync(){const open=mobile()&&side.classList.contains('open');backdrop.classList.toggle('show',open);document.body.classList.toggle('mobile-side-open',open);toggle.setAttribute('aria-expanded',String(open));backdrop.setAttribute('aria-hidden',String(!open))}
- function close(){side.classList.remove('open');sync()}
- backdrop.addEventListener('click',close);
- document.addEventListener('pointerdown',event=>{if(mobile()&&side.classList.contains('open')&&!side.contains(event.target)&&!toggle.contains(event.target))close()});
- side.addEventListener('click',event=>{if(mobile()&&event.target.closest('.nav button'))close()});
- document.addEventListener('keydown',event=>{if(event.key==='Escape'&&side.classList.contains('open')){close();toggle.focus()}});
- toggle.addEventListener('click',()=>queueMicrotask(sync));window.addEventListener('resize',sync);new MutationObserver(sync).observe(side,{attributes:true,attributeFilter:['class']});sync();
-}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+(function () {
+  function init() {
+    const side = document.getElementById("side"),
+      toggle = document.querySelector(".hamb");
+    if (!side || !toggle) return;
+    let backdrop = document.querySelector(".side-backdrop");
+    if (!backdrop) {
+      backdrop = document.createElement("div");
+      backdrop.className = "side-backdrop";
+      backdrop.setAttribute("aria-hidden", "true");
+      document.body.appendChild(backdrop);
+    }
+    const mobile = () => window.matchMedia("(max-width:700px)").matches;
+    function sync() {
+      const open = mobile() && side.classList.contains("open");
+      backdrop.classList.toggle("show", open);
+      document.body.classList.toggle("mobile-side-open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      backdrop.setAttribute("aria-hidden", String(!open));
+    }
+    function close() {
+      side.classList.remove("open");
+      sync();
+    }
+    backdrop.addEventListener("click", close);
+    document.addEventListener("pointerdown", (event) => {
+      if (
+        mobile() &&
+        side.classList.contains("open") &&
+        !side.contains(event.target) &&
+        !toggle.contains(event.target)
+      )
+        close();
+    });
+    side.addEventListener("click", (event) => {
+      if (mobile() && event.target.closest(".nav button")) close();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && side.classList.contains("open")) {
+        close();
+        toggle.focus();
+      }
+    });
+    toggle.addEventListener("click", () => queueMicrotask(sync));
+    window.addEventListener("resize", sync);
+    new MutationObserver(sync).observe(side, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    sync();
+  }
+  if (document.readyState === "loading")
+    document.addEventListener("DOMContentLoaded", init);
+  else init();
 })();
 
 /* Workforce Plan reference data. Kept separate so the graph layout remains unchanged. */
-(function(){
-const workforceFunctions={
-'Data Center':['Private Cloud Operation','Remote Access Management','Network Distribution Management','End-user Support','Call System','Data Center Hosting'],
-'IT Management':['Procurement','Vendor Management','Budgeting & Financial Control','Fixed Asset Management','Document Control','Online Meeting Facilitation','Electronic Document Management System'],
-'User Support':['Technical Support','Helpdesk','Ticketing System','Email & Data Drive','File Sharing','User Assets','User Training'],
-'Systems':['Server Administration','Network Management','Copier & Printer Network Management','Wireless Access Point','Physical & Virtual Server','Storage Management','Email System Administration','Backup'],
-'Security':['Cyber Security','Information Security','Port Security','Monitoring','Firewall'],
-'ELV Systems':['CCTV','Door Access System','Meeting Room Conferencing'],
-'Branch Support':['Report','Technical Support','Central Management','Data Control'],
-'IT Projects':['Construction Site Lead','Analyst Device','Outsourcing Service','Office Renovation'],
-'Software':['Mobile App Development','Web Development','Software Design Architecture','Program Support','User Training Support','Technical Data Support','Customer Relation Management','Enterprise Resource Planning (ERP)','Database Management','Deployment User','Coordinator User & Vendor'],
-'Data Science':['Big Data Processing','Data Cleaning','Data Pipeline Building','Research & Development']
-};
-function applyWorkforceReferenceData(){
- const graph=document.querySelector('.workforce-org');if(!graph)return;
- const planKpis=graph.parentElement?.querySelector('.visual-kpis');
- if(planKpis){
-  let cards=[...planKpis.querySelectorAll('.visual-kpi')];
-  if(cards[2]?.querySelector('span')?.textContent.trim()==='Software')planKpis.append(cards[2]);
-  cards=[...planKpis.querySelectorAll('.visual-kpi')];
-  if(cards[2]){cards[2].classList.remove('metric-tone-4');cards[2].classList.add('metric-tone-3');const value=cards[2].querySelector('strong');if(value&&value.textContent!=='7')value.textContent='7'}
-  if(cards[3]){cards[3].classList.remove('metric-tone-3');cards[3].classList.add('metric-tone-4');const value=cards[3].querySelector('strong');if(value&&value.textContent!=='3')value.textContent='3'}
- }
- const graphHeader=graph.querySelector('.workforce-org-head');if(graphHeader)graphHeader.remove();
- const leaders=graph.querySelectorAll('.workforce-leaders article');
- if(leaders[0]){const b=leaders[0].querySelector('b'),s=leaders[0].querySelector('small');if(b.textContent!=='Director')b.textContent='Director';if(s.textContent!=='Digital Strategy & Governance')s.textContent='Digital Strategy & Governance'}
- if(leaders[1]){const b=leaders[1].querySelector('b'),s=leaders[1].querySelector('small');if(b.textContent!=='IT Manager')b.textContent='IT Manager';if(s.textContent!=='Operations & Service Delivery')s.textContent='Operations & Service Delivery'}
- const softwareEngineer=graph.querySelector('.workforce-branch.software .workforce-people article:first-child small');if(softwareEngineer&&softwareEngineer.textContent!=='Khaing Zaw Shein')softwareEngineer.textContent='Khaing Zaw Shein';
- const infrastructureRoles=graph.querySelectorAll('.workforce-branch.infrastructure .workforce-people article small');
- const administratorNames='Khin Maung Thant · Khon Tay Za · Than Toe Aung · Htin Kyaw Lin';
- if(infrastructureRoles.length>=5){
-  if(infrastructureRoles[1].textContent!==administratorNames)infrastructureRoles[1].textContent=administratorNames;
-  infrastructureRoles[2].closest('article')?.remove();
- }else if(infrastructureRoles[1]&&infrastructureRoles[1].textContent!==administratorNames){
-  infrastructureRoles[1].textContent=administratorNames;
- }
- const displayNames={'Systems':'System Management','ELV Systems':'ELV','Branch Support':'Branch Office','IT Projects':'Projects'};
- graph.querySelectorAll('.workforce-functions article').forEach(card=>{const heading=card.querySelector('b'),title=heading?.textContent.trim(),items=workforceFunctions[title];if(!items)return;const content=card.querySelector('span');if(content&&!content.querySelector('ul'))content.innerHTML='<ul>'+items.map(item=>'<li>'+item+'</li>').join('')+'</ul>';if(displayNames[title])heading.textContent=displayNames[title]});
-}
-function initWorkforceReference(){new MutationObserver(applyWorkforceReferenceData).observe(document.body,{childList:true,subtree:true});applyWorkforceReferenceData()}
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initWorkforceReference);else initWorkforceReference();
+(function () {
+  const workforceFunctions = {
+    "Data Center": [
+      "Private Cloud Operation",
+      "Remote Access Management",
+      "Network Distribution Management",
+      "End-user Support",
+      "Call System",
+      "Data Center Hosting",
+    ],
+    "IT Management": [
+      "Procurement",
+      "Vendor Management",
+      "Budgeting & Financial Control",
+      "Fixed Asset Management",
+      "Document Control",
+      "Online Meeting Facilitation",
+      "Electronic Document Management System",
+    ],
+    "User Support": [
+      "Technical Support",
+      "Helpdesk",
+      "Ticketing System",
+      "Email & Data Drive",
+      "File Sharing",
+      "User Assets",
+      "User Training",
+    ],
+    Systems: [
+      "Server Administration",
+      "Network Management",
+      "Copier & Printer Network Management",
+      "Wireless Access Point",
+      "Physical & Virtual Server",
+      "Storage Management",
+      "Email System Administration",
+      "Backup",
+    ],
+    Security: [
+      "Cyber Security",
+      "Information Security",
+      "Port Security",
+      "Monitoring",
+      "Firewall",
+    ],
+    "ELV Systems": ["CCTV", "Door Access System", "Meeting Room Conferencing"],
+    "Branch Support": [
+      "Report",
+      "Technical Support",
+      "Central Management",
+      "Data Control",
+    ],
+    "IT Projects": [
+      "Construction Site Lead",
+      "Analyst Device",
+      "Outsourcing Service",
+      "Office Renovation",
+    ],
+    Software: [
+      "Mobile App Development",
+      "Web Development",
+      "Software Design Architecture",
+      "Program Support",
+      "User Training Support",
+      "Technical Data Support",
+      "Customer Relation Management",
+      "Enterprise Resource Planning (ERP)",
+      "Database Management",
+      "Deployment User",
+      "Coordinator User & Vendor",
+    ],
+    "Data Science": [
+      "Big Data Processing",
+      "Data Cleaning",
+      "Data Pipeline Building",
+      "Research & Development",
+    ],
+  };
+  function applyWorkforceReferenceData() {
+    const graph = document.querySelector(".workforce-org");
+    if (!graph) return;
+    const planKpis = graph.parentElement?.querySelector(".visual-kpis");
+    if (planKpis) {
+      let cards = [...planKpis.querySelectorAll(".visual-kpi")];
+      if (cards[2]?.querySelector("span")?.textContent.trim() === "Software")
+        planKpis.append(cards[2]);
+      cards = [...planKpis.querySelectorAll(".visual-kpi")];
+      if (cards[2]) {
+        cards[2].classList.remove("metric-tone-4");
+        cards[2].classList.add("metric-tone-3");
+        const value = cards[2].querySelector("strong");
+        if (value && value.textContent !== "7") value.textContent = "7";
+      }
+      if (cards[3]) {
+        cards[3].classList.remove("metric-tone-3");
+        cards[3].classList.add("metric-tone-4");
+        const value = cards[3].querySelector("strong");
+        if (value && value.textContent !== "3") value.textContent = "3";
+      }
+    }
+    const graphHeader = graph.querySelector(".workforce-org-head");
+    if (graphHeader) graphHeader.remove();
+    const leaders = graph.querySelectorAll(".workforce-leaders article");
+    if (leaders[0]) {
+      const b = leaders[0].querySelector("b"),
+        s = leaders[0].querySelector("small");
+      if (b.textContent !== "Director") b.textContent = "Director";
+      if (s.textContent !== "Digital Strategy & Governance")
+        s.textContent = "Digital Strategy & Governance";
+    }
+    if (leaders[1]) {
+      const b = leaders[1].querySelector("b"),
+        s = leaders[1].querySelector("small");
+      if (b.textContent !== "IT Manager") b.textContent = "IT Manager";
+      if (s.textContent !== "Operations & Service Delivery")
+        s.textContent = "Operations & Service Delivery";
+    }
+    const softwareEngineer = graph.querySelector(
+      ".workforce-branch.software .workforce-people article:first-child small",
+    );
+    if (softwareEngineer && softwareEngineer.textContent !== "Khaing Zaw Shein")
+      softwareEngineer.textContent = "Khaing Zaw Shein";
+    const infrastructureRoles = graph.querySelectorAll(
+      ".workforce-branch.infrastructure .workforce-people article small",
+    );
+    const administratorNames =
+      "Khin Maung Thant · Khon Tay Za · Than Toe Aung · Htin Kyaw Lin";
+    if (infrastructureRoles.length >= 5) {
+      if (infrastructureRoles[1].textContent !== administratorNames)
+        infrastructureRoles[1].textContent = administratorNames;
+      infrastructureRoles[2].closest("article")?.remove();
+    } else if (
+      infrastructureRoles[1] &&
+      infrastructureRoles[1].textContent !== administratorNames
+    ) {
+      infrastructureRoles[1].textContent = administratorNames;
+    }
+    const displayNames = {
+      Systems: "System Management",
+      "ELV Systems": "ELV",
+      "Branch Support": "Branch Office",
+      "IT Projects": "Projects",
+    };
+    graph.querySelectorAll(".workforce-functions article").forEach((card) => {
+      const heading = card.querySelector("b"),
+        title = heading?.textContent.trim(),
+        items = workforceFunctions[title];
+      if (!items) return;
+      const content = card.querySelector("span");
+      if (content && !content.querySelector("ul"))
+        content.innerHTML =
+          "<ul>" +
+          items.map((item) => "<li>" + item + "</li>").join("") +
+          "</ul>";
+      if (displayNames[title]) heading.textContent = displayNames[title];
+    });
+  }
+  function initWorkforceReference() {
+    new MutationObserver(applyWorkforceReferenceData).observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+    applyWorkforceReferenceData();
+  }
+  if (document.readyState === "loading")
+    document.addEventListener("DOMContentLoaded", initWorkforceReference);
+  else initWorkforceReference();
 })();
 
 /* Keep shared chart controls beside their title only while both fit in the card. */
-(()=>{
- let frame;
- const update=()=>{
- document.querySelectorAll('.unified-chart-card .unified-chart-header').forEach(header=>{
-   const title=header.querySelector(':scope > div');
-   const control=header.querySelector(':scope > .unified-chart-select');
-   if(!title||!control)return;
-   header.classList.add('chart-control-ready');
-   header.classList.remove('chart-control-stacked');
-   const gap=parseFloat(getComputedStyle(header).gap)||0;
-   const required=Math.ceil(title.scrollWidth+control.getBoundingClientRect().width+gap);
-   header.classList.toggle('chart-control-stacked',header.clientWidth<required);
-  });
-  document.querySelectorAll('table').forEach(table=>{
-   table.classList.add('unified-data-table');
-   table.parentElement?.classList.add('unified-table-scroll');
-   table.closest('.card')?.classList.add('unified-table-card');
-   table.querySelectorAll('tbody td,tfoot td,tfoot th').forEach(cell=>{
-    const value=cell.textContent.trim().replace(/(?:MMK|\$|,|%|\s)/gi,'');
-    cell.classList.toggle('is-numeric',/^[+-]?\d+(?:\.\d+)?$/.test(value));
-   });
-  });
- };
- const schedule=()=>{cancelAnimationFrame(frame);frame=requestAnimationFrame(update)};window.refreshUnifiedChartControls=schedule;
- new ResizeObserver(schedule).observe(document.documentElement);
+(() => {
+  let frame;
+  const update = () => {
+    document
+      .querySelectorAll(".unified-chart-card .unified-chart-header")
+      .forEach((header) => {
+        const title = header.querySelector(":scope > div");
+        const control = header.querySelector(":scope > .unified-chart-select");
+        if (!title || !control) return;
+        header.classList.add("chart-control-ready");
+        header.classList.remove("chart-control-stacked");
+        const gap = parseFloat(getComputedStyle(header).gap) || 0;
+        const required = Math.ceil(
+          title.scrollWidth + control.getBoundingClientRect().width + gap,
+        );
+        header.classList.toggle(
+          "chart-control-stacked",
+          header.clientWidth < required,
+        );
+      });
+    document.querySelectorAll("table").forEach((table) => {
+      table.classList.add("unified-data-table");
+      table.parentElement?.classList.add("unified-table-scroll");
+      table.closest(".card")?.classList.add("unified-table-card");
+      table.querySelectorAll("tbody td,tfoot td,tfoot th").forEach((cell) => {
+        const value = cell.textContent
+          .trim()
+          .replace(/(?:MMK|\$|,|%|\s)/gi, "");
+        cell.classList.toggle("is-numeric", /^[+-]?\d+(?:\.\d+)?$/.test(value));
+      });
+    });
+  };
+  const schedule = () => {
+    cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(update);
+  };
+  window.refreshUnifiedChartControls = schedule;
+  new ResizeObserver(schedule).observe(document.documentElement);
 
- window.addEventListener('load',schedule);
- schedule();
+  window.addEventListener("load", schedule);
+  schedule();
 })();
 
 /* Keep all Microsoft 365 content in one page wrapper, like Service Tickets. */
-(function(){
- const wrapper=document.getElementById('microsoft365Dashboard');
- const hero=document.querySelector('main>.hero');
- if(!wrapper||!hero)return;
- const nodes=()=>[
-  wrapper.querySelector(':scope>.unified-kpi-grid')||document.getElementById('kpis'),
-  wrapper.querySelector(':scope>.unified-chart-grid')||document.querySelector('main>.grid'),
-  wrapper.querySelector(':scope>section.card.tablecard')||wrapper.querySelector(':scope>.unified-table-card:not([data-table="license-utilization"])')||document.querySelector('main>section.card.tablecard'),
-  document.querySelector('[data-table="license-utilization"]')
- ].filter(Boolean);
- const currentPage=()=>document.getElementById('crumb')?.textContent.trim();
- const restore=()=>nodes().forEach(node=>{if(node.matches('[data-table="license-utilization"]')){node.remove();return}if(node.parentElement!==hero.parentElement)hero.insertAdjacentElement('afterend',node);if(node.classList.contains('unified-kpi-grid'))node.id='kpis';if(node.classList.contains('unified-table-card')){node.className='card tablecard';const head=node.querySelector('.unified-table-head');if(head)head.className='head';const scroll=node.querySelector('.unified-table-scroll');if(scroll)scroll.className='';const footer=node.querySelector('.unified-table-footer');if(footer)footer.className='foot'}if(node.classList.contains('unified-chart-grid')){node.className='grid';const header=node.querySelector('.unified-chart-header');if(header){header.className='title';header.querySelector('h2')?.setAttribute('id','ctitle');const control=header.querySelector('#m365CompanyChartType');if(control){control.id='type';control.className='select'}}const canvasWrap=node.querySelector('.unified-bar-canvas');if(canvasWrap)canvasWrap.className='chart unified-bar-canvas';const pieLayout=node.querySelector('.unified-pie-layout');if(pieLayout)pieLayout.className='piegrid';const pieCanvas=node.querySelector('#pie')?.parentElement;if(pieCanvas)pieCanvas.className='pie';const licenseLegend=node.querySelector('#microsoft365LicenseLegend');if(licenseLegend){licenseLegend.id='legend';licenseLegend.className='legend'}}});
- const sync=()=>{
- const selected=currentPage()==='Microsoft 365';
-  document.body.classList.toggle('microsoft365-page',selected);
-  if(selected){
-   nodes().forEach(node=>{node.hidden=false;node.style.display='';if(node.parentElement!==wrapper)wrapper.append(node)});
-   const kpiSection=wrapper.querySelector(':scope>.unified-kpi-grid');if(kpiSection)kpiSection.removeAttribute('id');
-   const chartGrid=wrapper.querySelector(':scope>.grid')||wrapper.querySelector(':scope>.unified-chart-grid');
-   if(chartGrid)chartGrid.className='unified-chart-grid';
-   chartGrid?.querySelectorAll(':scope>article').forEach((card,index)=>{card.className='unified-chart-card';const header=card.querySelector('.title,.unified-chart-header');if(header){header.className='unified-chart-header chart-control-ready';header.querySelector('h2')?.removeAttribute('id');const control=header.querySelector('#type');if(control){control.id='m365CompanyChartType';control.className='filter unified-chart-select';control.setAttribute('aria-label','Company chart type')}}const canvasWrap=card.querySelector('.chart,.unified-bar-canvas');if(canvasWrap)canvasWrap.className='unified-bar-canvas';if(index===1){const pieLayout=card.querySelector('.piegrid,.unified-pie-layout');if(pieLayout)pieLayout.className='unified-pie-layout';const pieCanvas=card.querySelector('#pie')?.parentElement;if(pieCanvas)pieCanvas.className='unified-pie-canvas';const legend=card.querySelector('#legend');if(legend){legend.id='microsoft365LicenseLegend';legend.className='unified-chart-legend'}}});
-   wrapper.querySelectorAll(':scope>.tablecard,:scope>.unified-table-card').forEach(tableCard=>{tableCard.className='card unified-table-card';const head=tableCard.querySelector('.head,.unified-table-head');if(head)head.className='unified-table-head';const title=head?.querySelector('.unified-table-title,.unified-table-title');if(title)title.className='unified-table-title';const icon=head?.querySelector('.unified-table-title-icon,.unified-table-title-icon');if(icon)icon.className='unified-table-title-icon';const scroll=tableCard.querySelector('.table-scroll,.unified-table-scroll');if(scroll)scroll.className='unified-table-scroll';const footer=tableCard.querySelector('.foot,.unified-table-footer');if(footer)footer.className='unified-table-footer'});
-   wrapper.querySelector('#m365PieFilter')?.classList.add('unified-chart-select');
-   wrapper.hidden=false;
-  }else{wrapper.hidden=true;restore()}
- };
- const wrapCall=(fn)=>function(name,...args){if(name!=='Microsoft 365'){wrapper.hidden=true;restore()}const result=fn.call(this,name,...args);requestAnimationFrame(sync);return result};
- if(typeof window.navigateHubPage==='function')window.navigateHubPage=wrapCall(window.navigateHubPage);
- if(typeof window.page==='function')window.page=wrapCall(window.page);
- const observer=new MutationObserver(()=>requestAnimationFrame(sync));
- observer.observe(document.querySelector('main'),{childList:true,subtree:true});
- requestAnimationFrame(sync);
+(function () {
+  const wrapper = document.getElementById("microsoft365Dashboard");
+  const hero = document.querySelector("main>.hero");
+  if (!wrapper || !hero) return;
+  const nodes = () =>
+    [
+      wrapper.querySelector(":scope>.unified-kpi-grid") ||
+        document.getElementById("kpis"),
+      wrapper.querySelector(":scope>.unified-chart-grid") ||
+        document.querySelector("main>.grid"),
+      wrapper.querySelector(":scope>section.card.tablecard") ||
+        wrapper.querySelector(
+          ':scope>.unified-table-card:not([data-table="license-utilization"])',
+        ) ||
+        document.querySelector("main>section.card.tablecard"),
+      document.querySelector('[data-table="license-utilization"]'),
+    ].filter(Boolean);
+  const currentPage = () =>
+    document.getElementById("crumb")?.textContent.trim();
+  const restore = () =>
+    nodes().forEach((node) => {
+      if (node.matches('[data-table="license-utilization"]')) {
+        node.remove();
+        return;
+      }
+      if (node.parentElement !== hero.parentElement)
+        hero.insertAdjacentElement("afterend", node);
+      if (node.classList.contains("unified-kpi-grid")) node.id = "kpis";
+      if (node.classList.contains("unified-table-card")) {
+        node.className = "card tablecard";
+        const head = node.querySelector(".unified-table-head");
+        if (head) head.className = "head";
+        const scroll = node.querySelector(".unified-table-scroll");
+        if (scroll) scroll.className = "";
+        const footer = node.querySelector(".unified-table-footer");
+        if (footer) footer.className = "foot";
+      }
+      if (node.classList.contains("unified-chart-grid")) {
+        node.className = "grid";
+        const header = node.querySelector(".unified-chart-header");
+        if (header) {
+          header.className = "title";
+          header.querySelector("h2")?.setAttribute("id", "ctitle");
+          const control = header.querySelector("#m365CompanyChartType");
+          if (control) {
+            control.id = "type";
+            control.className = "select";
+          }
+        }
+        const canvasWrap = node.querySelector(".unified-bar-canvas");
+        if (canvasWrap) canvasWrap.className = "chart unified-bar-canvas";
+        const pieLayout = node.querySelector(".unified-pie-layout");
+        if (pieLayout) pieLayout.className = "piegrid";
+        const pieCanvas = node.querySelector("#pie")?.parentElement;
+        if (pieCanvas) pieCanvas.className = "pie";
+        const licenseLegend = node.querySelector("#microsoft365LicenseLegend");
+        if (licenseLegend) {
+          licenseLegend.id = "legend";
+          licenseLegend.className = "legend";
+        }
+      }
+    });
+  const sync = () => {
+    const selected = currentPage() === "Microsoft 365";
+    document.body.classList.toggle("microsoft365-page", selected);
+    if (selected) {
+      nodes().forEach((node) => {
+        node.hidden = false;
+        node.style.display = "";
+        if (node.parentElement !== wrapper) wrapper.append(node);
+      });
+      const kpiSection = wrapper.querySelector(":scope>.unified-kpi-grid");
+      if (kpiSection) kpiSection.removeAttribute("id");
+      const chartGrid =
+        wrapper.querySelector(":scope>.grid") ||
+        wrapper.querySelector(":scope>.unified-chart-grid");
+      if (chartGrid) chartGrid.className = "unified-chart-grid";
+      chartGrid?.querySelectorAll(":scope>article").forEach((card, index) => {
+        card.className = "unified-chart-card";
+        const header = card.querySelector(".title,.unified-chart-header");
+        if (header) {
+          header.className = "unified-chart-header chart-control-ready";
+          header.querySelector("h2")?.removeAttribute("id");
+          const control = header.querySelector("#type");
+          if (control) {
+            control.id = "m365CompanyChartType";
+            control.className = "filter unified-chart-select";
+            control.setAttribute("aria-label", "Company chart type");
+          }
+        }
+        const canvasWrap = card.querySelector(".chart,.unified-bar-canvas");
+        if (canvasWrap) canvasWrap.className = "unified-bar-canvas";
+        if (index === 1) {
+          const pieLayout = card.querySelector(".piegrid,.unified-pie-layout");
+          if (pieLayout) pieLayout.className = "unified-pie-layout";
+          const pieCanvas = card.querySelector("#pie")?.parentElement;
+          if (pieCanvas) pieCanvas.className = "unified-pie-canvas";
+          const legend = card.querySelector("#legend");
+          if (legend) {
+            legend.id = "microsoft365LicenseLegend";
+            legend.className = "unified-chart-legend";
+          }
+        }
+      });
+      wrapper
+        .querySelectorAll(":scope>.tablecard,:scope>.unified-table-card")
+        .forEach((tableCard) => {
+          tableCard.className = "card unified-table-card";
+          const head = tableCard.querySelector(".head,.unified-table-head");
+          if (head) head.className = "unified-table-head";
+          const title = head?.querySelector(
+            ".unified-table-title,.unified-table-title",
+          );
+          if (title) title.className = "unified-table-title";
+          const icon = head?.querySelector(
+            ".unified-table-title-icon,.unified-table-title-icon",
+          );
+          if (icon) icon.className = "unified-table-title-icon";
+          const scroll = tableCard.querySelector(
+            ".table-scroll,.unified-table-scroll",
+          );
+          if (scroll) scroll.className = "unified-table-scroll";
+          const footer = tableCard.querySelector(".foot,.unified-table-footer");
+          if (footer) footer.className = "unified-table-footer";
+        });
+      wrapper
+        .querySelector("#m365PieFilter")
+        ?.classList.add("unified-chart-select");
+      wrapper.hidden = false;
+    } else {
+      wrapper.hidden = true;
+      restore();
+    }
+  };
+  const wrapCall = (fn) =>
+    function (name, ...args) {
+      if (name !== "Microsoft 365") {
+        wrapper.hidden = true;
+        restore();
+      }
+      const result = fn.call(this, name, ...args);
+      requestAnimationFrame(sync);
+      return result;
+    };
+  if (typeof window.navigateHubPage === "function")
+    window.navigateHubPage = wrapCall(window.navigateHubPage);
+  if (typeof window.page === "function") window.page = wrapCall(window.page);
+  const observer = new MutationObserver(() => requestAnimationFrame(sync));
+  observer.observe(document.querySelector("main"), {
+    childList: true,
+    subtree: true,
+  });
+  requestAnimationFrame(sync);
 })();
 
 /* Run one final, frame-synchronised render after menu navigation.  Several
    dashboard modules share the same base elements, so this prevents a later
    module from leaving the newly selected page showing generic fallback data. */
-(function(){
- const navigate=window.navigateHubPage;
- if(typeof navigate!=='function')return;
- let refreshFrame=0;
- window.navigateHubPage=function(name,push=true){
-  const result=navigate(name,push);
-  cancelAnimationFrame(refreshFrame);
-  refreshFrame=requestAnimationFrame(()=>{
-   if(active===name)navigate(name,false);
-  });
-  return result;
- };
+(function () {
+  const navigate = window.navigateHubPage;
+  if (typeof navigate !== "function") return;
+  let refreshFrame = 0;
+  window.navigateHubPage = function (name, push = true) {
+    const result = navigate(name, push);
+    cancelAnimationFrame(refreshFrame);
+    refreshFrame = requestAnimationFrame(() => {
+      if (active === name) navigate(name, false);
+    });
+    return result;
+  };
 })();
 
 /* These menu pages intentionally contain only their shared hero section. */
-(function(){
- const emptyPages=new Set(['Dashboard','Budget & Expense','Copier & Printer Usage','Fixed Assets']);
- const baseSections=()=>[...document.querySelectorAll('main > .unified-kpi-grid,main > .grid,main > .tablecard')];
- const update=name=>{
-  const isEmpty=emptyPages.has(name);
-  baseSections().forEach(section=>{
-   section.hidden=isEmpty;
-   if(isEmpty)section.style.setProperty('display','none','important');
-   else section.style.removeProperty('display');
-  });
- };
- const navigate=window.navigateHubPage;
- if(typeof navigate!=='function')return;
- window.navigateHubPage=function(name,push=true){
-  const result=navigate(name,push);
-  requestAnimationFrame(()=>requestAnimationFrame(()=>update(name)));
-  return result;
- };
- requestAnimationFrame(()=>requestAnimationFrame(()=>update(active)));
+(function () {
+  const emptyPages = new Set([
+    "Dashboard",
+    "Budget & Expense",
+    "Copier & Printer Usage",
+    "Fixed Assets",
+  ]);
+  const baseSections = () => [
+    ...document.querySelectorAll(
+      "main > .unified-kpi-grid,main > .grid,main > .tablecard",
+    ),
+  ];
+  const update = (name) => {
+    const isEmpty = emptyPages.has(name);
+    baseSections().forEach((section) => {
+      section.hidden = isEmpty;
+      if (isEmpty) section.style.setProperty("display", "none", "important");
+      else section.style.removeProperty("display");
+    });
+  };
+  const navigate = window.navigateHubPage;
+  if (typeof navigate !== "function") return;
+  window.navigateHubPage = function (name, push = true) {
+    const result = navigate(name, push);
+    requestAnimationFrame(() => requestAnimationFrame(() => update(name)));
+    return result;
+  };
+  requestAnimationFrame(() => requestAnimationFrame(() => update(active)));
 })();
 
-
 /* Use semantic table footers for Microsoft 365 calculated totals. */
-(function(){const moveTotals=()=>document.querySelectorAll('.m365-company-table,[data-table="license-utilization"] table').forEach(table=>{const totals=[...table.querySelectorAll('tbody tr.total-row')];if(!totals.length)return;const footer=table.tFoot||table.createTFoot();totals.forEach(row=>{if(row.cells[0])row.cells[0].textContent='GRAND TOTAL';row.classList.remove('total-row');footer.append(row)})});new MutationObserver(moveTotals).observe(document.body,{childList:true,subtree:true});moveTotals()})();
+(function () {
+  const moveTotals = () =>
+    document
+      .querySelectorAll(
+        '.m365-company-table,[data-table="license-utilization"] table',
+      )
+      .forEach((table) => {
+        const totals = [...table.querySelectorAll("tbody tr.total-row")];
+        if (!totals.length) return;
+        const footer = table.tFoot || table.createTFoot();
+        totals.forEach((row) => {
+          if (row.cells[0]) row.cells[0].textContent = "GRAND TOTAL";
+          row.classList.remove("total-row");
+          footer.append(row);
+        });
+      });
+  new MutationObserver(moveTotals).observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
+  moveTotals();
+})();
 /* One-time Microsoft 365 update: Innobuilder and Business Basic allocations. */
-(function(){const key='m365Innobuilder75BusinessBasic210';if(localStorage.getItem(key))return;try{const companies=JSON.parse(localStorage.getItem('m365CompanyDB'))||[],licenses=JSON.parse(localStorage.getItem('m365LicensesDB'))||[],innobuilder=companies.find(row=>row.Company==='Innobuilder'),basic=licenses.find(row=>row.Licenses==='Business Basic');if(innobuilder){innobuilder['Total Account']=75;innobuilder['Business Basic']=52;const total=companies.find(row=>row.Company==='Total');if(total){Object.keys(total).filter(name=>name!=='Company').forEach(name=>total[name]=companies.filter(row=>row.Company!=='Total').reduce((sum,row)=>sum+(Number(row[name])||0),0))}}if(basic){basic['Active Users']=210;basic['Available License']=5;const total=licenses.find(row=>row.Licenses==='Total');if(total){['Total Licenses','Active Users','Available License'].forEach(name=>total[name]=licenses.filter(row=>row.Licenses!=='Total').reduce((sum,row)=>sum+(Number(row[name])||0),0))}}localStorage.setItem('m365CompanyDB',JSON.stringify(companies));localStorage.setItem('m365LicensesDB',JSON.stringify(licenses));localStorage.setItem(key,'done')}catch(e){}})();
+(function () {
+  const key = "m365Innobuilder75BusinessBasic210";
+  if (localStorage.getItem(key)) return;
+  try {
+    const companies = JSON.parse(localStorage.getItem("m365CompanyDB")) || [],
+      licenses = JSON.parse(localStorage.getItem("m365LicensesDB")) || [],
+      innobuilder = companies.find((row) => row.Company === "Innobuilder"),
+      basic = licenses.find((row) => row.Licenses === "Business Basic");
+    if (innobuilder) {
+      innobuilder["Total Account"] = 75;
+      innobuilder["Business Basic"] = 52;
+      const total = companies.find((row) => row.Company === "Total");
+      if (total) {
+        Object.keys(total)
+          .filter((name) => name !== "Company")
+          .forEach(
+            (name) =>
+              (total[name] = companies
+                .filter((row) => row.Company !== "Total")
+                .reduce((sum, row) => sum + (Number(row[name]) || 0), 0)),
+          );
+      }
+    }
+    if (basic) {
+      basic["Active Users"] = 210;
+      basic["Available License"] = 5;
+      const total = licenses.find((row) => row.Licenses === "Total");
+      if (total) {
+        ["Total Licenses", "Active Users", "Available License"].forEach(
+          (name) =>
+            (total[name] = licenses
+              .filter((row) => row.Licenses !== "Total")
+              .reduce((sum, row) => sum + (Number(row[name]) || 0), 0)),
+        );
+      }
+    }
+    localStorage.setItem("m365CompanyDB", JSON.stringify(companies));
+    localStorage.setItem("m365LicensesDB", JSON.stringify(licenses));
+    localStorage.setItem(key, "done");
+  } catch (e) {}
+})();
 /* Keep only Manpower-specific content inside its own dashboard wrapper. */
-(function(){const wrapper=document.getElementById('manpowerDashboard'),hero=document.querySelector('main>.hero');if(!wrapper||!hero)return;const nodes=()=>[wrapper.querySelector(':scope>.unified-table-card')||wrapper.querySelector(':scope>.tablecard')||document.querySelector('main>section.card.unified-table-card')||document.querySelector('main>section.card.tablecard'),document.getElementById('manpowerPlanningCard')].filter(Boolean);const genericContent=()=>[document.querySelector('main>#kpis'),wrapper.querySelector(':scope>.grid')||document.querySelector('main>.grid')].filter(Boolean);const restore=()=>nodes().slice().reverse().forEach(node=>{if(node.parentElement===wrapper)hero.insertAdjacentElement('afterend',node)});const restoreGeneric=()=>genericContent().forEach(node=>{if(node.parentElement===wrapper)hero.insertAdjacentElement('afterend',node);node.hidden=false;node.style.display=''});const sync=()=>{const selected=active==='Manpower';if(!selected){wrapper.hidden=true;restore();restoreGeneric();return}genericContent().forEach(node=>{if(node.parentElement===wrapper)hero.insertAdjacentElement('afterend',node);node.hidden=true;node.style.display='none'});nodes().forEach(node=>{node.hidden=false;node.style.display='';if(node.parentElement!==wrapper)wrapper.append(node)});wrapper.hidden=false};const wrap=fn=>function(name,...args){if(name!=='Manpower'){restore();restoreGeneric()}const result=fn.call(this,name,...args);requestAnimationFrame(sync);return result};window.navigateHubPage=wrap(window.navigateHubPage);window.page=wrap(window.page);requestAnimationFrame(sync)})();
+(function () {
+  const wrapper = document.getElementById("manpowerDashboard"),
+    hero = document.querySelector("main>.hero");
+  if (!wrapper || !hero) return;
+  const nodes = () =>
+    [
+      wrapper.querySelector(":scope>.unified-table-card") ||
+        wrapper.querySelector(":scope>.tablecard") ||
+        document.querySelector("main>section.card.unified-table-card") ||
+        document.querySelector("main>section.card.tablecard"),
+      document.getElementById("manpowerPlanningCard"),
+    ].filter(Boolean);
+  const genericContent = () =>
+    [
+      document.querySelector("main>#kpis"),
+      wrapper.querySelector(":scope>.grid") ||
+        document.querySelector("main>.grid"),
+    ].filter(Boolean);
+  const restore = () =>
+    nodes()
+      .slice()
+      .reverse()
+      .forEach((node) => {
+        if (node.parentElement === wrapper)
+          hero.insertAdjacentElement("afterend", node);
+      });
+  const restoreGeneric = () =>
+    genericContent().forEach((node) => {
+      if (node.parentElement === wrapper)
+        hero.insertAdjacentElement("afterend", node);
+      node.hidden = false;
+      node.style.display = "";
+    });
+  const sync = () => {
+    const selected = active === "Manpower";
+    if (!selected) {
+      wrapper.hidden = true;
+      restore();
+      restoreGeneric();
+      return;
+    }
+    genericContent().forEach((node) => {
+      if (node.parentElement === wrapper)
+        hero.insertAdjacentElement("afterend", node);
+      node.hidden = true;
+      node.style.display = "none";
+    });
+    nodes().forEach((node) => {
+      node.hidden = false;
+      node.style.display = "";
+      if (node.parentElement !== wrapper) wrapper.append(node);
+    });
+    wrapper.hidden = false;
+  };
+  const wrap = (fn) =>
+    function (name, ...args) {
+      if (name !== "Manpower") {
+        restore();
+        restoreGeneric();
+      }
+      const result = fn.call(this, name, ...args);
+      requestAnimationFrame(sync);
+      return result;
+    };
+  window.navigateHubPage = wrap(window.navigateHubPage);
+  window.page = wrap(window.page);
+  requestAnimationFrame(sync);
+})();
 /* Filter the Workforce Directory rows in place so typing never rebuilds the card. */
-(function(){let query='',division='All';const apply=()=>{const table=document.querySelector('#manpowerDashboard .unified-data-table,main>.unified-table-card .unified-data-table');if(!table||!table.closest('.unified-table-card')?.querySelector('.unified-table-title h2')?.textContent.includes('Digital Workforce Directory'))return;const rows=[...table.tBodies[0]?.rows||[]],shown=rows.filter(row=>{const matchesQuery=!query||row.textContent.toLowerCase().includes(query);const matchesDivision=division==='All'||row.cells[2]?.textContent.trim()===division;row.hidden=!(matchesQuery&&matchesDivision);return !row.hidden});const footer=table.closest('.unified-table-card')?.querySelector('.unified-table-footer');if(footer)footer.textContent='Showing '+shown.length+' of '+rows.length+' employees'};document.addEventListener('input',event=>{if(event.target.id!=='manpowerSearch')return;event.stopImmediatePropagation();query=event.target.value.trim().toLowerCase();apply()},true);document.addEventListener('change',event=>{if(event.target.id!=='manpowerDivisionFilter')return;event.stopImmediatePropagation();division=event.target.value;apply()},true)})();
+(function () {
+  let query = "",
+    division = "All";
+  const apply = () => {
+    const table = document.querySelector(
+      "#manpowerDashboard .unified-data-table,main>.unified-table-card .unified-data-table",
+    );
+    if (
+      !table ||
+      !table
+        .closest(".unified-table-card")
+        ?.querySelector(".unified-table-title h2")
+        ?.textContent.includes("Digital Workforce Directory")
+    )
+      return;
+    const rows = [...(table.tBodies[0]?.rows || [])],
+      shown = rows.filter((row) => {
+        const matchesQuery =
+          !query || row.textContent.toLowerCase().includes(query);
+        const matchesDivision =
+          division === "All" || row.cells[2]?.textContent.trim() === division;
+        row.hidden = !(matchesQuery && matchesDivision);
+        return !row.hidden;
+      });
+    const footer = table
+      .closest(".unified-table-card")
+      ?.querySelector(".unified-table-footer");
+    if (footer)
+      footer.textContent =
+        "Showing " + shown.length + " of " + rows.length + " employees";
+  };
+  document.addEventListener(
+    "input",
+    (event) => {
+      if (event.target.id !== "manpowerSearch") return;
+      event.stopImmediatePropagation();
+      query = event.target.value.trim().toLowerCase();
+      apply();
+    },
+    true,
+  );
+  document.addEventListener(
+    "change",
+    (event) => {
+      if (event.target.id !== "manpowerDivisionFilter") return;
+      event.stopImmediatePropagation();
+      division = event.target.value;
+      apply();
+    },
+    true,
+  );
+})();
 /* Keep Microsoft 365 table search and filters responsive without rebuilding table controls. */
-(function(){let companyQuery='',companyFilter='All',licenseQuery='',licenseFilter='All';const footer=(table,text)=>{const node=table.closest('.unified-table-card')?.querySelector('.unified-table-footer');if(node)node.textContent=text};const filterCompany=()=>{const table=document.querySelector('.m365-company-table');if(!table)return;const rows=[...table.tBodies[0]?.rows||[]],regular=rows.filter(row=>!row.classList.contains('total-row')),shown=regular.filter(row=>{const name=row.cells[0]?.textContent.trim().toLowerCase()||'',visible=(companyFilter==='All'||name===companyFilter.toLowerCase())&&(!companyQuery||name.includes(companyQuery));row.hidden=!visible;return visible});rows.filter(row=>row.classList.contains('total-row')).forEach(row=>row.hidden=false);footer(table,'Showing '+shown.length+' of '+regular.length+' companies')};const filterLicenses=()=>{const table=document.querySelector('[data-table="license-utilization"] table');if(!table)return;const rows=[...table.querySelectorAll('tbody tr')],regular=rows.filter(row=>!row.classList.contains('total-row')),shown=regular.filter(row=>{const feature=row.cells[1]?.textContent.trim()||'',text=row.textContent.toLowerCase(),visible=(licenseFilter==='All'||feature===licenseFilter)&&(!licenseQuery||text.includes(licenseQuery));row.hidden=!visible;return visible});table.querySelectorAll('.total-row').forEach(row=>row.hidden=false);footer(table,'Showing '+shown.length+' of '+regular.length+' licenses')};document.addEventListener('input',event=>{if(event.target.id==='m365CompanySearch'){event.stopImmediatePropagation();companyQuery=event.target.value.trim().toLowerCase();filterCompany()}if(event.target.id==='m365LicenseSearch'){event.stopImmediatePropagation();licenseQuery=event.target.value.trim().toLowerCase();filterLicenses()}},true);document.addEventListener('change',event=>{if(event.target.id==='m365CompanyFilter'){event.stopImmediatePropagation();companyFilter=event.target.value;filterCompany()}if(event.target.id==='m365FeatureFilter'){event.stopImmediatePropagation();licenseFilter=event.target.value;filterLicenses()}},true)})();
+(function () {
+  let companyQuery = "",
+    companyFilter = "All",
+    licenseQuery = "",
+    licenseFilter = "All";
+  const footer = (table, text) => {
+    const node = table
+      .closest(".unified-table-card")
+      ?.querySelector(".unified-table-footer");
+    if (node) node.textContent = text;
+  };
+  const filterCompany = () => {
+    const table = document.querySelector(".m365-company-table");
+    if (!table) return;
+    const rows = [...(table.tBodies[0]?.rows || [])],
+      regular = rows.filter((row) => !row.classList.contains("total-row")),
+      shown = regular.filter((row) => {
+        const name = row.cells[0]?.textContent.trim().toLowerCase() || "",
+          visible =
+            (companyFilter === "All" || name === companyFilter.toLowerCase()) &&
+            (!companyQuery || name.includes(companyQuery));
+        row.hidden = !visible;
+        return visible;
+      });
+    rows
+      .filter((row) => row.classList.contains("total-row"))
+      .forEach((row) => (row.hidden = false));
+    footer(
+      table,
+      "Showing " + shown.length + " of " + regular.length + " companies",
+    );
+  };
+  const filterLicenses = () => {
+    const table = document.querySelector(
+      '[data-table="license-utilization"] table',
+    );
+    if (!table) return;
+    const rows = [...table.querySelectorAll("tbody tr")],
+      regular = rows.filter((row) => !row.classList.contains("total-row")),
+      shown = regular.filter((row) => {
+        const feature = row.cells[1]?.textContent.trim() || "",
+          text = row.textContent.toLowerCase(),
+          visible =
+            (licenseFilter === "All" || feature === licenseFilter) &&
+            (!licenseQuery || text.includes(licenseQuery));
+        row.hidden = !visible;
+        return visible;
+      });
+    table.querySelectorAll(".total-row").forEach((row) => (row.hidden = false));
+    footer(
+      table,
+      "Showing " + shown.length + " of " + regular.length + " licenses",
+    );
+  };
+  document.addEventListener(
+    "input",
+    (event) => {
+      if (event.target.id === "m365CompanySearch") {
+        event.stopImmediatePropagation();
+        companyQuery = event.target.value.trim().toLowerCase();
+        filterCompany();
+      }
+      if (event.target.id === "m365LicenseSearch") {
+        event.stopImmediatePropagation();
+        licenseQuery = event.target.value.trim().toLowerCase();
+        filterLicenses();
+      }
+    },
+    true,
+  );
+  document.addEventListener(
+    "change",
+    (event) => {
+      if (event.target.id === "m365CompanyFilter") {
+        event.stopImmediatePropagation();
+        companyFilter = event.target.value;
+        filterCompany();
+      }
+      if (event.target.id === "m365FeatureFilter") {
+        event.stopImmediatePropagation();
+        licenseFilter = event.target.value;
+        filterLicenses();
+      }
+    },
+    true,
+  );
+})();
 /* Remove legacy redraw handlers from Microsoft 365 controls before the user interacts. */
-(function(){const isM365Control=node=>['m365CompanySearch','m365LicenseSearch','m365CompanyFilter','m365FeatureFilter'].includes(node?.id);const detach=node=>{if(!isM365Control(node))return;node.oninput=null;node.onchange=null};document.addEventListener('focusin',event=>detach(event.target),true);document.addEventListener('pointerdown',event=>detach(event.target),true);document.addEventListener('keydown',event=>detach(event.target),true)})();
+(function () {
+  const isM365Control = (node) =>
+    [
+      "m365CompanySearch",
+      "m365LicenseSearch",
+      "m365CompanyFilter",
+      "m365FeatureFilter",
+    ].includes(node?.id);
+  const detach = (node) => {
+    if (!isM365Control(node)) return;
+    node.oninput = null;
+    node.onchange = null;
+  };
+  document.addEventListener("focusin", (event) => detach(event.target), true);
+  document.addEventListener(
+    "pointerdown",
+    (event) => detach(event.target),
+    true,
+  );
+  document.addEventListener("keydown", (event) => detach(event.target), true);
+})();
 /* Keep the theme control visible and accurately announced after every chart/theme update. */
-(function(){const toggle=document.querySelector('.theme-toggle');if(!toggle)return;const sync=()=>{const dark=document.body.classList.contains('dark');toggle.setAttribute('aria-pressed',String(dark));toggle.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');toggle.title=dark?'Switch to light theme':'Switch to dark theme'};toggle.addEventListener('click',()=>requestAnimationFrame(sync));sync()})();
+(function () {
+  const toggle = document.querySelector(".theme-toggle");
+  if (!toggle) return;
+  const sync = () => {
+    const dark = document.body.classList.contains("dark");
+    toggle.setAttribute("aria-pressed", String(dark));
+    toggle.setAttribute(
+      "aria-label",
+      dark ? "Switch to light mode" : "Switch to dark mode",
+    );
+    toggle.title = dark ? "Switch to light theme" : "Switch to dark theme";
+  };
+  toggle.addEventListener("click", () => requestAnimationFrame(sync));
+  sync();
+})();
 
 /* Recalculate Company Account Distribution spacing when the responsive layout changes. */
-(function(){let timer;window.addEventListener('resize',()=>{clearTimeout(timer);timer=setTimeout(()=>{if(typeof active!=='undefined'&&active==='Microsoft 365'&&typeof window.charts==='function')window.charts()},160)})})();
+(function () {
+  let timer;
+  window.addEventListener("resize", () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      if (
+        typeof active !== "undefined" &&
+        active === "Microsoft 365" &&
+        typeof window.charts === "function"
+      )
+        window.charts();
+    }, 160);
+  });
+})();
 
 /* Budget & Expense content is isolated in its own page wrapper. */
-(function(){const panel=document.getElementById('budgetExpenseDashboard');if(!panel)return;const navigate=window.navigateHubPage;if(typeof navigate!=='function')return;window.navigateHubPage=function(name,push=true){navigate(name,push);panel.hidden=name!=='Budget & Expense'};panel.hidden=typeof active==='undefined'||active!=='Budget & Expense'})();
+(function () {
+  const panel = document.getElementById("budgetExpenseDashboard");
+  if (!panel) return;
+  const navigate = window.navigateHubPage;
+  if (typeof navigate !== "function") return;
+  window.navigateHubPage = function (name, push = true) {
+    navigate(name, push);
+    panel.hidden = name !== "Budget & Expense";
+  };
+  panel.hidden = typeof active === "undefined" || active !== "Budget & Expense";
+})();
 
-(function(){const panel=document.getElementById('copierprinterusageDashboard');if(!panel)return;const navigate=window.navigateHubPage;if(typeof navigate!=='function')return;window.navigateHubPage=function(name,push=true){navigate(name,push);panel.hidden=name!=='Copier & Printer Usage'};panel.hidden=typeof active==='undefined'||active!=='Copier & Printer Usage'})();
+(function () {
+  const panel = document.getElementById("copierprinterusageDashboard");
+  if (!panel) return;
+  const navigate = window.navigateHubPage;
+  if (typeof navigate !== "function") return;
+  window.navigateHubPage = function (name, push = true) {
+    navigate(name, push);
+    panel.hidden = name !== "Copier & Printer Usage";
+  };
+  panel.hidden =
+    typeof active === "undefined" || active !== "Copier & Printer Usage";
+})();
 
 /* Budget & Expense dashboard sourced from Budget & Expense.xlsx. */
-(function(){
-  const panel=document.getElementById('budgetExpenseDashboard');
-  const source=window.budgetExpenseData;
-  if(!panel||!source)return;
-  const departmentActuals=source.expenses.filter(row=>row.department);
-  source.purchases.forEach(row=>{if(row.company==='Innobuilder'&&row.department==='Common')row.department='Construction'});
-  panel.__budgetExpenseDetailData=source;
-  const fmt=value=>{const number=Number(value)||0,absolute=Math.abs(number),compact=(divisor,suffix)=>{const digits=absolute/divisor>=100?0:(absolute/divisor>=10?1:2);return (number/divisor).toFixed(digits).replace(/\\.?0+$/,'')+suffix};if(absolute>=1000000000)return compact(1000000000,'B');if(absolute>=1000000)return compact(1000000,'M');if(absolute>=1000)return compact(1000,'K');return new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(Math.round(number))};
-  const full=value=>new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(Math.round(Number(value)||0));
-  const clean=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
-  const icon={budget:'<svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13M3 10h18M9 21v-5h6v5M8 12h1M15 12h1"/></svg>',expense:'<svg viewBox="0 0 24 24"><path d="M3 7h18v11H3z"/><path d="M3 10h18M7 15h4M7 7V5h10v2"/><circle cx="17" cy="15" r="1"/></svg>',variance:'<svg viewBox="0 0 24 24"><path d="M5 18V6M5 18h14"/><path d="m8 14 3-3 3 2 4-5"/><path d="M15 8h3v3"/><path d="M8 6h3"/></svg>',utilization:'<svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-8-8v8z"/><path d="M14 4a7 7 0 0 1 6 6h-6z"/><path d="M12 8v4l3 2"/></svg>',table:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg>'};
-  panel.innerHTML=`<section class="unified-kpi-grid"><article class="unified-kpi-card tone-orange"><span class="unified-kpi-icon" aria-hidden="true">${icon.budget}</span><div><b>Total Budget</b><small id="budgetTotalSubtitle">All data</small></div><strong id="budgetTotal">0</strong></article><article class="unified-kpi-card tone-green"><span class="unified-kpi-icon" aria-hidden="true">${icon.expense}</span><div><b>Actual Expense</b><small id="budgetActualSubtitle">All data</small></div><strong id="budgetActual">0</strong></article><article id="budgetVarianceCard" class="unified-kpi-card tone-yellow"><span class="unified-kpi-icon" aria-hidden="true">${icon.variance}</span><div><b>Variance</b><small id="budgetVarianceSubtitle">Budget remaining</small></div><strong id="budgetVariance">0</strong></article><article id="budgetUtilizationCard" class="unified-kpi-card tone-blue"><span class="unified-kpi-icon" aria-hidden="true">${icon.utilization}</span><div><b>Budget Utilization</b><small id="budgetUtilizationSubtitle">Expense against budget</small></div><strong id="budgetUtilization">0%</strong></article></section><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Budget &amp; Expense Analytics</h2><p>Monitor approved budgets, actual spending, and variance by reporting period.</p></div><button id="budgetResetFilters" class="btn" type="button">Reset filters</button></div><div class="unified-filter-grid"><label><span>Period</span><select id="budgetPeriodFilter" class="filter" aria-label="Budget reporting period"><option value="all">All data</option><option value="monthly">Monthly</option><option value="last3">Last 3 months</option><option value="last6">Last 6 months</option><option value="yearly">Yearly</option><option value="custom">Custom range</option></select></label><label class="budget-period-value" hidden><span id="budgetPeriodValueLabel">Period detail</span><select id="budgetPeriodValue" class="filter" aria-label="Selected month or year"></select></label><label class="budget-custom-range" hidden><span>From month</span><select id="budgetRangeStart" class="filter" aria-label="Start month"></select></label><label class="budget-custom-range" hidden><span>To month</span><select id="budgetRangeEnd" class="filter" aria-label="End month"></select></label><label><span>Company</span><select id="budgetCompanyFilter" class="filter" aria-label="Filter by company"></select></label><label><span>Category</span><select id="budgetCategoryFilter" class="filter" aria-label="Filter by category"></select></label></div></section><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready"><div><h2>Budget vs Expense Summary</h2><p>Monthly budget and actual expense comparison</p></div><select id="budgetSummaryChartType" class="filter unified-chart-select" aria-label="Budget versus expense chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div><div class="unified-line-canvas"><canvas id="budgetSummaryChart" aria-label="Budget versus expense line chart"></canvas></div><p class="unified-chart-footer budget-summary-key" aria-label="Chart series"><span><i class="budget-summary-budget" aria-hidden="true"></i>Budget</span><span><i class="budget-summary-actual" aria-hidden="true"></i>Actual expense</span></p></article><section class="unified-chart-grid"><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready"><div><h2>Company Expense Analysis</h2><p>Actual spending distribution across companies</p></div><select id="budgetCompanyChartType" class="filter unified-chart-select" aria-label="Expense by company chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div><div class="unified-bar-canvas"><canvas id="budgetCompanyChart" aria-label="Expense by company chart"></canvas></div><p id="budgetCompanyChartFooter" class="unified-chart-footer"></p></article><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready"><div><h2>Expense by Category</h2><p>Actual expense allocation by category</p></div><select id="budgetPieCategoryFilter" class="filter unified-chart-select" aria-label="Filter expense by category"><option value="all">All categories</option></select></div><div class="unified-pie-layout"><div class="unified-pie-canvas"><canvas id="budgetCategoryChart" aria-label="Expense by category pie chart"></canvas></div><div id="budgetCategoryLegend" class="unified-chart-legend"></div></div></article></section><section class="unified-filter-card budget-portfolio-filter-card"><div class="unified-filter-heading"><div><h2>Financial Analytics</h2><p>Set the reporting period, company, and category to evaluate budget performance, spending trends, and asset activity.</p></div><button id="budgetPortfolioResetFilters" class="btn" type="button">Reset filters</button></div><div class="unified-filter-grid"><label><span>Period</span><select id="budgetPortfolioPeriodFilter" class="filter" aria-label="Portfolio reporting period"><option value="all">All data</option><option value="monthly">Monthly</option><option value="last3">Last 3 months</option><option value="last6">Last 6 months</option><option value="yearly">Yearly</option><option value="custom">Custom range</option></select></label><label class="budget-portfolio-period-value" hidden><span id="budgetPortfolioPeriodValueLabel">Period detail</span><select id="budgetPortfolioPeriodValue" class="filter" aria-label="Selected portfolio month or year"></select></label><label class="budget-portfolio-custom-range" hidden><span>From month</span><select id="budgetPortfolioRangeStart" class="filter" aria-label="Portfolio start month"></select></label><label class="budget-portfolio-custom-range" hidden><span>To month</span><select id="budgetPortfolioRangeEnd" class="filter" aria-label="Portfolio end month"></select></label><label><span>Company</span><select id="budgetPortfolioCompanyFilter" class="filter" aria-label="Filter budget overview by company"></select></label><label><span>Category</span><select id="budgetPortfolioCategoryFilter" class="filter" aria-label="Filter budget overview by category"></select></label></div></section><section class="budget-portfolio-section"><nav class="budget-portfolio-tabs manpower-planning-tabs" role="tablist" aria-label="Budget overview views"><button type="button" class="manpower-planning-tab active" data-budget-view="total"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V5"></path><path d="M4 20h17"></path><path d="m7 16 4-4 3 2 5-7"></path><path d="M16 7h3v3"></path></svg>Financial Summary</button><button type="button" class="manpower-planning-tab" data-budget-view="budgetDetails"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10 12 4l9 6"></path><path d="M5 10v8M9 10v8M15 10v8M19 10v8M3 21h18"></path></svg>Budget Allocation</button><button type="button" class="manpower-planning-tab" data-budget-view="expenseSummary"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v2H6.5A2.5 2.5 0 0 0 4 11.5v5A2.5 2.5 0 0 0 6.5 19H20v-8H6.5"></path><path d="M16 14h.01"></path></svg>Expense Analysis</button><button type="button" class="manpower-planning-tab" data-budget-view="assets"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8M12 16v4"></path></svg>Fixed Assets</button></nav><section class="card unified-table-card budget-portfolio-card"><div class="unified-table-head"><div class="unified-table-title"><span id="budgetPortfolioTitleIcon" class="unified-table-title-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4v18M12 10h7v11M8 9h1M8 13h1M8 17h1M15 14h1M15 18h1"></path></svg></span><div><h2 id="budgetPortfolioTitle">Company Financial Performance</h2><p id="budgetPortfolioSubtitle">Budget, actual spending, and variance by company</p></div></div></div><div class="unified-table-scroll"><table class="unified-data-table budget-portfolio-table"><thead id="budgetPortfolioHead"></thead><tbody id="budgetPortfolioBody"></tbody><tfoot id="budgetPortfolioFoot"></tfoot></table></div><footer class="unified-table-footer"><span id="budgetPortfolioNote">0 records</span></footer></section></section>`;
-  const budgetTabs=panel.querySelector('.budget-portfolio-tabs'),budgetPortfolioSection=budgetTabs?.closest('.budget-portfolio-section'),budgetPortfolioCard=budgetPortfolioSection?.querySelector('.budget-portfolio-card');budgetPortfolioSection?.classList.replace('budget-portfolio-section','card');budgetPortfolioSection?.classList.add('unified-table-card');budgetPortfolioCard?.classList.remove('budget-portfolio-card','card');budgetTabs?.classList.remove('budget-portfolio-tabs');budgetTabs?.classList.replace('manpower-planning-tabs','unified-tabs');budgetTabs?.querySelectorAll('.manpower-planning-tab').forEach(tab=>tab.classList.replace('manpower-planning-tab','unified-tab'));
-  const start=document.getElementById('budgetRangeStart'),end=document.getElementById('budgetRangeEnd'),period=document.getElementById('budgetPeriodFilter'),companyFilter=document.getElementById('budgetCompanyFilter'),categoryFilter=document.getElementById('budgetCategoryFilter'),pieCategoryFilter=document.getElementById('budgetPieCategoryFilter'),portfolioPeriod=document.getElementById('budgetPortfolioPeriodFilter'),portfolioPeriodValue=document.getElementById('budgetPortfolioPeriodValue'),portfolioPeriodValueLabel=document.getElementById('budgetPortfolioPeriodValueLabel'),portfolioStart=document.getElementById('budgetPortfolioRangeStart'),portfolioEnd=document.getElementById('budgetPortfolioRangeEnd'),portfolioCompanyFilter=document.getElementById('budgetPortfolioCompanyFilter'),portfolioCategoryFilter=document.getElementById('budgetPortfolioCategoryFilter'),periodValue=document.getElementById('budgetPeriodValue'),periodValueLabel=document.getElementById('budgetPeriodValueLabel'),companyChartType=document.getElementById('budgetCompanyChartType'),summaryChartType=document.getElementById('budgetSummaryChartType');
-  source.months.forEach(month=>{start.add(new Option(month,month));end.add(new Option(month,month));portfolioStart.add(new Option(month,month));portfolioEnd.add(new Option(month,month))});companyFilter.add(new Option('All companies','all'));portfolioCompanyFilter.add(new Option('All companies','all'));[...new Set([...source.budgets,...source.expenses,...source.purchases].map(row=>row.company))].filter(Boolean).sort().forEach(company=>{companyFilter.add(new Option(company,company));portfolioCompanyFilter.add(new Option(company,company))});categoryFilter.add(new Option('All categories','all'));portfolioCategoryFilter.add(new Option('All categories','all'));pieCategoryFilter.innerHTML='';pieCategoryFilter.add(new Option('All categories','all'));[...new Set([...source.budgets,...source.expenses].map(row=>row.category))].filter(Boolean).sort().forEach(category=>{categoryFilter.add(new Option(category,category));pieCategoryFilter.add(new Option(category,category));portfolioCategoryFilter.add(new Option(category,category))});
-  start.value=source.months[0];end.value=source.months[source.months.length-1];portfolioStart.value=start.value;portfolioEnd.value=end.value;
-  const sumBy=(records,key,value='amount')=>records.reduce((map,row)=>{const label=row[key]||'Uncategorized';map.set(label,(map.get(label)||0)+(Number(row[value])||0));return map},new Map());
-  const activeMonths=()=>{const latest=Math.max(0,source.months.reduce((latest,month,index)=>source.expenses.some(row=>row.month===month&&row.amount>0)?index:latest,-1)),fiscalMonths=year=>source.months.filter(month=>{const [name,shortYear]=month.split('-'),calendarYear=2000+Number(shortYear),monthIndex=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].indexOf(name);return(calendarYear===year&&monthIndex>=3)||(calendarYear===year+1&&monthIndex<3)});if(period.value==='monthly')return source.months.includes(periodValue.value)?[periodValue.value]:[];if(period.value==='yearly')return fiscalMonths(Number(periodValue.value));if(period.value==='last3')return source.months.slice(Math.max(0,latest-2),latest+1);if(period.value==='last6')return source.months.slice(Math.max(0,latest-5),latest+1);if(period.value==='custom'){const a=source.months.indexOf(start.value),b=source.months.indexOf(end.value);return source.months.slice(Math.min(a,b),Math.max(a,b)+1)}return source.months.slice()};
-  const chartInstances={};
-  function makeChart(name,canvas,config){if(chartInstances[name])chartInstances[name].destroy();chartInstances[name]=new Chart(canvas,config)}if(!Chart.registry.plugins.get('budgetCategoryCentre'))Chart.register({id:'budgetCategoryCentre',afterDatasetsDraw(instance,args,options){if(instance.canvas.id!=='budgetCategoryChart'||!options)return;const area=instance.chartArea,ctx=instance.ctx,x=(area.left+area.right)/2,y=(area.top+area.bottom)/2;ctx.save();ctx.textAlign='center';ctx.fillStyle=options.dark?'#ae9698':'#998689';ctx.font='600 9px Poppins, Arial';ctx.fillText('MMK',x,y-6);ctx.fillStyle=options.dark?'#fff1ec':'#3f292d';ctx.font='700 22px Poppins, Arial';ctx.fillText(options.total||'0',x,y+18);ctx.restore()}});
-  function render(){
-    syncPortfolioFilters();pieCategoryFilter.value=categoryFilter.value;const months=activeMonths(),monthSet=new Set(months),company=companyFilter.value,category=categoryFilter.value,department=document.getElementById('budgetExpenseDepartmentFilter')?.value||'all',matches=row=>(company==='all'||row.company===company)&&(category==='all'||row.category===category),budget=source.budgets.filter(row=>monthSet.has(row.month)&&matches(row)),actualSource=department==='all'?source.expenses.filter(row=>!row.department):source.expenses.filter(row=>row.department),actual=actualSource.filter(row=>monthSet.has(row.month)&&matches(row)&&(department==='all'||row.department===department)),purchases=source.purchases.filter(row=>(!row.month||monthSet.has(row.month))&&(company==='all'||row.company===company)&&(department==='all'||row.department===department));
-    const totalBudget=budget.reduce((sum,row)=>sum+row.amount,0),totalActual=actual.reduce((sum,row)=>sum+row.amount,0),variance=totalBudget-totalActual,utilization=totalBudget?totalActual/totalBudget*100:0;
-    const summaryFooter=panel.querySelector('.budget-summary-key');if(summaryFooter){summaryFooter.innerHTML='<span><i class="budget-summary-budget" aria-hidden="true"></i>Budget</span><span><i class="budget-summary-actual" aria-hidden="true"></i>Actual expense</span>';summaryFooter.setAttribute('aria-label','Chart series')}
-    const label=period.value==='all'?'All data':months.join(' – ');
-    [['budgetTotal',totalBudget],['budgetActual',totalActual],['budgetVariance',variance]].forEach(([id,value])=>{const metric=document.getElementById(id);metric.textContent=full(value);metric.removeAttribute('title');metric.setAttribute('aria-label',full(value)+' MMK')});document.getElementById('budgetUtilization').textContent=utilization.toFixed(1)+'%';
-    const selectedRecords=budget.length,remaining=Math.max(0,100-utilization),actualCompanies=new Set(actual.filter(row=>row.amount>0).map(row=>row.company)).size,status=utilization<=80?'On Budget':(utilization<=100?'Review Budget':'Over Budget'),overBudget=variance<0||utilization>100,varianceCard=document.getElementById('budgetVarianceCard'),utilizationCard=document.getElementById('budgetUtilizationCard');varianceCard.classList.toggle('tone-red',overBudget);varianceCard.classList.toggle('tone-yellow',!overBudget);utilizationCard.classList.toggle('tone-red',utilization>100);utilizationCard.classList.toggle('tone-blue',utilization<=100);document.getElementById('budgetTotalSubtitle').textContent=selectedRecords+' records selected';document.getElementById('budgetActualSubtitle').textContent=utilization<=100?remaining.toFixed(1)+'% left of approved budget':(utilization-100).toFixed(1)+'% above approved budget';document.getElementById('budgetVarianceSubtitle').textContent=status;document.getElementById('budgetUtilizationSubtitle').textContent='Across '+actualCompanies+' '+(actualCompanies===1?'Company':'Companies');
-    const dark=document.body.classList.contains('dark'),text=dark?'#ead4cf':'#806864',grid=dark?'rgba(255,221,208,.17)':'rgba(125,92,87,.18)',card=dark?'#32171e':'#fffaf7',tooltip={displayColors:true,backgroundColor:'#171114',titleColor:'#fff7f2',bodyColor:'#fff7f2',borderColor:'#d99284',borderWidth:2,position:'nearest',padding:{x:11,y:10},cornerRadius:8,caretPadding:10,boxPadding:4,titleFont:{family:'Poppins',size:11,weight:'700'},bodyFont:{family:'Poppins',size:12,weight:'600'}},moneyTooltip={...tooltip,callbacks:{title:context=>context[0]?.dataset?.label||context[0]?.label||'Amount',label:context=>full(context.raw)+' MMK',labelColor:context=>{const shared=context.chart.canvas.id==='budgetSummaryChart',color=shared?(context.datasetIndex===0?(dark?'#4eb4cd':'#16866a'):(dark?'#ff8755':'#d12a31')):(Array.isArray(context.dataset.backgroundColor)?context.dataset.backgroundColor[context.dataIndex]:context.dataset.borderColor);return{backgroundColor:color,borderColor:color,borderWidth:1,borderRadius:2}}}};
-    const monthlyBudget=source.months.map(month=>budget.filter(row=>row.month===month).reduce((sum,row)=>sum+row.amount,0)),monthlyActual=source.months.map(month=>actual.filter(row=>row.month===month).reduce((sum,row)=>sum+row.amount,0));
-    const summaryBar=summaryChartType.value==='bar';makeChart('summary',document.getElementById('budgetSummaryChart'),{type:summaryBar?'bar':'line',data:{labels:months,datasets:[{label:'Budget',data:months.map(month=>monthlyBudget[source.months.indexOf(month)]),borderColor:dark?'#4eb4cd':'#16866a',backgroundColor:'transparent',hoverBackgroundColor:'transparent',fill:false,tension:.42,pointRadius:summaryBar?0:4,pointHoverRadius:summaryBar?0:6,borderWidth:summaryBar?0:3,borderRadius:summaryBar?{topLeft:10,topRight:10,bottomLeft:0,bottomRight:0}:0,maxBarThickness:42},{label:'Actual expense',data:months.map(month=>monthlyActual[source.months.indexOf(month)]),borderColor:dark?'#ff8755':'#d12a31',backgroundColor:'transparent',hoverBackgroundColor:'transparent',fill:false,tension:.42,pointRadius:summaryBar?0:4,pointHoverRadius:summaryBar?0:6,borderWidth:summaryBar?0:3,borderRadius:summaryBar?{topLeft:10,topRight:10,bottomLeft:0,bottomRight:0}:0,maxBarThickness:42}]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:900,easing:'easeOutCubic'},transitions:{active:{animation:{duration:0}}},plugins:{legend:{display:false},tooltip:moneyTooltip},datasets:{bar:{categoryPercentage:.8,barPercentage:.76}},scales:{x:{offset:summaryBar,grid:{color:grid},ticks:{color:text,font:{family:'Poppins',size:9}}},y:{beginAtZero:true,grid:{color:grid},ticks:{color:text,callback:value=>fmt(value),font:{family:'Poppins',size:9}}}}}});
-    if(period.value==='yearly'){const fiscalSummary=chartInstances.summary;if(fiscalSummary){fiscalSummary.data.labels=['FY '+periodValue.value+'-'+(Number(periodValue.value)+1)];fiscalSummary.data.datasets[0].data=[totalBudget];fiscalSummary.data.datasets[1].data=[totalActual];fiscalSummary.update()}}
-    const companyChartGroup=department==='all'?(company==='all'?'company':'department'):'category',chartActual=company!=='all'&&department==='all'?source.expenses.filter(row=>row.department&&monthSet.has(row.month)&&matches(row)):actual,companyItems=companyChartGroup==='department'?[...sumBy(chartActual,'department').entries()].filter(([label,value])=>label&&value>0).sort((a,b)=>b[1]-a[1]):[...sumBy(actual,companyChartGroup).entries()].filter(([,value])=>value>0).sort((a,b)=>b[1]-a[1]),companyChartTitle=document.querySelector('#budgetCompanyChart')?.closest('.unified-chart-card')?.querySelector('h2'),companyChartSubtitle=document.querySelector('#budgetCompanyChart')?.closest('.unified-chart-card')?.querySelector('p');if(companyChartTitle)companyChartTitle.textContent=companyChartGroup==='company'?'Company Expense Analysis':(companyChartGroup==='department'?'Department Expense Analysis':'Category Expense Analysis');if(companyChartSubtitle)companyChartSubtitle.textContent=companyChartGroup==='company'?'Actual spending distribution across companies':(companyChartGroup==='department'?'Actual spending distribution across departments':'Actual spending distribution across categories');
-    const companyLine=companyChartType.value==='line',companyCanvas=document.getElementById('budgetCompanyChart'),companyWrap=companyCanvas.parentElement,companyHeight=Math.max(280,companyItems.length*34+70),companyContext=companyCanvas.getContext('2d'),companyGradient=companyContext.createLinearGradient(0,0,companyCanvas.clientWidth||700,0);if(companyWrap)companyWrap.style.height=(companyLine?330:companyHeight)+'px';companyGradient.addColorStop(0,dark?'#c94a42':'#d12a31');companyGradient.addColorStop(1,dark?'#ef8563':'#f38c47');const companyScales=companyLine?{x:{grid:{color:grid},ticks:{color:text,font:{family:'Poppins',size:9}}},y:{beginAtZero:true,grid:{color:grid},ticks:{color:text,callback:value=>fmt(value),font:{family:'Poppins',size:9}}}}:{y:{grid:{display:false},ticks:{padding:9,color:text,font:{family:'Poppins',size:10,weight:'600'}}},x:{beginAtZero:true,grid:{color:grid},ticks:{color:text,callback:value=>fmt(value),font:{family:'Poppins',size:9}}}};makeChart('company',companyCanvas,{type:companyLine?'line':'bar',data:{labels:companyItems.map(row=>row[0]),datasets:[{label:companyChartGroup==='company'?'Actual expense':(companyChartGroup==='department'?'Department expense':'Category expense'),data:companyItems.map(row=>row[1]),backgroundColor:companyLine?(dark?'rgba(255,135,85,.14)':'rgba(209,42,49,.11)'):companyGradient,borderColor:dark?'#ff9569':'#d12a31',borderWidth:companyLine?2.5:1.5,borderRadius:companyLine?0:7,barThickness:companyLine?undefined:24,categoryPercentage:.74,barPercentage:.9,fill:companyLine,tension:.34,pointRadius:companyLine?4:0,pointHoverRadius:companyLine?6:0,pointBackgroundColor:dark?'#ff9a70':'#c9252d'}]},options:{indexAxis:companyLine?'x':'y',responsive:true,maintainAspectRatio:false,animation:{duration:900,easing:'easeOutCubic'},plugins:{legend:{display:false},tooltip:moneyTooltip},scales:companyScales}});document.getElementById('budgetCompanyChartFooter').textContent='Total: '+full(totalActual)+' MMK';const categories=sumBy(actual,'category'),categoryItems=[...categories.entries()].filter(([,value])=>value>0).sort((a,b)=>b[1]-a[1]),colors=dark?['#ff8755','#f5c66b','#7056d8','#4eb4cd','#d85b64','#82d5bb']:['#d12a31','#f06428','#7056d8','#3194ad','#b94f78','#16866a'];
-    makeChart('category',document.getElementById('budgetCategoryChart'),{type:'doughnut',data:{labels:categoryItems.map(row=>row[0]),datasets:[{data:categoryItems.map(row=>row[1]),backgroundColor:categoryItems.map((_,index)=>colors[index%colors.length]),borderColor:card,borderWidth:4,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:900,easing:'easeOutCubic'},cutout:'64%',plugins:{legend:{display:false},budgetCategoryCentre:{total:fmt(totalActual),dark},tooltip:moneyTooltip}}});
-    document.getElementById('budgetCategoryLegend').innerHTML=categoryItems.map((row,index)=>`<div><span><i class="dot" style="background:${colors[index%colors.length]}"></i>${clean(row[0])}</span><b><strong>${full(row[1])}</strong><small>MMK</small></b></div>`).join('');
-    const portfolioView=panel.dataset.budgetPortfolioView||'total',portfolioHead=document.getElementById('budgetPortfolioHead'),portfolioBody=document.getElementById('budgetPortfolioBody'),portfolioFoot=document.getElementById('budgetPortfolioFoot'),portfolioTitle=document.getElementById('budgetPortfolioTitle'),portfolioSubtitle=document.getElementById('budgetPortfolioSubtitle'),portfolioNote=document.getElementById('budgetPortfolioNote'),portfolioTitleIcon=document.getElementById('budgetPortfolioTitleIcon'),portfolioCompany=portfolioCompanyFilter.value;panel.querySelectorAll('[data-budget-view]').forEach(button=>button.classList.toggle('active',button.dataset.budgetView===portfolioView));if(portfolioView==='total'){const companies=[...new Set([...budget,...actual].map(row=>row.company))].filter(Boolean).filter(companyName=>portfolioCompany==='all'||companyName===portfolioCompany).sort(),rows=companies.map(companyName=>{const companyBudget=budget.filter(row=>row.company===companyName).reduce((sum,row)=>sum+row.amount,0),companyActual=actual.filter(row=>row.company===companyName).reduce((sum,row)=>sum+row.amount,0),companyVariance=companyBudget-companyActual,companyUtilization=companyBudget?companyActual/companyBudget*100:0,status=companyUtilization<=80?'On Budget':(companyUtilization<=100?'Review Budget':'Over Budget');return{companyName,companyBudget,companyActual,companyVariance,companyUtilization,status}});portfolioTitleIcon.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4v18M12 10h7v11M8 9h1M8 13h1M8 17h1M15 14h1M15 18h1"></path></svg>';portfolioTitle.textContent='Company Financial Performance';portfolioSubtitle.textContent='Budget, actual spending, and variance by company';portfolioHead.innerHTML='<tr><th>Company</th><th>Budget (MMK)</th><th>Actual Expense (MMK)</th><th>Variance (MMK)</th><th>Utilization</th></tr>';portfolioBody.innerHTML=rows.map(row=>{const summary=`<tr class="budget-company-row ${panel.dataset.budgetSelectedCompany===row.companyName?'selected':''}" data-budget-company="${clean(row.companyName)}"><td>${clean(row.companyName)}</td><td>${full(row.companyBudget)}</td><td>${full(row.companyActual)}</td><td class="${row.companyVariance<0?'budget-overrun':''}">${full(row.companyVariance)}</td><td><div class="budget-utilization"><span><i style="width:${Math.min(100,row.companyUtilization)}%"></i></span><b>${row.companyUtilization.toFixed(1)}%</b><em class="budget-status ${row.companyUtilization>100?'over':(row.companyUtilization>80?'review':'on')}">${row.status}</em></div></td></tr>`;if(panel.dataset.budgetSelectedCompany!==row.companyName)return summary;const monthlyRows=months.map(month=>{const monthBudget=budget.filter(item=>item.company===row.companyName&&item.month===month).reduce((sum,item)=>sum+item.amount,0),monthActual=actual.filter(item=>item.company===row.companyName&&item.month===month).reduce((sum,item)=>sum+item.amount,0),monthVariance=monthBudget-monthActual,monthUtilization=monthBudget?monthActual/monthBudget*100:0,monthStatus=monthUtilization<=80?'On Budget':(monthUtilization<=100?'Review Budget':'Over Budget');return{month,monthBudget,monthActual,monthVariance,monthUtilization,monthStatus}});return summary+monthlyRows.map(monthRow=>`<tr class="budget-monthly-row"><td><span class="budget-month-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16M8 14h3"></path></svg></span>${monthRow.month}</td><td>${full(monthRow.monthBudget)}</td><td>${full(monthRow.monthActual)}</td><td class="${monthRow.monthVariance<0?'budget-overrun':''}">${full(monthRow.monthVariance)}</td><td><div class="budget-utilization"><span><i style="width:${Math.min(100,monthRow.monthUtilization)}%"></i></span><b>${monthRow.monthUtilization.toFixed(1)}%</b><em class="budget-status ${monthRow.monthUtilization>100?'over':(monthRow.monthUtilization>80?'review':'on')}">${monthRow.monthStatus}</em></div></td></tr>`).join('')}).join('');portfolioFoot.innerHTML='<tr><th>Grand Total</th><th>'+full(rows.reduce((sum,row)=>sum+row.companyBudget,0))+'</th><th>'+full(rows.reduce((sum,row)=>sum+row.companyActual,0))+'</th><th>'+full(rows.reduce((sum,row)=>sum+row.companyVariance,0))+'</th><th>'+(rows.reduce((sum,row)=>sum+row.companyBudget,0)?rows.reduce((sum,row)=>sum+row.companyActual,0)/rows.reduce((sum,row)=>sum+row.companyBudget,0)*100:0).toFixed(1)+'%</th></tr>';portfolioNote.textContent='Showing '+rows.length+' of '+[...new Set([...source.budgets,...source.expenses].map(row=>row.company).filter(Boolean))].length+' Companies';}else if(portfolioView==='budgetDetails'){const groups=new Map();budget.forEach(row=>{const current=groups.get(row.company)||{company:row.company,amount:0,records:[]};current.amount+=row.amount;current.records.push(row);groups.set(row.company,current)});const rows=[...groups.values()].sort((a,b)=>a.company.localeCompare(b.company)),reportingPeriod=months.length===source.months.length?'Financial Year 26–27':(months.length===1?months[0]:months[0]+' to '+months[months.length-1]);portfolioTitleIcon.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10 12 4l9 6"></path><path d="M5 10v8M9 10v8M15 10v8M19 10v8M3 21h18"></path></svg>';portfolioTitle.textContent='Company Budget Allocation';portfolioSubtitle.textContent='Approved budgets by company and period';portfolioHead.innerHTML='<tr><th>Company</th><th>Categories</th><th>Reporting Period</th><th>Budget (MMK)</th></tr>';portfolioBody.innerHTML=rows.map(row=>{const summary=`<tr class="budget-detail-company-row ${panel.dataset.budgetSelectedDetailCompany===row.company?'selected':''}" data-budget-detail-company="${clean(row.company)}"><td>${clean(row.company)}</td><td>${new Set(row.records.map(item=>item.category)).size}</td><td>${reportingPeriod}</td><td>${full(row.amount)}</td></tr>`;if(panel.dataset.budgetSelectedDetailCompany!==row.company)return summary;const detailGroups=new Map();row.records.forEach(item=>{const key=item.category+'|'+item.description,current=detailGroups.get(key)||{category:item.category,description:item.description,amount:0};current.amount+=item.amount;detailGroups.set(key,current)});const records=[...detailGroups.values()].sort((a,b)=>a.description.localeCompare(b.description)||a.category.localeCompare(b.category)),categoryTone=category=>({Computer:'computer','Device & Accessories':'devices','Domain / Email':'domain',Software:'software','Internet Bill':'internet','Repair & Maintenance':'maintenance'}[category]||'other');return summary+records.map(item=>{const descriptionKey=row.company+'|'+item.category+'|'+item.description,summary=`<tr class="budget-detail-record-row budget-description-row ${panel.dataset.budgetSelectedDescription===descriptionKey?'selected':''}" data-budget-description-key="${clean(descriptionKey)}"><td>${clean(item.description)}</td><td><span class="budget-category-badge budget-category-${categoryTone(item.category)}">${clean(item.category)}</span></td><td colspan="2">${full(item.amount)}</td></tr>`;if(panel.dataset.budgetSelectedDescription!==descriptionKey)return summary;const monthlyRecords=row.records.filter(record=>record.category===item.category&&record.description===item.description).slice().sort((a,b)=>a.month.localeCompare(b.month));return summary+'<tr class="budget-description-period-row"><td colspan="4"><div class="budget-description-month-grid">'+months.map(month=>{const record=monthlyRecords.find(item=>item.month===month),amount=record?record.amount:0;return`<div><small>${clean(month)}</small><strong>${full(amount)}</strong></div>`}).join('')+'</div></td></tr>'}).join('')}).join('');portfolioFoot.innerHTML='<tr><th colspan="3">Grand Total</th><th>'+full(rows.reduce((sum,row)=>sum+row.amount,0))+'</th></tr>';portfolioNote.textContent='Showing '+rows.length+' of '+[...new Set(source.budgets.map(item=>item.company).filter(Boolean))].length+' Companies';}else if(portfolioView==='expenseSummary'){const expenseActual=departmentActuals.filter(row=>monthSet.has(row.month)&&matches(row)&&(department==='all'||row.department===department)),groups=new Map();expenseActual.forEach(row=>{const current=groups.get(row.company)||{company:row.company,amount:0};current.amount+=row.amount;groups.set(row.company,current)});const rows=[...groups.values()].filter(row=>portfolioCompany==='all'||row.company===portfolioCompany).sort((a,b)=>a.company.localeCompare(b.company)),reportingPeriod=months.length===source.months.length?'Financial Year 26–27':(months.length===1?months[0]:months[0]+' to '+months[months.length-1]);portfolioTitleIcon.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v2H6.5A2.5 2.5 0 0 0 4 11.5v5A2.5 2.5 0 0 0 6.5 19H20v-8H6.5"></path><path d="M16 14h.01"></path></svg>';portfolioTitle.textContent='Company Expense Performance';portfolioSubtitle.textContent='Actual expenses by company and reporting period';portfolioHead.innerHTML='<tr><th>Company</th><th>Reporting Period</th><th>Actual Expense (MMK)</th></tr>';portfolioBody.innerHTML=rows.map(row=>{const selected=panel.dataset.budgetSelectedExpenseCompany===row.company,summary='<tr class="budget-expense-summary-row '+(selected?'selected':'')+'" data-budget-expense-company="'+clean(row.company)+'"><td>'+clean(row.company)+'</td><td>'+clean(reportingPeriod)+'</td><td class="numeric-cell is-numeric">'+full(row.amount)+'</td></tr>';if(!selected)return summary;const departments=new Map();expenseActual.filter(item=>item.company===row.company).forEach(item=>{const current=departments.get(item.department)||{department:item.department,amount:0,categories:new Set(),months:new Set()};current.amount+=item.amount;current.categories.add(item.category);current.months.add(item.month);departments.set(item.department,current)});return summary+[...departments.values()].filter(item=>item.department&&item.amount>0).sort((a,b)=>a.department.localeCompare(b.department)).map(item=>{const departmentKey=row.company+'|'+item.department,departmentSelected=panel.dataset.budgetSelectedExpenseDepartment===departmentKey,departmentRow='<tr class="budget-expense-department-row '+(departmentSelected?'selected':'')+'" data-budget-expense-department-key="'+clean(departmentKey)+'"><td>'+clean(item.department)+'</td><td></td><td class="numeric-cell is-numeric">'+full(item.amount)+'</td></tr>';if(!departmentSelected)return departmentRow;const periods=months.map(month=>{const records=expenseActual.filter(record=>record.company===row.company&&record.department===item.department&&record.month===month);return{month,amount:records.reduce((sum,record)=>sum+record.amount,0),categories:new Set(records.map(record=>record.category))}}).filter(period=>period.amount>0);return departmentRow+periods.map(period=>{const periodKey=row.company+'|'+item.department+'|'+period.month,periodSelected=panel.dataset.budgetSelectedExpensePeriod===periodKey,periodRow='<tr class="budget-expense-period-row '+(periodSelected?'selected':'')+'" data-budget-expense-period-key="'+clean(periodKey)+'"><td><span class="budget-month-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16M8 14h3"></path></svg></span>'+clean(period.month)+'</td><td>'+period.categories.size+' '+(period.categories.size===1?'Category':'Categories')+'</td><td class="numeric-cell is-numeric">'+full(period.amount)+'</td></tr>';if(!periodSelected)return periodRow;const categories=new Map();expenseActual.filter(record=>record.company===row.company&&record.department===item.department&&record.month===period.month).forEach(record=>categories.set(record.category,(categories.get(record.category)||0)+record.amount));return periodRow+[...categories.entries()].filter(([,amount])=>amount>0).sort((a,b)=>a[0].localeCompare(b[0])).map(([category,amount])=>'<tr class="budget-expense-category-row"><td colspan="2">'+clean(category)+'</td><td class="numeric-cell is-numeric">'+full(amount)+'</td></tr>').join('')}).join('')}).join('')}).join('');portfolioFoot.innerHTML='<tr><th>Grand Total</th><th>'+clean(reportingPeriod)+'</th><th class="numeric-cell is-numeric">'+full(rows.reduce((sum,row)=>sum+row.amount,0))+'</th></tr>';portfolioNote.textContent='Showing '+rows.length+' of '+[...new Set(source.expenses.map(item=>item.company).filter(Boolean))].length+' companies';}else{const groups=new Map();purchases.forEach(row=>{const current=groups.get(row.company)||{company:row.company,laptop:0,desktop:0};current.laptop+=Number(row.laptop)||0;current.desktop+=Number(row.desktop)||0;groups.set(row.company,current)});const rows=[...groups.values()].filter(row=>portfolioCompany==='all'||row.company===portfolioCompany).sort((a,b)=>a.company.localeCompare(b.company));portfolioTitleIcon.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8M12 16v4"></path></svg>';portfolioTitle.textContent='Fixed Asset Purchases';portfolioSubtitle.textContent='Laptop and desktop purchases by company';portfolioHead.innerHTML='<tr><th>Company</th><th>Laptops</th><th>Desktops</th><th>Total Assets</th></tr>';portfolioBody.innerHTML=rows.map(row=>{const summary=`<tr class="budget-asset-row ${panel.dataset.budgetSelectedAsset===row.company?'selected':''}" data-budget-asset="${clean(row.company)}"><td>${clean(row.company)}</td><td>${row.laptop}</td><td>${row.desktop}</td><td>${row.laptop+row.desktop}</td></tr>`;if(panel.dataset.budgetSelectedAsset!==row.company)return summary;const departmentGroups=new Map();purchases.filter(item=>item.company===row.company).forEach(item=>{const current=departmentGroups.get(item.department)||{department:item.department,laptop:0,desktop:0};current.laptop+=Number(item.laptop)||0;current.desktop+=Number(item.desktop)||0;departmentGroups.set(item.department,current)});const departments=[...departmentGroups.values()].sort((a,b)=>a.department.localeCompare(b.department));return summary+departments.map(department=>{const departmentKey=row.company+'|'+department.department,departmentSummary=`<tr class="budget-asset-department-row ${panel.dataset.budgetSelectedAssetDepartment===departmentKey?'selected':''}" data-budget-asset-department="${clean(departmentKey)}"><td>${clean(department.department)}</td><td>${department.laptop}</td><td>${department.desktop}</td><td>${department.laptop+department.desktop}</td></tr>`;if(panel.dataset.budgetSelectedAssetDepartment!==departmentKey)return departmentSummary;const periodRows=months.map(month=>{const periodPurchases=purchases.filter(item=>item.company===row.company&&item.department===department.department&&item.month===month),laptop=periodPurchases.reduce((sum,item)=>sum+(Number(item.laptop)||0),0),desktop=periodPurchases.reduce((sum,item)=>sum+(Number(item.desktop)||0),0);return{month,laptop,desktop}}).filter(item=>item.laptop||item.desktop);return departmentSummary+periodRows.map(item=>`<tr class="budget-asset-period-row"><td><span class="budget-month-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16M8 14h3"></path></svg></span>${item.month}</td><td>${item.laptop}</td><td>${item.desktop}</td><td>${item.laptop+item.desktop}</td></tr>`).join('')}).join('')}).join('');portfolioFoot.innerHTML='<tr><th>Grand Total</th><th>'+rows.reduce((sum,row)=>sum+row.laptop,0)+'</th><th>'+rows.reduce((sum,row)=>sum+row.desktop,0)+'</th><th>'+rows.reduce((sum,row)=>sum+row.laptop+row.desktop,0)+'</th></tr>';portfolioNote.textContent=rows.length+' companies · '+label;}
+(function () {
+  const panel = document.getElementById("budgetExpenseDashboard");
+  const source = window.budgetExpenseData;
+  if (!panel || !source) return;
+  const departmentActuals = source.expenses.filter((row) => row.department);
+  source.purchases.forEach((row) => {
+    if (row.company === "Innobuilder" && row.department === "Common")
+      row.department = "Construction";
+  });
+  panel.__budgetExpenseDetailData = source;
+  const fmt = (value) => {
+    const number = Number(value) || 0,
+      absolute = Math.abs(number),
+      compact = (divisor, suffix) => {
+        const digits =
+          absolute / divisor >= 100 ? 0 : absolute / divisor >= 10 ? 1 : 2;
+        return (
+          (number / divisor).toFixed(digits).replace(/\\.?0+$/, "") + suffix
+        );
+      };
+    if (absolute >= 1000000000) return compact(1000000000, "B");
+    if (absolute >= 1000000) return compact(1000000, "M");
+    if (absolute >= 1000) return compact(1000, "K");
+    return new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(
+      Math.round(number),
+    );
+  };
+  const full = (value) =>
+    new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(
+      Math.round(Number(value) || 0),
+    );
+  const clean = (value) =>
+    String(value ?? "").replace(
+      /[&<>'"]/g,
+      (char) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          "'": "&#39;",
+          '"': "&quot;",
+        })[char],
+    );
+  const icon = {
+    budget:
+      '<svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13M3 10h18M9 21v-5h6v5M8 12h1M15 12h1"/></svg>',
+    expense:
+      '<svg viewBox="0 0 24 24"><path d="M3 7h18v11H3z"/><path d="M3 10h18M7 15h4M7 7V5h10v2"/><circle cx="17" cy="15" r="1"/></svg>',
+    variance:
+      '<svg viewBox="0 0 24 24"><path d="M5 18V6M5 18h14"/><path d="m8 14 3-3 3 2 4-5"/><path d="M15 8h3v3"/><path d="M8 6h3"/></svg>',
+    utilization:
+      '<svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-8-8v8z"/><path d="M14 4a7 7 0 0 1 6 6h-6z"/><path d="M12 8v4l3 2"/></svg>',
+    table:
+      '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 4v16"/></svg>',
+  };
+  panel.innerHTML = `<section class="unified-kpi-grid"><article class="unified-kpi-card tone-orange"><span class="unified-kpi-icon" aria-hidden="true">${icon.budget}</span><div><b>Total Budget</b><small id="budgetTotalSubtitle">All data</small></div><strong id="budgetTotal">0</strong></article><article class="unified-kpi-card tone-green"><span class="unified-kpi-icon" aria-hidden="true">${icon.expense}</span><div><b>Actual Expense</b><small id="budgetActualSubtitle">All data</small></div><strong id="budgetActual">0</strong></article><article id="budgetVarianceCard" class="unified-kpi-card tone-yellow"><span class="unified-kpi-icon" aria-hidden="true">${icon.variance}</span><div><b>Variance</b><small id="budgetVarianceSubtitle">Budget remaining</small></div><strong id="budgetVariance">0</strong></article><article id="budgetUtilizationCard" class="unified-kpi-card tone-blue"><span class="unified-kpi-icon" aria-hidden="true">${icon.utilization}</span><div><b>Budget Utilization</b><small id="budgetUtilizationSubtitle">Expense against budget</small></div><strong id="budgetUtilization">0%</strong></article></section><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Budget &amp; Expense Analytics</h2><p>Monitor approved budgets, actual spending, and variance by reporting period.</p></div><button id="budgetResetFilters" class="btn" type="button">Reset filters</button></div><div class="unified-filter-grid"><label><span>Period</span><select id="budgetPeriodFilter" class="filter" aria-label="Budget reporting period"><option value="all">All data</option><option value="monthly">Monthly</option><option value="last3">Last 3 months</option><option value="last6">Last 6 months</option><option value="yearly">Yearly</option><option value="custom">Custom range</option></select></label><label class="budget-period-value" hidden><span id="budgetPeriodValueLabel">Period detail</span><select id="budgetPeriodValue" class="filter" aria-label="Selected month or year"></select></label><label class="budget-custom-range" hidden><span>From month</span><select id="budgetRangeStart" class="filter" aria-label="Start month"></select></label><label class="budget-custom-range" hidden><span>To month</span><select id="budgetRangeEnd" class="filter" aria-label="End month"></select></label><label><span>Company</span><select id="budgetCompanyFilter" class="filter" aria-label="Filter by company"></select></label><label><span>Category</span><select id="budgetCategoryFilter" class="filter" aria-label="Filter by category"></select></label></div></section><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready"><div><h2>Budget vs Expense Summary</h2><p>Monthly budget and actual expense comparison</p></div><select id="budgetSummaryChartType" class="filter unified-chart-select" aria-label="Budget versus expense chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div><div class="unified-line-canvas"><canvas id="budgetSummaryChart" aria-label="Budget versus expense line chart"></canvas></div><p class="unified-chart-footer budget-summary-key" aria-label="Chart series"><span><i class="budget-summary-budget" aria-hidden="true"></i>Budget</span><span><i class="budget-summary-actual" aria-hidden="true"></i>Actual expense</span></p></article><section class="unified-chart-grid"><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready"><div><h2>Company Expense Analysis</h2><p>Actual spending distribution across companies</p></div><select id="budgetCompanyChartType" class="filter unified-chart-select" aria-label="Expense by company chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div><div class="unified-bar-canvas"><canvas id="budgetCompanyChart" aria-label="Expense by company chart"></canvas></div><p id="budgetCompanyChartFooter" class="unified-chart-footer"></p></article><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready"><div><h2>Expense by Category</h2><p>Actual expense allocation by category</p></div><select id="budgetPieCategoryFilter" class="filter unified-chart-select" aria-label="Filter expense by category"><option value="all">All categories</option></select></div><div class="unified-pie-layout"><div class="unified-pie-canvas"><canvas id="budgetCategoryChart" aria-label="Expense by category pie chart"></canvas></div><div id="budgetCategoryLegend" class="unified-chart-legend"></div></div></article></section><section class="unified-filter-card budget-portfolio-filter-card"><div class="unified-filter-heading"><div><h2>Financial Analytics</h2><p>Set the reporting period, company, and category to evaluate budget performance, spending trends, and asset activity.</p></div><button id="budgetPortfolioResetFilters" class="btn" type="button">Reset filters</button></div><div class="unified-filter-grid"><label><span>Period</span><select id="budgetPortfolioPeriodFilter" class="filter" aria-label="Portfolio reporting period"><option value="all">All data</option><option value="monthly">Monthly</option><option value="last3">Last 3 months</option><option value="last6">Last 6 months</option><option value="yearly">Yearly</option><option value="custom">Custom range</option></select></label><label class="budget-portfolio-period-value" hidden><span id="budgetPortfolioPeriodValueLabel">Period detail</span><select id="budgetPortfolioPeriodValue" class="filter" aria-label="Selected portfolio month or year"></select></label><label class="budget-portfolio-custom-range" hidden><span>From month</span><select id="budgetPortfolioRangeStart" class="filter" aria-label="Portfolio start month"></select></label><label class="budget-portfolio-custom-range" hidden><span>To month</span><select id="budgetPortfolioRangeEnd" class="filter" aria-label="Portfolio end month"></select></label><label><span>Company</span><select id="budgetPortfolioCompanyFilter" class="filter" aria-label="Filter budget overview by company"></select></label><label><span>Category</span><select id="budgetPortfolioCategoryFilter" class="filter" aria-label="Filter budget overview by category"></select></label></div></section><section class="budget-portfolio-section"><nav class="budget-portfolio-tabs manpower-planning-tabs" role="tablist" aria-label="Budget overview views"><button type="button" class="manpower-planning-tab active" data-budget-view="total"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V5"></path><path d="M4 20h17"></path><path d="m7 16 4-4 3 2 5-7"></path><path d="M16 7h3v3"></path></svg>Financial Summary</button><button type="button" class="manpower-planning-tab" data-budget-view="budgetDetails"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10 12 4l9 6"></path><path d="M5 10v8M9 10v8M15 10v8M19 10v8M3 21h18"></path></svg>Budget Allocation</button><button type="button" class="manpower-planning-tab" data-budget-view="expenseSummary"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v2H6.5A2.5 2.5 0 0 0 4 11.5v5A2.5 2.5 0 0 0 6.5 19H20v-8H6.5"></path><path d="M16 14h.01"></path></svg>Expense Analysis</button><button type="button" class="manpower-planning-tab" data-budget-view="assets"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8M12 16v4"></path></svg>Fixed Assets</button></nav><section class="card unified-table-card budget-portfolio-card"><div class="unified-table-head"><div class="unified-table-title"><span id="budgetPortfolioTitleIcon" class="unified-table-title-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4v18M12 10h7v11M8 9h1M8 13h1M8 17h1M15 14h1M15 18h1"></path></svg></span><div><h2 id="budgetPortfolioTitle">Company Financial Performance</h2><p id="budgetPortfolioSubtitle">Budget, actual spending, and variance by company</p></div></div></div><div class="unified-table-scroll"><table class="unified-data-table budget-portfolio-table"><thead id="budgetPortfolioHead"></thead><tbody id="budgetPortfolioBody"></tbody><tfoot id="budgetPortfolioFoot"></tfoot></table></div><footer class="unified-table-footer"><span id="budgetPortfolioNote">0 records</span></footer></section></section>`;
+  const budgetTabs = panel.querySelector(".budget-portfolio-tabs"),
+    budgetPortfolioSection = budgetTabs?.closest(".budget-portfolio-section"),
+    budgetPortfolioCard = budgetPortfolioSection?.querySelector(
+      ".budget-portfolio-card",
+    );
+  budgetPortfolioSection?.classList.replace("budget-portfolio-section", "card");
+  budgetPortfolioSection?.classList.add("unified-table-card");
+  budgetPortfolioCard?.classList.remove("budget-portfolio-card", "card");
+  budgetTabs?.classList.remove("budget-portfolio-tabs");
+  budgetTabs?.classList.replace("manpower-planning-tabs", "unified-tabs");
+  budgetTabs
+    ?.querySelectorAll(".manpower-planning-tab")
+    .forEach((tab) =>
+      tab.classList.replace("manpower-planning-tab", "unified-tab"),
+    );
+  const start = document.getElementById("budgetRangeStart"),
+    end = document.getElementById("budgetRangeEnd"),
+    period = document.getElementById("budgetPeriodFilter"),
+    companyFilter = document.getElementById("budgetCompanyFilter"),
+    categoryFilter = document.getElementById("budgetCategoryFilter"),
+    pieCategoryFilter = document.getElementById("budgetPieCategoryFilter"),
+    portfolioPeriod = document.getElementById("budgetPortfolioPeriodFilter"),
+    portfolioPeriodValue = document.getElementById(
+      "budgetPortfolioPeriodValue",
+    ),
+    portfolioPeriodValueLabel = document.getElementById(
+      "budgetPortfolioPeriodValueLabel",
+    ),
+    portfolioStart = document.getElementById("budgetPortfolioRangeStart"),
+    portfolioEnd = document.getElementById("budgetPortfolioRangeEnd"),
+    portfolioCompanyFilter = document.getElementById(
+      "budgetPortfolioCompanyFilter",
+    ),
+    portfolioCategoryFilter = document.getElementById(
+      "budgetPortfolioCategoryFilter",
+    ),
+    periodValue = document.getElementById("budgetPeriodValue"),
+    periodValueLabel = document.getElementById("budgetPeriodValueLabel"),
+    companyChartType = document.getElementById("budgetCompanyChartType"),
+    summaryChartType = document.getElementById("budgetSummaryChartType");
+  source.months.forEach((month) => {
+    start.add(new Option(month, month));
+    end.add(new Option(month, month));
+    portfolioStart.add(new Option(month, month));
+    portfolioEnd.add(new Option(month, month));
+  });
+  companyFilter.add(new Option("All companies", "all"));
+  portfolioCompanyFilter.add(new Option("All companies", "all"));
+  [
+    ...new Set(
+      [...source.budgets, ...source.expenses, ...source.purchases].map(
+        (row) => row.company,
+      ),
+    ),
+  ]
+    .filter(Boolean)
+    .sort()
+    .forEach((company) => {
+      companyFilter.add(new Option(company, company));
+      portfolioCompanyFilter.add(new Option(company, company));
+    });
+  categoryFilter.add(new Option("All categories", "all"));
+  portfolioCategoryFilter.add(new Option("All categories", "all"));
+  pieCategoryFilter.innerHTML = "";
+  pieCategoryFilter.add(new Option("All categories", "all"));
+  [
+    ...new Set(
+      [...source.budgets, ...source.expenses].map((row) => row.category),
+    ),
+  ]
+    .filter(Boolean)
+    .sort()
+    .forEach((category) => {
+      categoryFilter.add(new Option(category, category));
+      pieCategoryFilter.add(new Option(category, category));
+      portfolioCategoryFilter.add(new Option(category, category));
+    });
+  start.value = source.months[0];
+  end.value = source.months[source.months.length - 1];
+  portfolioStart.value = start.value;
+  portfolioEnd.value = end.value;
+  const sumBy = (records, key, value = "amount") =>
+    records.reduce((map, row) => {
+      const label = row[key] || "Uncategorized";
+      map.set(label, (map.get(label) || 0) + (Number(row[value]) || 0));
+      return map;
+    }, new Map());
+  const activeMonths = () => {
+    const latest = Math.max(
+        0,
+        source.months.reduce(
+          (latest, month, index) =>
+            source.expenses.some((row) => row.month === month && row.amount > 0)
+              ? index
+              : latest,
+          -1,
+        ),
+      ),
+      fiscalMonths = (year) =>
+        source.months.filter((month) => {
+          const [name, shortYear] = month.split("-"),
+            calendarYear = 2000 + Number(shortYear),
+            monthIndex = [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+            ].indexOf(name);
+          return (
+            (calendarYear === year && monthIndex >= 3) ||
+            (calendarYear === year + 1 && monthIndex < 3)
+          );
+        });
+    if (period.value === "monthly")
+      return source.months.includes(periodValue.value)
+        ? [periodValue.value]
+        : [];
+    if (period.value === "yearly")
+      return fiscalMonths(Number(periodValue.value));
+    if (period.value === "last3")
+      return source.months.slice(Math.max(0, latest - 2), latest + 1);
+    if (period.value === "last6")
+      return source.months.slice(Math.max(0, latest - 5), latest + 1);
+    if (period.value === "custom") {
+      const a = source.months.indexOf(start.value),
+        b = source.months.indexOf(end.value);
+      return source.months.slice(Math.min(a, b), Math.max(a, b) + 1);
+    }
+    return source.months.slice();
+  };
+  const chartInstances = {};
+  function makeChart(name, canvas, config) {
+    if (chartInstances[name]) chartInstances[name].destroy();
+    chartInstances[name] = new Chart(canvas, config);
   }
-  function syncPortfolioFilters(){portfolioPeriod.value=period.value;portfolioPeriodValue.innerHTML=periodValue.innerHTML;portfolioPeriodValue.value=periodValue.value;portfolioPeriodValueLabel.textContent=periodValueLabel.textContent;portfolioStart.value=start.value;portfolioEnd.value=end.value;portfolioCompanyFilter.value=companyFilter.value;portfolioCategoryFilter.value=categoryFilter.value;const custom=period.value==='custom',specific=period.value==='monthly'||period.value==='yearly';panel.querySelectorAll('.budget-portfolio-period-value').forEach(control=>control.hidden=!specific);panel.querySelectorAll('.budget-portfolio-custom-range').forEach(control=>control.hidden=!custom)}
-  function updateRangeVisibility(){const custom=period.value==='custom',monthly=period.value==='monthly',yearly=period.value==='yearly',periodSpecific=monthly||yearly;panel.querySelectorAll('.budget-period-value').forEach(control=>control.hidden=!periodSpecific);panel.querySelectorAll('.budget-custom-range').forEach(control=>control.hidden=!custom);periodValue.innerHTML='';periodValue.disabled=!periodSpecific;if(monthly){periodValueLabel.textContent='Month';['Apr-26','May-26','Jun-26','Jul-26','Aug-26','Sep-26','Oct-26','Nov-26','Dec-26','Jan-27','Feb-27','Mar-27'].forEach(month=>periodValue.add(new Option(month,month)));periodValue.value=source.months.includes('Aug-26')?'Aug-26':source.months[0]}else if(yearly){periodValueLabel.textContent='Financial year';[2027,2026,2025,2024].forEach(year=>periodValue.add(new Option('FY '+year+'-'+(year+1),String(year))));periodValue.value='2026'}else{periodValueLabel.textContent='Period detail';periodValue.add(new Option('All periods','all'))}render()}
-  period.addEventListener('change',updateRangeVisibility);periodValue.addEventListener('change',render);start.addEventListener('change',render);end.addEventListener('change',render);companyFilter.addEventListener('change',render);categoryFilter.addEventListener('change',render);pieCategoryFilter.addEventListener('change',()=>{categoryFilter.value=pieCategoryFilter.value;render()});panel.querySelectorAll('[data-budget-view]').forEach(button=>button.addEventListener('click',()=>{panel.dataset.budgetPortfolioView=button.dataset.budgetView;render()}));panel.querySelector('#budgetPortfolioBody').addEventListener('click',event=>{const assetDepartmentRow=event.target.closest('[data-budget-asset-department]');if(assetDepartmentRow){panel.dataset.budgetSelectedAssetDepartment=panel.dataset.budgetSelectedAssetDepartment===assetDepartmentRow.dataset.budgetAssetDepartment?'':assetDepartmentRow.dataset.budgetAssetDepartment;render();return}const expenseCategoryRow=event.target.closest('[data-budget-expense-category-key]');if(expenseCategoryRow){panel.dataset.budgetSelectedExpenseCategory=panel.dataset.budgetSelectedExpenseCategory===expenseCategoryRow.dataset.budgetExpenseCategoryKey?'':expenseCategoryRow.dataset.budgetExpenseCategoryKey;render();return}const expensePeriodRow=event.target.closest('[data-budget-expense-period-key]');if(expensePeriodRow){panel.dataset.budgetSelectedExpensePeriod=panel.dataset.budgetSelectedExpensePeriod===expensePeriodRow.dataset.budgetExpensePeriodKey?'':expensePeriodRow.dataset.budgetExpensePeriodKey;render();return}const expenseDepartmentRow=event.target.closest('[data-budget-expense-department-key]');if(expenseDepartmentRow){const next=panel.dataset.budgetSelectedExpenseDepartment===expenseDepartmentRow.dataset.budgetExpenseDepartmentKey?'':expenseDepartmentRow.dataset.budgetExpenseDepartmentKey;panel.dataset.budgetSelectedExpenseDepartment=next;panel.dataset.budgetSelectedExpensePeriod='';render();return}const expenseCompanyRow=event.target.closest('[data-budget-expense-company]');if(expenseCompanyRow){const next=panel.dataset.budgetSelectedExpenseCompany===expenseCompanyRow.dataset.budgetExpenseCompany?'':expenseCompanyRow.dataset.budgetExpenseCompany;panel.dataset.budgetSelectedExpenseCompany=next;panel.dataset.budgetSelectedExpenseDepartment='';panel.dataset.budgetSelectedExpensePeriod='';render();return}const descriptionRow=event.target.closest('[data-budget-description-key]');if(descriptionRow){panel.dataset.budgetSelectedDescription=panel.dataset.budgetSelectedDescription===descriptionRow.dataset.budgetDescriptionKey?'':descriptionRow.dataset.budgetDescriptionKey;render();return}const budgetDetailRow=event.target.closest('[data-budget-detail-company]');if(budgetDetailRow){panel.dataset.budgetSelectedDetailCompany=panel.dataset.budgetSelectedDetailCompany===budgetDetailRow.dataset.budgetDetailCompany?'':budgetDetailRow.dataset.budgetDetailCompany;render();return}const assetRow=event.target.closest('[data-budget-asset]');if(assetRow){panel.dataset.budgetSelectedAsset=panel.dataset.budgetSelectedAsset===assetRow.dataset.budgetAsset?'':assetRow.dataset.budgetAsset;render();return}const row=event.target.closest('[data-budget-company]');if(!row)return;panel.dataset.budgetSelectedCompany=panel.dataset.budgetSelectedCompany===row.dataset.budgetCompany?'':row.dataset.budgetCompany;render()});portfolioPeriod.addEventListener('change',()=>{period.value=portfolioPeriod.value;updateRangeVisibility()});portfolioPeriodValue.addEventListener('change',()=>{periodValue.value=portfolioPeriodValue.value;render()});portfolioStart.addEventListener('change',()=>{start.value=portfolioStart.value;render()});portfolioEnd.addEventListener('change',()=>{end.value=portfolioEnd.value;render()});portfolioCompanyFilter.addEventListener('change',()=>{companyFilter.value=portfolioCompanyFilter.value;render()});portfolioCategoryFilter.addEventListener('change',()=>{categoryFilter.value=portfolioCategoryFilter.value;render()});document.getElementById('budgetPortfolioResetFilters').addEventListener('click',()=>{period.value='all';companyFilter.value='all';categoryFilter.value='all';start.value=source.months[0];end.value=source.months[source.months.length-1];updateRangeVisibility()});companyChartType.addEventListener('change',render);summaryChartType.addEventListener('change',render);document.getElementById('budgetResetFilters').addEventListener('click',()=>{period.value='all';companyFilter.value='all';categoryFilter.value='all';start.value=source.months[0];end.value=source.months[source.months.length-1];portfolioStart.value=start.value;portfolioEnd.value=end.value;updateRangeVisibility()});
-  function syncCompanyChartHeader(){const header=panel.querySelector('.unified-chart-header.chart-control-ready');if(!header)return;header.classList.remove('chart-control-stacked');const text=header.firstElementChild,control=header.querySelector('.unified-chart-select');header.classList.toggle('chart-control-stacked',!!text&&!!control&&text.scrollWidth+control.offsetWidth+12>header.clientWidth)}
-  window.addEventListener('resize',()=>requestAnimationFrame(syncCompanyChartHeader));
+  if (!Chart.registry.plugins.get("budgetCategoryCentre"))
+    Chart.register({
+      id: "budgetCategoryCentre",
+      afterDatasetsDraw(instance, args, options) {
+        if (instance.canvas.id !== "budgetCategoryChart" || !options) return;
+        const area = instance.chartArea,
+          ctx = instance.ctx,
+          x = (area.left + area.right) / 2,
+          y = (area.top + area.bottom) / 2;
+        ctx.save();
+        ctx.textAlign = "center";
+        ctx.fillStyle = options.dark ? "#ae9698" : "#998689";
+        ctx.font = "600 9px Poppins, Arial";
+        ctx.fillText("MMK", x, y - 6);
+        ctx.fillStyle = options.dark ? "#fff1ec" : "#3f292d";
+        ctx.font = "700 22px Poppins, Arial";
+        ctx.fillText(options.total || "0", x, y + 18);
+        ctx.restore();
+      },
+    });
+  function render() {
+    syncPortfolioFilters();
+    pieCategoryFilter.value = categoryFilter.value;
+    const months = activeMonths(),
+      monthSet = new Set(months),
+      company = companyFilter.value,
+      category = categoryFilter.value,
+      department =
+        document.getElementById("budgetExpenseDepartmentFilter")?.value ||
+        "all",
+      matches = (row) =>
+        (company === "all" || row.company === company) &&
+        (category === "all" || row.category === category),
+      budget = source.budgets.filter(
+        (row) => monthSet.has(row.month) && matches(row),
+      ),
+      actualSource =
+        department === "all"
+          ? source.expenses.filter((row) => !row.department)
+          : source.expenses.filter((row) => row.department),
+      actual = actualSource.filter(
+        (row) =>
+          monthSet.has(row.month) &&
+          matches(row) &&
+          (department === "all" || row.department === department),
+      ),
+      purchases = source.purchases.filter(
+        (row) =>
+          (!row.month || monthSet.has(row.month)) &&
+          (company === "all" || row.company === company) &&
+          (department === "all" || row.department === department),
+      );
+    const totalBudget = budget.reduce((sum, row) => sum + row.amount, 0),
+      totalActual = actual.reduce((sum, row) => sum + row.amount, 0),
+      variance = totalBudget - totalActual,
+      utilization = totalBudget ? (totalActual / totalBudget) * 100 : 0;
+    const summaryFooter = panel.querySelector(".budget-summary-key");
+    if (summaryFooter) {
+      summaryFooter.innerHTML =
+        '<span><i class="budget-summary-budget" aria-hidden="true"></i>Budget</span><span><i class="budget-summary-actual" aria-hidden="true"></i>Actual expense</span>';
+      summaryFooter.setAttribute("aria-label", "Chart series");
+    }
+    const label = period.value === "all" ? "All data" : months.join(" – ");
+    [
+      ["budgetTotal", totalBudget],
+      ["budgetActual", totalActual],
+      ["budgetVariance", variance],
+    ].forEach(([id, value]) => {
+      const metric = document.getElementById(id);
+      metric.textContent = full(value);
+      metric.removeAttribute("title");
+      metric.setAttribute("aria-label", full(value) + " MMK");
+    });
+    document.getElementById("budgetUtilization").textContent =
+      utilization.toFixed(1) + "%";
+    const selectedRecords = budget.length,
+      remaining = Math.max(0, 100 - utilization),
+      actualCompanies = new Set(
+        actual.filter((row) => row.amount > 0).map((row) => row.company),
+      ).size,
+      status =
+        utilization <= 80
+          ? "On Budget"
+          : utilization <= 100
+            ? "Review Budget"
+            : "Over Budget",
+      overBudget = variance < 0 || utilization > 100,
+      varianceCard = document.getElementById("budgetVarianceCard"),
+      utilizationCard = document.getElementById("budgetUtilizationCard");
+    varianceCard.classList.toggle("tone-red", overBudget);
+    varianceCard.classList.toggle("tone-yellow", !overBudget);
+    utilizationCard.classList.toggle("tone-red", utilization > 100);
+    utilizationCard.classList.toggle("tone-blue", utilization <= 100);
+    document.getElementById("budgetTotalSubtitle").textContent =
+      selectedRecords + " records selected";
+    document.getElementById("budgetActualSubtitle").textContent =
+      utilization <= 100
+        ? remaining.toFixed(1) + "% left of approved budget"
+        : (utilization - 100).toFixed(1) + "% above approved budget";
+    document.getElementById("budgetVarianceSubtitle").textContent = status;
+    document.getElementById("budgetUtilizationSubtitle").textContent =
+      "Across " +
+      actualCompanies +
+      " " +
+      (actualCompanies === 1 ? "Company" : "Companies");
+    const dark = document.body.classList.contains("dark"),
+      text = dark ? "#ead4cf" : "#806864",
+      grid = dark ? "rgba(255,221,208,.17)" : "rgba(125,92,87,.18)",
+      card = dark ? "#32171e" : "#fffaf7",
+      tooltip = {
+        displayColors: true,
+        backgroundColor: "#171114",
+        titleColor: "#fff7f2",
+        bodyColor: "#fff7f2",
+        borderColor: "#d99284",
+        borderWidth: 2,
+        position: "nearest",
+        padding: { x: 11, y: 10 },
+        cornerRadius: 8,
+        caretPadding: 10,
+        boxPadding: 4,
+        titleFont: { family: "Poppins", size: 11, weight: "700" },
+        bodyFont: { family: "Poppins", size: 12, weight: "600" },
+      },
+      moneyTooltip = {
+        ...tooltip,
+        callbacks: {
+          title: (context) =>
+            context[0]?.dataset?.label || context[0]?.label || "Amount",
+          label: (context) => full(context.raw) + " MMK",
+          labelColor: (context) => {
+            const shared = context.chart.canvas.id === "budgetSummaryChart",
+              color = shared
+                ? context.datasetIndex === 0
+                  ? dark
+                    ? "#4eb4cd"
+                    : "#16866a"
+                  : dark
+                    ? "#ff8755"
+                    : "#d12a31"
+                : Array.isArray(context.dataset.backgroundColor)
+                  ? context.dataset.backgroundColor[context.dataIndex]
+                  : context.dataset.borderColor;
+            return {
+              backgroundColor: color,
+              borderColor: color,
+              borderWidth: 1,
+              borderRadius: 2,
+            };
+          },
+        },
+      };
+    const monthlyBudget = source.months.map((month) =>
+        budget
+          .filter((row) => row.month === month)
+          .reduce((sum, row) => sum + row.amount, 0),
+      ),
+      monthlyActual = source.months.map((month) =>
+        actual
+          .filter((row) => row.month === month)
+          .reduce((sum, row) => sum + row.amount, 0),
+      );
+    const summaryBar = summaryChartType.value === "bar";
+    makeChart("summary", document.getElementById("budgetSummaryChart"), {
+      type: summaryBar ? "bar" : "line",
+      data: {
+        labels: months,
+        datasets: [
+          {
+            label: "Budget",
+            data: months.map(
+              (month) => monthlyBudget[source.months.indexOf(month)],
+            ),
+            borderColor: dark ? "#4eb4cd" : "#16866a",
+            backgroundColor: "transparent",
+            hoverBackgroundColor: "transparent",
+            fill: false,
+            tension: 0.42,
+            pointRadius: summaryBar ? 0 : 4,
+            pointHoverRadius: summaryBar ? 0 : 6,
+            borderWidth: summaryBar ? 0 : 3,
+            borderRadius: summaryBar
+              ? { topLeft: 10, topRight: 10, bottomLeft: 0, bottomRight: 0 }
+              : 0,
+            maxBarThickness: 42,
+          },
+          {
+            label: "Actual expense",
+            data: months.map(
+              (month) => monthlyActual[source.months.indexOf(month)],
+            ),
+            borderColor: dark ? "#ff8755" : "#d12a31",
+            backgroundColor: "transparent",
+            hoverBackgroundColor: "transparent",
+            fill: false,
+            tension: 0.42,
+            pointRadius: summaryBar ? 0 : 4,
+            pointHoverRadius: summaryBar ? 0 : 6,
+            borderWidth: summaryBar ? 0 : 3,
+            borderRadius: summaryBar
+              ? { topLeft: 10, topRight: 10, bottomLeft: 0, bottomRight: 0 }
+              : 0,
+            maxBarThickness: 42,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 900, easing: "easeOutCubic" },
+        transitions: { active: { animation: { duration: 0 } } },
+        plugins: { legend: { display: false }, tooltip: moneyTooltip },
+        datasets: { bar: { categoryPercentage: 0.8, barPercentage: 0.76 } },
+        scales: {
+          x: {
+            offset: summaryBar,
+            grid: { color: grid },
+            ticks: { color: text, font: { family: "Poppins", size: 9 } },
+          },
+          y: {
+            beginAtZero: true,
+            grid: { color: grid },
+            ticks: {
+              color: text,
+              callback: (value) => fmt(value),
+              font: { family: "Poppins", size: 9 },
+            },
+          },
+        },
+      },
+    });
+    if (period.value === "yearly") {
+      const fiscalSummary = chartInstances.summary;
+      if (fiscalSummary) {
+        fiscalSummary.data.labels = [
+          "FY " + periodValue.value + "-" + (Number(periodValue.value) + 1),
+        ];
+        fiscalSummary.data.datasets[0].data = [totalBudget];
+        fiscalSummary.data.datasets[1].data = [totalActual];
+        fiscalSummary.update();
+      }
+    }
+    const companyChartGroup =
+        department === "all"
+          ? company === "all"
+            ? "company"
+            : "department"
+          : "category",
+      chartActual =
+        company !== "all" && department === "all"
+          ? source.expenses.filter(
+              (row) =>
+                row.department && monthSet.has(row.month) && matches(row),
+            )
+          : actual,
+      companyItems =
+        companyChartGroup === "department"
+          ? [...sumBy(chartActual, "department").entries()]
+              .filter(([label, value]) => label && value > 0)
+              .sort((a, b) => b[1] - a[1])
+          : [...sumBy(actual, companyChartGroup).entries()]
+              .filter(([, value]) => value > 0)
+              .sort((a, b) => b[1] - a[1]),
+      companyChartTitle = document
+        .querySelector("#budgetCompanyChart")
+        ?.closest(".unified-chart-card")
+        ?.querySelector("h2"),
+      companyChartSubtitle = document
+        .querySelector("#budgetCompanyChart")
+        ?.closest(".unified-chart-card")
+        ?.querySelector("p");
+    if (companyChartTitle)
+      companyChartTitle.textContent =
+        companyChartGroup === "company"
+          ? "Company Expense Analysis"
+          : companyChartGroup === "department"
+            ? "Department Expense Analysis"
+            : "Category Expense Analysis";
+    if (companyChartSubtitle)
+      companyChartSubtitle.textContent =
+        companyChartGroup === "company"
+          ? "Actual spending distribution across companies"
+          : companyChartGroup === "department"
+            ? "Actual spending distribution across departments"
+            : "Actual spending distribution across categories";
+    const companyLine = companyChartType.value === "line",
+      companyCanvas = document.getElementById("budgetCompanyChart"),
+      companyWrap = companyCanvas.parentElement,
+      companyHeight = Math.max(280, companyItems.length * 34 + 70),
+      companyContext = companyCanvas.getContext("2d"),
+      companyGradient = companyContext.createLinearGradient(
+        0,
+        0,
+        companyCanvas.clientWidth || 700,
+        0,
+      );
+    if (companyWrap)
+      companyWrap.style.height = (companyLine ? 330 : companyHeight) + "px";
+    companyGradient.addColorStop(0, dark ? "#c94a42" : "#d12a31");
+    companyGradient.addColorStop(1, dark ? "#ef8563" : "#f38c47");
+    const companyScales = companyLine
+      ? {
+          x: {
+            grid: { color: grid },
+            ticks: { color: text, font: { family: "Poppins", size: 9 } },
+          },
+          y: {
+            beginAtZero: true,
+            grid: { color: grid },
+            ticks: {
+              color: text,
+              callback: (value) => fmt(value),
+              font: { family: "Poppins", size: 9 },
+            },
+          },
+        }
+      : {
+          y: {
+            grid: { display: false },
+            ticks: {
+              padding: 9,
+              color: text,
+              font: { family: "Poppins", size: 10, weight: "600" },
+            },
+          },
+          x: {
+            beginAtZero: true,
+            grid: { color: grid },
+            ticks: {
+              color: text,
+              callback: (value) => fmt(value),
+              font: { family: "Poppins", size: 9 },
+            },
+          },
+        };
+    makeChart("company", companyCanvas, {
+      type: companyLine ? "line" : "bar",
+      data: {
+        labels: companyItems.map((row) => row[0]),
+        datasets: [
+          {
+            label:
+              companyChartGroup === "company"
+                ? "Actual expense"
+                : companyChartGroup === "department"
+                  ? "Department expense"
+                  : "Category expense",
+            data: companyItems.map((row) => row[1]),
+            backgroundColor: companyLine
+              ? dark
+                ? "rgba(255,135,85,.14)"
+                : "rgba(209,42,49,.11)"
+              : companyGradient,
+            borderColor: dark ? "#ff9569" : "#d12a31",
+            borderWidth: companyLine ? 2.5 : 1.5,
+            borderRadius: companyLine ? 0 : 7,
+            barThickness: companyLine ? undefined : 24,
+            categoryPercentage: 0.74,
+            barPercentage: 0.9,
+            fill: companyLine,
+            tension: 0.34,
+            pointRadius: companyLine ? 4 : 0,
+            pointHoverRadius: companyLine ? 6 : 0,
+            pointBackgroundColor: dark ? "#ff9a70" : "#c9252d",
+          },
+        ],
+      },
+      options: {
+        indexAxis: companyLine ? "x" : "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 900, easing: "easeOutCubic" },
+        plugins: { legend: { display: false }, tooltip: moneyTooltip },
+        scales: companyScales,
+      },
+    });
+    document.getElementById("budgetCompanyChartFooter").textContent =
+      "Total: " + full(totalActual) + " MMK";
+    const categories = sumBy(actual, "category"),
+      categoryItems = [...categories.entries()]
+        .filter(([, value]) => value > 0)
+        .sort((a, b) => b[1] - a[1]),
+      colors = dark
+        ? ["#ff8755", "#f5c66b", "#7056d8", "#4eb4cd", "#d85b64", "#82d5bb"]
+        : ["#d12a31", "#f06428", "#7056d8", "#3194ad", "#b94f78", "#16866a"];
+    makeChart("category", document.getElementById("budgetCategoryChart"), {
+      type: "doughnut",
+      data: {
+        labels: categoryItems.map((row) => row[0]),
+        datasets: [
+          {
+            data: categoryItems.map((row) => row[1]),
+            backgroundColor: categoryItems.map(
+              (_, index) => colors[index % colors.length],
+            ),
+            borderColor: card,
+            borderWidth: 4,
+            hoverOffset: 4,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 900, easing: "easeOutCubic" },
+        cutout: "64%",
+        plugins: {
+          legend: { display: false },
+          budgetCategoryCentre: { total: fmt(totalActual), dark },
+          tooltip: moneyTooltip,
+        },
+      },
+    });
+    document.getElementById("budgetCategoryLegend").innerHTML = categoryItems
+      .map(
+        (row, index) =>
+          `<div><span><i class="dot" style="background:${colors[index % colors.length]}"></i>${clean(row[0])}</span><b><strong>${full(row[1])}</strong><small>MMK</small></b></div>`,
+      )
+      .join("");
+    const portfolioView = panel.dataset.budgetPortfolioView || "total",
+      portfolioHead = document.getElementById("budgetPortfolioHead"),
+      portfolioBody = document.getElementById("budgetPortfolioBody"),
+      portfolioFoot = document.getElementById("budgetPortfolioFoot"),
+      portfolioTitle = document.getElementById("budgetPortfolioTitle"),
+      portfolioSubtitle = document.getElementById("budgetPortfolioSubtitle"),
+      portfolioNote = document.getElementById("budgetPortfolioNote"),
+      portfolioTitleIcon = document.getElementById("budgetPortfolioTitleIcon"),
+      portfolioCompany = portfolioCompanyFilter.value;
+    panel
+      .querySelectorAll("[data-budget-view]")
+      .forEach((button) =>
+        button.classList.toggle(
+          "active",
+          button.dataset.budgetView === portfolioView,
+        ),
+      );
+    if (portfolioView === "total") {
+      const companies = [
+          ...new Set([...budget, ...actual].map((row) => row.company)),
+        ]
+          .filter(Boolean)
+          .filter(
+            (companyName) =>
+              portfolioCompany === "all" || companyName === portfolioCompany,
+          )
+          .sort(),
+        rows = companies.map((companyName) => {
+          const companyBudget = budget
+              .filter((row) => row.company === companyName)
+              .reduce((sum, row) => sum + row.amount, 0),
+            companyActual = actual
+              .filter((row) => row.company === companyName)
+              .reduce((sum, row) => sum + row.amount, 0),
+            companyVariance = companyBudget - companyActual,
+            companyUtilization = companyBudget
+              ? (companyActual / companyBudget) * 100
+              : 0,
+            status =
+              companyUtilization <= 80
+                ? "On Budget"
+                : companyUtilization <= 100
+                  ? "Review Budget"
+                  : "Over Budget";
+          return {
+            companyName,
+            companyBudget,
+            companyActual,
+            companyVariance,
+            companyUtilization,
+            status,
+          };
+        });
+      portfolioTitleIcon.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4v18M12 10h7v11M8 9h1M8 13h1M8 17h1M15 14h1M15 18h1"></path></svg>';
+      portfolioTitle.textContent = "Company Financial Performance";
+      portfolioSubtitle.textContent =
+        "Budget, actual spending, and variance by company";
+      portfolioHead.innerHTML =
+        "<tr><th>Company</th><th>Budget (MMK)</th><th>Actual Expense (MMK)</th><th>Variance (MMK)</th><th>Utilization</th></tr>";
+      portfolioBody.innerHTML = rows
+        .map((row) => {
+          const summary = `<tr class="budget-company-row ${panel.dataset.budgetSelectedCompany === row.companyName ? "selected" : ""}" data-budget-company="${clean(row.companyName)}"><td>${clean(row.companyName)}</td><td>${full(row.companyBudget)}</td><td>${full(row.companyActual)}</td><td class="${row.companyVariance < 0 ? "budget-overrun" : ""}">${full(row.companyVariance)}</td><td><div class="budget-utilization"><span><i style="width:${Math.min(100, row.companyUtilization)}%"></i></span><b>${row.companyUtilization.toFixed(1)}%</b><em class="budget-status ${row.companyUtilization > 100 ? "over" : row.companyUtilization > 80 ? "review" : "on"}">${row.status}</em></div></td></tr>`;
+          if (panel.dataset.budgetSelectedCompany !== row.companyName)
+            return summary;
+          const monthlyRows = months.map((month) => {
+            const monthBudget = budget
+                .filter(
+                  (item) =>
+                    item.company === row.companyName && item.month === month,
+                )
+                .reduce((sum, item) => sum + item.amount, 0),
+              monthActual = actual
+                .filter(
+                  (item) =>
+                    item.company === row.companyName && item.month === month,
+                )
+                .reduce((sum, item) => sum + item.amount, 0),
+              monthVariance = monthBudget - monthActual,
+              monthUtilization = monthBudget
+                ? (monthActual / monthBudget) * 100
+                : 0,
+              monthStatus =
+                monthUtilization <= 80
+                  ? "On Budget"
+                  : monthUtilization <= 100
+                    ? "Review Budget"
+                    : "Over Budget";
+            return {
+              month,
+              monthBudget,
+              monthActual,
+              monthVariance,
+              monthUtilization,
+              monthStatus,
+            };
+          });
+          return (
+            summary +
+            monthlyRows
+              .map(
+                (monthRow) =>
+                  `<tr class="budget-monthly-row"><td><span class="budget-month-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16M8 14h3"></path></svg></span>${monthRow.month}</td><td>${full(monthRow.monthBudget)}</td><td>${full(monthRow.monthActual)}</td><td class="${monthRow.monthVariance < 0 ? "budget-overrun" : ""}">${full(monthRow.monthVariance)}</td><td><div class="budget-utilization"><span><i style="width:${Math.min(100, monthRow.monthUtilization)}%"></i></span><b>${monthRow.monthUtilization.toFixed(1)}%</b><em class="budget-status ${monthRow.monthUtilization > 100 ? "over" : monthRow.monthUtilization > 80 ? "review" : "on"}">${monthRow.monthStatus}</em></div></td></tr>`,
+              )
+              .join("")
+          );
+        })
+        .join("");
+      portfolioFoot.innerHTML =
+        "<tr><th>Grand Total</th><th>" +
+        full(rows.reduce((sum, row) => sum + row.companyBudget, 0)) +
+        "</th><th>" +
+        full(rows.reduce((sum, row) => sum + row.companyActual, 0)) +
+        "</th><th>" +
+        full(rows.reduce((sum, row) => sum + row.companyVariance, 0)) +
+        "</th><th>" +
+        (rows.reduce((sum, row) => sum + row.companyBudget, 0)
+          ? (rows.reduce((sum, row) => sum + row.companyActual, 0) /
+              rows.reduce((sum, row) => sum + row.companyBudget, 0)) *
+            100
+          : 0
+        ).toFixed(1) +
+        "%</th></tr>";
+      portfolioNote.textContent =
+        "Showing " +
+        rows.length +
+        " of " +
+        [
+          ...new Set(
+            [...source.budgets, ...source.expenses]
+              .map((row) => row.company)
+              .filter(Boolean),
+          ),
+        ].length +
+        " Companies";
+    } else if (portfolioView === "budgetDetails") {
+      const groups = new Map();
+      budget.forEach((row) => {
+        const current = groups.get(row.company) || {
+          company: row.company,
+          amount: 0,
+          records: [],
+        };
+        current.amount += row.amount;
+        current.records.push(row);
+        groups.set(row.company, current);
+      });
+      const rows = [...groups.values()].sort((a, b) =>
+          a.company.localeCompare(b.company),
+        ),
+        reportingPeriod =
+          months.length === source.months.length
+            ? "Financial Year 26–27"
+            : months.length === 1
+              ? months[0]
+              : months[0] + " to " + months[months.length - 1];
+      portfolioTitleIcon.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10 12 4l9 6"></path><path d="M5 10v8M9 10v8M15 10v8M19 10v8M3 21h18"></path></svg>';
+      portfolioTitle.textContent = "Company Budget Allocation";
+      portfolioSubtitle.textContent = "Approved budgets by company and period";
+      portfolioHead.innerHTML =
+        "<tr><th>Company</th><th>Categories</th><th>Reporting Period</th><th>Budget (MMK)</th></tr>";
+      portfolioBody.innerHTML = rows
+        .map((row) => {
+          const summary = `<tr class="budget-detail-company-row ${panel.dataset.budgetSelectedDetailCompany === row.company ? "selected" : ""}" data-budget-detail-company="${clean(row.company)}"><td>${clean(row.company)}</td><td>${new Set(row.records.map((item) => item.category)).size}</td><td>${reportingPeriod}</td><td>${full(row.amount)}</td></tr>`;
+          if (panel.dataset.budgetSelectedDetailCompany !== row.company)
+            return summary;
+          const detailGroups = new Map();
+          row.records.forEach((item) => {
+            const key = item.category + "|" + item.description,
+              current = detailGroups.get(key) || {
+                category: item.category,
+                description: item.description,
+                amount: 0,
+              };
+            current.amount += item.amount;
+            detailGroups.set(key, current);
+          });
+          const records = [...detailGroups.values()].sort(
+              (a, b) =>
+                a.description.localeCompare(b.description) ||
+                a.category.localeCompare(b.category),
+            ),
+            categoryTone = (category) =>
+              ({
+                Computer: "computer",
+                "Device & Accessories": "devices",
+                "Domain / Email": "domain",
+                Software: "software",
+                "Internet Bill": "internet",
+                "Repair & Maintenance": "maintenance",
+              })[category] || "other";
+          return (
+            summary +
+            records
+              .map((item) => {
+                const descriptionKey =
+                    row.company + "|" + item.category + "|" + item.description,
+                  summary = `<tr class="budget-detail-record-row budget-description-row ${panel.dataset.budgetSelectedDescription === descriptionKey ? "selected" : ""}" data-budget-description-key="${clean(descriptionKey)}"><td>${clean(item.description)}</td><td><span class="budget-category-badge budget-category-${categoryTone(item.category)}">${clean(item.category)}</span></td><td colspan="2">${full(item.amount)}</td></tr>`;
+                if (panel.dataset.budgetSelectedDescription !== descriptionKey)
+                  return summary;
+                const monthlyRecords = row.records
+                  .filter(
+                    (record) =>
+                      record.category === item.category &&
+                      record.description === item.description,
+                  )
+                  .slice()
+                  .sort((a, b) => a.month.localeCompare(b.month));
+                return (
+                  summary +
+                  '<tr class="budget-description-period-row"><td colspan="4"><div class="budget-description-month-grid">' +
+                  months
+                    .map((month) => {
+                      const record = monthlyRecords.find(
+                          (item) => item.month === month,
+                        ),
+                        amount = record ? record.amount : 0;
+                      return `<div><small>${clean(month)}</small><strong>${full(amount)}</strong></div>`;
+                    })
+                    .join("") +
+                  "</div></td></tr>"
+                );
+              })
+              .join("")
+          );
+        })
+        .join("");
+      portfolioFoot.innerHTML =
+        '<tr><th colspan="3">Grand Total</th><th>' +
+        full(rows.reduce((sum, row) => sum + row.amount, 0)) +
+        "</th></tr>";
+      portfolioNote.textContent =
+        "Showing " +
+        rows.length +
+        " of " +
+        [...new Set(source.budgets.map((item) => item.company).filter(Boolean))]
+          .length +
+        " Companies";
+    } else if (portfolioView === "expenseSummary") {
+      const expenseActual = departmentActuals.filter(
+          (row) =>
+            monthSet.has(row.month) &&
+            matches(row) &&
+            (department === "all" || row.department === department),
+        ),
+        groups = new Map();
+      expenseActual.forEach((row) => {
+        const current = groups.get(row.company) || {
+          company: row.company,
+          amount: 0,
+        };
+        current.amount += row.amount;
+        groups.set(row.company, current);
+      });
+      const rows = [...groups.values()]
+          .filter(
+            (row) =>
+              portfolioCompany === "all" || row.company === portfolioCompany,
+          )
+          .sort((a, b) => a.company.localeCompare(b.company)),
+        reportingPeriod =
+          months.length === source.months.length
+            ? "Financial Year 26–27"
+            : months.length === 1
+              ? months[0]
+              : months[0] + " to " + months[months.length - 1];
+      portfolioTitleIcon.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v2H6.5A2.5 2.5 0 0 0 4 11.5v5A2.5 2.5 0 0 0 6.5 19H20v-8H6.5"></path><path d="M16 14h.01"></path></svg>';
+      portfolioTitle.textContent = "Company Expense Performance";
+      portfolioSubtitle.textContent =
+        "Actual expenses by company and reporting period";
+      portfolioHead.innerHTML =
+        "<tr><th>Company</th><th>Reporting Period</th><th>Actual Expense (MMK)</th></tr>";
+      portfolioBody.innerHTML = rows
+        .map((row) => {
+          const selected =
+              panel.dataset.budgetSelectedExpenseCompany === row.company,
+            summary =
+              '<tr class="budget-expense-summary-row ' +
+              (selected ? "selected" : "") +
+              '" data-budget-expense-company="' +
+              clean(row.company) +
+              '"><td>' +
+              clean(row.company) +
+              "</td><td>" +
+              clean(reportingPeriod) +
+              '</td><td class="numeric-cell is-numeric">' +
+              full(row.amount) +
+              "</td></tr>";
+          if (!selected) return summary;
+          const departments = new Map();
+          expenseActual
+            .filter((item) => item.company === row.company)
+            .forEach((item) => {
+              const current = departments.get(item.department) || {
+                department: item.department,
+                amount: 0,
+                categories: new Set(),
+                months: new Set(),
+              };
+              current.amount += item.amount;
+              current.categories.add(item.category);
+              current.months.add(item.month);
+              departments.set(item.department, current);
+            });
+          return (
+            summary +
+            [...departments.values()]
+              .filter((item) => item.department && item.amount > 0)
+              .sort((a, b) => a.department.localeCompare(b.department))
+              .map((item) => {
+                const departmentKey = row.company + "|" + item.department,
+                  departmentSelected =
+                    panel.dataset.budgetSelectedExpenseDepartment ===
+                    departmentKey,
+                  departmentRow =
+                    '<tr class="budget-expense-department-row ' +
+                    (departmentSelected ? "selected" : "") +
+                    '" data-budget-expense-department-key="' +
+                    clean(departmentKey) +
+                    '"><td>' +
+                    clean(item.department) +
+                    '</td><td></td><td class="numeric-cell is-numeric">' +
+                    full(item.amount) +
+                    "</td></tr>";
+                if (!departmentSelected) return departmentRow;
+                const periods = months
+                  .map((month) => {
+                    const records = expenseActual.filter(
+                      (record) =>
+                        record.company === row.company &&
+                        record.department === item.department &&
+                        record.month === month,
+                    );
+                    return {
+                      month,
+                      amount: records.reduce(
+                        (sum, record) => sum + record.amount,
+                        0,
+                      ),
+                      categories: new Set(
+                        records.map((record) => record.category),
+                      ),
+                    };
+                  })
+                  .filter((period) => period.amount > 0);
+                return (
+                  departmentRow +
+                  periods
+                    .map((period) => {
+                      const periodKey =
+                          row.company +
+                          "|" +
+                          item.department +
+                          "|" +
+                          period.month,
+                        periodSelected =
+                          panel.dataset.budgetSelectedExpensePeriod ===
+                          periodKey,
+                        periodRow =
+                          '<tr class="budget-expense-period-row ' +
+                          (periodSelected ? "selected" : "") +
+                          '" data-budget-expense-period-key="' +
+                          clean(periodKey) +
+                          '"><td><span class="budget-month-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16M8 14h3"></path></svg></span>' +
+                          clean(period.month) +
+                          "</td><td>" +
+                          period.categories.size +
+                          " " +
+                          (period.categories.size === 1
+                            ? "Category"
+                            : "Categories") +
+                          '</td><td class="numeric-cell is-numeric">' +
+                          full(period.amount) +
+                          "</td></tr>";
+                      if (!periodSelected) return periodRow;
+                      const categories = new Map();
+                      expenseActual
+                        .filter(
+                          (record) =>
+                            record.company === row.company &&
+                            record.department === item.department &&
+                            record.month === period.month,
+                        )
+                        .forEach((record) =>
+                          categories.set(
+                            record.category,
+                            (categories.get(record.category) || 0) +
+                              record.amount,
+                          ),
+                        );
+                      return (
+                        periodRow +
+                        [...categories.entries()]
+                          .filter(([, amount]) => amount > 0)
+                          .sort((a, b) => a[0].localeCompare(b[0]))
+                          .map(
+                            ([category, amount]) =>
+                              '<tr class="budget-expense-category-row"><td colspan="2">' +
+                              clean(category) +
+                              '</td><td class="numeric-cell is-numeric">' +
+                              full(amount) +
+                              "</td></tr>",
+                          )
+                          .join("")
+                      );
+                    })
+                    .join("")
+                );
+              })
+              .join("")
+          );
+        })
+        .join("");
+      portfolioFoot.innerHTML =
+        "<tr><th>Grand Total</th><th>" +
+        clean(reportingPeriod) +
+        '</th><th class="numeric-cell is-numeric">' +
+        full(rows.reduce((sum, row) => sum + row.amount, 0)) +
+        "</th></tr>";
+      portfolioNote.textContent =
+        "Showing " +
+        rows.length +
+        " of " +
+        [
+          ...new Set(
+            source.expenses.map((item) => item.company).filter(Boolean),
+          ),
+        ].length +
+        " companies";
+    } else {
+      const groups = new Map();
+      purchases.forEach((row) => {
+        const current = groups.get(row.company) || {
+          company: row.company,
+          laptop: 0,
+          desktop: 0,
+        };
+        current.laptop += Number(row.laptop) || 0;
+        current.desktop += Number(row.desktop) || 0;
+        groups.set(row.company, current);
+      });
+      const rows = [...groups.values()]
+        .filter(
+          (row) =>
+            portfolioCompany === "all" || row.company === portfolioCompany,
+        )
+        .sort((a, b) => a.company.localeCompare(b.company));
+      portfolioTitleIcon.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8M12 16v4"></path></svg>';
+      portfolioTitle.textContent = "Fixed Asset Purchases";
+      portfolioSubtitle.textContent = "Laptop and desktop purchases by company";
+      portfolioHead.innerHTML =
+        "<tr><th>Company</th><th>Laptops</th><th>Desktops</th><th>Total Assets</th></tr>";
+      portfolioBody.innerHTML = rows
+        .map((row) => {
+          const summary = `<tr class="budget-asset-row ${panel.dataset.budgetSelectedAsset === row.company ? "selected" : ""}" data-budget-asset="${clean(row.company)}"><td>${clean(row.company)}</td><td>${row.laptop}</td><td>${row.desktop}</td><td>${row.laptop + row.desktop}</td></tr>`;
+          if (panel.dataset.budgetSelectedAsset !== row.company) return summary;
+          const departmentGroups = new Map();
+          purchases
+            .filter((item) => item.company === row.company)
+            .forEach((item) => {
+              const current = departmentGroups.get(item.department) || {
+                department: item.department,
+                laptop: 0,
+                desktop: 0,
+              };
+              current.laptop += Number(item.laptop) || 0;
+              current.desktop += Number(item.desktop) || 0;
+              departmentGroups.set(item.department, current);
+            });
+          const departments = [...departmentGroups.values()].sort((a, b) =>
+            a.department.localeCompare(b.department),
+          );
+          return (
+            summary +
+            departments
+              .map((department) => {
+                const departmentKey = row.company + "|" + department.department,
+                  departmentSummary = `<tr class="budget-asset-department-row ${panel.dataset.budgetSelectedAssetDepartment === departmentKey ? "selected" : ""}" data-budget-asset-department="${clean(departmentKey)}"><td>${clean(department.department)}</td><td>${department.laptop}</td><td>${department.desktop}</td><td>${department.laptop + department.desktop}</td></tr>`;
+                if (
+                  panel.dataset.budgetSelectedAssetDepartment !== departmentKey
+                )
+                  return departmentSummary;
+                const periodRows = months
+                  .map((month) => {
+                    const periodPurchases = purchases.filter(
+                        (item) =>
+                          item.company === row.company &&
+                          item.department === department.department &&
+                          item.month === month,
+                      ),
+                      laptop = periodPurchases.reduce(
+                        (sum, item) => sum + (Number(item.laptop) || 0),
+                        0,
+                      ),
+                      desktop = periodPurchases.reduce(
+                        (sum, item) => sum + (Number(item.desktop) || 0),
+                        0,
+                      );
+                    return { month, laptop, desktop };
+                  })
+                  .filter((item) => item.laptop || item.desktop);
+                return (
+                  departmentSummary +
+                  periodRows
+                    .map(
+                      (item) =>
+                        `<tr class="budget-asset-period-row"><td><span class="budget-month-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16M8 14h3"></path></svg></span>${item.month}</td><td>${item.laptop}</td><td>${item.desktop}</td><td>${item.laptop + item.desktop}</td></tr>`,
+                    )
+                    .join("")
+                );
+              })
+              .join("")
+          );
+        })
+        .join("");
+      portfolioFoot.innerHTML =
+        "<tr><th>Grand Total</th><th>" +
+        rows.reduce((sum, row) => sum + row.laptop, 0) +
+        "</th><th>" +
+        rows.reduce((sum, row) => sum + row.desktop, 0) +
+        "</th><th>" +
+        rows.reduce((sum, row) => sum + row.laptop + row.desktop, 0) +
+        "</th></tr>";
+      portfolioNote.textContent = rows.length + " companies · " + label;
+    }
+  }
+  function syncPortfolioFilters() {
+    portfolioPeriod.value = period.value;
+    portfolioPeriodValue.innerHTML = periodValue.innerHTML;
+    portfolioPeriodValue.value = periodValue.value;
+    portfolioPeriodValueLabel.textContent = periodValueLabel.textContent;
+    portfolioStart.value = start.value;
+    portfolioEnd.value = end.value;
+    portfolioCompanyFilter.value = companyFilter.value;
+    portfolioCategoryFilter.value = categoryFilter.value;
+    const custom = period.value === "custom",
+      specific = period.value === "monthly" || period.value === "yearly";
+    panel
+      .querySelectorAll(".budget-portfolio-period-value")
+      .forEach((control) => (control.hidden = !specific));
+    panel
+      .querySelectorAll(".budget-portfolio-custom-range")
+      .forEach((control) => (control.hidden = !custom));
+  }
+  function updateRangeVisibility() {
+    const custom = period.value === "custom",
+      monthly = period.value === "monthly",
+      yearly = period.value === "yearly",
+      periodSpecific = monthly || yearly;
+    panel
+      .querySelectorAll(".budget-period-value")
+      .forEach((control) => (control.hidden = !periodSpecific));
+    panel
+      .querySelectorAll(".budget-custom-range")
+      .forEach((control) => (control.hidden = !custom));
+    periodValue.innerHTML = "";
+    periodValue.disabled = !periodSpecific;
+    if (monthly) {
+      periodValueLabel.textContent = "Month";
+      [
+        "Apr-26",
+        "May-26",
+        "Jun-26",
+        "Jul-26",
+        "Aug-26",
+        "Sep-26",
+        "Oct-26",
+        "Nov-26",
+        "Dec-26",
+        "Jan-27",
+        "Feb-27",
+        "Mar-27",
+      ].forEach((month) => periodValue.add(new Option(month, month)));
+      periodValue.value = source.months.includes("Aug-26")
+        ? "Aug-26"
+        : source.months[0];
+    } else if (yearly) {
+      periodValueLabel.textContent = "Financial year";
+      [2027, 2026, 2025, 2024].forEach((year) =>
+        periodValue.add(
+          new Option("FY " + year + "-" + (year + 1), String(year)),
+        ),
+      );
+      periodValue.value = "2026";
+    } else {
+      periodValueLabel.textContent = "Period detail";
+      periodValue.add(new Option("All periods", "all"));
+    }
+    render();
+  }
+  period.addEventListener("change", updateRangeVisibility);
+  periodValue.addEventListener("change", render);
+  start.addEventListener("change", render);
+  end.addEventListener("change", render);
+  companyFilter.addEventListener("change", render);
+  categoryFilter.addEventListener("change", render);
+  pieCategoryFilter.addEventListener("change", () => {
+    categoryFilter.value = pieCategoryFilter.value;
+    render();
+  });
+  panel.querySelectorAll("[data-budget-view]").forEach((button) =>
+    button.addEventListener("click", () => {
+      panel.dataset.budgetPortfolioView = button.dataset.budgetView;
+      render();
+    }),
+  );
+  panel
+    .querySelector("#budgetPortfolioBody")
+    .addEventListener("click", (event) => {
+      const assetDepartmentRow = event.target.closest(
+        "[data-budget-asset-department]",
+      );
+      if (assetDepartmentRow) {
+        panel.dataset.budgetSelectedAssetDepartment =
+          panel.dataset.budgetSelectedAssetDepartment ===
+          assetDepartmentRow.dataset.budgetAssetDepartment
+            ? ""
+            : assetDepartmentRow.dataset.budgetAssetDepartment;
+        render();
+        return;
+      }
+      const expenseCategoryRow = event.target.closest(
+        "[data-budget-expense-category-key]",
+      );
+      if (expenseCategoryRow) {
+        panel.dataset.budgetSelectedExpenseCategory =
+          panel.dataset.budgetSelectedExpenseCategory ===
+          expenseCategoryRow.dataset.budgetExpenseCategoryKey
+            ? ""
+            : expenseCategoryRow.dataset.budgetExpenseCategoryKey;
+        render();
+        return;
+      }
+      const expensePeriodRow = event.target.closest(
+        "[data-budget-expense-period-key]",
+      );
+      if (expensePeriodRow) {
+        panel.dataset.budgetSelectedExpensePeriod =
+          panel.dataset.budgetSelectedExpensePeriod ===
+          expensePeriodRow.dataset.budgetExpensePeriodKey
+            ? ""
+            : expensePeriodRow.dataset.budgetExpensePeriodKey;
+        render();
+        return;
+      }
+      const expenseDepartmentRow = event.target.closest(
+        "[data-budget-expense-department-key]",
+      );
+      if (expenseDepartmentRow) {
+        const next =
+          panel.dataset.budgetSelectedExpenseDepartment ===
+          expenseDepartmentRow.dataset.budgetExpenseDepartmentKey
+            ? ""
+            : expenseDepartmentRow.dataset.budgetExpenseDepartmentKey;
+        panel.dataset.budgetSelectedExpenseDepartment = next;
+        panel.dataset.budgetSelectedExpensePeriod = "";
+        render();
+        return;
+      }
+      const expenseCompanyRow = event.target.closest(
+        "[data-budget-expense-company]",
+      );
+      if (expenseCompanyRow) {
+        const next =
+          panel.dataset.budgetSelectedExpenseCompany ===
+          expenseCompanyRow.dataset.budgetExpenseCompany
+            ? ""
+            : expenseCompanyRow.dataset.budgetExpenseCompany;
+        panel.dataset.budgetSelectedExpenseCompany = next;
+        panel.dataset.budgetSelectedExpenseDepartment = "";
+        panel.dataset.budgetSelectedExpensePeriod = "";
+        render();
+        return;
+      }
+      const descriptionRow = event.target.closest(
+        "[data-budget-description-key]",
+      );
+      if (descriptionRow) {
+        panel.dataset.budgetSelectedDescription =
+          panel.dataset.budgetSelectedDescription ===
+          descriptionRow.dataset.budgetDescriptionKey
+            ? ""
+            : descriptionRow.dataset.budgetDescriptionKey;
+        render();
+        return;
+      }
+      const budgetDetailRow = event.target.closest(
+        "[data-budget-detail-company]",
+      );
+      if (budgetDetailRow) {
+        panel.dataset.budgetSelectedDetailCompany =
+          panel.dataset.budgetSelectedDetailCompany ===
+          budgetDetailRow.dataset.budgetDetailCompany
+            ? ""
+            : budgetDetailRow.dataset.budgetDetailCompany;
+        render();
+        return;
+      }
+      const assetRow = event.target.closest("[data-budget-asset]");
+      if (assetRow) {
+        panel.dataset.budgetSelectedAsset =
+          panel.dataset.budgetSelectedAsset === assetRow.dataset.budgetAsset
+            ? ""
+            : assetRow.dataset.budgetAsset;
+        render();
+        return;
+      }
+      const row = event.target.closest("[data-budget-company]");
+      if (!row) return;
+      panel.dataset.budgetSelectedCompany =
+        panel.dataset.budgetSelectedCompany === row.dataset.budgetCompany
+          ? ""
+          : row.dataset.budgetCompany;
+      render();
+    });
+  portfolioPeriod.addEventListener("change", () => {
+    period.value = portfolioPeriod.value;
+    updateRangeVisibility();
+  });
+  portfolioPeriodValue.addEventListener("change", () => {
+    periodValue.value = portfolioPeriodValue.value;
+    render();
+  });
+  portfolioStart.addEventListener("change", () => {
+    start.value = portfolioStart.value;
+    render();
+  });
+  portfolioEnd.addEventListener("change", () => {
+    end.value = portfolioEnd.value;
+    render();
+  });
+  portfolioCompanyFilter.addEventListener("change", () => {
+    companyFilter.value = portfolioCompanyFilter.value;
+    render();
+  });
+  portfolioCategoryFilter.addEventListener("change", () => {
+    categoryFilter.value = portfolioCategoryFilter.value;
+    render();
+  });
+  document
+    .getElementById("budgetPortfolioResetFilters")
+    .addEventListener("click", () => {
+      period.value = "all";
+      companyFilter.value = "all";
+      categoryFilter.value = "all";
+      start.value = source.months[0];
+      end.value = source.months[source.months.length - 1];
+      updateRangeVisibility();
+    });
+  companyChartType.addEventListener("change", render);
+  summaryChartType.addEventListener("change", render);
+  document
+    .getElementById("budgetResetFilters")
+    .addEventListener("click", () => {
+      period.value = "all";
+      companyFilter.value = "all";
+      categoryFilter.value = "all";
+      start.value = source.months[0];
+      end.value = source.months[source.months.length - 1];
+      portfolioStart.value = start.value;
+      portfolioEnd.value = end.value;
+      updateRangeVisibility();
+    });
+  function syncCompanyChartHeader() {
+    const header = panel.querySelector(
+      ".unified-chart-header.chart-control-ready",
+    );
+    if (!header) return;
+    header.classList.remove("chart-control-stacked");
+    const text = header.firstElementChild,
+      control = header.querySelector(".unified-chart-select");
+    header.classList.toggle(
+      "chart-control-stacked",
+      !!text &&
+        !!control &&
+        text.scrollWidth + control.offsetWidth + 12 > header.clientWidth,
+    );
+  }
+  window.addEventListener("resize", () =>
+    requestAnimationFrame(syncCompanyChartHeader),
+  );
   requestAnimationFrame(syncCompanyChartHeader);
-  let themeRefreshQueued=false,themeRefreshTimer=0;
-  function refreshBudgetCharts(){
-    if(typeof active==='undefined'||active!=='Budget & Expense'||panel.hidden)return;
+  let themeRefreshQueued = false,
+    themeRefreshTimer = 0;
+  function refreshBudgetCharts() {
+    if (
+      typeof active === "undefined" ||
+      active !== "Budget & Expense" ||
+      panel.hidden
+    )
+      return;
     render();
     syncCompanyChartHeader();
   }
-  function queueThemeChartRefresh(){
-    if(typeof active==='undefined'||active!=='Budget & Expense'||panel.hidden)return;
-    panel.classList.add('budget-theme-transition');
-    if(themeRefreshQueued)return;
-    themeRefreshQueued=true;
-    const complete=()=>{
-      if(!themeRefreshQueued)return;
-      themeRefreshQueued=false;
+  function queueThemeChartRefresh() {
+    if (
+      typeof active === "undefined" ||
+      active !== "Budget & Expense" ||
+      panel.hidden
+    )
+      return;
+    panel.classList.add("budget-theme-transition");
+    if (themeRefreshQueued) return;
+    themeRefreshQueued = true;
+    const complete = () => {
+      if (!themeRefreshQueued) return;
+      themeRefreshQueued = false;
       clearTimeout(themeRefreshTimer);
       refreshBudgetCharts();
-      requestAnimationFrame(()=>panel.classList.remove('budget-theme-transition'));
+      requestAnimationFrame(() =>
+        panel.classList.remove("budget-theme-transition"),
+      );
     };
-    requestAnimationFrame(()=>requestAnimationFrame(complete));
-    themeRefreshTimer=setTimeout(complete,140);
+    requestAnimationFrame(() => requestAnimationFrame(complete));
+    themeRefreshTimer = setTimeout(complete, 140);
   }
-  const navigate=window.navigateHubPage;window.navigateHubPage=function(name,push=true){navigate(name,push);if(name==='Budget & Expense')requestAnimationFrame(refreshBudgetCharts)};
-  const theme=window.toggleTheme;window.toggleTheme=function(){
-    if(typeof active!=='undefined'&&active==='Budget & Expense'&&!panel.hidden)panel.classList.add('budget-theme-transition');
+  const navigate = window.navigateHubPage;
+  window.navigateHubPage = function (name, push = true) {
+    navigate(name, push);
+    if (name === "Budget & Expense") requestAnimationFrame(refreshBudgetCharts);
+  };
+  const theme = window.toggleTheme;
+  window.toggleTheme = function () {
+    if (
+      typeof active !== "undefined" &&
+      active === "Budget & Expense" &&
+      !panel.hidden
+    )
+      panel.classList.add("budget-theme-transition");
     theme();
     queueThemeChartRefresh();
   };
-  const themeButton=document.querySelector('.theme-toggle');
-  if(themeButton){
-    themeButton.onclick=window.toggleTheme;
-    themeButton.addEventListener('click',queueThemeChartRefresh);
+  const themeButton = document.querySelector(".theme-toggle");
+  if (themeButton) {
+    themeButton.onclick = window.toggleTheme;
+    themeButton.addEventListener("click", queueThemeChartRefresh);
   }
   updateRangeVisibility();
 })();
 /* Shared numeric table alignment and negative-value treatment. */
-(function(){
-  const panel=document.getElementById('budgetExpenseDashboard');
-  const source=panel?.__budgetExpenseDetailData;
-  const full=value=>new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(Math.round(Number(value)||0));
-  const clean=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
-  function updateNumericCells(){
-    document.querySelectorAll('table td,table tfoot th').forEach(cell=>{
-      const raw=cell.textContent.trim(),value=Number(raw.replace(/,/g,'').replace(/MMK|%/gi,'').trim()),numeric=/^-?[\d,]+(?:\.\d+)?(?:\s*(?:MMK|%))?$/i.test(raw);
-      cell.classList.toggle('numeric-cell',numeric);
-      cell.classList.toggle('negative-value',numeric&&value<0);
+(function () {
+  const panel = document.getElementById("budgetExpenseDashboard");
+  const source = panel?.__budgetExpenseDetailData;
+  const full = (value) =>
+    new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(
+      Math.round(Number(value) || 0),
+    );
+  const clean = (value) =>
+    String(value ?? "").replace(
+      /[&<>'"]/g,
+      (char) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          "'": "&#39;",
+          '"': "&quot;",
+        })[char],
+    );
+  function updateNumericCells() {
+    document.querySelectorAll("table td,table tfoot th").forEach((cell) => {
+      const raw = cell.textContent.trim(),
+        value = Number(raw.replace(/,/g, "").replace(/MMK|%/gi, "").trim()),
+        numeric = /^-?[\d,]+(?:\.\d+)?(?:\s*(?:MMK|%))?$/i.test(raw);
+      cell.classList.toggle("numeric-cell", numeric);
+      cell.classList.toggle("negative-value", numeric && value < 0);
     });
-    const title=document.getElementById('budgetPortfolioTitle'),note=document.getElementById('budgetPortfolioNote');
-    if(title?.textContent==='Fixed Asset Purchases'&&note){
-      const count=document.querySelectorAll('#budgetPortfolioBody .budget-asset-row').length,total=4,text='Showing '+count+' of '+total+' Companies';
-      if(note.textContent!==text)note.textContent=text;
+    const title = document.getElementById("budgetPortfolioTitle"),
+      note = document.getElementById("budgetPortfolioNote");
+    if (title?.textContent === "Fixed Asset Purchases" && note) {
+      const count = document.querySelectorAll(
+          "#budgetPortfolioBody .budget-asset-row",
+        ).length,
+        total = 4,
+        text = "Showing " + count + " of " + total + " Companies";
+      if (note.textContent !== text) note.textContent = text;
     }
   }
   /* Period drill-down stays inside this component so it uses the same workbook data. */
-  if(panel&&source)panel.addEventListener('click',event=>{
-    const periodRow=event.target.closest('#budgetPortfolioBody .budget-monthly-row');
-    if(!periodRow)return;
-    const body=periodRow.parentElement,company=body.querySelector('.budget-company-row.selected')?.dataset.budgetCompany,month=periodRow.cells[0]?.textContent.match(/(?:Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|Jan|Feb|Mar)-\d{2}/)?.[0];
-    if(!body||!company||!month)return;
-    const alreadyOpen=periodRow.classList.contains('category-detail-open');
-    body.querySelectorAll('.budget-month-category-row').forEach(row=>row.remove());
-    body.querySelectorAll('.budget-monthly-row.category-detail-open').forEach(row=>row.classList.remove('category-detail-open'));
-    if(alreadyOpen){delete panel.dataset.budgetSelectedCompanyPeriod;return;}
-    panel.dataset.budgetSelectedCompanyPeriod=company+'|'+month;
-    const selectedCategory=document.getElementById('budgetCategoryFilter')?.value||'all',selectedDepartment=document.getElementById('budgetExpenseDepartmentFilter')?.value||'all',matchesCategory=row=>selectedCategory==='all'||row.category===selectedCategory,matchesDepartment=row=>selectedDepartment==='all'||row.department===selectedDepartment,budgetRows=source.budgets.filter(row=>row.company===company&&row.month===month&&matchesCategory(row)),expenseSource=selectedDepartment==='all'?source.expenses.filter(row=>!row.department):source.expenses.filter(row=>row.department),expenseRows=expenseSource.filter(row=>row.company===company&&row.month===month&&matchesCategory(row)&&matchesDepartment(row)),categories=[...new Set([...budgetRows,...expenseRows].map(row=>row.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
-    let next=periodRow.nextSibling;
-    categories.forEach(category=>{
-      const budgetAmount=budgetRows.filter(row=>row.category===category).reduce((sum,row)=>sum+row.amount,0),expenseAmount=expenseRows.filter(row=>row.category===category).reduce((sum,row)=>sum+row.amount,0),variance=budgetAmount-expenseAmount,utilization=budgetAmount?expenseAmount/budgetAmount*100:0,status=utilization<=80?'On Budget':(utilization<=100?'Review Budget':'Over Budget'),detail=document.createElement('tr');
-      detail.className='budget-month-category-row';
-      detail.innerHTML=`<td>${clean(category)}</td><td>${full(budgetAmount)}</td><td>${full(expenseAmount)}</td><td class="${variance<0?'budget-overrun':''}">${full(variance)}</td><td><div class="budget-utilization"><span><i style="width:${Math.min(100,utilization)}%"></i></span><b>${utilization.toFixed(1)}%</b><em class="budget-status ${utilization>100?'over':(utilization>80?'review':'on')}">${status}</em></div></td>`;
-      body.insertBefore(detail,next);
+  if (panel && source)
+    panel.addEventListener("click", (event) => {
+      const periodRow = event.target.closest(
+        "#budgetPortfolioBody .budget-monthly-row",
+      );
+      if (!periodRow) return;
+      const body = periodRow.parentElement,
+        company = body.querySelector(".budget-company-row.selected")?.dataset
+          .budgetCompany,
+        month = periodRow.cells[0]?.textContent.match(
+          /(?:Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|Jan|Feb|Mar)-\d{2}/,
+        )?.[0];
+      if (!body || !company || !month) return;
+      const alreadyOpen = periodRow.classList.contains("category-detail-open");
+      body
+        .querySelectorAll(".budget-month-category-row")
+        .forEach((row) => row.remove());
+      body
+        .querySelectorAll(".budget-monthly-row.category-detail-open")
+        .forEach((row) => row.classList.remove("category-detail-open"));
+      if (alreadyOpen) {
+        delete panel.dataset.budgetSelectedCompanyPeriod;
+        return;
+      }
+      panel.dataset.budgetSelectedCompanyPeriod = company + "|" + month;
+      const selectedCategory =
+          document.getElementById("budgetCategoryFilter")?.value || "all",
+        selectedDepartment =
+          document.getElementById("budgetExpenseDepartmentFilter")?.value ||
+          "all",
+        matchesCategory = (row) =>
+          selectedCategory === "all" || row.category === selectedCategory,
+        matchesDepartment = (row) =>
+          selectedDepartment === "all" || row.department === selectedDepartment,
+        budgetRows = source.budgets.filter(
+          (row) =>
+            row.company === company &&
+            row.month === month &&
+            matchesCategory(row),
+        ),
+        expenseSource =
+          selectedDepartment === "all"
+            ? source.expenses.filter((row) => !row.department)
+            : source.expenses.filter((row) => row.department),
+        expenseRows = expenseSource.filter(
+          (row) =>
+            row.company === company &&
+            row.month === month &&
+            matchesCategory(row) &&
+            matchesDepartment(row),
+        ),
+        categories = [
+          ...new Set(
+            [...budgetRows, ...expenseRows]
+              .map((row) => row.category)
+              .filter(Boolean),
+          ),
+        ].sort((a, b) => a.localeCompare(b));
+      let next = periodRow.nextSibling;
+      categories.forEach((category) => {
+        const budgetAmount = budgetRows
+            .filter((row) => row.category === category)
+            .reduce((sum, row) => sum + row.amount, 0),
+          expenseAmount = expenseRows
+            .filter((row) => row.category === category)
+            .reduce((sum, row) => sum + row.amount, 0),
+          variance = budgetAmount - expenseAmount,
+          utilization = budgetAmount ? (expenseAmount / budgetAmount) * 100 : 0,
+          status =
+            utilization <= 80
+              ? "On Budget"
+              : utilization <= 100
+                ? "Review Budget"
+                : "Over Budget",
+          detail = document.createElement("tr");
+        detail.className = "budget-month-category-row";
+        detail.innerHTML = `<td>${clean(category)}</td><td>${full(budgetAmount)}</td><td>${full(expenseAmount)}</td><td class="${variance < 0 ? "budget-overrun" : ""}">${full(variance)}</td><td><div class="budget-utilization"><span><i style="width:${Math.min(100, utilization)}%"></i></span><b>${utilization.toFixed(1)}%</b><em class="budget-status ${utilization > 100 ? "over" : utilization > 80 ? "review" : "on"}">${status}</em></div></td>`;
+        body.insertBefore(detail, next);
+      });
+      periodRow.classList.add("category-detail-open");
     });
-    periodRow.classList.add('category-detail-open');
-  });
-  const restorePeriodDetail=()=>{
-    const key=panel?.dataset.budgetSelectedCompanyPeriod;
-    if(!key||document.querySelector('#budgetPortfolioBody .budget-month-category-row'))return;
-    const [company,month]=key.split('|'),companyRow=[...document.querySelectorAll('#budgetPortfolioBody .budget-company-row')].find(row=>row.dataset.budgetCompany===company);
-    const periodRow=companyRow&&[...document.querySelectorAll('#budgetPortfolioBody .budget-monthly-row')].find(row=>row.cells[0]?.textContent.includes(month));
-    if(periodRow)periodRow.dispatchEvent(new MouseEvent('click',{bubbles:true}));
+  const restorePeriodDetail = () => {
+    const key = panel?.dataset.budgetSelectedCompanyPeriod;
+    if (
+      !key ||
+      document.querySelector("#budgetPortfolioBody .budget-month-category-row")
+    )
+      return;
+    const [company, month] = key.split("|"),
+      companyRow = [
+        ...document.querySelectorAll(
+          "#budgetPortfolioBody .budget-company-row",
+        ),
+      ].find((row) => row.dataset.budgetCompany === company);
+    const periodRow =
+      companyRow &&
+      [
+        ...document.querySelectorAll(
+          "#budgetPortfolioBody .budget-monthly-row",
+        ),
+      ].find((row) => row.cells[0]?.textContent.includes(month));
+    if (periodRow)
+      periodRow.dispatchEvent(new MouseEvent("click", { bubbles: true }));
   };
-  new MutationObserver(()=>{updateNumericCells();restorePeriodDetail()}).observe(document.body,{childList:true,subtree:true,characterData:true});
+  new MutationObserver(() => {
+    updateNumericCells();
+    restorePeriodDetail();
+  }).observe(document.body, {
+    childList: true,
+    subtree: true,
+    characterData: true,
+  });
   updateNumericCells();
 })();
 
 /* Export the complete Budget & Expense dashboard, including every drill-down. */
-(function(){
-  const source=window.budgetExpenseData;
-  if(!source||typeof window.exportXlsx!=='function')return;
-  const baseExport=window.exportXlsx;
-  const amount=value=>Math.round(Number(value)||0);
-  const addSheet=(workbook,name,rows)=>{
-    const sheet=XLSX.utils.json_to_sheet(rows);
-    const headers=rows.length?Object.keys(rows[0]):[];
-    sheet['!cols']=headers.map(header=>({wch:Math.min(34,Math.max(String(header).length+2,...rows.map(row=>String(row[header]??'').length+2)))}));
-    XLSX.utils.book_append_sheet(workbook,sheet,name.slice(0,31));
-  };
-  window.exportXlsx=function(){
-    if(typeof active==='undefined'||active!=='Budget & Expense')return baseExport();
-    const companies=[...new Set([...source.budgets,...source.expenses,...source.purchases].map(row=>row.company).filter(Boolean))].sort();
-    const companyFinancial=companies.map(company=>{
-      const budget=source.budgets.filter(row=>row.company===company).reduce((sum,row)=>sum+amount(row.amount),0);
-      const expense=source.expenses.filter(row=>row.company===company).reduce((sum,row)=>sum+amount(row.amount),0);
-      return {Company:company,'Budget (MMK)':budget,'Actual Expense (MMK)':expense,'Variance (MMK)':budget-expense,Utilization:budget?expense/budget:0};
-    });
-    const companyMonths=companies.flatMap(company=>source.months.map(month=>{
-      const budget=source.budgets.filter(row=>row.company===company&&row.month===month).reduce((sum,row)=>sum+amount(row.amount),0);
-      const expense=source.expenses.filter(row=>row.company===company&&row.month===month).reduce((sum,row)=>sum+amount(row.amount),0);
-      return {Company:company,Period:month,'Budget (MMK)':budget,'Actual Expense (MMK)':expense,'Variance (MMK)':budget-expense,Utilization:budget?expense/budget:0};
+(function () {
+  const source = window.budgetExpenseData;
+  if (!source || typeof window.exportXlsx !== "function") return;
+  const baseExport = window.exportXlsx;
+  const amount = (value) => Math.round(Number(value) || 0);
+  const addSheet = (workbook, name, rows) => {
+    const sheet = XLSX.utils.json_to_sheet(rows);
+    const headers = rows.length ? Object.keys(rows[0]) : [];
+    sheet["!cols"] = headers.map((header) => ({
+      wch: Math.min(
+        34,
+        Math.max(
+          String(header).length + 2,
+          ...rows.map((row) => String(row[header] ?? "").length + 2),
+        ),
+      ),
     }));
-    const allocationSummary=companies.map(company=>{
-      const records=source.budgets.filter(row=>row.company===company);
-      return {Company:company,Categories:new Set(records.map(row=>row.category)).size,'Reporting Period':'Financial Year 26–27','Budget (MMK)':records.reduce((sum,row)=>sum+amount(row.amount),0)};
+    XLSX.utils.book_append_sheet(workbook, sheet, name.slice(0, 31));
+  };
+  window.exportXlsx = function () {
+    if (typeof active === "undefined" || active !== "Budget & Expense")
+      return baseExport();
+    const companies = [
+      ...new Set(
+        [...source.budgets, ...source.expenses, ...source.purchases]
+          .map((row) => row.company)
+          .filter(Boolean),
+      ),
+    ].sort();
+    const companyFinancial = companies.map((company) => {
+      const budget = source.budgets
+        .filter((row) => row.company === company)
+        .reduce((sum, row) => sum + amount(row.amount), 0);
+      const expense = source.expenses
+        .filter((row) => row.company === company)
+        .reduce((sum, row) => sum + amount(row.amount), 0);
+      return {
+        Company: company,
+        "Budget (MMK)": budget,
+        "Actual Expense (MMK)": expense,
+        "Variance (MMK)": budget - expense,
+        Utilization: budget ? expense / budget : 0,
+      };
     });
-    const allocationDetails=source.budgets.map(row=>({Company:row.company,Period:row.month,Category:row.category,Description:row.description,'Budget (MMK)':amount(row.amount)}));const expenseSummary=companies.map(company=>{const records=source.expenses.filter(row=>row.company===company);return{Company:company,Categories:new Set(records.map(row=>row.category)).size,'Reporting Period':'Financial Year 26–27','Actual Expense (MMK)':records.reduce((sum,row)=>sum+amount(row.amount),0)}});const expenseDetails=source.expenses.map(row=>({Company:row.company,Period:row.month,Category:row.category,Description:row.description,'Actual Expense (MMK)':amount(row.amount)}));
-    const assetCompanies=companies.map(company=>{
-      const records=source.purchases.filter(row=>row.company===company);
-      const laptop=records.reduce((sum,row)=>sum+amount(row.laptop),0),desktop=records.reduce((sum,row)=>sum+amount(row.desktop),0);
-      return {Company:company,Laptops:laptop,Desktops:desktop,'Total Assets':laptop+desktop};
+    const companyMonths = companies.flatMap((company) =>
+      source.months.map((month) => {
+        const budget = source.budgets
+          .filter((row) => row.company === company && row.month === month)
+          .reduce((sum, row) => sum + amount(row.amount), 0);
+        const expense = source.expenses
+          .filter((row) => row.company === company && row.month === month)
+          .reduce((sum, row) => sum + amount(row.amount), 0);
+        return {
+          Company: company,
+          Period: month,
+          "Budget (MMK)": budget,
+          "Actual Expense (MMK)": expense,
+          "Variance (MMK)": budget - expense,
+          Utilization: budget ? expense / budget : 0,
+        };
+      }),
+    );
+    const allocationSummary = companies.map((company) => {
+      const records = source.budgets.filter((row) => row.company === company);
+      return {
+        Company: company,
+        Categories: new Set(records.map((row) => row.category)).size,
+        "Reporting Period": "Financial Year 26–27",
+        "Budget (MMK)": records.reduce(
+          (sum, row) => sum + amount(row.amount),
+          0,
+        ),
+      };
     });
-    const assetDepartments=source.purchases.map(row=>({Company:row.company,Department:row.department,Period:row.month,Laptops:amount(row.laptop),Desktops:amount(row.desktop),Copiers:amount(row.copier),Printers:amount(row.printer),'Total Assets':amount(row.laptop)+amount(row.desktop)+amount(row.copier)+amount(row.printer)}));
-    const workbook=XLSX.utils.book_new();
-    addSheet(workbook,'Financial Summary',companyFinancial);
-    addSheet(workbook,'Financial Monthly Detail',companyMonths);
-    addSheet(workbook,'Budget Allocation',allocationSummary);
-    addSheet(workbook,'Budget Allocation Detail',allocationDetails);addSheet(workbook,'Expense Summary',expenseSummary);addSheet(workbook,'Expense Summary Detail',expenseDetails);
-    addSheet(workbook,'Fixed Asset Summary',assetCompanies);
-    addSheet(workbook,'Fixed Asset Department Detail',assetDepartments);
-    XLSX.writeFile(workbook,'Nature-A-Budget-and-Expense-Dashboard.xlsx');
-    show('Complete Budget & Expense workbook exported');
+    const allocationDetails = source.budgets.map((row) => ({
+      Company: row.company,
+      Period: row.month,
+      Category: row.category,
+      Description: row.description,
+      "Budget (MMK)": amount(row.amount),
+    }));
+    const expenseSummary = companies.map((company) => {
+      const records = source.expenses.filter((row) => row.company === company);
+      return {
+        Company: company,
+        Categories: new Set(records.map((row) => row.category)).size,
+        "Reporting Period": "Financial Year 26–27",
+        "Actual Expense (MMK)": records.reduce(
+          (sum, row) => sum + amount(row.amount),
+          0,
+        ),
+      };
+    });
+    const expenseDetails = source.expenses.map((row) => ({
+      Company: row.company,
+      Period: row.month,
+      Category: row.category,
+      Description: row.description,
+      "Actual Expense (MMK)": amount(row.amount),
+    }));
+    const assetCompanies = companies.map((company) => {
+      const records = source.purchases.filter((row) => row.company === company);
+      const laptop = records.reduce((sum, row) => sum + amount(row.laptop), 0),
+        desktop = records.reduce((sum, row) => sum + amount(row.desktop), 0);
+      return {
+        Company: company,
+        Laptops: laptop,
+        Desktops: desktop,
+        "Total Assets": laptop + desktop,
+      };
+    });
+    const assetDepartments = source.purchases.map((row) => ({
+      Company: row.company,
+      Department: row.department,
+      Period: row.month,
+      Laptops: amount(row.laptop),
+      Desktops: amount(row.desktop),
+      Copiers: amount(row.copier),
+      Printers: amount(row.printer),
+      "Total Assets":
+        amount(row.laptop) +
+        amount(row.desktop) +
+        amount(row.copier) +
+        amount(row.printer),
+    }));
+    const workbook = XLSX.utils.book_new();
+    addSheet(workbook, "Financial Summary", companyFinancial);
+    addSheet(workbook, "Financial Monthly Detail", companyMonths);
+    addSheet(workbook, "Budget Allocation", allocationSummary);
+    addSheet(workbook, "Budget Allocation Detail", allocationDetails);
+    addSheet(workbook, "Expense Summary", expenseSummary);
+    addSheet(workbook, "Expense Summary Detail", expenseDetails);
+    addSheet(workbook, "Fixed Asset Summary", assetCompanies);
+    addSheet(workbook, "Fixed Asset Department Detail", assetDepartments);
+    XLSX.writeFile(workbook, "Nature-A-Budget-and-Expense-Dashboard.xlsx");
+    show("Complete Budget & Expense workbook exported");
   };
 })();
 
 /* Complete page exports for Manpower, Service Tickets, and Microsoft 365. */
-(function(){
-  const baseExport=window.exportXlsx;
-  if(typeof baseExport!=='function')return;
-  const readStore=(key,fallback=[])=>{try{const value=JSON.parse(localStorage.getItem(key)||'null');return value||fallback}catch(error){return fallback}};
-  const addSheet=(workbook,name,rows)=>{
-    if(!Array.isArray(rows)||!rows.length)return;
-    const sheet=XLSX.utils.json_to_sheet(rows);
-    const headers=Object.keys(rows[0]);
-    sheet['!cols']=headers.map(header=>({wch:Math.min(34,Math.max(String(header).length+2,...rows.map(row=>String(row[header]??'').length+2)))}));
-    XLSX.utils.book_append_sheet(workbook,sheet,name.slice(0,31));
+(function () {
+  const baseExport = window.exportXlsx;
+  if (typeof baseExport !== "function") return;
+  const readStore = (key, fallback = []) => {
+    try {
+      const value = JSON.parse(localStorage.getItem(key) || "null");
+      return value || fallback;
+    } catch (error) {
+      return fallback;
+    }
   };
-  const tableRows=table=>{
-    const headers=[...table.querySelectorAll('thead th')].map(cell=>cell.textContent.trim());
-    return [...table.querySelectorAll('tbody tr')].map(row=>Object.fromEntries(headers.map((header,index)=>[header,row.cells[index]?.textContent.trim()||''])));
+  const addSheet = (workbook, name, rows) => {
+    if (!Array.isArray(rows) || !rows.length) return;
+    const sheet = XLSX.utils.json_to_sheet(rows);
+    const headers = Object.keys(rows[0]);
+    sheet["!cols"] = headers.map((header) => ({
+      wch: Math.min(
+        34,
+        Math.max(
+          String(header).length + 2,
+          ...rows.map((row) => String(row[header] ?? "").length + 2),
+        ),
+      ),
+    }));
+    XLSX.utils.book_append_sheet(workbook, sheet, name.slice(0, 31));
   };
-  const writeWorkbook=(fileName,sheets,message)=>{
-    const workbook=XLSX.utils.book_new();
-    sheets.forEach(([name,rows])=>addSheet(workbook,name,rows));
-    if(!workbook.SheetNames.length)return show('No dashboard data to export');
-    XLSX.writeFile(workbook,fileName);
+  const tableRows = (table) => {
+    const headers = [...table.querySelectorAll("thead th")].map((cell) =>
+      cell.textContent.trim(),
+    );
+    return [...table.querySelectorAll("tbody tr")].map((row) =>
+      Object.fromEntries(
+        headers.map((header, index) => [
+          header,
+          row.cells[index]?.textContent.trim() || "",
+        ]),
+      ),
+    );
+  };
+  const writeWorkbook = (fileName, sheets, message) => {
+    const workbook = XLSX.utils.book_new();
+    sheets.forEach(([name, rows]) => addSheet(workbook, name, rows));
+    if (!workbook.SheetNames.length) return show("No dashboard data to export");
+    XLSX.writeFile(workbook, fileName);
     show(message);
   };
-  window.exportXlsx=function(){
-    if(typeof active==='undefined')return baseExport();
-    if(active==='Manpower'){
-      const directoryTable=[...document.querySelectorAll('main table')].find(table=>table.querySelector('thead th')?.textContent.trim()==='Employee')||document.querySelector('#manpowerDashboard table');
-      const directory=directoryTable?tableRows(directoryTable):readStore('manpowerDirectoryDB',[]);
-  const planningCard=document.getElementById('manpowerPlanningCard'),activeTab=planningCard?.querySelector('[data-tab].active')?.dataset.tab||'',planningRows=[];
-  [...(planningCard?.querySelectorAll('[data-tab]')||[])].forEach(tab=>{tab.click();[...document.querySelectorAll('#manpowerPlanningCard table')].forEach(table=>tableRows(table).forEach(row=>planningRows.push({View:tab.textContent.trim(),...row})))});
-  if(activeTab)document.querySelector('#manpowerPlanningCard [data-tab="'+activeTab+'"]').click();
-      const planning=readStore('manpowerPlanningDB',{}),fallbackPlanningRows=Object.entries(planning).flatMap(([view,rows])=>(Array.isArray(rows)?rows:[]).map(row=>({View:view,...row})));
-      writeWorkbook('Nature-A-Manpower-Dashboard.xlsx',[['Workforce Directory',directory],['Manpower Planning',planningRows.length?planningRows:fallbackPlanningRows]],'All Manpower table tabs exported');
+  window.exportXlsx = function () {
+    if (typeof active === "undefined") return baseExport();
+    if (active === "Manpower") {
+      const directoryTable =
+        [...document.querySelectorAll("main table")].find(
+          (table) =>
+            table.querySelector("thead th")?.textContent.trim() === "Employee",
+        ) || document.querySelector("#manpowerDashboard table");
+      const directory = directoryTable
+        ? tableRows(directoryTable)
+        : readStore("manpowerDirectoryDB", []);
+      const planningCard = document.getElementById("manpowerPlanningCard"),
+        activeTab =
+          planningCard?.querySelector("[data-tab].active")?.dataset.tab || "",
+        planningRows = [];
+      [...(planningCard?.querySelectorAll("[data-tab]") || [])].forEach(
+        (tab) => {
+          tab.click();
+          [...document.querySelectorAll("#manpowerPlanningCard table")].forEach(
+            (table) =>
+              tableRows(table).forEach((row) =>
+                planningRows.push({ View: tab.textContent.trim(), ...row }),
+              ),
+          );
+        },
+      );
+      if (activeTab)
+        document
+          .querySelector('#manpowerPlanningCard [data-tab="' + activeTab + '"]')
+          .click();
+      const planning = readStore("manpowerPlanningDB", {}),
+        fallbackPlanningRows = Object.entries(planning).flatMap(
+          ([view, rows]) =>
+            (Array.isArray(rows) ? rows : []).map((row) => ({
+              View: view,
+              ...row,
+            })),
+        );
+      writeWorkbook(
+        "Nature-A-Manpower-Dashboard.xlsx",
+        [
+          ["Workforce Directory", directory],
+          [
+            "Manpower Planning",
+            planningRows.length ? planningRows : fallbackPlanningRows,
+          ],
+        ],
+        "All Manpower table tabs exported",
+      );
       return;
     }
-    if(active==='Copier & Printer Usage'){
-      const usageTable=document.querySelector('#copierprinterusageDashboard .unified-data-table');
-      writeWorkbook('Nature-A-Copier-and-Printer-Usage.xlsx',[['Copier and Printer Usage',usageTable?tableRows(usageTable):[]]],'Copier and Printer Usage table exported');
+    if (active === "Copier & Printer Usage") {
+      const usageTable = document.querySelector(
+        "#copierprinterusageDashboard .unified-data-table",
+      );
+      writeWorkbook(
+        "Nature-A-Copier-and-Printer-Usage.xlsx",
+        [["Copier and Printer Usage", usageTable ? tableRows(usageTable) : []]],
+        "Copier and Printer Usage table exported",
+      );
       return;
     }
-    if(active==='Service Tickets'){
-      const assignmentTable=document.querySelector('#serviceTicketsDashboard #ticketAssignmentTable');
-      const summary=assignmentTable?tableRows(assignmentTable):[];
-      writeWorkbook('Nature-A-Service-Tickets-Dashboard.xlsx',[['Service Ticket Allocation',summary]],'Service Ticket table exported');
+    if (active === "Service Tickets") {
+      const assignmentTable = document.querySelector(
+        "#serviceTicketsDashboard #ticketAssignmentTable",
+      );
+      const summary = assignmentTable ? tableRows(assignmentTable) : [];
+      writeWorkbook(
+        "Nature-A-Service-Tickets-Dashboard.xlsx",
+        [["Service Ticket Allocation", summary]],
+        "Service Ticket table exported",
+      );
       return;
     }
-    if(active==='Fixed Assets'){
-      const records=Array.isArray(window.FIXED_ASSETS_DATA?.records)?window.FIXED_ASSETS_DATA.records:[];
-      const companyInventory=Object.entries(records.reduce((groups,record)=>{
-        const company=record.c||'Unspecified';
-        if(!groups[company])groups[company]={Company:company,'Good Assets':0,'Damaged Assets':0,'Total Assets':0,'Purchased (MMK)':0};
-        groups[company]['Total Assets']+=1;
-        groups[company]['Purchased (MMK)']+=Number(record.a)||0;
-        if(record.o==='Damage')groups[company]['Damaged Assets']+=1;
-        else if(record.o==='Good')groups[company]['Good Assets']+=1;
-        return groups;
-      },{})).map(([,row])=>row).sort((left,right)=>right['Total Assets']-left['Total Assets']);
-      const overview=records.map(record=>{
-        const companyCode=String(record.cc||'').trim();
-        const code=String(record.code??'').trim();
-        return {'Fixed Asset Code':companyCode?(code&&code!=='-'?companyCode+'-'+(/^\d+$/.test(code)?code.padStart(4,'0'):code):companyCode):(code||'—'),'Asset Type':record.t||'—',Company:record.c||'—',Department:record.d||'—','Current User':record.u||'—',Condition:record.o||'—',Location:record.l||'—','Purchased Date':record.p||'—','Purchased (MMK)':Number(record.a)||0};
+    if (active === "Fixed Assets") {
+      const records = Array.isArray(window.FIXED_ASSETS_DATA?.records)
+        ? window.FIXED_ASSETS_DATA.records
+        : [];
+      const companyInventory = Object.entries(
+        records.reduce((groups, record) => {
+          const company = record.c || "Unspecified";
+          if (!groups[company])
+            groups[company] = {
+              Company: company,
+              "Good Assets": 0,
+              "Damaged Assets": 0,
+              "Total Assets": 0,
+              "Purchased (MMK)": 0,
+            };
+          groups[company]["Total Assets"] += 1;
+          groups[company]["Purchased (MMK)"] += Number(record.a) || 0;
+          if (record.o === "Damage") groups[company]["Damaged Assets"] += 1;
+          else if (record.o === "Good") groups[company]["Good Assets"] += 1;
+          return groups;
+        }, {}),
+      )
+        .map(([, row]) => row)
+        .sort((left, right) => right["Total Assets"] - left["Total Assets"]);
+      const overview = records.map((record) => {
+        const companyCode = String(record.cc || "").trim();
+        const code = String(record.code ?? "").trim();
+        return {
+          "Fixed Asset Code": companyCode
+            ? code && code !== "-"
+              ? companyCode +
+                "-" +
+                (/^\d+$/.test(code) ? code.padStart(4, "0") : code)
+              : companyCode
+            : code || "—",
+          Company: record.c || "—",
+          Department: record.d || "—",
+          "Current User": record.u || "—",
+          "Asset Type": record.t || "—",
+          Brand: record.b || "—",
+          Generation: record.g || "—",
+          CPU: record.cpu || "—",
+          GPU: record.gpu || "—",
+          RAM: record.ram || "—",
+          HDD: record.hdd || "—",
+          "Screen Size":
+            record.s === undefined || record.s === null || record.s === ""
+              ? "—"
+              : record.s,
+          "Accessories Details": record.x || "—",
+          Condition: record.o || "—",
+          Location: record.l || "—",
+          "Purchased Date": record.p || "—",
+          "Purchased (MMK)": Number(record.a) || 0,
+          Remark: record.r || "—",
+        };
       });
-      writeWorkbook('Nature-A-Fixed-Assets-Dashboard.xlsx',[['Company Asset Inventory',companyInventory],['Fixed Asset Overview',overview]],'All Fixed Asset table tabs exported');
+      writeWorkbook(
+        "Nature-A-Fixed-Assets-Dashboard.xlsx",
+        [
+          ["Company Asset Inventory", companyInventory],
+          ["Fixed Asset Overview", overview],
+        ],
+        "All Fixed Asset table tabs exported",
+      );
       return;
     }
-    if(active==='Microsoft 365'){
-      const companyRows=readStore('m365CompanyDB',typeof data!=='undefined'?(data['Microsoft 365']||[]):[]);
-      const licenseRows=readStore('m365LicensesDB',[]);
-      writeWorkbook('Nature-A-Microsoft-365-Dashboard.xlsx',[['Company License Distribution',companyRows],['License Utilization',licenseRows]],'Microsoft 365 tables exported');
+    if (active === "Microsoft 365") {
+      const companyRows = readStore(
+        "m365CompanyDB",
+        typeof data !== "undefined" ? data["Microsoft 365"] || [] : [],
+      );
+      const licenseRows = readStore("m365LicensesDB", []);
+      writeWorkbook(
+        "Nature-A-Microsoft-365-Dashboard.xlsx",
+        [
+          ["Company License Distribution", companyRows],
+          ["License Utilization", licenseRows],
+        ],
+        "Microsoft 365 tables exported",
+      );
       return;
     }
     baseExport();
@@ -1639,400 +8978,3175 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 
 /* Use company terminology throughout the Site Coverage view. */
-(()=>{
-  const update=()=>{
-    const card=document.getElementById('manpowerPlanningCard');
-    const table=card?.querySelector('.site-assignment-matrix');
-    if(!table)return;
-    const heading=table.tHead?.rows[0]?.cells[0];
-    if(heading&&heading.textContent!=='Supported Company')heading.textContent='Supported Company';
-    const body=table.tBodies[0],rows=body?[...body.rows]:[],sortedRows=rows.slice().sort((left,right)=>left.cells[0].textContent.trim().localeCompare(right.cells[0].textContent.trim()));
-    if(body&&rows.some((row,index)=>row!==sortedRows[index]))body.append(...sortedRows);
-    const title=card.querySelector('.site-chart-title h3');
-    if(title&&title.textContent!=='Team Company Coverage')title.textContent='Team Company Coverage';
-    const subtitle=card.querySelector('.site-chart-title p');
-    if(subtitle&&subtitle.textContent!=='Assigned companies by coverage model')subtitle.textContent='Assigned companies by coverage model';
-    const details=card.querySelector('#siteTeamDetails');
-    if(details){
-      const label=details.querySelector('.site-team-detail-head b');
-      const total=details.querySelector('.site-team-detail-head span');
-      if(label?.textContent==='All Supported Locations')label.textContent='All Supported Companies';
-      const companyTotal=total?.textContent.replace(/sites?/i,'companies');
-      if(total&&companyTotal!==total.textContent)total.textContent=companyTotal;
+(() => {
+  const update = () => {
+    const card = document.getElementById("manpowerPlanningCard");
+    const table = card?.querySelector(".site-assignment-matrix");
+    if (!table) return;
+    const heading = table.tHead?.rows[0]?.cells[0];
+    if (heading && heading.textContent !== "Supported Company")
+      heading.textContent = "Supported Company";
+    const body = table.tBodies[0],
+      rows = body ? [...body.rows] : [],
+      sortedRows = rows
+        .slice()
+        .sort((left, right) =>
+          left.cells[0].textContent
+            .trim()
+            .localeCompare(right.cells[0].textContent.trim()),
+        );
+    if (body && rows.some((row, index) => row !== sortedRows[index]))
+      body.append(...sortedRows);
+    const title = card.querySelector(".site-chart-title h3");
+    if (title && title.textContent !== "Team Company Coverage")
+      title.textContent = "Team Company Coverage";
+    const subtitle = card.querySelector(".site-chart-title p");
+    if (
+      subtitle &&
+      subtitle.textContent !== "Assigned companies by coverage model"
+    )
+      subtitle.textContent = "Assigned companies by coverage model";
+    const details = card.querySelector("#siteTeamDetails");
+    if (details) {
+      const label = details.querySelector(".site-team-detail-head b");
+      const total = details.querySelector(".site-team-detail-head span");
+      if (label?.textContent === "All Supported Locations")
+        label.textContent = "All Supported Companies";
+      const companyTotal = total?.textContent.replace(/sites?/i, "companies");
+      if (total && companyTotal !== total.textContent)
+        total.textContent = companyTotal;
     }
-    const footer=card.querySelector('#siteCoverageCount');
-    const companyFooter=footer?.textContent.replace(/locations?/i,'companies');
-    if(footer&&companyFooter!==footer.textContent)footer.textContent=companyFooter;
-    const tab=card.querySelector('.unified-tab[data-tab="onsite"]');
-    const tabLabel=tab?.querySelector('span');
-    if(tabLabel&&tabLabel.textContent!=='Company Coverage')tabLabel.textContent='Company Coverage';
-    const tableTitle=card.querySelector('.unified-table-title h2');
-    const tableSubtitle=card.querySelector('.unified-table-title p');
-    if(tableTitle&&tableTitle.textContent!=='Company Support Coverage')tableTitle.textContent='Company Support Coverage';
-    if(tableSubtitle&&tableSubtitle.textContent!=='Team assignments across supported companies')tableSubtitle.textContent='Team assignments across supported companies';
-    const coverageKpis=[
-      ['Total Companies','All supported companies','15'],
-      ['Full-Time','Dedicated coverage','5'],
-      ['Scheduled','Recurring support','9'],
-      ['Planned','Upcoming coverage','1']
+    const footer = card.querySelector("#siteCoverageCount");
+    const companyFooter = footer?.textContent.replace(
+      /locations?/i,
+      "companies",
+    );
+    if (footer && companyFooter !== footer.textContent)
+      footer.textContent = companyFooter;
+    const tab = card.querySelector('.unified-tab[data-tab="onsite"]');
+    const tabLabel = tab?.querySelector("span");
+    if (tabLabel && tabLabel.textContent !== "Company Coverage")
+      tabLabel.textContent = "Company Coverage";
+    const tableTitle = card.querySelector(".unified-table-title h2");
+    const tableSubtitle = card.querySelector(".unified-table-title p");
+    if (tableTitle && tableTitle.textContent !== "Company Support Coverage")
+      tableTitle.textContent = "Company Support Coverage";
+    if (
+      tableSubtitle &&
+      tableSubtitle.textContent !==
+        "Team assignments across supported companies"
+    )
+      tableSubtitle.textContent = "Team assignments across supported companies";
+    const coverageKpis = [
+      ["Total Companies", "All supported companies", "15"],
+      ["Full-Time", "Dedicated coverage", "5"],
+      ["Scheduled", "Recurring support", "9"],
+      ["Planned", "Upcoming coverage", "1"],
     ];
-    const kpiCards=[...card.querySelectorAll('.unified-kpi-grid .summary-card')];
-    coverageKpis.forEach(([label,description,value],index)=>{
-      const kpi=kpiCards[index];
-      if(!kpi)return;
-      const title=kpi.querySelector('b'),detail=kpi.querySelector('small'),number=kpi.querySelector('strong');
-      if(title&&title.textContent!==label)title.textContent=label;
-      if(detail&&detail.textContent!==description)detail.textContent=description;
-      if(number&&number.textContent!==value)number.textContent=value;
+    const kpiCards = [
+      ...card.querySelectorAll(".unified-kpi-grid .summary-card"),
+    ];
+    coverageKpis.forEach(([label, description, value], index) => {
+      const kpi = kpiCards[index];
+      if (!kpi) return;
+      const title = kpi.querySelector("b"),
+        detail = kpi.querySelector("small"),
+        number = kpi.querySelector("strong");
+      if (title && title.textContent !== label) title.textContent = label;
+      if (detail && detail.textContent !== description)
+        detail.textContent = description;
+      if (number && number.textContent !== value) number.textContent = value;
     });
-    [['Full-Time',5],['Scheduled',9],['Planned',1]].forEach(([model,count])=>{
-      const legend=[...card.querySelectorAll('.site-coverage-model-legend span')].find(item=>item.textContent.trim()===model||item.textContent.includes(model+' ·'));
-      const label=model+' · '+count;
-      if(legend&&legend.lastChild?.nodeValue!==label)legend.lastChild.nodeValue=label;
+    [
+      ["Full-Time", 5],
+      ["Scheduled", 9],
+      ["Planned", 1],
+    ].forEach(([model, count]) => {
+      const legend = [
+        ...card.querySelectorAll(".site-coverage-model-legend span"),
+      ].find(
+        (item) =>
+          item.textContent.trim() === model ||
+          item.textContent.includes(model + " ·"),
+      );
+      const label = model + " · " + count;
+      if (legend && legend.lastChild?.nodeValue !== label)
+        legend.lastChild.nodeValue = label;
     });
   };
-  new MutationObserver(update).observe(document.body,{childList:true,subtree:true,characterData:true});
+  new MutationObserver(update).observe(document.body, {
+    childList: true,
+    subtree: true,
+    characterData: true,
+  });
   update();
 })();
 
 /* Normalize company and department names for Copier & Printer reporting. */
-(()=>{
-  const records=window.COPIER_PRINTER_DATA?.records;
-  if(!Array.isArray(records))return;
-  records.forEach(record=>{
-    if(record.company==='Innobuilder'&&record.department==='Innobuilder')record.department='Innobuilder (NA)';
-    if(record.company==='PIP')record.company='PIP Myanmar';
+(() => {
+  const records = window.COPIER_PRINTER_DATA?.records;
+  if (!Array.isArray(records)) return;
+  records.forEach((record) => {
+    if (record.company === "Innobuilder" && record.department === "Innobuilder")
+      record.department = "Innobuilder (NA)";
+    if (record.company === "PIP") record.company = "PIP Myanmar";
   });
 })();
 
 /* Main dashboard visibility. */
-(()=>{
-  const panel=document.getElementById('mainDashboard');
-  const navigate=window.navigateHubPage;
-  if(!panel||typeof navigate!=='function')return;
-  window.navigateHubPage=function(name,push=true){
-    navigate(name,push);
-    panel.hidden=name!=='Dashboard';
+(() => {
+  const panel = document.getElementById("mainDashboard");
+  const navigate = window.navigateHubPage;
+  if (!panel || typeof navigate !== "function") return;
+  window.navigateHubPage = function (name, push = true) {
+    navigate(name, push);
+    panel.hidden = name !== "Dashboard";
   };
-  panel.hidden=typeof active==='undefined'||active!=='Dashboard';
+  panel.hidden = typeof active === "undefined" || active !== "Dashboard";
 })();
 
 /* Company-specific expense department filters. */
-(()=>{
-  const departmentsByCompany=(()=>{const source=window.budgetExpenseData||{},actuals=(source.expenses||[]).filter(row=>row.department),companiesWithActuals=new Set(actuals.map(row=>row.company)),records=[...actuals,...(source.purchases||[]).filter(row=>!companiesWithActuals.has(row.company))],result={},additional={'Nature Alliance':['EO','Audit'],'Nature Valley':['Procurement','Asset Management']};records.forEach(row=>{if(!row.company||!row.department)return;(result[row.company]||=(new Set())).add(row.department)});Object.entries(additional).forEach(([company,departments])=>departments.forEach(department=>(result[company]||=(new Set())).add(department)));return Object.fromEntries(Object.entries(result).map(([company,departments])=>[company,[...departments].sort()]))})();
-  const addDepartmentFilter=(companyId,departmentId)=>{
-    const company=document.getElementById(companyId);
-    if(!company||document.getElementById(departmentId))return;
-    const field=document.createElement('label');
-    field.hidden=true;
-    field.className='budget-expense-department-filter';
-    field.innerHTML='<span>Department</span><select id="'+departmentId+'" class="filter" aria-label="Filter expense by department"><option value="all">All departments</option></select>';
-    company.closest('label')?.insertAdjacentElement('afterend',field);
-    const department=field.querySelector('select');
-    const sync=()=>{
-      const options=departmentsByCompany[company.value]||[],markup='<option value="all">All departments</option>'+options.map(name=>'<option value="'+name+'">'+name+'</option>').join(''),hidden=company.value==='all'||!options.length,peer=document.getElementById(departmentId==='budgetExpenseDepartmentFilter'?'budgetPortfolioDepartmentFilter':'budgetExpenseDepartmentFilter');
-      field.hidden=hidden;department.innerHTML=markup;
-      if(peer){peer.closest('label').hidden=hidden;peer.innerHTML=markup;peer.value='all'}
+(() => {
+  const departmentsByCompany = (() => {
+    const source = window.budgetExpenseData || {},
+      actuals = (source.expenses || []).filter((row) => row.department),
+      companiesWithActuals = new Set(actuals.map((row) => row.company)),
+      records = [
+        ...actuals,
+        ...(source.purchases || []).filter(
+          (row) => !companiesWithActuals.has(row.company),
+        ),
+      ],
+      result = {},
+      additional = {
+        "Nature Alliance": ["EO", "Audit"],
+        "Nature Valley": ["Procurement", "Asset Management"],
+      };
+    records.forEach((row) => {
+      if (!row.company || !row.department) return;
+      (result[row.company] ||= new Set()).add(row.department);
+    });
+    Object.entries(additional).forEach(([company, departments]) =>
+      departments.forEach((department) =>
+        (result[company] ||= new Set()).add(department),
+      ),
+    );
+    return Object.fromEntries(
+      Object.entries(result).map(([company, departments]) => [
+        company,
+        [...departments].sort(),
+      ]),
+    );
+  })();
+  const addDepartmentFilter = (companyId, departmentId) => {
+    const company = document.getElementById(companyId);
+    if (!company || document.getElementById(departmentId)) return;
+    const field = document.createElement("label");
+    field.hidden = true;
+    field.className = "budget-expense-department-filter";
+    field.innerHTML =
+      '<span>Department</span><select id="' +
+      departmentId +
+      '" class="filter" aria-label="Filter expense by department"><option value="all">All departments</option></select>';
+    company.closest("label")?.insertAdjacentElement("afterend", field);
+    const department = field.querySelector("select");
+    const sync = () => {
+      const options = departmentsByCompany[company.value] || [],
+        markup =
+          '<option value="all">All departments</option>' +
+          options
+            .map((name) => '<option value="' + name + '">' + name + "</option>")
+            .join(""),
+        hidden = company.value === "all" || !options.length,
+        peer = document.getElementById(
+          departmentId === "budgetExpenseDepartmentFilter"
+            ? "budgetPortfolioDepartmentFilter"
+            : "budgetExpenseDepartmentFilter",
+        );
+      field.hidden = hidden;
+      department.innerHTML = markup;
+      if (peer) {
+        peer.closest("label").hidden = hidden;
+        peer.innerHTML = markup;
+        peer.value = "all";
+      }
     };
-    company.addEventListener('change',()=>{sync();document.getElementById('budgetCategoryFilter')?.dispatchEvent(new Event('change'))});
-    department.addEventListener('change',()=>{const peer=document.getElementById(departmentId==='budgetExpenseDepartmentFilter'?'budgetPortfolioDepartmentFilter':'budgetExpenseDepartmentFilter');if(peer)peer.value=department.value;document.getElementById('budgetCategoryFilter')?.dispatchEvent(new Event('change'))});
-    ['budgetResetFilters','budgetPortfolioResetFilters'].forEach(id=>document.getElementById(id)?.addEventListener('click',()=>{department.value='all';sync();document.getElementById('budgetCategoryFilter')?.dispatchEvent(new Event('change'))}));
+    company.addEventListener("change", () => {
+      sync();
+      document
+        .getElementById("budgetCategoryFilter")
+        ?.dispatchEvent(new Event("change"));
+    });
+    department.addEventListener("change", () => {
+      const peer = document.getElementById(
+        departmentId === "budgetExpenseDepartmentFilter"
+          ? "budgetPortfolioDepartmentFilter"
+          : "budgetExpenseDepartmentFilter",
+      );
+      if (peer) peer.value = department.value;
+      document
+        .getElementById("budgetCategoryFilter")
+        ?.dispatchEvent(new Event("change"));
+    });
+    ["budgetResetFilters", "budgetPortfolioResetFilters"].forEach((id) =>
+      document.getElementById(id)?.addEventListener("click", () => {
+        department.value = "all";
+        sync();
+        document
+          .getElementById("budgetCategoryFilter")
+          ?.dispatchEvent(new Event("change"));
+      }),
+    );
     sync();
   };
-  const applyFilters=()=>{
-    addDepartmentFilter('budgetCompanyFilter','budgetExpenseDepartmentFilter');
-    addDepartmentFilter('budgetPortfolioCompanyFilter','budgetPortfolioDepartmentFilter');
+  const applyFilters = () => {
+    addDepartmentFilter("budgetCompanyFilter", "budgetExpenseDepartmentFilter");
+    addDepartmentFilter(
+      "budgetPortfolioCompanyFilter",
+      "budgetPortfolioDepartmentFilter",
+    );
   };
-  const navigate=window.navigateHubPage;
-  if(typeof navigate==='function')window.navigateHubPage=function(name,push=true){navigate(name,push);if(name==='Budget & Expense')requestAnimationFrame(applyFilters)};
+  const navigate = window.navigateHubPage;
+  if (typeof navigate === "function")
+    window.navigateHubPage = function (name, push = true) {
+      navigate(name, push);
+      if (name === "Budget & Expense") requestAnimationFrame(applyFilters);
+    };
   requestAnimationFrame(applyFilters);
 })();
 
 /* Keep the paired Budget & Expense company filters and department list in sync. */
-(()=>{
-  const primary=document.getElementById('budgetCompanyFilter');
-  const portfolio=document.getElementById('budgetPortfolioCompanyFilter');
-  if(!primary||!portfolio)return;
-  portfolio.addEventListener('change',()=>{
-    primary.value=portfolio.value;
-    primary.dispatchEvent(new Event('change'));
+(() => {
+  const primary = document.getElementById("budgetCompanyFilter");
+  const portfolio = document.getElementById("budgetPortfolioCompanyFilter");
+  if (!primary || !portfolio) return;
+  portfolio.addEventListener("change", () => {
+    primary.value = portfolio.value;
+    primary.dispatchEvent(new Event("change"));
   });
-  document.getElementById('budgetPortfolioResetFilters')?.addEventListener('click',()=>{
-    primary.value='all';
-    primary.dispatchEvent(new Event('change'));
-  });
+  document
+    .getElementById("budgetPortfolioResetFilters")
+    ?.addEventListener("click", () => {
+      primary.value = "all";
+      primary.dispatchEvent(new Event("change"));
+    });
 })();
 
 /* Budget & Expense filter copy. */
-(()=>{
-  const applyCopy=()=>{
-    const panel=document.getElementById('budgetExpenseDashboard');
-    if(!panel)return;
-    const primary=panel.querySelector('.unified-filter-card:not(.budget-portfolio-filter-card) .unified-filter-heading');
-    const financial=panel.querySelector('.budget-portfolio-filter-card .unified-filter-heading');
-    if(primary){const title=primary.querySelector('h2'),subtitle=primary.querySelector('p');if(title)title.textContent='Budget & Expense Analysis';if(subtitle)subtitle.textContent='Review budgets, spending, and asset activity'}
-    if(financial){const title=financial.querySelector('h2'),subtitle=financial.querySelector('p');if(title)title.textContent='Financial Analysis';if(subtitle)subtitle.textContent='Review budget, spending, and variance'}
+(() => {
+  const applyCopy = () => {
+    const panel = document.getElementById("budgetExpenseDashboard");
+    if (!panel) return;
+    const primary = panel.querySelector(
+      ".unified-filter-card:not(.budget-portfolio-filter-card) .unified-filter-heading",
+    );
+    const financial = panel.querySelector(
+      ".budget-portfolio-filter-card .unified-filter-heading",
+    );
+    if (primary) {
+      const title = primary.querySelector("h2"),
+        subtitle = primary.querySelector("p");
+      if (title) title.textContent = "Budget & Expense Analysis";
+      if (subtitle)
+        subtitle.textContent = "Review budgets, spending, and asset activity";
+    }
+    if (financial) {
+      const title = financial.querySelector("h2"),
+        subtitle = financial.querySelector("p");
+      if (title) title.textContent = "Financial Analysis";
+      if (subtitle)
+        subtitle.textContent = "Review budget, spending, and variance";
+    }
   };
-  const navigate=window.navigateHubPage;
-  if(typeof navigate==='function')window.navigateHubPage=function(name,push=true){navigate(name,push);if(name==='Budget & Expense')requestAnimationFrame(applyCopy)};
+  const navigate = window.navigateHubPage;
+  if (typeof navigate === "function")
+    window.navigateHubPage = function (name, push = true) {
+      navigate(name, push);
+      if (name === "Budget & Expense") requestAnimationFrame(applyCopy);
+    };
   requestAnimationFrame(applyCopy);
 })();
 
 /* Service Ticket filter copy. */
-(()=>{
-  const applyCopy=()=>{
-    const panel=document.getElementById('serviceTicketsDashboard');
-    const heading=panel?.querySelector('.unified-filter-card .unified-filter-heading');
-    if(!heading)return;
-    const title=heading.querySelector('h2'),subtitle=heading.querySelector('p');
-    if(title)title.textContent='Ticket Analysis';
-    if(subtitle)subtitle.textContent='Review support demand and issue trends by period and company';
+(() => {
+  const applyCopy = () => {
+    const panel = document.getElementById("serviceTicketsDashboard");
+    const heading = panel?.querySelector(
+      ".unified-filter-card .unified-filter-heading",
+    );
+    if (!heading) return;
+    const title = heading.querySelector("h2"),
+      subtitle = heading.querySelector("p");
+    if (title) title.textContent = "Ticket Analysis";
+    if (subtitle)
+      subtitle.textContent =
+        "Review support demand and issue trends by period and company";
   };
-  const navigate=window.navigateHubPage;
-  if(typeof navigate==='function')window.navigateHubPage=function(name,push=true){navigate(name,push);if(name==='Service Tickets')requestAnimationFrame(applyCopy)};
+  const navigate = window.navigateHubPage;
+  if (typeof navigate === "function")
+    window.navigateHubPage = function (name, push = true) {
+      navigate(name, push);
+      if (name === "Service Tickets") requestAnimationFrame(applyCopy);
+    };
   requestAnimationFrame(applyCopy);
 })();
 
 /* Copier & Printer record filter copy. */
-(()=>{
-  const applyCopy=()=>{
-    const panel=document.getElementById('copierprinterusageDashboard');
-    const analyticsHeading=panel?.querySelector('#copierChartFilters')?.closest('.unified-filter-card')?.querySelector('.unified-filter-heading');
-    const heading=panel?.querySelector('#copierTableFilters')?.closest('.unified-filter-card')?.querySelector('.unified-filter-heading');
-    if(analyticsHeading){const subtitle=analyticsHeading.querySelector('p');if(subtitle)subtitle.textContent='Review print volumes, color usage, and cost.'}
-    if(heading){const title=heading.querySelector('h2'),subtitle=heading.querySelector('p');if(title)title.textContent='Printer Record Analysis';if(subtitle)subtitle.textContent='Review print activity by period, company, and device'}
+(() => {
+  const applyCopy = () => {
+    const panel = document.getElementById("copierprinterusageDashboard");
+    const analyticsHeading = panel
+      ?.querySelector("#copierChartFilters")
+      ?.closest(".unified-filter-card")
+      ?.querySelector(".unified-filter-heading");
+    const heading = panel
+      ?.querySelector("#copierTableFilters")
+      ?.closest(".unified-filter-card")
+      ?.querySelector(".unified-filter-heading");
+    if (analyticsHeading) {
+      const subtitle = analyticsHeading.querySelector("p");
+      if (subtitle)
+        subtitle.textContent = "Review print volumes, color usage, and cost.";
+    }
+    if (heading) {
+      const title = heading.querySelector("h2"),
+        subtitle = heading.querySelector("p");
+      if (title) title.textContent = "Printer Record Analysis";
+      if (subtitle)
+        subtitle.textContent =
+          "Review print activity by period, company, and device";
+    }
   };
-  const navigate=window.navigateHubPage;
-  if(typeof navigate==='function')window.navigateHubPage=function(name,push=true){navigate(name,push);if(name==='Copier & Printer Usage')requestAnimationFrame(applyCopy)};
+  const navigate = window.navigateHubPage;
+  if (typeof navigate === "function")
+    window.navigateHubPage = function (name, push = true) {
+      navigate(name, push);
+      if (name === "Copier & Printer Usage") requestAnimationFrame(applyCopy);
+    };
   requestAnimationFrame(applyCopy);
 })();
 
 /* Fixed Assets filter copy. */
-(()=>{
-  const applyCopy=()=>{
-    const panel=document.getElementById('fixedassetsDashboard');
-    const subtitle=panel?.querySelector('.unified-filter-card .unified-filter-heading p');
-    if(subtitle)subtitle.textContent='Review asset inventory, types, and condition';
+(() => {
+  const applyCopy = () => {
+    const panel = document.getElementById("fixedassetsDashboard");
+    const subtitle = panel?.querySelector(
+      ".unified-filter-card .unified-filter-heading p",
+    );
+    if (subtitle)
+      subtitle.textContent = "Review asset inventory, types, and condition";
   };
-  const navigate=window.navigateHubPage;
-  if(typeof navigate==='function')window.navigateHubPage=function(name,push=true){navigate(name,push);if(name==='Fixed Assets')requestAnimationFrame(applyCopy)};
+  const navigate = window.navigateHubPage;
+  if (typeof navigate === "function")
+    window.navigateHubPage = function (name, push = true) {
+      navigate(name, push);
+      if (name === "Fixed Assets") requestAnimationFrame(applyCopy);
+    };
   requestAnimationFrame(applyCopy);
 })();
 
 /* Fixed Assets dashboard visibility. */
-(()=>{
-  const panel=document.getElementById('fixedassetsDashboard');
-  const navigate=window.navigateHubPage;
-  if(!panel||typeof navigate!=='function')return;
-  window.navigateHubPage=function(name,push=true){
-    navigate(name,push);
-    panel.hidden=name!=='Fixed Assets';
+(() => {
+  const panel = document.getElementById("fixedassetsDashboard");
+  const navigate = window.navigateHubPage;
+  if (!panel || typeof navigate !== "function") return;
+  window.navigateHubPage = function (name, push = true) {
+    navigate(name, push);
+    panel.hidden = name !== "Fixed Assets";
   };
-  panel.hidden=typeof active==='undefined'||active!=='Fixed Assets';
+  panel.hidden = typeof active === "undefined" || active !== "Fixed Assets";
 })();
 
 /* Fixed Assets KPI summary. */
-(()=>{
-  const panel=document.getElementById('fixedassetsDashboard');
-  const assetsData=window.FIXED_ASSETS_DATA;
-  const source=assetsData?.summary;
-  if(!panel||!source)return;
-  const icon={
-    assets:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>',
-    good:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 3 7 3v5c0 4.6-2.9 8-7 10-4.1-2-7-5.4-7-10V6l7-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>',
-    damage:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5h.01"/></svg>',
-    purchase:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v2H6.5A2.5 2.5 0 0 0 4 11.5v5A2.5 2.5 0 0 0 6.5 19H20v-8H6.5"/><path d="M16 14h.01"/></svg>'
+(() => {
+  const panel = document.getElementById("fixedassetsDashboard");
+  const assetsData = window.FIXED_ASSETS_DATA;
+  const source = assetsData?.summary;
+  if (!panel || !source) return;
+  const icon = {
+    assets:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>',
+    good: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 3 7 3v5c0 4.6-2.9 8-7 10-4.1-2-7-5.4-7-10V6l7-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>',
+    damage:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v6M12 16.5h.01"/></svg>',
+    purchase:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v2H6.5A2.5 2.5 0 0 0 4 11.5v5A2.5 2.5 0 0 0 6.5 19H20v-8H6.5"/><path d="M16 14h.01"/></svg>',
   };
-  const format=value=>Number(value||0).toLocaleString('en-US');
-  const optionList=(items,label)=>'<option value="all">'+label+'</option>'+items.map(item=>'<option value="'+item+'">'+item+'</option>').join('');
-  let companyChart=null,conditionChart=null,yearlyChart=null,themeObserver=null,themeRefresh=false,companyChartType='bar',yearlyChartType='bar';
-  const setupFilters=()=>{
-    const period=panel.querySelector('#fixedAssetPeriod'),company=panel.querySelector('#fixedAssetCompany'),department=panel.querySelector('#fixedAssetDepartment'),type=panel.querySelector('#fixedAssetType'),brand=panel.querySelector('#fixedAssetBrand'),condition=panel.querySelector('#fixedAssetCondition'),month=panel.querySelector('#fixedAssetMonth'),year=panel.querySelector('#fixedAssetYear'),from=panel.querySelector('#fixedAssetFrom'),to=panel.querySelector('#fixedAssetTo'),conditionChartFilter=panel.querySelector('#fixedAssetConditionChartFilter'),companyChartTypeControl=panel.querySelector('#fixedAssetCompanyChartType'),yearlyMetricControl=panel.querySelector('#fixedAssetYearlyMetric'),yearlyChartTypeControl=panel.querySelector('#fixedAssetYearlyChartType');
-    const departmentField=department.closest('label'),brandField=brand.closest('label'),customFields=[...panel.querySelectorAll('.fixed-asset-custom-range')],monthField=month.closest('label'),yearField=year.closest('label'),records=assetsData.records||[];
-    const resetDependent=(select,items,label)=>{select.innerHTML=optionList(items,label);select.value='all'};
-    const renderCharts=selected=>{
-      const dark=document.body.classList.contains('dark'),text=dark?'#d9c4c2':'#806864',grid=dark?'#553137':'#eaded9',animation=themeRefresh?{duration:850,easing:'easeOutCubic'}:{duration:1200,easing:'easeOutCubic'};
-      const summarize=key=>Object.entries(selected.reduce((counts,record)=>{const value=record[key]||'Unspecified';counts[value]=(counts[value]||0)+1;return counts},{})).sort((left,right)=>right[1]-left[1]);
-      const companyChartGroup=type.value!=='all'?{key:'b',title:'Asset Brand Inventory',subtitle:'Brand distribution for '+type.value}:company.value==='all'?{key:'c',title:'Company Asset Inventory',subtitle:'Distribution of selected assets across companies'}:department.value==='all'?{key:'d',title:'Department Asset Inventory',subtitle:'Distribution of selected assets across departments'}:{key:'t',title:'Asset Type Inventory',subtitle:'Distribution of selected assets across asset types'},companyCounts=summarize(companyChartGroup.key),conditionCounts=summarize('o'),companyCanvas=panel.querySelector('#fixedAssetCompanyChart'),conditionCanvas=panel.querySelector('#fixedAssetConditionChart'),companyChartCard=companyCanvas?.closest('.unified-chart-card');
-      if(companyChartCard){companyChartCard.querySelector('h2').textContent=companyChartGroup.title;companyChartCard.querySelector('p').textContent=companyChartGroup.subtitle}
-      if(companyChart)companyChart.destroy();if(conditionChart)conditionChart.destroy();if(yearlyChart)yearlyChart.destroy();
-      if(companyCanvas){
-        const isCompanyLine=companyChartType==='line',companyChartWrap=companyCanvas.parentElement;
-        if(companyChartWrap)companyChartWrap.style.height=(isCompanyLine?'330px':Math.max(280,companyCounts.length*34+70))+'px';
-        const context=companyCanvas.getContext('2d'),gradient=context.createLinearGradient(0,0,companyCanvas.clientWidth||700,0);gradient.addColorStop(0,dark?'#c94a42':'#d12a31');gradient.addColorStop(1,dark?'#ef8563':'#f38c47');
-        companyChart=new Chart(companyCanvas,{type:isCompanyLine?'line':'bar',data:{labels:companyCounts.map(item=>item[0]),datasets:[{data:companyCounts.map(item=>item[1]),backgroundColor:isCompanyLine?(dark?'rgba(255,135,85,.18)':'rgba(209,42,49,.13)'):gradient,borderColor:dark?'#ff8755':'#d12a31',borderWidth:isCompanyLine?2.5:1.5,borderRadius:isCompanyLine?0:7,barThickness:isCompanyLine?undefined:24,categoryPercentage:isCompanyLine?undefined:.72,barPercentage:isCompanyLine?undefined:.9,pointRadius:isCompanyLine?4:0,pointHoverRadius:isCompanyLine?6:0,pointBackgroundColor:dark?'#ff9a70':'#d12a31',fill:isCompanyLine,tension:isCompanyLine?.3:0}]},options:{indexAxis:isCompanyLine?'x':'y',animation,responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:item=>' '+Number(item.raw||0).toLocaleString()+' Assets'}}},scales:{x:{beginAtZero:!isCompanyLine,grid:{color:grid},ticks:{color:text,precision:isCompanyLine?undefined:0,font:{family:'Poppins',size:9},maxRotation:isCompanyLine?35:0,minRotation:0},title:{display:!isCompanyLine,text:'Total: '+selected.length.toLocaleString()+' Assets',color:text,font:{family:'Poppins',size:10,weight:'600'}}},y:{beginAtZero:isCompanyLine,grid:{display:!isCompanyLine?false:true,color:grid},ticks:{color:text,precision:isCompanyLine?0:undefined,font:{family:'Poppins',size:9,weight:'600'}}}}}});
-      }
-      if(!Chart.registry.plugins.get('fixedAssetConditionCentre'))Chart.register({id:'fixedAssetConditionCentre',afterDatasetsDraw(instance,args,options){if(instance.canvas.id!=='fixedAssetConditionChart'||!options)return;const area=instance.chartArea,context=instance.ctx,x=(area.left+area.right)/2,y=(area.top+area.bottom)/2;context.save();context.textAlign='center';context.fillStyle=options.dark?'#bfa7a4':'#9a7773';context.font='600 9px Poppins, Arial';context.fillText('ASSETS',x,y-5);context.fillStyle=options.dark?'#ead7d3':'#5b4446';context.font='700 21px Poppins, Arial';context.fillText(String(options.total||0),x,y+19);context.restore()}});
-      if(conditionCanvas){const conditionColors=conditionCounts.map(item=>item[0]==='Damage'?'#d12a31':'#16866a');conditionChart=new Chart(conditionCanvas,{type:'doughnut',data:{labels:conditionCounts.map(item=>item[0]),datasets:[{data:conditionCounts.map(item=>item[1]),backgroundColor:conditionColors,borderColor:dark?'#32171e':'#fff',borderWidth:4,hoverOffset:4}]},options:{animation,responsive:true,maintainAspectRatio:false,cutout:'66%',plugins:{legend:{display:false},fixedAssetConditionCentre:{total:selected.length,dark},tooltip:{displayColors:true,callbacks:{label:item=>' '+item.label+': '+Number(item.raw||0).toLocaleString()+' Assets',labelColor:item=>{const color=conditionColors[item.dataIndex]||'#16866a';return{backgroundColor:color,borderColor:color,borderWidth:1,borderRadius:2}}}}}}})}
-const conditionLegend=panel.querySelector('#fixedAssetConditionLegend');if(conditionLegend)conditionLegend.innerHTML=conditionCounts.map(item=>'<div><span><i style="background:'+(item[0]==='Damage'?'#d12a31':'#16866a')+'"></i>'+item[0]+'</span><b><strong>'+item[1].toLocaleString()+'</strong><small> asset'+(item[1]===1?'':'s')+'</small></b></div>').join('');
-      const yearlyCanvas=panel.querySelector('#fixedAssetYearlyChart'),yearlyMetric=yearlyMetricControl?.value||'count',yearlyTitle=panel.querySelector('#fixedAssetYearlyChartTitle'),yearlySubtitle=panel.querySelector('#fixedAssetYearlyChartSubtitle'),yearlyFooter=panel.querySelector('#fixedAssetYearlyChartFooter'),yearlyData=selected.reduce((groups,record)=>{const label=String(record.p||'').slice(0,4);if(!/^\d{4}$/.test(label))return groups;if(!groups[label])groups[label]={count:0,amount:0};groups[label].count+=1;groups[label].amount+=Number(record.a)||0;return groups},{}),yearlyLabels=Object.keys(yearlyData).sort(),isYearlyLine=yearlyChartType==='line',isCount=yearlyMetric==='count',yearlyColor=dark?(isCount?'#4eb4cd':'#ff8755'):(isCount?'#16866a':'#d12a31'),yearlyEnd=dark?(isCount?'#77cadb':'#ffad7b'):(isCount?'#50b8c7':'#ff8a58');
-      if(yearlyTitle)yearlyTitle.textContent=isCount?'Annual Asset Acquisitions':'Annual Asset Investment';if(yearlySubtitle)yearlySubtitle.textContent=isCount?'Assets added by year, '+(yearlyLabels[0]||'2009')+'–'+(yearlyLabels.at(-1)||'2026'):'Annual purchase value (MMK)';if(yearlyFooter)yearlyFooter.innerHTML='<span><i class="'+(isCount?'fixed-asset-yearly-count':'fixed-asset-yearly-amount')+'" aria-hidden="true"></i>'+(isCount?'Assets acquired':'Investment (MMK)')+'</span>';
-      if(!Chart.registry.plugins.get('fixedAssetYearlyGradient'))Chart.register({id:'fixedAssetYearlyGradient',afterDatasetsDraw(chart){if(chart.canvas?.id!=='fixedAssetYearlyChart'||chart.config.type!=='bar')return;const darkMode=document.body.classList.contains('dark'),countMetric=document.querySelector('#fixedAssetYearlyMetric')?.value!=='amount',start=darkMode?(countMetric?'#229681':'#e95148'):(countMetric?'#16866a':'#d12a31'),end=darkMode?(countMetric?'#72d5e5':'#ff9569'):(countMetric?'#4eb4cd':'#ff8755'),context=chart.ctx;chart.getDatasetMeta(0).data.forEach(bar=>{const box=bar.getProps(['x','y','base','width'],false),left=box.x-box.width/2,right=box.x+box.width/2,top=Math.min(box.y,box.base),bottom=Math.max(box.y,box.base),radius=Math.min(10,box.width/2,(bottom-top)/2),fill=context.createLinearGradient(left,0,right,0);fill.addColorStop(0,start);fill.addColorStop(1,end);context.beginPath();context.moveTo(left,bottom);context.lineTo(left,top+radius);context.quadraticCurveTo(left,top,left+radius,top);context.lineTo(right-radius,top);context.quadraticCurveTo(right,top,right,top+radius);context.lineTo(right,bottom);context.closePath();context.fillStyle=fill;context.fill()})}});
-      if(yearlyCanvas){const yearlyContext=yearlyCanvas.getContext('2d'),yearlyGradient=yearlyContext.createLinearGradient(0,0,yearlyCanvas.clientWidth||700,0);yearlyGradient.addColorStop(0,yearlyColor);yearlyGradient.addColorStop(1,yearlyEnd);yearlyChart=new Chart(yearlyCanvas,{type:isYearlyLine?'line':'bar',data:{labels:yearlyLabels,datasets:[{label:isCount?'Fixed Asset Count':'Purchasing Amount (MMK)',data:yearlyLabels.map(label=>yearlyData[label]?.[yearlyMetric]||0),backgroundColor:isYearlyLine?(dark?(isCount?'rgba(78,180,205,.18)':'rgba(255,135,85,.18)'):(isCount?'rgba(22,134,106,.13)':'rgba(209,42,49,.13)')):yearlyGradient,borderColor:yearlyColor,borderWidth:isYearlyLine?2.5:0,borderRadius:isYearlyLine?0:{topLeft:10,topRight:10,bottomLeft:0,bottomRight:0},borderSkipped:false,maxBarThickness:42,categoryPercentage:.78,barPercentage:.76,pointRadius:isYearlyLine?4:0,pointHoverRadius:isYearlyLine?4:0,pointBackgroundColor:yearlyColor,fill:isYearlyLine,tension:isYearlyLine?.32:0}]},options:{animation,responsive:true,maintainAspectRatio:false,transitions:{active:{animation:{duration:0}}},plugins:{legend:{display:false},tooltip:{displayColors:true,backgroundColor:'#171114',titleColor:'#fff7f2',bodyColor:'#fff7f2',borderColor:'#d99284',borderWidth:2,padding:10,cornerRadius:8,caretPadding:10,boxPadding:4,titleFont:{family:'Poppins',size:11,weight:'700'},bodyFont:{family:'Poppins',size:12,weight:'600'},callbacks:{label:item=>' '+(isCount?Number(item.raw||0).toLocaleString()+' Assets':Number(item.raw||0).toLocaleString()+' MMK'),labelColor:()=>({backgroundColor:yearlyColor,borderColor:yearlyColor,borderWidth:1,borderRadius:2})}}},scales:{x:{grid:{color:grid},ticks:{color:text,font:{family:'Poppins',size:10}},border:{color:grid}},y:{beginAtZero:true,grid:{color:grid},ticks:{color:text,font:{family:'Poppins',size:10},precision:isCount?0:undefined,callback:value=>isCount?Number(value).toLocaleString():(Number(value)>=1000000?(Number(value)/1000000).toFixed(Number(value)>=10000000?0:1)+'M':Number(value).toLocaleString())},border:{color:grid}}}}});}themeRefresh=false;
+  const format = (value) => Number(value || 0).toLocaleString("en-US");
+  const optionList = (items, label) =>
+    '<option value="all">' +
+    label +
+    "</option>" +
+    items
+      .map((item) => '<option value="' + item + '">' + item + "</option>")
+      .join("");
+  let companyChart = null,
+    conditionChart = null,
+    yearlyChart = null,
+    themeObserver = null,
+    themeRefresh = false,
+    companyChartType = "bar",
+    yearlyChartType = "bar";
+  const setupFilters = () => {
+    const period = panel.querySelector("#fixedAssetPeriod"),
+      company = panel.querySelector("#fixedAssetCompany"),
+      department = panel.querySelector("#fixedAssetDepartment"),
+      type = panel.querySelector("#fixedAssetType"),
+      brand = panel.querySelector("#fixedAssetBrand"),
+      condition = panel.querySelector("#fixedAssetCondition"),
+      month = panel.querySelector("#fixedAssetMonth"),
+      year = panel.querySelector("#fixedAssetYear"),
+      from = panel.querySelector("#fixedAssetFrom"),
+      to = panel.querySelector("#fixedAssetTo"),
+      conditionChartFilter = panel.querySelector(
+        "#fixedAssetConditionChartFilter",
+      ),
+      companyChartTypeControl = panel.querySelector(
+        "#fixedAssetCompanyChartType",
+      ),
+      yearlyMetricControl = panel.querySelector("#fixedAssetYearlyMetric"),
+      yearlyChartTypeControl = panel.querySelector(
+        "#fixedAssetYearlyChartType",
+      );
+    const departmentField = department.closest("label"),
+      brandField = brand.closest("label"),
+      customFields = [...panel.querySelectorAll(".fixed-asset-custom-range")],
+      monthField = month.closest("label"),
+      yearField = year.closest("label"),
+      records = assetsData.records || [];
+    const resetDependent = (select, items, label) => {
+      select.innerHTML = optionList(items, label);
+      select.value = "all";
     };
-    const updateKpis=()=>{const dated=records.map(record=>record.p).filter(Boolean).sort(),latest=dated[dated.length-1]||'',monthsBack=period.value==='last3'?3:period.value==='last6'?6:0,cutoff=monthsBack&&latest?new Date(Date.UTC(Number(latest.slice(0,4)),Number(latest.slice(5,7))-monthsBack,1)).toISOString().slice(0,10):'';const selected=records.filter(record=>{if(company.value!=='all'&&record.c!==company.value)return false;if(department.value!=='all'&&record.d!==department.value)return false;if(type.value!=='all'&&record.t!==type.value)return false;if(brand.value!=='all'&&record.b!==brand.value)return false;if(condition.value!=='all'&&record.o!==condition.value)return false;if(period.value==='monthly'&&month.value!=='all'&&record.p.slice(0,7)!==month.value)return false;if(period.value==='yearly'&&year.value!=='all'&&record.p.slice(0,4)!==year.value)return false;if(cutoff&&record.p<cutoff)return false;if(period.value==='custom'&&from.value&&record.p<from.value)return false;if(period.value==='custom'&&to.value&&record.p>to.value)return false;return true}),count=selected.length,good=selected.filter(record=>record.o==='Good').length,damaged=selected.filter(record=>record.o==='Damage').length,purchase=selected.reduce((sum,record)=>sum+(Number(record.a)||0),0),scope=count+' selected asset record'+(count===1?'':'s');
-      panel.querySelector('#fixedAssetTotal').textContent=format(count);panel.querySelector('#fixedAssetCompanies').textContent=format(good);panel.querySelector('#fixedAssetDamage').textContent=format(damaged);panel.querySelector('#fixedAssetPurchase').innerHTML=format(purchase)+'<em>MMK</em>';panel.querySelector('#fixedAssetTotalSubtitle').textContent=count+' '+(count===1?'Asset':'Assets')+' Found';panel.querySelector('#fixedAssetCompaniesSubtitle').textContent=good+' '+(good===1?'Asset':'Assets')+' Found';panel.querySelector('#fixedAssetDamageSubtitle').textContent=damaged+' '+(damaged===1?'Asset':'Assets')+' Found';panel.querySelector('#fixedAssetPurchaseSubtitle').textContent=count+' '+(count===1?'Asset':'Assets')+' Purchasing';if(conditionChartFilter)conditionChartFilter.value=condition.value;renderCharts(selected);};
-    const syncPeriod=()=>{customFields.forEach(field=>field.hidden=period.value!=='custom');monthField.hidden=period.value!=='monthly';yearField.hidden=period.value!=='yearly';updateKpis()};
-    const syncDepartments=()=>{const selected=company.value,items=selected==='all'?[]:(assetsData.companyDepartments[selected]||[]);resetDependent(department,items,'All departments');departmentField.hidden=selected==='all';updateKpis()};
-    const syncBrands=()=>{const selected=type.value,items=selected==='all'?[]:(assetsData.assetTypeBrands[selected]||[]);resetDependent(brand,items,'All brands');brandField.hidden=selected==='all';updateKpis()};
-    const months=[...new Set(records.map(record=>record.p.slice(0,7)).filter(Boolean))].sort().reverse(),years=[...new Set(records.map(record=>record.p.slice(0,4)).filter(Boolean))].sort().reverse(),monthLabel=value=>{const [year,monthNumber]=value.split('-');return new Date(Number(year),Number(monthNumber)-1,1).toLocaleString('en-US',{month:'short',year:'numeric'}).replace(' ','-')};month.innerHTML='<option value="all">All months</option>'+months.map(value=>'<option value="'+value+'">'+monthLabel(value)+'</option>').join('');year.innerHTML=optionList(years,'All years');
-    if(conditionChartFilter){conditionChartFilter.innerHTML=optionList(assetsData.conditions,'All conditions');conditionChartFilter.value=condition.value;conditionChartFilter.addEventListener('change',()=>{condition.value=conditionChartFilter.value;condition.dispatchEvent(new Event('change',{bubbles:true}))})}
-    if(companyChartTypeControl){companyChartTypeControl.value=companyChartType;companyChartTypeControl.addEventListener('change',()=>{companyChartType=companyChartTypeControl.value;updateKpis()})}
-    if(yearlyChartTypeControl){yearlyChartTypeControl.value=yearlyChartType;yearlyChartTypeControl.addEventListener('change',()=>{yearlyChartType=yearlyChartTypeControl.value;updateKpis()})}
-    yearlyMetricControl?.addEventListener('change',updateKpis);
-    themeObserver=new MutationObserver(mutations=>{if(mutations.some(mutation=>mutation.attributeName==='class')){themeRefresh=true;requestAnimationFrame(updateKpis)}});themeObserver.observe(document.body,{attributes:true,attributeFilter:['class']});
-    period.addEventListener('change',syncPeriod);company.addEventListener('change',syncDepartments);type.addEventListener('change',syncBrands);[department,brand,condition,month,year,from,to].forEach(control=>control.addEventListener('change',updateKpis));[from,to].forEach(input=>input.addEventListener('click',()=>{try{input.showPicker?.()}catch(error){}}));
-    panel.querySelector('#fixedAssetResetFilters').addEventListener('click',()=>{period.value='all';company.value='all';type.value='all';condition.value='all';from.value='';to.value='';syncDepartments();syncBrands();syncPeriod()});
-    syncPeriod();syncDepartments();syncBrands();updateKpis();
+    const renderCharts = (selected) => {
+      const dark = document.body.classList.contains("dark"),
+        text = dark ? "#d9c4c2" : "#806864",
+        grid = dark ? "#553137" : "#eaded9",
+        animation = themeRefresh
+          ? { duration: 850, easing: "easeOutCubic" }
+          : { duration: 1200, easing: "easeOutCubic" };
+      const summarize = (key) =>
+        Object.entries(
+          selected.reduce((counts, record) => {
+            const value = record[key] || "Unspecified";
+            counts[value] = (counts[value] || 0) + 1;
+            return counts;
+          }, {}),
+        ).sort((left, right) => right[1] - left[1]);
+      const companyChartGroup =
+          type.value !== "all"
+            ? {
+                key: "b",
+                title: "Asset Brand Inventory",
+                subtitle: "Brand distribution for " + type.value,
+              }
+            : company.value === "all"
+              ? {
+                  key: "c",
+                  title: "Company Asset Inventory",
+                  subtitle: "Distribution of selected assets across companies",
+                }
+              : department.value === "all"
+                ? {
+                    key: "d",
+                    title: "Department Asset Inventory",
+                    subtitle:
+                      "Distribution of selected assets across departments",
+                  }
+                : {
+                    key: "t",
+                    title: "Asset Type Inventory",
+                    subtitle:
+                      "Distribution of selected assets across asset types",
+                  },
+        companyCounts = summarize(companyChartGroup.key),
+        conditionCounts = summarize("o"),
+        companyCanvas = panel.querySelector("#fixedAssetCompanyChart"),
+        conditionCanvas = panel.querySelector("#fixedAssetConditionChart"),
+        companyChartCard = companyCanvas?.closest(".unified-chart-card");
+      if (companyChartCard) {
+        companyChartCard.querySelector("h2").textContent =
+          companyChartGroup.title;
+        companyChartCard.querySelector("p").textContent =
+          companyChartGroup.subtitle;
+      }
+      if (companyChart) companyChart.destroy();
+      if (conditionChart) conditionChart.destroy();
+      if (yearlyChart) yearlyChart.destroy();
+      if (companyCanvas) {
+        const isCompanyLine = companyChartType === "line",
+          companyChartWrap = companyCanvas.parentElement;
+        if (companyChartWrap)
+          companyChartWrap.style.height =
+            (isCompanyLine
+              ? "330px"
+              : Math.max(280, companyCounts.length * 34 + 70)) + "px";
+        const context = companyCanvas.getContext("2d"),
+          gradient = context.createLinearGradient(
+            0,
+            0,
+            companyCanvas.clientWidth || 700,
+            0,
+          );
+        gradient.addColorStop(0, dark ? "#c94a42" : "#d12a31");
+        gradient.addColorStop(1, dark ? "#ef8563" : "#f38c47");
+        companyChart = new Chart(companyCanvas, {
+          type: isCompanyLine ? "line" : "bar",
+          data: {
+            labels: companyCounts.map((item) => item[0]),
+            datasets: [
+              {
+                data: companyCounts.map((item) => item[1]),
+                backgroundColor: isCompanyLine
+                  ? dark
+                    ? "rgba(255,135,85,.18)"
+                    : "rgba(209,42,49,.13)"
+                  : gradient,
+                borderColor: dark ? "#ff8755" : "#d12a31",
+                borderWidth: isCompanyLine ? 2.5 : 1.5,
+                borderRadius: isCompanyLine ? 0 : 7,
+                barThickness: isCompanyLine ? undefined : 24,
+                categoryPercentage: isCompanyLine ? undefined : 0.72,
+                barPercentage: isCompanyLine ? undefined : 0.9,
+                pointRadius: isCompanyLine ? 4 : 0,
+                pointHoverRadius: isCompanyLine ? 6 : 0,
+                pointBackgroundColor: dark ? "#ff9a70" : "#d12a31",
+                fill: isCompanyLine,
+                tension: isCompanyLine ? 0.3 : 0,
+              },
+            ],
+          },
+          options: {
+            indexAxis: isCompanyLine ? "x" : "y",
+            animation,
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: (item) =>
+                    " " + Number(item.raw || 0).toLocaleString() + " Assets",
+                },
+              },
+            },
+            scales: {
+              x: {
+                beginAtZero: !isCompanyLine,
+                grid: { color: grid },
+                ticks: {
+                  color: text,
+                  precision: isCompanyLine ? undefined : 0,
+                  font: { family: "Poppins", size: 9 },
+                  maxRotation: isCompanyLine ? 35 : 0,
+                  minRotation: 0,
+                },
+                title: {
+                  display: !isCompanyLine,
+                  text:
+                    "Total: " + selected.length.toLocaleString() + " Assets",
+                  color: text,
+                  font: { family: "Poppins", size: 10, weight: "600" },
+                },
+              },
+              y: {
+                beginAtZero: isCompanyLine,
+                grid: { display: !isCompanyLine ? false : true, color: grid },
+                ticks: {
+                  color: text,
+                  precision: isCompanyLine ? 0 : undefined,
+                  font: { family: "Poppins", size: 9, weight: "600" },
+                },
+              },
+            },
+          },
+        });
+      }
+      if (!Chart.registry.plugins.get("fixedAssetConditionCentre"))
+        Chart.register({
+          id: "fixedAssetConditionCentre",
+          afterDatasetsDraw(instance, args, options) {
+            if (instance.canvas.id !== "fixedAssetConditionChart" || !options)
+              return;
+            const area = instance.chartArea,
+              context = instance.ctx,
+              x = (area.left + area.right) / 2,
+              y = (area.top + area.bottom) / 2;
+            context.save();
+            context.textAlign = "center";
+            context.fillStyle = options.dark ? "#bfa7a4" : "#9a7773";
+            context.font = "600 9px Poppins, Arial";
+            context.fillText("ASSETS", x, y - 5);
+            context.fillStyle = options.dark ? "#ead7d3" : "#5b4446";
+            context.font = "700 21px Poppins, Arial";
+            context.fillText(String(options.total || 0), x, y + 19);
+            context.restore();
+          },
+        });
+      if (conditionCanvas) {
+        const conditionColors = conditionCounts.map((item) =>
+          item[0] === "Damage" ? "#d12a31" : "#16866a",
+        );
+        conditionChart = new Chart(conditionCanvas, {
+          type: "doughnut",
+          data: {
+            labels: conditionCounts.map((item) => item[0]),
+            datasets: [
+              {
+                data: conditionCounts.map((item) => item[1]),
+                backgroundColor: conditionColors,
+                borderColor: dark ? "#32171e" : "#fff",
+                borderWidth: 4,
+                hoverOffset: 4,
+              },
+            ],
+          },
+          options: {
+            animation,
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "66%",
+            plugins: {
+              legend: { display: false },
+              fixedAssetConditionCentre: { total: selected.length, dark },
+              tooltip: {
+                displayColors: true,
+                callbacks: {
+                  label: (item) =>
+                    " " +
+                    item.label +
+                    ": " +
+                    Number(item.raw || 0).toLocaleString() +
+                    " Assets",
+                  labelColor: (item) => {
+                    const color = conditionColors[item.dataIndex] || "#16866a";
+                    return {
+                      backgroundColor: color,
+                      borderColor: color,
+                      borderWidth: 1,
+                      borderRadius: 2,
+                    };
+                  },
+                },
+              },
+            },
+          },
+        });
+      }
+      const conditionLegend = panel.querySelector("#fixedAssetConditionLegend");
+      if (conditionLegend)
+        conditionLegend.innerHTML = conditionCounts
+          .map(
+            (item) =>
+              '<div><span><i style="background:' +
+              (item[0] === "Damage" ? "#d12a31" : "#16866a") +
+              '"></i>' +
+              item[0] +
+              "</span><b><strong>" +
+              item[1].toLocaleString() +
+              "</strong><small> asset" +
+              (item[1] === 1 ? "" : "s") +
+              "</small></b></div>",
+          )
+          .join("");
+      const yearlyCanvas = panel.querySelector("#fixedAssetYearlyChart"),
+        yearlyMetric = yearlyMetricControl?.value || "count",
+        yearlyTitle = panel.querySelector("#fixedAssetYearlyChartTitle"),
+        yearlySubtitle = panel.querySelector("#fixedAssetYearlyChartSubtitle"),
+        yearlyFooter = panel.querySelector("#fixedAssetYearlyChartFooter"),
+        yearlyData = selected.reduce((groups, record) => {
+          const label = String(record.p || "").slice(0, 4);
+          if (!/^\d{4}$/.test(label)) return groups;
+          if (!groups[label]) groups[label] = { count: 0, amount: 0 };
+          groups[label].count += 1;
+          groups[label].amount += Number(record.a) || 0;
+          return groups;
+        }, {}),
+        yearlyLabels = Object.keys(yearlyData).sort(),
+        isYearlyLine = yearlyChartType === "line",
+        isCount = yearlyMetric === "count",
+        yearlyColor = dark
+          ? isCount
+            ? "#4eb4cd"
+            : "#ff8755"
+          : isCount
+            ? "#16866a"
+            : "#d12a31",
+        yearlyEnd = dark
+          ? isCount
+            ? "#77cadb"
+            : "#ffad7b"
+          : isCount
+            ? "#50b8c7"
+            : "#ff8a58";
+      if (yearlyTitle)
+        yearlyTitle.textContent = isCount
+          ? "Annual Asset Acquisitions"
+          : "Annual Asset Investment";
+      if (yearlySubtitle)
+        yearlySubtitle.textContent = isCount
+          ? "Assets added by year, " +
+            (yearlyLabels[0] || "2009") +
+            "–" +
+            (yearlyLabels.at(-1) || "2026")
+          : "Annual purchase value (MMK)";
+      if (yearlyFooter)
+        yearlyFooter.innerHTML =
+          '<span><i class="' +
+          (isCount ? "fixed-asset-yearly-count" : "fixed-asset-yearly-amount") +
+          '" aria-hidden="true"></i>' +
+          (isCount ? "Assets acquired" : "Investment (MMK)") +
+          "</span>";
+      if (!Chart.registry.plugins.get("fixedAssetYearlyGradient"))
+        Chart.register({
+          id: "fixedAssetYearlyGradient",
+          afterDatasetsDraw(chart) {
+            if (
+              chart.canvas?.id !== "fixedAssetYearlyChart" ||
+              chart.config.type !== "bar"
+            )
+              return;
+            const darkMode = document.body.classList.contains("dark"),
+              countMetric =
+                document.querySelector("#fixedAssetYearlyMetric")?.value !==
+                "amount",
+              start = darkMode
+                ? countMetric
+                  ? "#229681"
+                  : "#e95148"
+                : countMetric
+                  ? "#16866a"
+                  : "#d12a31",
+              end = darkMode
+                ? countMetric
+                  ? "#72d5e5"
+                  : "#ff9569"
+                : countMetric
+                  ? "#4eb4cd"
+                  : "#ff8755",
+              context = chart.ctx;
+            chart.getDatasetMeta(0).data.forEach((bar) => {
+              const box = bar.getProps(["x", "y", "base", "width"], false),
+                left = box.x - box.width / 2,
+                right = box.x + box.width / 2,
+                top = Math.min(box.y, box.base),
+                bottom = Math.max(box.y, box.base),
+                radius = Math.min(10, box.width / 2, (bottom - top) / 2),
+                fill = context.createLinearGradient(left, 0, right, 0);
+              fill.addColorStop(0, start);
+              fill.addColorStop(1, end);
+              context.beginPath();
+              context.moveTo(left, bottom);
+              context.lineTo(left, top + radius);
+              context.quadraticCurveTo(left, top, left + radius, top);
+              context.lineTo(right - radius, top);
+              context.quadraticCurveTo(right, top, right, top + radius);
+              context.lineTo(right, bottom);
+              context.closePath();
+              context.fillStyle = fill;
+              context.fill();
+            });
+          },
+        });
+      if (yearlyCanvas) {
+        const yearlyContext = yearlyCanvas.getContext("2d"),
+          yearlyGradient = yearlyContext.createLinearGradient(
+            0,
+            0,
+            yearlyCanvas.clientWidth || 700,
+            0,
+          );
+        yearlyGradient.addColorStop(0, yearlyColor);
+        yearlyGradient.addColorStop(1, yearlyEnd);
+        yearlyChart = new Chart(yearlyCanvas, {
+          type: isYearlyLine ? "line" : "bar",
+          data: {
+            labels: yearlyLabels,
+            datasets: [
+              {
+                label: isCount
+                  ? "Fixed Asset Count"
+                  : "Purchasing Amount (MMK)",
+                data: yearlyLabels.map(
+                  (label) => yearlyData[label]?.[yearlyMetric] || 0,
+                ),
+                backgroundColor: isYearlyLine
+                  ? dark
+                    ? isCount
+                      ? "rgba(78,180,205,.18)"
+                      : "rgba(255,135,85,.18)"
+                    : isCount
+                      ? "rgba(22,134,106,.13)"
+                      : "rgba(209,42,49,.13)"
+                  : yearlyGradient,
+                borderColor: yearlyColor,
+                borderWidth: isYearlyLine ? 2.5 : 0,
+                borderRadius: isYearlyLine
+                  ? 0
+                  : {
+                      topLeft: 10,
+                      topRight: 10,
+                      bottomLeft: 0,
+                      bottomRight: 0,
+                    },
+                borderSkipped: false,
+                maxBarThickness: 42,
+                categoryPercentage: 0.78,
+                barPercentage: 0.76,
+                pointRadius: isYearlyLine ? 4 : 0,
+                pointHoverRadius: isYearlyLine ? 4 : 0,
+                pointBackgroundColor: yearlyColor,
+                fill: isYearlyLine,
+                tension: isYearlyLine ? 0.32 : 0,
+              },
+            ],
+          },
+          options: {
+            animation,
+            responsive: true,
+            maintainAspectRatio: false,
+            transitions: { active: { animation: { duration: 0 } } },
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                displayColors: true,
+                backgroundColor: "#171114",
+                titleColor: "#fff7f2",
+                bodyColor: "#fff7f2",
+                borderColor: "#d99284",
+                borderWidth: 2,
+                padding: 10,
+                cornerRadius: 8,
+                caretPadding: 10,
+                boxPadding: 4,
+                titleFont: { family: "Poppins", size: 11, weight: "700" },
+                bodyFont: { family: "Poppins", size: 12, weight: "600" },
+                callbacks: {
+                  label: (item) =>
+                    " " +
+                    (isCount
+                      ? Number(item.raw || 0).toLocaleString() + " Assets"
+                      : Number(item.raw || 0).toLocaleString() + " MMK"),
+                  labelColor: () => ({
+                    backgroundColor: yearlyColor,
+                    borderColor: yearlyColor,
+                    borderWidth: 1,
+                    borderRadius: 2,
+                  }),
+                },
+              },
+            },
+            scales: {
+              x: {
+                grid: { color: grid },
+                ticks: { color: text, font: { family: "Poppins", size: 10 } },
+                border: { color: grid },
+              },
+              y: {
+                beginAtZero: true,
+                grid: { color: grid },
+                ticks: {
+                  color: text,
+                  font: { family: "Poppins", size: 10 },
+                  precision: isCount ? 0 : undefined,
+                  callback: (value) =>
+                    isCount
+                      ? Number(value).toLocaleString()
+                      : Number(value) >= 1000000
+                        ? (Number(value) / 1000000).toFixed(
+                            Number(value) >= 10000000 ? 0 : 1,
+                          ) + "M"
+                        : Number(value).toLocaleString(),
+                },
+                border: { color: grid },
+              },
+            },
+          },
+        });
+      }
+      themeRefresh = false;
+    };
+    const updateKpis = () => {
+      const dated = records
+          .map((record) => record.p)
+          .filter(Boolean)
+          .sort(),
+        latest = dated[dated.length - 1] || "",
+        monthsBack =
+          period.value === "last3" ? 3 : period.value === "last6" ? 6 : 0,
+        cutoff =
+          monthsBack && latest
+            ? new Date(
+                Date.UTC(
+                  Number(latest.slice(0, 4)),
+                  Number(latest.slice(5, 7)) - monthsBack,
+                  1,
+                ),
+              )
+                .toISOString()
+                .slice(0, 10)
+            : "";
+      const selected = records.filter((record) => {
+          if (company.value !== "all" && record.c !== company.value)
+            return false;
+          if (department.value !== "all" && record.d !== department.value)
+            return false;
+          if (type.value !== "all" && record.t !== type.value) return false;
+          if (brand.value !== "all" && record.b !== brand.value) return false;
+          if (condition.value !== "all" && record.o !== condition.value)
+            return false;
+          if (
+            period.value === "monthly" &&
+            month.value !== "all" &&
+            record.p.slice(0, 7) !== month.value
+          )
+            return false;
+          if (
+            period.value === "yearly" &&
+            year.value !== "all" &&
+            record.p.slice(0, 4) !== year.value
+          )
+            return false;
+          if (cutoff && record.p < cutoff) return false;
+          if (period.value === "custom" && from.value && record.p < from.value)
+            return false;
+          if (period.value === "custom" && to.value && record.p > to.value)
+            return false;
+          return true;
+        }),
+        count = selected.length,
+        good = selected.filter((record) => record.o === "Good").length,
+        damaged = selected.filter((record) => record.o === "Damage").length,
+        purchase = selected.reduce(
+          (sum, record) => sum + (Number(record.a) || 0),
+          0,
+        ),
+        scope = count + " selected asset record" + (count === 1 ? "" : "s");
+      panel.querySelector("#fixedAssetTotal").textContent = format(count);
+      panel.querySelector("#fixedAssetCompanies").textContent = format(good);
+      panel.querySelector("#fixedAssetDamage").textContent = format(damaged);
+      panel.querySelector("#fixedAssetPurchase").innerHTML =
+        format(purchase) + "<em>MMK</em>";
+      panel.querySelector("#fixedAssetTotalSubtitle").textContent =
+        count + " " + (count === 1 ? "Asset" : "Assets") + " Found";
+      panel.querySelector("#fixedAssetCompaniesSubtitle").textContent =
+        good + " " + (good === 1 ? "Asset" : "Assets") + " Found";
+      panel.querySelector("#fixedAssetDamageSubtitle").textContent =
+        damaged + " " + (damaged === 1 ? "Asset" : "Assets") + " Found";
+      panel.querySelector("#fixedAssetPurchaseSubtitle").textContent =
+        count + " " + (count === 1 ? "Asset" : "Assets") + " Purchasing";
+      if (conditionChartFilter) conditionChartFilter.value = condition.value;
+      renderCharts(selected);
+    };
+    const syncPeriod = () => {
+      customFields.forEach(
+        (field) => (field.hidden = period.value !== "custom"),
+      );
+      monthField.hidden = period.value !== "monthly";
+      yearField.hidden = period.value !== "yearly";
+      updateKpis();
+    };
+    const syncDepartments = () => {
+      const selected = company.value,
+        items =
+          selected === "all"
+            ? []
+            : assetsData.companyDepartments[selected] || [];
+      resetDependent(department, items, "All departments");
+      departmentField.hidden = selected === "all";
+      updateKpis();
+    };
+    const syncBrands = () => {
+      const selected = type.value,
+        items =
+          selected === "all" ? [] : assetsData.assetTypeBrands[selected] || [];
+      resetDependent(brand, items, "All brands");
+      brandField.hidden = selected === "all";
+      updateKpis();
+    };
+    const months = [
+        ...new Set(
+          records.map((record) => record.p.slice(0, 7)).filter(Boolean),
+        ),
+      ]
+        .sort()
+        .reverse(),
+      years = [
+        ...new Set(
+          records.map((record) => record.p.slice(0, 4)).filter(Boolean),
+        ),
+      ]
+        .sort()
+        .reverse(),
+      monthLabel = (value) => {
+        const [year, monthNumber] = value.split("-");
+        return new Date(Number(year), Number(monthNumber) - 1, 1)
+          .toLocaleString("en-US", { month: "short", year: "numeric" })
+          .replace(" ", "-");
+      };
+    month.innerHTML =
+      '<option value="all">All months</option>' +
+      months
+        .map(
+          (value) =>
+            '<option value="' + value + '">' + monthLabel(value) + "</option>",
+        )
+        .join("");
+    year.innerHTML = optionList(years, "All years");
+    if (conditionChartFilter) {
+      conditionChartFilter.innerHTML = optionList(
+        assetsData.conditions,
+        "All conditions",
+      );
+      conditionChartFilter.value = condition.value;
+      conditionChartFilter.addEventListener("change", () => {
+        condition.value = conditionChartFilter.value;
+        condition.dispatchEvent(new Event("change", { bubbles: true }));
+      });
+    }
+    if (companyChartTypeControl) {
+      companyChartTypeControl.value = companyChartType;
+      companyChartTypeControl.addEventListener("change", () => {
+        companyChartType = companyChartTypeControl.value;
+        updateKpis();
+      });
+    }
+    if (yearlyChartTypeControl) {
+      yearlyChartTypeControl.value = yearlyChartType;
+      yearlyChartTypeControl.addEventListener("change", () => {
+        yearlyChartType = yearlyChartTypeControl.value;
+        updateKpis();
+      });
+    }
+    yearlyMetricControl?.addEventListener("change", updateKpis);
+    themeObserver = new MutationObserver((mutations) => {
+      if (mutations.some((mutation) => mutation.attributeName === "class")) {
+        themeRefresh = true;
+        requestAnimationFrame(updateKpis);
+      }
+    });
+    themeObserver.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    period.addEventListener("change", syncPeriod);
+    company.addEventListener("change", syncDepartments);
+    type.addEventListener("change", syncBrands);
+    [department, brand, condition, month, year, from, to].forEach((control) =>
+      control.addEventListener("change", updateKpis),
+    );
+    [from, to].forEach((input) =>
+      input.addEventListener("click", () => {
+        try {
+          input.showPicker?.();
+        } catch (error) {}
+      }),
+    );
+    panel
+      .querySelector("#fixedAssetResetFilters")
+      .addEventListener("click", () => {
+        period.value = "all";
+        company.value = "all";
+        type.value = "all";
+        condition.value = "all";
+        from.value = "";
+        to.value = "";
+        syncDepartments();
+        syncBrands();
+        syncPeriod();
+      });
+    syncPeriod();
+    syncDepartments();
+    syncBrands();
+    updateKpis();
   };
-  window.renderFixedAssetsKpis=(metrics=source,scopeLabel=metrics.scopeLabel||'Selected asset records')=>{
-    if(companyChart)companyChart.destroy();if(conditionChart)conditionChart.destroy();if(yearlyChart)yearlyChart.destroy();if(themeObserver)themeObserver.disconnect();companyChart=null;conditionChart=null;yearlyChart=null;themeObserver=null;
-    const cards=[
-      ['tone-orange',icon.assets,'Total Assets','Recorded asset inventory',format(metrics.totalAssets)],
-      ['tone-green',icon.good,'Good Assets','Assets in good condition',format((assetsData.records||[]).filter(record=>record.o==='Good').length)],
-      ['tone-red',icon.damage,'Damage Assets','Requires attention',format(metrics.damagedAssets)],
-      ['tone-blue',icon.purchase,'Total Purchase','Acquisition value',format(metrics.totalPurchase)+'<em>MMK</em>']
+  window.renderFixedAssetsKpis = (
+    metrics = source,
+    scopeLabel = metrics.scopeLabel || "Selected asset records",
+  ) => {
+    if (companyChart) companyChart.destroy();
+    if (conditionChart) conditionChart.destroy();
+    if (yearlyChart) yearlyChart.destroy();
+    if (themeObserver) themeObserver.disconnect();
+    companyChart = null;
+    conditionChart = null;
+    yearlyChart = null;
+    themeObserver = null;
+    const cards = [
+      [
+        "tone-orange",
+        icon.assets,
+        "Total Assets",
+        "Recorded asset inventory",
+        format(metrics.totalAssets),
+      ],
+      [
+        "tone-green",
+        icon.good,
+        "Good Assets",
+        "Assets in good condition",
+        format(
+          (assetsData.records || []).filter((record) => record.o === "Good")
+            .length,
+        ),
+      ],
+      [
+        "tone-red",
+        icon.damage,
+        "Damage Assets",
+        "Requires attention",
+        format(metrics.damagedAssets),
+      ],
+      [
+        "tone-blue",
+        icon.purchase,
+        "Total Purchase",
+        "Acquisition value",
+        format(metrics.totalPurchase) + "<em>MMK</em>",
+      ],
     ];
-    panel.innerHTML='<section class="unified-kpi-grid">'+cards.map((card,index)=>'<article class="unified-kpi-card '+card[0]+'"><span class="unified-kpi-icon" aria-hidden="true">'+card[1]+'</span><div><b>'+card[2]+'</b><small id="'+['fixedAssetTotalSubtitle','fixedAssetCompaniesSubtitle','fixedAssetDamageSubtitle','fixedAssetPurchaseSubtitle'][index]+'">'+card[3]+'</small></div><strong id="'+['fixedAssetTotal','fixedAssetCompanies','fixedAssetDamage','fixedAssetPurchase'][index]+'" class="fixed-assets-kpi-value">'+card[4]+'</strong></article>').join('')+'</section><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Fixed Assets Analysis</h2><p>Analyze asset inventory, asset types, and condition across reporting periods and companies.</p></div><button id="fixedAssetResetFilters" class="btn" type="button">Reset filters</button></div><div class="unified-filter-grid"><label><span>Period</span><select id="fixedAssetPeriod" class="filter"><option value="all">All data</option><option value="monthly">Monthly</option><option value="yearly">Yearly</option><option value="last3">Last 3 months</option><option value="last6">Last 6 months</option><option value="custom">Custom range</option></select></label><label class="fixed-asset-period-value" hidden><span>Month</span><select id="fixedAssetMonth" class="filter"></select></label><label class="fixed-asset-period-value" hidden><span>Year</span><select id="fixedAssetYear" class="filter"></select></label><label class="fixed-asset-custom-range" hidden><span>From</span><input id="fixedAssetFrom" class="filter" type="date"></label><label class="fixed-asset-custom-range" hidden><span>To</span><input id="fixedAssetTo" class="filter" type="date"></label><label><span>Company</span><select id="fixedAssetCompany" class="filter">'+optionList(Object.keys(assetsData.companyDepartments).sort(),'All companies')+'</select></label><label hidden><span>Department</span><select id="fixedAssetDepartment" class="filter"></select></label><label><span>Asset type</span><select id="fixedAssetType" class="filter">'+optionList(Object.keys(assetsData.assetTypeBrands).sort(),'All asset types')+'</select></label><label hidden><span>Brand</span><select id="fixedAssetBrand" class="filter"></select></label><label><span>Condition</span><select id="fixedAssetCondition" class="filter">'+optionList(assetsData.conditions,'All conditions')+'</select></label></div></section>';
-    panel.insertAdjacentHTML('beforeend','<section class="unified-chart-grid"><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready"><div><h2>Company Asset Inventory</h2><p>Distribution of selected assets across companies</p></div><select id="fixedAssetCompanyChartType" class="filter unified-chart-select" aria-label="Company asset chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div><div class="unified-bar-canvas"><canvas id="fixedAssetCompanyChart"></canvas></div></article><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready chart-control-stacked"><div><h2>Asset Condition Overview</h2><p>Condition status across selected assets</p></div><select id="fixedAssetConditionChartFilter" class="filter unified-chart-select" aria-label="Filter asset condition"></select></div><div class="unified-pie-layout"><div class="unified-pie-canvas"><canvas id="fixedAssetConditionChart"></canvas></div><div id="fixedAssetConditionLegend" class="unified-chart-legend"></div></div></article></section>');
-    panel.insertAdjacentHTML('beforeend','<article class="unified-chart-card fixed-asset-yearly-chart-card"><div class="unified-chart-header chart-control-ready"><div><h2 id="fixedAssetYearlyChartTitle">Fixed Asset Count by Year</h2><p id="fixedAssetYearlyChartSubtitle">Annual fixed asset acquisitions</p></div><div class="fixed-asset-yearly-chart-controls"><select id="fixedAssetYearlyMetric" class="filter unified-chart-select" aria-label="Fixed asset yearly metric"><option value="count">Fixed Asset Count</option><option value="amount">Purchasing Amount (MMK)</option></select><select id="fixedAssetYearlyChartType" class="filter unified-chart-select" aria-label="Fixed asset yearly chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div></div><div class="unified-line-canvas"><canvas id="fixedAssetYearlyChart" aria-label="Fixed asset yearly chart"></canvas></div><p id="fixedAssetYearlyChartFooter" class="unified-chart-footer budget-summary-key" aria-label="Chart series"></p></article>');
-    const assetTabCard=document.createElement('section'),allAssetRecords=assetsData.records||[];let assetRecords=allAssetRecords;
-    assetTabCard.className='card unified-table-card fixed-asset-tabs-card';
-    assetTabCard.innerHTML='<nav class="unified-tabs" role="tablist" aria-label="Fixed asset views"><button type="button" class="unified-tab active" data-fixed-asset-tab="company" role="tab" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21h16M6 21V7l6-4v18M12 10h6v11M9 9h1M9 13h1M9 17h1M15 14h1M15 18h1"/></svg>Company Asset Inventory</button><button type="button" class="unified-tab" data-fixed-asset-tab="overview" role="tab" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Fixed Asset Overview</button></nav>';
+    panel.innerHTML =
+      '<section class="unified-kpi-grid">' +
+      cards
+        .map(
+          (card, index) =>
+            '<article class="unified-kpi-card ' +
+            card[0] +
+            '"><span class="unified-kpi-icon" aria-hidden="true">' +
+            card[1] +
+            "</span><div><b>" +
+            card[2] +
+            '</b><small id="' +
+            [
+              "fixedAssetTotalSubtitle",
+              "fixedAssetCompaniesSubtitle",
+              "fixedAssetDamageSubtitle",
+              "fixedAssetPurchaseSubtitle",
+            ][index] +
+            '">' +
+            card[3] +
+            '</small></div><strong id="' +
+            [
+              "fixedAssetTotal",
+              "fixedAssetCompanies",
+              "fixedAssetDamage",
+              "fixedAssetPurchase",
+            ][index] +
+            '" class="fixed-assets-kpi-value">' +
+            card[4] +
+            "</strong></article>",
+        )
+        .join("") +
+      '</section><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Fixed Assets Analysis</h2><p>Analyze asset inventory, asset types, and condition across reporting periods and companies.</p></div><button id="fixedAssetResetFilters" class="btn" type="button">Reset filters</button></div><div class="unified-filter-grid"><label><span>Period</span><select id="fixedAssetPeriod" class="filter"><option value="all">All data</option><option value="monthly">Monthly</option><option value="yearly">Yearly</option><option value="last3">Last 3 months</option><option value="last6">Last 6 months</option><option value="custom">Custom range</option></select></label><label class="fixed-asset-period-value" hidden><span>Month</span><select id="fixedAssetMonth" class="filter"></select></label><label class="fixed-asset-period-value" hidden><span>Year</span><select id="fixedAssetYear" class="filter"></select></label><label class="fixed-asset-custom-range" hidden><span>From</span><input id="fixedAssetFrom" class="filter" type="date"></label><label class="fixed-asset-custom-range" hidden><span>To</span><input id="fixedAssetTo" class="filter" type="date"></label><label><span>Company</span><select id="fixedAssetCompany" class="filter">' +
+      optionList(
+        Object.keys(assetsData.companyDepartments).sort(),
+        "All companies",
+      ) +
+      '</select></label><label hidden><span>Department</span><select id="fixedAssetDepartment" class="filter"></select></label><label><span>Asset type</span><select id="fixedAssetType" class="filter">' +
+      optionList(
+        Object.keys(assetsData.assetTypeBrands).sort(),
+        "All asset types",
+      ) +
+      '</select></label><label hidden><span>Brand</span><select id="fixedAssetBrand" class="filter"></select></label><label><span>Condition</span><select id="fixedAssetCondition" class="filter">' +
+      optionList(assetsData.conditions, "All conditions") +
+      "</select></label></div></section>";
+    panel.insertAdjacentHTML(
+      "beforeend",
+      '<section class="unified-chart-grid"><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready"><div><h2>Company Asset Inventory</h2><p>Distribution of selected assets across companies</p></div><select id="fixedAssetCompanyChartType" class="filter unified-chart-select" aria-label="Company asset chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div><div class="unified-bar-canvas"><canvas id="fixedAssetCompanyChart"></canvas></div></article><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready chart-control-stacked"><div><h2>Asset Condition Overview</h2><p>Condition status across selected assets</p></div><select id="fixedAssetConditionChartFilter" class="filter unified-chart-select" aria-label="Filter asset condition"></select></div><div class="unified-pie-layout"><div class="unified-pie-canvas"><canvas id="fixedAssetConditionChart"></canvas></div><div id="fixedAssetConditionLegend" class="unified-chart-legend"></div></div></article></section>',
+    );
+    panel.insertAdjacentHTML(
+      "beforeend",
+      '<article class="unified-chart-card fixed-asset-yearly-chart-card"><div class="unified-chart-header chart-control-ready"><div><h2 id="fixedAssetYearlyChartTitle">Fixed Asset Count by Year</h2><p id="fixedAssetYearlyChartSubtitle">Annual fixed asset acquisitions</p></div><div class="fixed-asset-yearly-chart-controls"><select id="fixedAssetYearlyMetric" class="filter unified-chart-select" aria-label="Fixed asset yearly metric"><option value="count">Fixed Asset Count</option><option value="amount">Purchasing Amount (MMK)</option></select><select id="fixedAssetYearlyChartType" class="filter unified-chart-select" aria-label="Fixed asset yearly chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div></div><div class="unified-line-canvas"><canvas id="fixedAssetYearlyChart" aria-label="Fixed asset yearly chart"></canvas></div><p id="fixedAssetYearlyChartFooter" class="unified-chart-footer budget-summary-key" aria-label="Chart series"></p></article>',
+    );
+    const assetTabCard = document.createElement("section"),
+      allAssetRecords = assetsData.records || [];
+    let assetRecords = allAssetRecords;
+    assetTabCard.className = "card unified-table-card fixed-asset-tabs-card";
+    assetTabCard.innerHTML =
+      '<nav class="unified-tabs" role="tablist" aria-label="Fixed asset views"><button type="button" class="unified-tab active" data-fixed-asset-tab="company" role="tab" aria-selected="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21h16M6 21V7l6-4v18M12 10h6v11M9 9h1M9 13h1M9 17h1M15 14h1M15 18h1"/></svg>Company Asset Inventory</button><button type="button" class="unified-tab" data-fixed-asset-tab="overview" role="tab" aria-selected="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Fixed Asset Overview</button></nav>';
     panel.append(assetTabCard);
-    const assetTabs=[...assetTabCard.querySelectorAll('[data-fixed-asset-tab]')],escapeAssetCell=value=>String(value??'—').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char])),formatAssetValue=value=>Number(value||0).toLocaleString('en-US'),formatAssetCode=value=>{const code=String(value??'').trim();return !code?'-':/^\d+$/.test(code)?code.padStart(4,'0'):code},formatAssetPurchaseDate=value=>{const date=String(value||'').slice(0,10);return /^\d{4}-\d{2}-\d{2}$/.test(date)?new Date(date+'T00:00:00').toLocaleString('en-US',{month:'short',year:'numeric'}).replace(' ','-'):'—'};let expandedAssetCompany='';
-    const overviewTab=assetTabs.find(tab=>tab.dataset.fixedAssetTab==='overview');if(overviewTab?.querySelector('svg'))overviewTab.querySelector('svg').innerHTML='<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>';
-    const renderAssetTab=view=>{assetTabs.forEach(tab=>{const active=tab.dataset.fixedAssetTab===view;tab.classList.toggle('active',active);tab.setAttribute('aria-selected',String(active))});assetTabCard.querySelector('.fixed-asset-company-table-card')?.remove();if(view!=='company')return;const companies=Object.entries(assetRecords.reduce((groups,record)=>{const company=record.c||'Unspecified';if(!groups[company])groups[company]={count:0,amount:0,good:0,damage:0};groups[company].count+=1;groups[company].amount+=Number(record.a)||0;if(record.o==='Damage')groups[company].damage+=1;else if(record.o==='Good')groups[company].good+=1;return groups},{})).sort((left,right)=>right[1].count-left[1].count),companyTable=document.createElement('section');companyTable.className='unified-table-card fixed-asset-company-table-card';const rows=companies.map(([company,summary])=>{const expanded=expandedAssetCompany===company,types=Object.entries(assetRecords.filter(record=>(record.c||'Unspecified')===company).reduce((groups,record)=>{const type=record.t||'Unspecified';if(!groups[type])groups[type]={good:0,damage:0,count:0,amount:0};groups[type].count+=1;groups[type].amount+=Number(record.a)||0;if(record.o==='Damage')groups[type].damage+=1;else if(record.o==='Good')groups[type].good+=1;return groups},{})).sort((left,right)=>right[1].count-left[1].count);return '<tr class="fixed-asset-company-row'+(expanded?' is-expanded':'')+'" data-fixed-asset-company="'+escapeAssetCell(company)+'" tabindex="0" aria-expanded="'+expanded+'"><td>'+escapeAssetCell(company)+'</td><td>'+formatAssetValue(summary.good)+'</td><td class="fixed-asset-damage-count">'+formatAssetValue(summary.damage)+'</td><td>'+formatAssetValue(summary.count)+'</td><td>'+formatAssetValue(summary.amount)+'</td></tr>'+(expanded?types.map(([type,detail])=>'<tr class="fixed-asset-type-row"><td>'+escapeAssetCell(type)+'</td><td>'+formatAssetValue(detail.good)+'</td><td class="fixed-asset-damage-count">'+formatAssetValue(detail.damage)+'</td><td>'+formatAssetValue(detail.count)+'</td><td>'+formatAssetValue(detail.amount)+'</td></tr>').join(''):'')}).join('');companyTable.innerHTML='<div class="unified-table-head"><div class="unified-table-title"><div><h2>Company Asset Inventory</h2><p>Asset condition, inventory, and purchase value by company</p></div></div></div><div class="unified-table-scroll"><table class="unified-data-table"><thead><tr><th>Company</th><th>Good Assets</th><th>Damaged Assets</th><th>Total Assets</th><th>Purchased (MMK)</th></tr></thead><tbody>'+rows+'</tbody></table></div>';companyTable.querySelector('.unified-table-title')?.insertAdjacentHTML('afterbegin','<span class="unified-table-title-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21h16M6 21V7l6-4v18M12 10h6v11M9 9h1M9 13h1M9 17h1M15 14h1M15 18h1"/></svg></span>');const toggleCompany=target=>{const row=target.closest('.fixed-asset-company-row');if(!row)return;const selected=row.dataset.fixedAssetCompany;expandedAssetCompany=expandedAssetCompany===selected?'':selected;renderAssetTab('company');sortCompanyRows()};companyTable.querySelector('tbody')?.addEventListener('click',event=>toggleCompany(event.target));companyTable.querySelector('tbody')?.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleCompany(event.target)}});assetTabCard.append(companyTable)};
-    const sortCompanyRows=()=>{const body=assetTabCard.querySelector('.fixed-asset-company-table-card tbody');if(!body)return;const table=body.closest('table'),card=body.closest('.fixed-asset-company-table-card'),count=body.querySelectorAll('.fixed-asset-company-row').length,totalAssets=assetRecords.length,totalAmount=assetRecords.reduce((sum,record)=>sum+(Number(record.a)||0),0),goodCount=assetRecords.filter(record=>record.o==='Good').length,damageCount=assetRecords.filter(record=>record.o==='Damage').length,foot=table.tFoot||table.createTFoot();foot.innerHTML='<tr><th>GRAND TOTAL</th><th>'+formatAssetValue(goodCount)+'</th><th>'+formatAssetValue(damageCount)+'</th><th>'+formatAssetValue(totalAssets)+'</th><th>'+formatAssetValue(totalAmount)+'</th></tr>';let footer=card.querySelector('.unified-table-footer');if(!footer){footer=document.createElement('footer');footer.className='unified-table-footer';card.append(footer)}footer.textContent='Showing '+count+' of '+count+' companies'};
-    assetTabCard.addEventListener('click',event=>{const typeRow=event.target.closest('.fixed-asset-type-row');if(!typeRow)return;let companyRow=typeRow.previousElementSibling;while(companyRow&&!companyRow.classList.contains('fixed-asset-company-row'))companyRow=companyRow.previousElementSibling;if(!companyRow)return;let next=typeRow.nextElementSibling;while(next&&next.classList.contains('fixed-asset-department-row')){const current=next;next=next.nextElementSibling;current.remove()}if(typeRow.classList.toggle('is-expanded')===false)return;const company=companyRow.cells[0]?.textContent.trim(),type=typeRow.cells[0]?.textContent.trim(),departments=Object.entries(assetRecords.filter(record=>(record.c||'Unspecified')===company&&(record.t||'Unspecified')===type).reduce((groups,record)=>{const department=record.d||'Unspecified';if(!groups[department])groups[department]={good:0,damage:0,count:0,amount:0};groups[department].count+=1;groups[department].amount+=Number(record.a)||0;if(record.o==='Damage')groups[department].damage+=1;else if(record.o==='Good')groups[department].good+=1;return groups},{})).sort((left,right)=>left[0].localeCompare(right[0]));typeRow.insertAdjacentHTML('afterend',departments.map(([department,summary])=>'<tr class="fixed-asset-department-row"><td>'+escapeAssetCell(department)+'</td><td>'+formatAssetValue(summary.good)+'</td><td class="fixed-asset-damage-count">'+formatAssetValue(summary.damage)+'</td><td>'+formatAssetValue(summary.count)+'</td><td>'+formatAssetValue(summary.amount)+'</td></tr>').join(''))});
-    assetTabs.forEach(tab=>tab.addEventListener('click',()=>renderAssetTab(tab.dataset.fixedAssetTab)));
-    const renderOverviewRecord=()=>{if(!assetTabs.find(tab=>tab.dataset.fixedAssetTab==='overview')?.classList.contains('active'))return;assetTabCard.querySelector('.fixed-asset-overview-table-card')?.remove();const rows=assetRecords.slice().sort((left,right)=>String(left.cc||'').localeCompare(String(right.cc||''))||(Number(left.code)||0)-(Number(right.code)||0)),purchaseTotal=rows.reduce((sum,record)=>sum+(Number(record.a)||0),0),companyCode=company=>String(company||'').split(/\s+/).map(word=>word[0]||'').join('').toUpperCase()||'—',card=document.createElement('section');card.className='card unified-table-card fixed-asset-overview-table-card';card.innerHTML='<div class="unified-table-head"><div class="unified-table-title"><span class="unified-table-title-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span><div><h2>Fixed Asset Overview</h2><p>Complete fixed asset register</p></div></div></div><div class="unified-table-scroll"><table class="unified-data-table"><thead><tr><th>Company Codes</th><th>Code No</th><th>Asset Type</th><th>Company</th><th>Department</th><th>Current User</th><th>Condition</th><th>Location</th><th>Purchased Date</th><th>Purchased (MMK)</th></tr></thead><tbody>'+rows.map(record=>'<tr><td>'+escapeAssetCell(record.cc||companyCode(record.c))+'</td><td>'+escapeAssetCell(formatAssetCode(record.code))+'</td><td>'+escapeAssetCell(record.t)+'</td><td>'+escapeAssetCell(record.c)+'</td><td>'+(record.d==='BOD'?'<span class="fixed-asset-department-badge">BOD</span>':escapeAssetCell(record.d))+'</td><td>'+escapeAssetCell(record.u||'—')+'</td><td class="'+(record.o==='Damage'?'fixed-asset-damage-count':'')+'">'+escapeAssetCell(record.o)+'</td><td>'+escapeAssetCell(record.l||'—')+'</td><td>'+formatAssetPurchaseDate(record.p)+'</td><td>'+formatAssetValue(record.a)+'</td></tr>').join('')+'</tbody><tfoot><tr><td>Grand Total</td><td colspan="9">'+formatAssetValue(purchaseTotal)+'</td></tr></tfoot></table></div><footer class="unified-table-footer">Showing '+rows.length+' of '+rows.length+' assets</footer>';assetTabCard.append(card)};
-    const setupOverviewSearch=()=>{const card=assetTabCard.querySelector('.fixed-asset-overview-table-card');if(!card)return;const title=card.querySelector('.unified-table-title');if(title){title.querySelector('h2').textContent='Fixed Asset Overview';title.querySelector('p').textContent='Search and review the complete asset inventory';title.insertAdjacentHTML('afterend','<div class="tools"><input id="fixedAssetOverviewSearch" class="search" type="search" placeholder="Search assets..." aria-label="Search asset register"></div>')}const input=card.querySelector('#fixedAssetOverviewSearch'),rows=[...card.querySelectorAll('tbody tr')],totalCell=card.querySelector('tfoot td:last-child');input?.addEventListener('input',()=>{const query=input.value.trim().toLowerCase(),shown=rows.filter(row=>{const match=!query||row.textContent.toLowerCase().includes(query);row.hidden=!match;return match});if(totalCell)totalCell.textContent=formatAssetValue(shown.reduce((sum,row)=>sum+(Number(row.cells[row.cells.length-1]?.textContent.replace(/,/g,''))||0),0))})};
-    const enhanceOverviewConditions=()=>assetTabCard.querySelectorAll('.fixed-asset-overview-table-card tbody tr').forEach(row=>{const cell=row.cells[6],condition=cell?.textContent.trim();if(!cell||!condition)return;cell.classList.remove('fixed-asset-damage-count');cell.innerHTML='<span class="fixed-asset-condition-badge '+(condition==='Damage'?'damage':'good')+'">'+escapeAssetCell(condition)+'</span>'});
-    const enhanceFixedAssetCodes=()=>{const table=assetTabCard.querySelector('.fixed-asset-overview-table-card .unified-data-table');if(!table||table.dataset.fixedAssetCodeReady)return;table.dataset.fixedAssetCodeReady='true';table.tHead.rows[0].cells[0].textContent='Fixed Asset Code';table.tHead.rows[0].cells[1].remove();[...table.tBodies[0].rows].forEach(row=>{const companyCode=row.cells[0].textContent.trim(),codeNo=row.cells[1].textContent.trim();if(companyCode&&codeNo&&codeNo!=='-')row.cells[0].textContent=companyCode+'-'+codeNo;row.cells[1].remove()});[table.tHead.rows[0],...table.tBodies[0].rows].forEach(row=>row.insertBefore(row.cells[1],row.cells[5]));const total=table.tFoot?.rows[0]?.cells[1];if(total)total.colSpan=8};
-    const setupOverviewPagination=()=>{const card=assetTabCard.querySelector('.fixed-asset-overview-table-card'),rows=[...(card?.querySelectorAll('tbody tr')||[])],footer=card?.querySelector('.unified-table-footer'),input=card?.querySelector('#fixedAssetOverviewSearch');if(!card||!footer||card.querySelector('.unified-table-pagination'))return;const pageSize=20,pager=document.createElement('nav'),summary=document.createElement('span');pager.className='unified-table-pagination';summary.className='unified-table-pagination-summary';pager.setAttribute('aria-label','Fixed asset table pages');let page=1;const draw=()=>{if(!summary.isConnected)footer.append(summary);if(!pager.isConnected)footer.append(pager);const query=input?.value.trim().toLowerCase()||'',matched=rows.filter(row=>!query||row.textContent.toLowerCase().includes(query)),pageCount=Math.max(1,Math.ceil(matched.length/pageSize)),start=matched.length?(page-1)*pageSize+1:0,end=Math.min(page*pageSize,matched.length);page=Math.min(page,pageCount);rows.forEach(row=>row.hidden=true);matched.slice((page-1)*pageSize,page*pageSize).forEach(row=>row.hidden=false);summary.textContent=start+'–'+end+' of '+matched.length+' assets · Page '+page+' of '+pageCount;pager.hidden=pageCount===1;pager.innerHTML='<button type="button" '+(page===1?'disabled':'')+' data-page="prev" aria-label="Previous page">‹</button><button type="button" '+(page===pageCount?'disabled':'')+' data-page="next" aria-label="Next page">›</button>'};pager.addEventListener('click',event=>{const button=event.target.closest('button[data-page]');if(!button)return;page=button.dataset.page==='prev'?page-1:page+1;draw();card.querySelector('.unified-table-scroll')?.scrollTo({top:0,left:0,behavior:'smooth'})});input?.addEventListener('input',()=>{page=1;draw()});footer.replaceChildren(summary,pager);draw()};
-    const setOverviewIcon=()=>{const icon=assetTabCard.querySelector('.fixed-asset-overview-table-card .unified-table-title-icon');if(icon)icon.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>'};
-    assetTabs.find(tab=>tab.dataset.fixedAssetTab==='overview')?.addEventListener('click',()=>requestAnimationFrame(()=>{assetTabCard.querySelector('.fixed-asset-overview-table-card')?.remove();refreshCompanyFixedAssets();setupOverviewSearch();setOverviewIcon();enhanceOverviewConditions();enhanceFixedAssetCodes();setupOverviewPagination()}));
-    assetTabs.filter(tab=>tab.dataset.fixedAssetTab!=='overview').forEach(tab=>tab.addEventListener('click',()=>assetTabCard.querySelector('.fixed-asset-overview-table-card')?.remove()));
-    assetTabs.find(tab=>tab.dataset.fixedAssetTab==='company')?.addEventListener('click',()=>requestAnimationFrame(sortCompanyRows));
-    renderAssetTab('company');sortCompanyRows();
+    const assetTabs = [
+        ...assetTabCard.querySelectorAll("[data-fixed-asset-tab]"),
+      ],
+      escapeAssetCell = (value) =>
+        String(value ?? "—").replace(
+          /[&<>'"]/g,
+          (char) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              "'": "&#39;",
+              '"': "&quot;",
+            })[char],
+        ),
+      formatAssetValue = (value) => Number(value || 0).toLocaleString("en-US"),
+      formatAssetCode = (value) => {
+        const code = String(value ?? "").trim();
+        return !code ? "-" : /^\d+$/.test(code) ? code.padStart(4, "0") : code;
+      },
+      formatAssetPurchaseDate = (value) => {
+        const date = String(value || "").slice(0, 10);
+        return /^\d{4}-\d{2}-\d{2}$/.test(date)
+          ? new Date(date + "T00:00:00")
+              .toLocaleString("en-US", { month: "short", year: "numeric" })
+              .replace(" ", "-")
+          : "—";
+      };
+    let expandedAssetCompany = "";
+    const overviewTab = assetTabs.find(
+      (tab) => tab.dataset.fixedAssetTab === "overview",
+    );
+    if (overviewTab?.querySelector("svg"))
+      overviewTab.querySelector("svg").innerHTML =
+        '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>';
+    const renderAssetTab = (view) => {
+      assetTabs.forEach((tab) => {
+        const active = tab.dataset.fixedAssetTab === view;
+        tab.classList.toggle("active", active);
+        tab.setAttribute("aria-selected", String(active));
+      });
+      assetTabCard.querySelector(".fixed-asset-company-table-card")?.remove();
+      if (view !== "company") return;
+      const companies = Object.entries(
+          assetRecords.reduce((groups, record) => {
+            const company = record.c || "Unspecified";
+            if (!groups[company])
+              groups[company] = { count: 0, amount: 0, good: 0, damage: 0 };
+            groups[company].count += 1;
+            groups[company].amount += Number(record.a) || 0;
+            if (record.o === "Damage") groups[company].damage += 1;
+            else if (record.o === "Good") groups[company].good += 1;
+            return groups;
+          }, {}),
+        ).sort((left, right) => right[1].count - left[1].count),
+        companyTable = document.createElement("section");
+      companyTable.className =
+        "unified-table-card fixed-asset-company-table-card";
+      const rows = companies
+        .map(([company, summary]) => {
+          const expanded = expandedAssetCompany === company,
+            types = Object.entries(
+              assetRecords
+                .filter((record) => (record.c || "Unspecified") === company)
+                .reduce((groups, record) => {
+                  const type = record.t || "Unspecified";
+                  if (!groups[type])
+                    groups[type] = { good: 0, damage: 0, count: 0, amount: 0 };
+                  groups[type].count += 1;
+                  groups[type].amount += Number(record.a) || 0;
+                  if (record.o === "Damage") groups[type].damage += 1;
+                  else if (record.o === "Good") groups[type].good += 1;
+                  return groups;
+                }, {}),
+            ).sort((left, right) => right[1].count - left[1].count);
+          return (
+            '<tr class="fixed-asset-company-row' +
+            (expanded ? " is-expanded" : "") +
+            '" data-fixed-asset-company="' +
+            escapeAssetCell(company) +
+            '" tabindex="0" aria-expanded="' +
+            expanded +
+            '"><td>' +
+            escapeAssetCell(company) +
+            "</td><td>" +
+            formatAssetValue(summary.good) +
+            '</td><td class="fixed-asset-damage-count">' +
+            formatAssetValue(summary.damage) +
+            "</td><td>" +
+            formatAssetValue(summary.count) +
+            "</td><td>" +
+            formatAssetValue(summary.amount) +
+            "</td></tr>" +
+            (expanded
+              ? types
+                  .map(
+                    ([type, detail]) =>
+                      '<tr class="fixed-asset-type-row"><td>' +
+                      escapeAssetCell(type) +
+                      "</td><td>" +
+                      formatAssetValue(detail.good) +
+                      '</td><td class="fixed-asset-damage-count">' +
+                      formatAssetValue(detail.damage) +
+                      "</td><td>" +
+                      formatAssetValue(detail.count) +
+                      "</td><td>" +
+                      formatAssetValue(detail.amount) +
+                      "</td></tr>",
+                  )
+                  .join("")
+              : "")
+          );
+        })
+        .join("");
+      companyTable.innerHTML =
+        '<div class="unified-table-head"><div class="unified-table-title"><div><h2>Company Asset Inventory</h2><p>Asset condition, inventory, and purchase value by company</p></div></div></div><div class="unified-table-scroll"><table class="unified-data-table"><thead><tr><th>Company</th><th>Good Assets</th><th>Damaged Assets</th><th>Total Assets</th><th>Purchased (MMK)</th></tr></thead><tbody>' +
+        rows +
+        "</tbody></table></div>";
+      companyTable
+        .querySelector(".unified-table-title")
+        ?.insertAdjacentHTML(
+          "afterbegin",
+          '<span class="unified-table-title-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21h16M6 21V7l6-4v18M12 10h6v11M9 9h1M9 13h1M9 17h1M15 14h1M15 18h1"/></svg></span>',
+        );
+      const toggleCompany = (target) => {
+        const row = target.closest(".fixed-asset-company-row");
+        if (!row) return;
+        const selected = row.dataset.fixedAssetCompany;
+        expandedAssetCompany =
+          expandedAssetCompany === selected ? "" : selected;
+        renderAssetTab("company");
+        sortCompanyRows();
+      };
+      companyTable
+        .querySelector("tbody")
+        ?.addEventListener("click", (event) => toggleCompany(event.target));
+      companyTable
+        .querySelector("tbody")
+        ?.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleCompany(event.target);
+          }
+        });
+      assetTabCard.append(companyTable);
+    };
+    const sortCompanyRows = () => {
+      const body = assetTabCard.querySelector(
+        ".fixed-asset-company-table-card tbody",
+      );
+      if (!body) return;
+      const table = body.closest("table"),
+        card = body.closest(".fixed-asset-company-table-card"),
+        count = body.querySelectorAll(".fixed-asset-company-row").length,
+        totalAssets = assetRecords.length,
+        totalAmount = assetRecords.reduce(
+          (sum, record) => sum + (Number(record.a) || 0),
+          0,
+        ),
+        goodCount = assetRecords.filter((record) => record.o === "Good").length,
+        damageCount = assetRecords.filter(
+          (record) => record.o === "Damage",
+        ).length,
+        foot = table.tFoot || table.createTFoot();
+      foot.innerHTML =
+        "<tr><th>GRAND TOTAL</th><th>" +
+        formatAssetValue(goodCount) +
+        "</th><th>" +
+        formatAssetValue(damageCount) +
+        "</th><th>" +
+        formatAssetValue(totalAssets) +
+        "</th><th>" +
+        formatAssetValue(totalAmount) +
+        "</th></tr>";
+      let footer = card.querySelector(".unified-table-footer");
+      if (!footer) {
+        footer = document.createElement("footer");
+        footer.className = "unified-table-footer";
+        card.append(footer);
+      }
+      footer.textContent = "Showing " + count + " of " + count + " companies";
+    };
+    assetTabCard.addEventListener("click", (event) => {
+      const typeRow = event.target.closest(".fixed-asset-type-row");
+      if (!typeRow) return;
+      let companyRow = typeRow.previousElementSibling;
+      while (
+        companyRow &&
+        !companyRow.classList.contains("fixed-asset-company-row")
+      )
+        companyRow = companyRow.previousElementSibling;
+      if (!companyRow) return;
+      let next = typeRow.nextElementSibling;
+      while (next && next.classList.contains("fixed-asset-department-row")) {
+        const current = next;
+        next = next.nextElementSibling;
+        current.remove();
+      }
+      if (typeRow.classList.toggle("is-expanded") === false) return;
+      const company = companyRow.cells[0]?.textContent.trim(),
+        type = typeRow.cells[0]?.textContent.trim(),
+        departments = Object.entries(
+          assetRecords
+            .filter(
+              (record) =>
+                (record.c || "Unspecified") === company &&
+                (record.t || "Unspecified") === type,
+            )
+            .reduce((groups, record) => {
+              const department = record.d || "Unspecified";
+              if (!groups[department])
+                groups[department] = {
+                  good: 0,
+                  damage: 0,
+                  count: 0,
+                  amount: 0,
+                };
+              groups[department].count += 1;
+              groups[department].amount += Number(record.a) || 0;
+              if (record.o === "Damage") groups[department].damage += 1;
+              else if (record.o === "Good") groups[department].good += 1;
+              return groups;
+            }, {}),
+        ).sort((left, right) => left[0].localeCompare(right[0]));
+      typeRow.insertAdjacentHTML(
+        "afterend",
+        departments
+          .map(
+            ([department, summary]) =>
+              '<tr class="fixed-asset-department-row"><td>' +
+              escapeAssetCell(department) +
+              "</td><td>" +
+              formatAssetValue(summary.good) +
+              '</td><td class="fixed-asset-damage-count">' +
+              formatAssetValue(summary.damage) +
+              "</td><td>" +
+              formatAssetValue(summary.count) +
+              "</td><td>" +
+              formatAssetValue(summary.amount) +
+              "</td></tr>",
+          )
+          .join(""),
+      );
+    });
+    assetTabs.forEach((tab) =>
+      tab.addEventListener("click", () =>
+        renderAssetTab(tab.dataset.fixedAssetTab),
+      ),
+    );
+    const renderOverviewRecord = () => {
+      if (
+        !assetTabs
+          .find((tab) => tab.dataset.fixedAssetTab === "overview")
+          ?.classList.contains("active")
+      )
+        return;
+      assetTabCard.querySelector(".fixed-asset-overview-table-card")?.remove();
+      const rows = assetRecords
+          .slice()
+          .sort(
+            (left, right) =>
+              String(left.cc || "").localeCompare(String(right.cc || "")) ||
+              (Number(left.code) || 0) - (Number(right.code) || 0),
+          ),
+        purchaseTotal = rows.reduce(
+          (sum, record) => sum + (Number(record.a) || 0),
+          0,
+        ),
+        companyCode = (company) =>
+          String(company || "")
+            .split(/\s+/)
+            .map((word) => word[0] || "")
+            .join("")
+            .toUpperCase() || "—",
+        card = document.createElement("section");
+      card.className =
+        "card unified-table-card fixed-asset-overview-table-card";
+      card.innerHTML =
+        '<div class="unified-table-head"><div class="unified-table-title"><span class="unified-table-title-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span><div><h2>Fixed Asset Overview</h2><p>Complete fixed asset register</p></div></div></div><div class="unified-table-scroll"><table class="unified-data-table"><thead><tr><th>Company Codes</th><th>Code No</th><th>Asset Type</th><th>Company</th><th>Department</th><th>Current User</th><th>Condition</th><th>Location</th><th>Purchased Date</th><th>Purchased (MMK)</th></tr></thead><tbody>' +
+        rows
+          .map(
+            (record) =>
+              "<tr><td>" +
+              escapeAssetCell(record.cc || companyCode(record.c)) +
+              "</td><td>" +
+              escapeAssetCell(formatAssetCode(record.code)) +
+              "</td><td>" +
+              escapeAssetCell(record.t) +
+              "</td><td>" +
+              escapeAssetCell(record.c) +
+              "</td><td>" +
+              (record.d === "BOD"
+                ? '<span class="fixed-asset-department-badge">BOD</span>'
+                : escapeAssetCell(record.d)) +
+              "</td><td>" +
+              escapeAssetCell(record.u || "—") +
+              '</td><td class="' +
+              (record.o === "Damage" ? "fixed-asset-damage-count" : "") +
+              '">' +
+              escapeAssetCell(record.o) +
+              "</td><td>" +
+              escapeAssetCell(record.l || "—") +
+              "</td><td>" +
+              formatAssetPurchaseDate(record.p) +
+              "</td><td>" +
+              formatAssetValue(record.a) +
+              "</td></tr>",
+          )
+          .join("") +
+        '</tbody><tfoot><tr><td>Grand Total</td><td colspan="9">' +
+        formatAssetValue(purchaseTotal) +
+        '</td></tr></tfoot></table></div><footer class="unified-table-footer">Showing ' +
+        rows.length +
+        " of " +
+        rows.length +
+        " assets</footer>";
+      assetTabCard.append(card);
+    };
+    const setupOverviewSearch = () => {
+      const card = assetTabCard.querySelector(
+        ".fixed-asset-overview-table-card",
+      );
+      if (!card) return;
+      const title = card.querySelector(".unified-table-title");
+      if (title) {
+        title.querySelector("h2").textContent = "Fixed Asset Overview";
+        title.querySelector("p").textContent =
+          "Search and review the complete asset inventory";
+        title.insertAdjacentHTML(
+          "afterend",
+          '<div class="tools"><input id="fixedAssetOverviewSearch" class="search" type="search" placeholder="Search assets..." aria-label="Search asset register"></div>',
+        );
+      }
+      const input = card.querySelector("#fixedAssetOverviewSearch"),
+        rows = [...card.querySelectorAll("tbody tr")],
+        totalCell = card.querySelector("tfoot td:last-child");
+      input?.addEventListener("input", () => {
+        const query = input.value.trim().toLowerCase(),
+          shown = rows.filter((row) => {
+            const match =
+              !query || row.textContent.toLowerCase().includes(query);
+            row.hidden = !match;
+            return match;
+          });
+        if (totalCell)
+          totalCell.textContent = formatAssetValue(
+            shown.reduce(
+              (sum, row) =>
+                sum +
+                (Number(
+                  row.cells[row.cells.length - 1]?.textContent.replace(
+                    /,/g,
+                    "",
+                  ),
+                ) || 0),
+              0,
+            ),
+          );
+      });
+    };
+    const enhanceOverviewConditions = () =>
+      assetTabCard
+        .querySelectorAll(".fixed-asset-overview-table-card tbody tr")
+        .forEach((row) => {
+          const cell = row.cells[6],
+            condition = cell?.textContent.trim();
+          if (!cell || !condition) return;
+          cell.classList.remove("fixed-asset-damage-count");
+          cell.innerHTML =
+            '<span class="fixed-asset-condition-badge ' +
+            (condition === "Damage" ? "damage" : "good") +
+            '">' +
+            escapeAssetCell(condition) +
+            "</span>";
+        });
+    const enhanceFixedAssetCodes = () => {
+      const table = assetTabCard.querySelector(
+        ".fixed-asset-overview-table-card .unified-data-table",
+      );
+      if (!table || table.dataset.fixedAssetCodeReady) return;
+      table.dataset.fixedAssetCodeReady = "true";
+      table.tHead.rows[0].cells[0].textContent = "Fixed Asset Code";
+      table.tHead.rows[0].cells[1].remove();
+      [...table.tBodies[0].rows].forEach((row) => {
+        const companyCode = row.cells[0].textContent.trim(),
+          codeNo = row.cells[1].textContent.trim();
+        if (companyCode && codeNo && codeNo !== "-")
+          row.cells[0].textContent = companyCode + "-" + codeNo;
+        row.cells[1].remove();
+      });
+      [table.tHead.rows[0], ...table.tBodies[0].rows].forEach((row) =>
+        row.insertBefore(row.cells[1], row.cells[5]),
+      );
+      const total = table.tFoot?.rows[0]?.cells[1];
+      if (total) total.colSpan = 8;
+    };
+    const setupOverviewPagination = () => {
+      const card = assetTabCard.querySelector(
+          ".fixed-asset-overview-table-card",
+        ),
+        rows = [...(card?.querySelectorAll("tbody tr") || [])],
+        footer = card?.querySelector(".unified-table-footer"),
+        input = card?.querySelector("#fixedAssetOverviewSearch");
+      if (!card || !footer || card.querySelector(".unified-table-pagination"))
+        return;
+      const pageSize = 20,
+        pager = document.createElement("nav"),
+        summary = document.createElement("span");
+      pager.className = "unified-table-pagination";
+      summary.className = "unified-table-pagination-summary";
+      pager.setAttribute("aria-label", "Fixed asset table pages");
+      let page = 1;
+      const draw = () => {
+        if (!summary.isConnected) footer.append(summary);
+        if (!pager.isConnected) footer.append(pager);
+        const query = input?.value.trim().toLowerCase() || "",
+          matched = rows.filter(
+            (row) => !query || row.textContent.toLowerCase().includes(query),
+          ),
+          pageCount = Math.max(1, Math.ceil(matched.length / pageSize)),
+          start = matched.length ? (page - 1) * pageSize + 1 : 0,
+          end = Math.min(page * pageSize, matched.length);
+        page = Math.min(page, pageCount);
+        rows.forEach((row) => (row.hidden = true));
+        matched
+          .slice((page - 1) * pageSize, page * pageSize)
+          .forEach((row) => (row.hidden = false));
+        summary.textContent =
+          start +
+          "–" +
+          end +
+          " of " +
+          matched.length +
+          " assets · Page " +
+          page +
+          " of " +
+          pageCount;
+        pager.hidden = pageCount === 1;
+        pager.innerHTML =
+          '<button type="button" ' +
+          (page === 1 ? "disabled" : "") +
+          ' data-page="prev" aria-label="Previous page">‹</button><button type="button" ' +
+          (page === pageCount ? "disabled" : "") +
+          ' data-page="next" aria-label="Next page">›</button>';
+      };
+      pager.addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-page]");
+        if (!button) return;
+        page = button.dataset.page === "prev" ? page - 1 : page + 1;
+        draw();
+        card
+          .querySelector(".unified-table-scroll")
+          ?.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      });
+      input?.addEventListener("input", () => {
+        page = 1;
+        draw();
+      });
+      footer.replaceChildren(summary, pager);
+      draw();
+    };
+    const setOverviewIcon = () => {
+      const icon = assetTabCard.querySelector(
+        ".fixed-asset-overview-table-card .unified-table-title-icon",
+      );
+      if (icon)
+        icon.innerHTML =
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>';
+    };
+    assetTabs
+      .find((tab) => tab.dataset.fixedAssetTab === "overview")
+      ?.addEventListener("click", () =>
+        requestAnimationFrame(() => {
+          assetTabCard
+            .querySelector(".fixed-asset-overview-table-card")
+            ?.remove();
+          refreshCompanyFixedAssets();
+          setupOverviewSearch();
+          setOverviewIcon();
+          enhanceOverviewConditions();
+          enhanceFixedAssetCodes();
+          setupOverviewPagination();
+        }),
+      );
+    assetTabs
+      .filter((tab) => tab.dataset.fixedAssetTab !== "overview")
+      .forEach((tab) =>
+        tab.addEventListener("click", () =>
+          assetTabCard
+            .querySelector(".fixed-asset-overview-table-card")
+            ?.remove(),
+        ),
+      );
+    assetTabs
+      .find((tab) => tab.dataset.fixedAssetTab === "company")
+      ?.addEventListener("click", () => requestAnimationFrame(sortCompanyRows));
+    renderAssetTab("company");
+    sortCompanyRows();
     setupFilters();
-    const refreshCompanyFixedAssets=()=>{const period=panel.querySelector('#fixedAssetPeriod'),company=panel.querySelector('#fixedAssetCompany'),department=panel.querySelector('#fixedAssetDepartment'),type=panel.querySelector('#fixedAssetType'),brand=panel.querySelector('#fixedAssetBrand'),condition=panel.querySelector('#fixedAssetCondition'),month=panel.querySelector('#fixedAssetMonth'),year=panel.querySelector('#fixedAssetYear'),from=panel.querySelector('#fixedAssetFrom'),to=panel.querySelector('#fixedAssetTo');if(!period)return;const dated=allAssetRecords.map(record=>record.p).filter(Boolean).sort(),latest=dated.at(-1)||'',monthsBack=period.value==='last3'?3:period.value==='last6'?6:0,cutoff=monthsBack&&latest?new Date(Date.UTC(Number(latest.slice(0,4)),Number(latest.slice(5,7))-monthsBack,1)).toISOString().slice(0,10):'';assetRecords=allAssetRecords.filter(record=>{if(company?.value!=='all'&&record.c!==company?.value)return false;if(department?.value!=='all'&&record.d!==department?.value)return false;if(type?.value!=='all'&&record.t!==type?.value)return false;if(brand?.value!=='all'&&record.b!==brand?.value)return false;if(condition?.value!=='all'&&record.o!==condition?.value)return false;if(period.value==='monthly'&&month?.value!=='all'&&record.p.slice(0,7)!==month?.value)return false;if(period.value==='yearly'&&year?.value!=='all'&&record.p.slice(0,4)!==year?.value)return false;if(cutoff&&record.p<cutoff)return false;if(period.value==='custom'&&from?.value&&record.p<from.value)return false;if(period.value==='custom'&&to?.value&&record.p>to.value)return false;return true});if(assetTabs.find(tab=>tab.dataset.fixedAssetTab==='company')?.classList.contains('active')){renderAssetTab('company');sortCompanyRows()}else renderOverviewRecord()};
-    ['fixedAssetPeriod','fixedAssetCompany','fixedAssetDepartment','fixedAssetType','fixedAssetBrand','fixedAssetCondition','fixedAssetMonth','fixedAssetYear','fixedAssetFrom','fixedAssetTo'].forEach(id=>panel.querySelector('#'+id)?.addEventListener('change',()=>requestAnimationFrame(refreshCompanyFixedAssets)));
-    ['fixedAssetPeriod','fixedAssetCompany','fixedAssetDepartment','fixedAssetType','fixedAssetBrand','fixedAssetCondition','fixedAssetMonth','fixedAssetYear','fixedAssetFrom','fixedAssetTo'].forEach(id=>panel.querySelector('#'+id)?.addEventListener('change',()=>requestAnimationFrame(setupOverviewSearch)));
-    ['fixedAssetPeriod','fixedAssetCompany','fixedAssetDepartment','fixedAssetType','fixedAssetBrand','fixedAssetCondition','fixedAssetMonth','fixedAssetYear','fixedAssetFrom','fixedAssetTo'].forEach(id=>panel.querySelector('#'+id)?.addEventListener('change',()=>requestAnimationFrame(enhanceOverviewConditions)));
-    ['fixedAssetPeriod','fixedAssetCompany','fixedAssetDepartment','fixedAssetType','fixedAssetBrand','fixedAssetCondition','fixedAssetMonth','fixedAssetYear','fixedAssetFrom','fixedAssetTo'].forEach(id=>panel.querySelector('#'+id)?.addEventListener('change',()=>requestAnimationFrame(enhanceFixedAssetCodes)));
-    ['fixedAssetPeriod','fixedAssetCompany','fixedAssetDepartment','fixedAssetType','fixedAssetBrand','fixedAssetCondition','fixedAssetMonth','fixedAssetYear','fixedAssetFrom','fixedAssetTo'].forEach(id=>panel.querySelector('#'+id)?.addEventListener('change',()=>requestAnimationFrame(setupOverviewPagination)));
-    panel.querySelector('#fixedAssetResetFilters')?.addEventListener('click',()=>requestAnimationFrame(()=>{refreshCompanyFixedAssets();setupOverviewSearch();setOverviewIcon();enhanceOverviewConditions();enhanceFixedAssetCodes();setupOverviewPagination()}));
-    const primaryFilterCard=panel.querySelector('.unified-filter-card');
-    if(primaryFilterCard){
-      const secondaryFilterCard=primaryFilterCard.cloneNode(true),secondaryControls=[...secondaryFilterCard.querySelectorAll('select,input')];
-      secondaryFilterCard.id='fixedAssetSecondaryFilters';
-      secondaryFilterCard.classList.add('fixed-asset-secondary-filter-card');
-      const secondaryTitle=secondaryFilterCard.querySelector('h2'),secondarySubtitle=secondaryFilterCard.querySelector('p'),secondaryReset=secondaryFilterCard.querySelector('#fixedAssetResetFilters');
-      if(secondaryTitle)secondaryTitle.textContent='Asset Record Analysis';
-      if(secondarySubtitle)secondarySubtitle.textContent='Review assets by period, company, type, and condition';
-      if(secondaryReset){secondaryReset.id='fixedAssetSecondaryResetFilters';secondaryReset.textContent='Reset filters'}
-      secondaryControls.forEach(control=>{const primaryId=control.id;control.id=primaryId.replace('fixedAsset','fixedAssetSecondary');control.dataset.primaryId=primaryId});
-      const syncSecondaryFilters=()=>[...secondaryFilterCard.querySelectorAll('select,input')].forEach(control=>{const primaryId=control.dataset.primaryId||control.id.replace('fixedAssetSecondary','fixedAsset'),primaryControl=panel.querySelector('#'+primaryId),secondaryField=control.closest('label'),primaryField=primaryControl?.closest('label');if(!primaryControl||!secondaryField||!primaryField)return;if(control.tagName==='SELECT'&&primaryControl.tagName==='SELECT')control.value=primaryControl.value;secondaryField.hidden=primaryField.hidden});
-      panel.querySelector('.fixed-asset-yearly-chart-card')?.insertAdjacentElement('afterend',secondaryFilterCard);
-      primaryFilterCard.addEventListener('change',()=>requestAnimationFrame(syncSecondaryFilters));
-      secondaryControls.forEach(control=>control.addEventListener('change',()=>{const primaryControl=panel.querySelector('#'+control.dataset.primaryId);if(!primaryControl)return;primaryControl.value=control.value;primaryControl.dispatchEvent(new Event('change',{bubbles:true}));requestAnimationFrame(syncSecondaryFilters)}));
-      secondaryReset?.addEventListener('click',()=>{panel.querySelector('#fixedAssetResetFilters')?.click();requestAnimationFrame(syncSecondaryFilters)});
+    const refreshCompanyFixedAssets = () => {
+      const period = panel.querySelector("#fixedAssetPeriod"),
+        company = panel.querySelector("#fixedAssetCompany"),
+        department = panel.querySelector("#fixedAssetDepartment"),
+        type = panel.querySelector("#fixedAssetType"),
+        brand = panel.querySelector("#fixedAssetBrand"),
+        condition = panel.querySelector("#fixedAssetCondition"),
+        month = panel.querySelector("#fixedAssetMonth"),
+        year = panel.querySelector("#fixedAssetYear"),
+        from = panel.querySelector("#fixedAssetFrom"),
+        to = panel.querySelector("#fixedAssetTo");
+      if (!period) return;
+      const dated = allAssetRecords
+          .map((record) => record.p)
+          .filter(Boolean)
+          .sort(),
+        latest = dated.at(-1) || "",
+        monthsBack =
+          period.value === "last3" ? 3 : period.value === "last6" ? 6 : 0,
+        cutoff =
+          monthsBack && latest
+            ? new Date(
+                Date.UTC(
+                  Number(latest.slice(0, 4)),
+                  Number(latest.slice(5, 7)) - monthsBack,
+                  1,
+                ),
+              )
+                .toISOString()
+                .slice(0, 10)
+            : "";
+      assetRecords = allAssetRecords.filter((record) => {
+        if (company?.value !== "all" && record.c !== company?.value)
+          return false;
+        if (department?.value !== "all" && record.d !== department?.value)
+          return false;
+        if (type?.value !== "all" && record.t !== type?.value) return false;
+        if (brand?.value !== "all" && record.b !== brand?.value) return false;
+        if (condition?.value !== "all" && record.o !== condition?.value)
+          return false;
+        if (
+          period.value === "monthly" &&
+          month?.value !== "all" &&
+          record.p.slice(0, 7) !== month?.value
+        )
+          return false;
+        if (
+          period.value === "yearly" &&
+          year?.value !== "all" &&
+          record.p.slice(0, 4) !== year?.value
+        )
+          return false;
+        if (cutoff && record.p < cutoff) return false;
+        if (period.value === "custom" && from?.value && record.p < from.value)
+          return false;
+        if (period.value === "custom" && to?.value && record.p > to.value)
+          return false;
+        return true;
+      });
+      if (
+        assetTabs
+          .find((tab) => tab.dataset.fixedAssetTab === "company")
+          ?.classList.contains("active")
+      ) {
+        renderAssetTab("company");
+        sortCompanyRows();
+      } else renderOverviewRecord();
+    };
+    [
+      "fixedAssetPeriod",
+      "fixedAssetCompany",
+      "fixedAssetDepartment",
+      "fixedAssetType",
+      "fixedAssetBrand",
+      "fixedAssetCondition",
+      "fixedAssetMonth",
+      "fixedAssetYear",
+      "fixedAssetFrom",
+      "fixedAssetTo",
+    ].forEach((id) =>
+      panel
+        .querySelector("#" + id)
+        ?.addEventListener("change", () =>
+          requestAnimationFrame(refreshCompanyFixedAssets),
+        ),
+    );
+    [
+      "fixedAssetPeriod",
+      "fixedAssetCompany",
+      "fixedAssetDepartment",
+      "fixedAssetType",
+      "fixedAssetBrand",
+      "fixedAssetCondition",
+      "fixedAssetMonth",
+      "fixedAssetYear",
+      "fixedAssetFrom",
+      "fixedAssetTo",
+    ].forEach((id) =>
+      panel
+        .querySelector("#" + id)
+        ?.addEventListener("change", () =>
+          requestAnimationFrame(setupOverviewSearch),
+        ),
+    );
+    [
+      "fixedAssetPeriod",
+      "fixedAssetCompany",
+      "fixedAssetDepartment",
+      "fixedAssetType",
+      "fixedAssetBrand",
+      "fixedAssetCondition",
+      "fixedAssetMonth",
+      "fixedAssetYear",
+      "fixedAssetFrom",
+      "fixedAssetTo",
+    ].forEach((id) =>
+      panel
+        .querySelector("#" + id)
+        ?.addEventListener("change", () =>
+          requestAnimationFrame(enhanceOverviewConditions),
+        ),
+    );
+    [
+      "fixedAssetPeriod",
+      "fixedAssetCompany",
+      "fixedAssetDepartment",
+      "fixedAssetType",
+      "fixedAssetBrand",
+      "fixedAssetCondition",
+      "fixedAssetMonth",
+      "fixedAssetYear",
+      "fixedAssetFrom",
+      "fixedAssetTo",
+    ].forEach((id) =>
+      panel
+        .querySelector("#" + id)
+        ?.addEventListener("change", () =>
+          requestAnimationFrame(enhanceFixedAssetCodes),
+        ),
+    );
+    [
+      "fixedAssetPeriod",
+      "fixedAssetCompany",
+      "fixedAssetDepartment",
+      "fixedAssetType",
+      "fixedAssetBrand",
+      "fixedAssetCondition",
+      "fixedAssetMonth",
+      "fixedAssetYear",
+      "fixedAssetFrom",
+      "fixedAssetTo",
+    ].forEach((id) =>
+      panel
+        .querySelector("#" + id)
+        ?.addEventListener("change", () =>
+          requestAnimationFrame(setupOverviewPagination),
+        ),
+    );
+    panel
+      .querySelector("#fixedAssetResetFilters")
+      ?.addEventListener("click", () =>
+        requestAnimationFrame(() => {
+          refreshCompanyFixedAssets();
+          setupOverviewSearch();
+          setOverviewIcon();
+          enhanceOverviewConditions();
+          enhanceFixedAssetCodes();
+          setupOverviewPagination();
+        }),
+      );
+    const primaryFilterCard = panel.querySelector(".unified-filter-card");
+    if (primaryFilterCard) {
+      const secondaryFilterCard = primaryFilterCard.cloneNode(true),
+        secondaryControls = [
+          ...secondaryFilterCard.querySelectorAll("select,input"),
+        ];
+      secondaryFilterCard.id = "fixedAssetSecondaryFilters";
+      secondaryFilterCard.classList.add("fixed-asset-secondary-filter-card");
+      const secondaryTitle = secondaryFilterCard.querySelector("h2"),
+        secondarySubtitle = secondaryFilterCard.querySelector("p"),
+        secondaryReset = secondaryFilterCard.querySelector(
+          "#fixedAssetResetFilters",
+        );
+      if (secondaryTitle) secondaryTitle.textContent = "Asset Record Analysis";
+      if (secondarySubtitle)
+        secondarySubtitle.textContent =
+          "Review assets by period, company, type, and condition";
+      if (secondaryReset) {
+        secondaryReset.id = "fixedAssetSecondaryResetFilters";
+        secondaryReset.textContent = "Reset filters";
+      }
+      secondaryControls.forEach((control) => {
+        const primaryId = control.id;
+        control.id = primaryId.replace("fixedAsset", "fixedAssetSecondary");
+        control.dataset.primaryId = primaryId;
+      });
+      const syncSecondaryFilters = () =>
+        [...secondaryFilterCard.querySelectorAll("select,input")].forEach(
+          (control) => {
+            const primaryId =
+                control.dataset.primaryId ||
+                control.id.replace("fixedAssetSecondary", "fixedAsset"),
+              primaryControl = panel.querySelector("#" + primaryId),
+              secondaryField = control.closest("label"),
+              primaryField = primaryControl?.closest("label");
+            if (!primaryControl || !secondaryField || !primaryField) return;
+            if (
+              control.tagName === "SELECT" &&
+              primaryControl.tagName === "SELECT"
+            )
+              control.value = primaryControl.value;
+            secondaryField.hidden = primaryField.hidden;
+          },
+        );
+      panel
+        .querySelector(".fixed-asset-yearly-chart-card")
+        ?.insertAdjacentElement("afterend", secondaryFilterCard);
+      primaryFilterCard.addEventListener("change", () =>
+        requestAnimationFrame(syncSecondaryFilters),
+      );
+      secondaryControls.forEach((control) =>
+        control.addEventListener("change", () => {
+          const primaryControl = panel.querySelector(
+            "#" + control.dataset.primaryId,
+          );
+          if (!primaryControl) return;
+          primaryControl.value = control.value;
+          primaryControl.dispatchEvent(new Event("change", { bubbles: true }));
+          requestAnimationFrame(syncSecondaryFilters);
+        }),
+      );
+      secondaryReset?.addEventListener("click", () => {
+        panel.querySelector("#fixedAssetResetFilters")?.click();
+        requestAnimationFrame(syncSecondaryFilters);
+      });
       syncSecondaryFilters();
     }
-    const fixedAssetFilterHeading=panel.querySelector('.unified-filter-heading');
-    if(fixedAssetFilterHeading){const title=fixedAssetFilterHeading.querySelector('h2'),subtitle=fixedAssetFilterHeading.querySelector('p');if(title)title.textContent='Fixed Assets Analysis';if(subtitle)subtitle.textContent='Review asset inventory, types, and condition'}
+    const fixedAssetFilterHeading = panel.querySelector(
+      ".unified-filter-heading",
+    );
+    if (fixedAssetFilterHeading) {
+      const title = fixedAssetFilterHeading.querySelector("h2"),
+        subtitle = fixedAssetFilterHeading.querySelector("p");
+      if (title) title.textContent = "Fixed Assets Analysis";
+      if (subtitle)
+        subtitle.textContent = "Review asset inventory, types, and condition";
+    }
   };
   window.renderFixedAssetsKpis();
-  const navigate=window.navigateHubPage;
-  if(typeof navigate==='function')window.navigateHubPage=function(name,push=true){
-    navigate(name,push);
-    if(name==='Fixed Assets')window.renderFixedAssetsKpis();
+  const navigate = window.navigateHubPage;
+  if (typeof navigate === "function")
+    window.navigateHubPage = function (name, push = true) {
+      navigate(name, push);
+      if (name === "Fixed Assets") window.renderFixedAssetsKpis();
+    };
+})();
+
+/* Main dashboard KPIs read their values from the source dashboards. */
+(() => {
+  const readStore = (key, fallback) => {
+    try {
+      const value = JSON.parse(localStorage.getItem(key) || "null");
+      return Array.isArray(value) && value.length ? value : fallback;
+    } catch (error) {
+      return fallback;
+    }
   };
+  const setValue = (id, value) => {
+      const node = document.getElementById(id);
+      if (node) node.textContent = Number(value || 0).toLocaleString();
+    },
+    setText = (id, value) => {
+      const node = document.getElementById(id);
+      if (node) node.textContent = value;
+    },
+    renderPie = (
+      id,
+      filled,
+      remaining,
+      color,
+      centreLabel,
+      labels = ["In use", "Available"],
+    ) => {
+      const canvas = document.getElementById(id);
+      if (!canvas || typeof Chart === "undefined") return;
+      window.mainDashboardPies ??= {};
+      window.mainDashboardPies[id]?.destroy();
+      const dark = document.body.classList.contains("dark"),
+        percentage =
+          filled + remaining ? (filled / (filled + remaining)) * 100 : 0,
+        centre = {
+          id: "mainDashboardPieCentre",
+          afterDatasetsDraw(chart) {
+            const area = chart.chartArea,
+              context = chart.ctx,
+              x = (area.left + area.right) / 2,
+              y = (area.top + area.bottom) / 2;
+            context.save();
+            context.textAlign = "center";
+            context.fillStyle = dark ? "#ead7d3" : "#5b4446";
+            context.font = "700 22px Poppins, Arial";
+            context.fillText(percentage.toFixed(1) + "%", x, y + 8);
+            context.restore();
+          },
+        };
+      window.mainDashboardPies[id] = new Chart(canvas, {
+        type: "doughnut",
+        plugins: [centre],
+        data: {
+          labels,
+          datasets: [
+            {
+              data: [Math.max(0, filled), Math.max(0, remaining)],
+              backgroundColor: [color, dark ? "#51616b" : "#94a5af"],
+              borderColor: dark ? "#32171e" : "#fffaf7",
+              borderWidth: 5,
+              hoverOffset: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: "66%",
+          animation: { duration: 900, easing: "easeOutCubic" },
+          interaction: { mode: "nearest", intersect: true },
+          transitions: {
+            active: { animation: { duration: 150, easing: "easeOutCubic" } },
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              displayColors: true,
+              backgroundColor: "#171114",
+              titleColor: "#fff7f2",
+              bodyColor: "#fff7f2",
+              borderColor: "#d99284",
+              borderWidth: 2,
+              position: "nearest",
+              padding: 10,
+              cornerRadius: 8,
+              caretPadding: 10,
+              boxPadding: 4,
+              titleFont: { family: "Poppins", size: 11, weight: "700" },
+              bodyFont: { family: "Poppins", size: 12, weight: "600" },
+              callbacks: {
+                label: (context) =>
+                  " " +
+                  Number(context.raw || 0).toLocaleString() +
+                  " " +
+                  centreLabel.toLowerCase(),
+                labelColor: (context) => ({
+                  backgroundColor:
+                    context.dataset.backgroundColor[context.dataIndex],
+                  borderColor: "transparent",
+                  borderWidth: 0,
+                  borderRadius: 2,
+                }),
+              },
+            },
+          },
+        },
+      });
+    };
+  window.refreshMainDashboardMetrics = () => {
+    const manpower = window.MANPOWER_DIRECTORY_DATA || [],
+      fixedAssets = window.FIXED_ASSETS_DATA?.summary || {},
+      licenses = readStore(
+        "m365LicensesDB",
+        window.MICROSOFT_LICENSE_DATA?.licenses || [],
+      ),
+      licenseRows = licenses.filter(
+        (row) => row.Licenses && row.Licenses !== "Total",
+      );
+    const currentManpower = manpower.length,
+      plannedManpower =
+        Number(
+          String(
+            document.getElementById("manpowerPlanned")?.textContent || 13,
+          ).replace(/[^\d.]/g, ""),
+        ) || 13,
+      activeLicenses = licenseRows.reduce(
+        (sum, row) => sum + (Number(row["Active Users"]) || 0),
+        0,
+      ),
+      availableLicenses = licenseRows.reduce(
+        (sum, row) => sum + (Number(row["Available License"]) || 0),
+        0,
+      ),
+      totalLicenses = activeLicenses + availableLicenses,
+      percent = (value) => Math.max(0, Math.min(100, value)).toFixed(1) + "%";
+    setValue("mainCurrentManpower", currentManpower);
+    setValue("mainManagedCompanies", fixedAssets.totalCompanies || 0);
+    setValue("mainActiveLicenses", activeLicenses);
+    setValue("mainAvailableLicenses", availableLicenses);
+    const workforceRate = plannedManpower
+        ? (currentManpower / plannedManpower) * 100
+        : 0,
+      licenseRate = totalLicenses ? (activeLicenses / totalLicenses) * 100 : 0;
+    const dark = document.body.classList.contains("dark"),
+      workforceColor = dark ? "#329779" : "#168a69",
+      licenseColor = dark ? "#ff9275" : "#d12a31";
+    setText("mainWorkforceFulfillment", percent(workforceRate));
+    setValue("mainWorkforceCurrent", currentManpower);
+    setValue(
+      "mainWorkforceGap",
+      Math.max(0, plannedManpower - currentManpower),
+    );
+    const workforceBar = document.getElementById("mainWorkforceBar"),
+      workforceWidth = Math.max(0, Math.min(100, workforceRate)) + "%";
+    if (workforceBar) {
+      workforceBar.style.transition = "none";
+      workforceBar.style.width = "0%";
+      void workforceBar.offsetWidth;
+      requestAnimationFrame(() => {
+        workforceBar.style.transition = "";
+        requestAnimationFrame(() => {
+          workforceBar.style.width = workforceWidth;
+        });
+      });
+    }
+    renderPie(
+      "mainWorkforcePie",
+      currentManpower,
+      Math.max(0, plannedManpower - currentManpower),
+      workforceColor,
+      "People",
+      ["Current manpower", "Open positions"],
+    );
+    setValue("mainLicenseActiveChart", activeLicenses);
+    setValue("mainLicenseAvailableChart", availableLicenses);
+    setText("mainLicenseUtilization", percent(licenseRate));
+    const licenseBar = document.getElementById("mainLicenseBar"),
+      licenseWidth = Math.max(0, Math.min(100, licenseRate)) + "%";
+    if (licenseBar) {
+      licenseBar.style.transition = "none";
+      licenseBar.style.width = "0%";
+      void licenseBar.offsetWidth;
+      requestAnimationFrame(() => {
+        licenseBar.style.transition = "";
+        requestAnimationFrame(() => {
+          licenseBar.style.width = licenseWidth;
+        });
+      });
+    }
+    renderPie(
+      "mainLicensePie",
+      activeLicenses,
+      availableLicenses,
+      licenseColor,
+      "Licenses",
+      ["Active licenses", "Available licenses"],
+    );
+  };
+  window.addEventListener("storage", (event) => {
+    if (["manpowerDirectoryDB", "m365LicensesDB"].includes(event.key))
+      window.refreshMainDashboardMetrics();
+  });
+  window.addEventListener(
+    "dashboard-data-updated",
+    window.refreshMainDashboardMetrics,
+  );
+  document
+    .querySelector(".theme-toggle")
+    ?.addEventListener("click", () =>
+      requestAnimationFrame(window.refreshMainDashboardMetrics),
+    );
+  const mainDashboard = document.getElementById("mainDashboard");
+  if (mainDashboard)
+    new MutationObserver(() => {
+      if (!mainDashboard.hidden)
+        requestAnimationFrame(window.refreshMainDashboardMetrics);
+    }).observe(mainDashboard, {
+      attributes: true,
+      attributeFilter: ["hidden"],
+    });
+  if (document.readyState === "loading")
+    document.addEventListener(
+      "DOMContentLoaded",
+      window.refreshMainDashboardMetrics,
+      { once: true },
+    );
+  else window.refreshMainDashboardMetrics();
 })();
 
 /* Fullscreen dashboard control. */
-window.toggleDashboardFullscreen=()=>{
-  const root=document.documentElement;
-  const action=document.fullscreenElement?document.exitFullscreen():root.requestFullscreen?.();
-  if(action?.catch)action.catch(()=>{});
+window.toggleDashboardFullscreen = () => {
+  const root = document.documentElement;
+  const action = document.fullscreenElement
+    ? document.exitFullscreen()
+    : root.requestFullscreen?.();
+  if (action?.catch) action.catch(() => {});
 };
 
 /* Local access gate for the static dashboard. */
-(()=>{
-  const page=document.getElementById('loginPage'),form=document.getElementById('loginForm');
-  if(!page||!form)return;
-  const authenticated=sessionStorage.getItem('natureADashboardAuthenticated')==='true';
-  const reveal=()=>{page.hidden=true;document.body.classList.remove('login-required')};
-  if(authenticated)reveal();
-  else{page.hidden=false;document.body.classList.add('login-required')}
-  const passwordInput=document.getElementById('loginPassword'),passwordToggle=document.getElementById('loginPasswordToggle');
-  passwordToggle?.addEventListener('click',()=>{const visible=passwordInput?.type==='password';if(!passwordInput)return;passwordInput.type=visible?'text':'password';passwordToggle.setAttribute('aria-pressed',String(visible));passwordToggle.setAttribute('aria-label',visible?'Hide password':'Show password');passwordToggle.classList.toggle('is-visible',visible);passwordInput.focus()});
-  form.addEventListener('submit',event=>{
+(() => {
+  const page = document.getElementById("loginPage"),
+    form = document.getElementById("loginForm");
+  if (!page || !form) return;
+  const authenticated =
+    sessionStorage.getItem("natureADashboardAuthenticated") === "true";
+  const reveal = () => {
+    page.hidden = true;
+    document.body.classList.remove("login-required");
+  };
+  if (authenticated) reveal();
+  else {
+    page.hidden = false;
+    document.body.classList.add("login-required");
+  }
+  const passwordInput = document.getElementById("loginPassword"),
+    passwordToggle = document.getElementById("loginPasswordToggle");
+  passwordToggle?.addEventListener("click", () => {
+    const visible = passwordInput?.type === "password";
+    if (!passwordInput) return;
+    passwordInput.type = visible ? "text" : "password";
+    passwordToggle.setAttribute("aria-pressed", String(visible));
+    passwordToggle.setAttribute(
+      "aria-label",
+      visible ? "Hide password" : "Show password",
+    );
+    passwordToggle.classList.toggle("is-visible", visible);
+    passwordInput.focus();
+  });
+  form.addEventListener("submit", (event) => {
     event.preventDefault();
-    const username=document.getElementById('loginUsername')?.value.trim();
-    const password=document.getElementById('loginPassword')?.value;
-    const error=document.getElementById('loginError');
-    if(username==='admin'&&password==='NatureA2026!'){
-      sessionStorage.setItem('natureADashboardAuthenticated','true');
-      if(error)error.hidden=true;
+    const username = document.getElementById("loginUsername")?.value.trim();
+    const password = document.getElementById("loginPassword")?.value;
+    const error = document.getElementById("loginError");
+    if (username === "admin" && password === "NatureA2026!") {
+      sessionStorage.setItem("natureADashboardAuthenticated", "true");
+      if (error) error.hidden = true;
       reveal();
       return;
     }
-    if(error)error.hidden=false;
-    document.getElementById('loginPassword')?.focus();
+    if (error) error.hidden = false;
+    document.getElementById("loginPassword")?.focus();
   });
 })();
 
 /* Ticket custom-range controls use reporting months rather than calendar days. */
-(()=>{
- const panel=document.getElementById('serviceTicketsDashboard');
- if(!panel)return;
- const formatMonth=value=>{const [year,month]=value.split('-').map(Number);return new Date(year,month-1,1).toLocaleDateString(undefined,{month:'short'})+'-'+String(year).slice(-2)};
- const options=(months,value,reverse=false)=>[...(reverse?months:[...months].reverse())].map(month=>'<option value="'+month+'" '+(month===value?'selected':'')+'>'+formatMonth(month)+'</option>').join('');
- const upgrade=()=>{
-  const range=panel.querySelector('#ticketRange');
-  if(!range)return;
-  if(range.dataset.reportingPeriodsReady==='true')return;
-  range.dataset.reportingPeriodsReady='true';
-  range.innerHTML='<option value="all">All data</option><option value="3m">Last 3 months</option><option value="6m">Last 6 months</option><option value="month">Monthly</option><option value="year">Yearly</option><option value="custom">Custom range</option>';
-  const monthly=panel.querySelector('#ticketMonth');
-  const values=[...monthly?.options||[]].map(option=>option.value).filter(value=>/^\d{4}-\d{2}$/.test(value));
-  if(!values.length)return;
-  monthly.innerHTML=options(values,monthly.value,true);
-  [['ticketFromField','ticketFrom','From month',false],['ticketToField','ticketTo','To month',true]].forEach(([fieldId,inputId,label,reverse])=>{
-   const field=panel.querySelector('#'+fieldId),input=panel.querySelector('#'+inputId);
-   if(!field||!input||input.tagName==='SELECT')return;
-   const select=document.createElement('select');
-   select.id=inputId;select.className='filter';select.innerHTML=options(values,reverse?values[0]:values[values.length-1],reverse);
-   field.querySelector('span').textContent=label;
-   input.id=inputId+'Native';input.hidden=true;input.replaceWith(select);
-   select.addEventListener('change',()=>input.dispatchEvent(new Event('change',{bubbles:true})));
-  });
- };
- new MutationObserver(upgrade).observe(panel,{childList:true});
- upgrade();
+(() => {
+  const panel = document.getElementById("serviceTicketsDashboard");
+  if (!panel) return;
+  const formatMonth = (value) => {
+    const [year, month] = value.split("-").map(Number);
+    return (
+      new Date(year, month - 1, 1).toLocaleDateString(undefined, {
+        month: "short",
+      }) +
+      "-" +
+      String(year).slice(-2)
+    );
+  };
+  const options = (months, value, reverse = false) =>
+    [...(reverse ? months : [...months].reverse())]
+      .map(
+        (month) =>
+          '<option value="' +
+          month +
+          '" ' +
+          (month === value ? "selected" : "") +
+          ">" +
+          formatMonth(month) +
+          "</option>",
+      )
+      .join("");
+  const upgrade = () => {
+    const range = panel.querySelector("#ticketRange");
+    if (!range) return;
+    if (range.dataset.reportingPeriodsReady === "true") return;
+    range.dataset.reportingPeriodsReady = "true";
+    range.innerHTML =
+      '<option value="all">All data</option><option value="3m">Last 3 months</option><option value="6m">Last 6 months</option><option value="month">Monthly</option><option value="year">Yearly</option><option value="custom">Custom range</option>';
+    const monthly = panel.querySelector("#ticketMonth");
+    const values = [...(monthly?.options || [])]
+      .map((option) => option.value)
+      .filter((value) => /^\d{4}-\d{2}$/.test(value));
+    if (!values.length) return;
+    monthly.innerHTML = options(values, monthly.value, true);
+    [
+      ["ticketFromField", "ticketFrom", "From month", false],
+      ["ticketToField", "ticketTo", "To month", true],
+    ].forEach(([fieldId, inputId, label, reverse]) => {
+      const field = panel.querySelector("#" + fieldId),
+        input = panel.querySelector("#" + inputId);
+      if (!field || !input || input.tagName === "SELECT") return;
+      const select = document.createElement("select");
+      select.id = inputId;
+      select.className = "filter";
+      select.innerHTML = options(
+        values,
+        reverse ? values[0] : values[values.length - 1],
+        reverse,
+      );
+      field.querySelector("span").textContent = label;
+      input.id = inputId + "Native";
+      input.hidden = true;
+      input.replaceWith(select);
+      select.addEventListener("change", () =>
+        input.dispatchEvent(new Event("change", { bubbles: true })),
+      );
+    });
+  };
+  new MutationObserver(upgrade).observe(panel, { childList: true });
+  upgrade();
 })();
 
 /* Copier & Printer Usage dashboard. */
-(function(){
-  const panel=document.getElementById('copierprinterusageDashboard'),source=window.COPIER_PRINTER_DATA;
-  if(!panel||!source?.records?.length)return;
-  const icon={pages:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9V4h12v16H6v-5"></path><path d="M4 9h10v8H4zM7 13h4M8 4v5M16 9h2"></path></svg>',color:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16v10H4zM7 17v3h10v-3M7 7V4h10v3"></path><path d="M8 12h.01M12 12h4"></path></svg>',bw:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9V4h12v16H6v-5"></path><path d="M4 9h10v8H4zM7 13h4M8 4v5M16 9h2"></path></svg>',cost:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v2H6.5A2.5 2.5 0 0 0 4 11.5v5A2.5 2.5 0 0 0 6.5 19H20v-8H6.5"></path><path d="M16 14h.01"></path></svg>'};
-  const periodIndex=value=>source.months.indexOf(value),format=n=>Number(n||0).toLocaleString(),sum=(rows,key)=>rows.reduce((total,row)=>total+(Number(row[key])||0),0),clean=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-  panel.innerHTML=`<section class="unified-kpi-grid"><article class="unified-kpi-card tone-orange"><span class="unified-kpi-icon" aria-hidden="true">${icon.pages}</span><div><b>Total Pages</b><small id="copierTotalPagesSubtitle">All usage records</small></div><strong id="copierTotalPages">0</strong></article><article class="unified-kpi-card tone-green"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 17h8M12 9v6M14 10.5c-.4-.5-1.1-.8-2-.8-1.1 0-2 .6-2 1.5 0 2.2 4 1.1 4 3.2 0 .9-.9 1.5-2 1.5-.9 0-1.7-.3-2.2-.9"/></svg></span><div><b>Pages Cost</b><small id="copierColorPagesSubtitle">All companies</small></div><strong id="copierColorPages">0</strong></article><article class="unified-kpi-card tone-yellow"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h10v6H7zM5 10h14v8H5z"/><path d="M8 18v3h8v-3M8 13h.01"/></svg></span><div><b>Cartridge Cost</b><small id="copierBwPagesSubtitle">All companies</small></div><strong id="copierBwPages">0</strong></article><article class="unified-kpi-card tone-blue"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M15 15h3"/></svg></span><div><b>Total Print Amount</b><small id="copierTotalCostSubtitle">All companies</small></div><strong id="copierTotalCost">0</strong></article></section><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Print Usage Analytics</h2><p>Review page volumes and printing costs by period, company, department, and device.</p></div><button id="copierResetFilters" class="btn" type="button">Reset filters</button></div><div id="copierChartFilters" class="unified-filter-grid"></div></section><section class="unified-chart-grid"><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready chart-control-stacked"><div><h2>Department Print Volume</h2><p>Page usage by department</p></div><select id="copierDepartmentChartType" class="filter unified-chart-select" aria-label="Department chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div><div class="unified-bar-canvas"><canvas id="copierDepartmentChart" aria-label="Department print volume chart"></canvas></div><p id="copierDepartmentChartFooter" class="unified-chart-footer"></p></article><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready chart-control-stacked"><div><h2>Device Usage Distribution</h2><p>Total pages by copier and printer</p></div><select id="copierPieMetric" class="filter unified-chart-select" aria-label="Device usage metric"><option value="totalAmount">Total amount</option><option value="totalPages">Total pages</option></select></div><div class="unified-pie-layout"><div class="unified-pie-canvas"><canvas id="copierDeviceChart" aria-label="Device usage distribution chart"></canvas></div><div id="copierDeviceLegend" class="unified-chart-legend"></div></div></article></section><article class="unified-chart-card"><div class="unified-chart-header"><div><h2>Monthly Color and B/W Usage</h2><p>Color and black-and-white page volumes over time</p></div></div><div class="unified-line-canvas"><canvas id="copierMonthlyChart" aria-label="Monthly color and black-and-white usage chart"></canvas></div><p class="unified-chart-footer budget-summary-key"><span><i class="budget-summary-budget" aria-hidden="true"></i>Color pages</span><span><i class="budget-summary-actual" aria-hidden="true"></i>B/W pages</span></p></article><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Usage Record Filters</h2><p>Refine the detailed print records using the same reporting controls.</p></div></div><div id="copierTableFilters" class="unified-filter-grid"></div></section><section class="card unified-table-card"><div class="unified-table-head"><div class="unified-table-title"><span class="unified-table-title-icon" aria-hidden="true">${icon.pages}</span><div><h2>Copier &amp; Printer Usage Records</h2><p>Department-level printing volumes and costs</p></div></div></div><div class="unified-table-scroll"><table class="unified-data-table"><thead><tr><th>Period</th><th>Company</th><th>Department</th><th>Device</th><th>Color Pages</th><th>B/W Pages</th><th>Total Pages</th><th>Cost (MMK)</th></tr></thead><tbody id="copierUsageTableBody"></tbody><tfoot id="copierUsageTableFoot"></tfoot></table></div><footer class="unified-table-footer"><span id="copierUsageTableNote">0 records</span></footer></section>`;
-  const state={period:'all',start:source.months[0],end:source.months[source.months.length-1],company:'all',department:'all',copier:'all'},selectIds=['Period','Company','Department','Copier'];
-  const options=(items,selected,allLabel)=>`<option value="all">${allLabel}</option>${items.map(item=>`<option value="${clean(item)}" ${item===selected?'selected':''}>${clean(item)}</option>`).join('')}`;
-  const filterMarkup=prefix=>`<label><span>Period</span><select id="${prefix}Period" class="filter"><option value="all">All data</option><option value="monthly">Monthly</option><option value="last3">Last 3 months</option><option value="last6">Last 6 months</option><option value="yearly">Yearly</option><option value="custom">Custom range</option></select></label><label class="copier-period-detail" hidden><span>Month</span><select id="${prefix}Month" class="filter"></select></label><label class="copier-custom-range" hidden><span>From month</span><select id="${prefix}Start" class="filter"></select></label><label class="copier-custom-range" hidden><span>To month</span><select id="${prefix}End" class="filter"></select></label><label><span>Company</span><select id="${prefix}Company" class="filter"></select></label><label><span>Department</span><select id="${prefix}Department" class="filter"></select></label><label><span>Copier &amp; Printer</span><select id="${prefix}Copier" class="filter"></select></label>`;
-  document.getElementById('copierChartFilters').innerHTML=filterMarkup('copierChart');document.getElementById('copierTableFilters').innerHTML=filterMarkup('copierTable');const monthlyHeader=panel.querySelector('#copierMonthlyChart')?.closest('.unified-chart-card')?.querySelector('.unified-chart-header');if(monthlyHeader){monthlyHeader.classList.add('chart-control-ready','chart-control-stacked');monthlyHeader.insertAdjacentHTML('beforeend','<select id="copierMonthlyChartType" class="filter unified-chart-select" aria-label="Color and black-and-white usage chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select>')}
-  let departmentChart,deviceChart,monthlyChart;
-  function selectedMonths(){if(state.period==='last3')return source.months.slice(-3);if(state.period==='last6')return source.months.slice(-6);if(state.period==='monthly')return [state.start];if(state.period==='yearly'){const fiscalYear=Number(state.start),monthOrder=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return source.months.filter(month=>{const [name,shortYear]=month.split('-'),calendarYear=2000+Number(shortYear),monthIndex=monthOrder.indexOf(name);return(calendarYear===fiscalYear&&monthIndex>=3)||(calendarYear===fiscalYear+1&&monthIndex<3)})}if(state.period==='custom')return source.months.filter(month=>periodIndex(month)>=periodIndex(state.start)&&periodIndex(month)<=periodIndex(state.end));return source.months}
-  function filtered(){const months=selectedMonths();return source.records.filter(row=>months.includes(row.period)&&(state.company==='all'||row.company===state.company)&&(state.department==='all'||row.department===state.department)&&(state.copier==='all'||row.copier===state.copier))}
-  function syncFilters(){const companies=[...new Set(source.records.map(row=>row.company))].sort(),departments=[...new Set(source.records.map(row=>row.department))].sort(),copiers=[...new Set(source.records.map(row=>row.copier))].sort(),fiscalYears=[2027,2026,2025,2024];['copierChart','copierTable'].forEach(prefix=>{const period=document.getElementById(prefix+'Period'),month=document.getElementById(prefix+'Month'),start=document.getElementById(prefix+'Start'),end=document.getElementById(prefix+'End'),detail=period.closest('label').nextElementSibling,range=detail.nextElementSibling,detailLabel=detail.querySelector('span');period.value=state.period;if(state.period==='yearly'){if(detailLabel)detailLabel.textContent='Financial year';month.innerHTML=fiscalYears.map(year=>`<option value="${year}">FY ${year}-${year+1}</option>`).join('');month.value=fiscalYears.includes(Number(state.start))?String(state.start):'2026'}else{if(detailLabel)detailLabel.textContent='Month';month.innerHTML=source.months.map(item=>`<option value="${item}">${item}</option>`).join('');month.value=state.start}start.innerHTML=source.months.map(item=>`<option value="${item}">${item}</option>`).join('');end.innerHTML=start.innerHTML;start.value=state.start;end.value=state.end;document.getElementById(prefix+'Company').innerHTML=options(companies,state.company,'All companies');document.getElementById(prefix+'Department').innerHTML=options(departments,state.department,'All departments');document.getElementById(prefix+'Copier').innerHTML=options(copiers,state.copier,'All devices');detail.hidden=state.period!=='monthly'&&state.period!=='yearly';range.hidden=state.period!=='custom';range.nextElementSibling.hidden=state.period!=='custom'});}
-  function chartStyle(){const dark=document.body.classList.contains('dark');return{dark,text:dark?'#ead4cf':'#806864',grid:dark?'rgba(255,221,208,.17)':'rgba(125,92,87,.18)',card:dark?'#32171e':'#fffaf7',tooltip:{displayColors:true,backgroundColor:'#171114',titleColor:'#fff7f2',bodyColor:'#fff7f2',borderColor:'#d99284',borderWidth:2,position:'nearest',padding:10,cornerRadius:8,caretPadding:10,boxPadding:4,titleFont:{family:'Poppins',size:11,weight:'700'},bodyFont:{family:'Poppins',size:12,weight:'600'}}}}
-  function render(){syncFilters();const rows=filtered(),total=sum(rows,'totalPages'),color=sum(rows,'colorPages'),bw=sum(rows,'bwPages'),cost=sum(rows,'cost'),pagesCost=sum(rows,'pagesCost'),suppliesCost=sum(rows,'suppliesCost'),totalAmount=sum(rows,'totalAmount'),recordText=rows.length+' usage record'+(rows.length===1?'':'s')+' selected',kpiIcon={pages:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>',pagesCost:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 17h8M12 9v6M14 10.5c-.4-.5-1.1-.8-2-.8-1.1 0-2 .6-2 1.5 0 2.2 4 1.1 4 3.2 0 .9-.9 1.5-2 1.5-.9 0-1.7-.3-2.2-.9"/></svg>',cartridge:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h10v6H7zM5 10h14v8H5z"/><path d="M8 18v3h8v-3M8 13h.01"/></svg>',amount:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M15 15h3"/></svg>',departments:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4v18M12 10h7v11M8 9h1M8 13h1M8 17h1M15 14h1M15 18h1"/></svg>'},setKpi=(id,title,value,subtitle,iconName)=>{const valueNode=document.getElementById(id),card=valueNode?.closest('.unified-kpi-card');if(!valueNode||!card)return;const titleNode=card.querySelector(':scope > div > b'),subtitleNode=card.querySelector(':scope > div > small'),iconNode=card.querySelector('.unified-kpi-icon');if(titleNode)titleNode.textContent=title;valueNode.textContent=typeof value==='number'?format(value):String(value);valueNode.toggleAttribute('data-currency',title==='Pages Cost'||title==='Cartridge Cost');if(subtitleNode)subtitleNode.textContent=subtitle;if(iconNode&&kpiIcon[iconName])iconNode.innerHTML=kpiIcon[iconName];};const printerRows=rows.filter(row=>/printer/i.test(row.copier||'')),copierRows=rows.filter(row=>!/printer/i.test(row.copier||'')),isAllDevices=state.copier==='all',isPrinter=!isAllDevices&&/printer/i.test(state.copier||'');if(isAllDevices){const cartridgeCost=sum(copierRows,'suppliesCost')+sum(printerRows,'totalAmount');setKpi('copierTotalPages','Printed Pages',total,(state.company==='all'?'All companies':state.company),'pages');setKpi('copierColorPages','Pages Cost',pagesCost,(state.company==='all'?'All companies':state.company),'pagesCost');setKpi('copierBwPages','Cartridge Cost',cartridgeCost,'Cartridge Charges','cartridge');setKpi('copierTotalCost','Total Print Amount',totalAmount,'Combined Print Cost','amount')}else if(isPrinter){const printerCompanies=[...new Set(rows.map(row=>row.company).filter(Boolean))];setKpi('copierTotalPages','Companies with Printer Activity',printerCompanies.length,printerCompanies.join(', '),'departments');setKpi('copierColorPages','Pages Cost',pagesCost,(state.company==='all'?'All companies':state.company),'pagesCost');setKpi('copierBwPages','Cartridge Cost',suppliesCost,'Cartridge Charges','cartridge');setKpi('copierTotalCost','Total Print Amount',totalAmount,'Combined Print Cost','amount')}else{setKpi('copierTotalPages','Printed Pages',total,(state.company==='all'?'All companies':state.company),'pages');setKpi('copierColorPages','Pages Cost',pagesCost,(state.company==='all'?'All companies':state.company),'pagesCost');setKpi('copierBwPages','Cartridge Cost',suppliesCost,'Cartridge Charges','cartridge');setKpi('copierTotalCost','Total Print Amount',totalAmount,'Combined Print Cost','amount')}const theme=chartStyle(),chartGroupKey=state.company==='all'?'company':(state.department==='all'?'department':'copier'),departmentGroups=new Map();rows.forEach(row=>departmentGroups.set(row[chartGroupKey],(departmentGroups.get(row[chartGroupKey])||0)+row.totalAmount));const departments=[...departmentGroups.entries()].sort((a,b)=>b[1]-a[1]),activityTitle=document.querySelector('#copierDepartmentChart')?.closest('.unified-chart-card')?.querySelector('h2'),activitySubtitle=document.querySelector('#copierDepartmentChart')?.closest('.unified-chart-card')?.querySelector('p');if(activityTitle)activityTitle.textContent=chartGroupKey==='company'?'Company Print Activity':(chartGroupKey==='department'?'Department Print Activity':'Device Print Activity');if(activitySubtitle)activitySubtitle.textContent=chartGroupKey==='company'?'Compare total amount across companies':(chartGroupKey==='department'?'Compare total amount across departments':'Compare total amount across devices');const chartType=document.getElementById('copierDepartmentChartType').value,isLine=chartType==='line',departmentCanvas=document.getElementById('copierDepartmentChart');if(departmentChart)departmentChart.destroy();const departmentOptions={indexAxis:isLine?'x':'y',responsive:true,maintainAspectRatio:false,animation:{duration:900,easing:'easeOutCubic'},plugins:{legend:{display:false},tooltip:{...theme.tooltip,callbacks:{label:item=>' '+format(item.raw)+' MMK'}}},scales:isLine?{x:{grid:{color:theme.grid},ticks:{color:theme.text,font:{family:'Poppins',size:9}}},y:{beginAtZero:true,grid:{color:theme.grid},ticks:{color:theme.text,font:{family:'Poppins',size:9}}}}:{y:{grid:{display:false},ticks:{color:theme.text,font:{family:'Poppins',size:9,weight:'600'}}},x:{beginAtZero:true,grid:{color:theme.grid},ticks:{color:theme.text,font:{family:'Poppins',size:9}}}}};departmentChart=new Chart(departmentCanvas,{type:isLine?'line':'bar',data:{labels:departments.map(item=>item[0]),datasets:[{label:'Total amount (MMK)',data:departments.map(item=>item[1]),backgroundColor:isLine?(theme.dark?'rgba(255,135,85,.14)':'rgba(209,42,49,.11)'):(theme.dark?'#e57255':'#d12a31'),borderColor:theme.dark?'#ff9569':'#d12a31',borderWidth:isLine?2.5:1.5,borderRadius:isLine?0:7,barThickness:isLine?undefined:22,fill:isLine,tension:.34,pointRadius:isLine?4:0,pointHoverRadius:isLine?6:0,pointBackgroundColor:theme.dark?'#ff9a70':'#c9252d'}]},options:departmentOptions});document.getElementById('copierDepartmentChartFooter').textContent='Total: '+format(departments.reduce((sum,item)=>sum+item[1],0))+' MMK';const metric=document.getElementById('copierPieMetric').value,deviceSubtitle=document.querySelector('#copierDeviceChart')?.closest('.unified-chart-card')?.querySelector('.unified-chart-header p');if(deviceSubtitle)deviceSubtitle.textContent=metric==='totalAmount'?'Total amount by copier and printer':'Total pages by copier and printer';const deviceGroups=new Map();rows.forEach(row=>deviceGroups.set(row.copier,(deviceGroups.get(row.copier)||0)+(metric==='totalAmount'?row.totalAmount:row.totalPages)));const devices=[...deviceGroups.entries()].sort((a,b)=>b[1]-a[1]),palette=theme.dark?['#ff8755','#f5c66b','#7056d8','#4eb4cd']:['#d12a31','#f06428','#7056d8','#3194ad'];if(deviceChart)deviceChart.destroy();deviceChart=new Chart(document.getElementById('copierDeviceChart'),{type:'doughnut',data:{labels:devices.map(item=>item[0]),datasets:[{data:devices.map(item=>item[1]),backgroundColor:devices.map((_,index)=>palette[index%palette.length]),borderColor:theme.card,borderWidth:4,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:900,easing:'easeOutCubic'},cutout:'64%',plugins:{legend:{display:false},tooltip:{...theme.tooltip,callbacks:{label:item=>' '+format(item.raw)+(metric==='totalAmount'?' MMK':' pages')}}}}});document.getElementById('copierDeviceLegend').innerHTML=devices.map((item,index)=>'<div><span><i class="dot" style="background:'+palette[index%palette.length]+'"></i>'+clean(item[0])+'</span><b>'+format(item[1])+(metric==='totalAmount'?' MMK':' pages')+'</b></div>').join('');const months=selectedMonths(),monthlyColor=months.map(month=>sum(rows.filter(row=>row.period===month),'colorPages')),monthlyBw=months.map(month=>sum(rows.filter(row=>row.period===month),'bwPages'));if(monthlyChart)monthlyChart.destroy();monthlyChart=new Chart(document.getElementById('copierMonthlyChart'),{type:'line',data:{labels:months,datasets:[{label:'Color pages',data:monthlyColor,borderColor:theme.dark?'#82d5bb':'#1d987b',backgroundColor:'transparent',borderWidth:2.5,tension:.34,pointRadius:3,pointHoverRadius:5},{label:'B/W pages',data:monthlyBw,borderColor:theme.dark?'#ff9569':'#d12a31',backgroundColor:'transparent',borderWidth:2.5,tension:.34,pointRadius:3,pointHoverRadius:5}]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:900,easing:'easeOutCubic'},plugins:{legend:{display:false},tooltip:{...theme.tooltip,callbacks:{label:item=>' '+item.dataset.label+': '+format(item.raw)+' pages'}}},scales:{x:{grid:{color:theme.grid},ticks:{color:theme.text,font:{family:'Poppins',size:9}}},y:{beginAtZero:true,grid:{color:theme.grid},ticks:{color:theme.text,font:{family:'Poppins',size:9}}}}}});const ordered=rows.slice().sort((a,b)=>periodIndex(a.period)-periodIndex(b.period)||a.company.localeCompare(b.company)||a.department.localeCompare(b.department));document.getElementById('copierUsageTableBody').innerHTML=ordered.map(row=>`<tr><td>${clean(row.period)}</td><td>${clean(row.company)}</td><td>${clean(row.department)}</td><td>${clean(row.copier)}</td><td>${format(row.colorPages)}</td><td>${format(row.bwPages)}</td><td>${format(row.totalPages)}</td><td>${format(row.cost)}</td></tr>`).join('');document.getElementById('copierUsageTableFoot').innerHTML=`<tr><th colspan="4">Grand Total</th><th>${format(color)}</th><th>${format(bw)}</th><th>${format(total)}</th><th>${format(cost)}</th></tr>`;document.getElementById('copierUsageTableNote').textContent='Showing '+ordered.length+' of '+source.records.length+' usage records';}
-  const renderDashboard=render,applyMonthlyChartType=()=>{const chartType=document.getElementById('copierMonthlyChartType')?.value||'bar';if(!monthlyChart||chartType==='line')return;const fiscalSummary=state.period==='yearly',rawLabels=[...monthlyChart.data.labels],rawSeries=monthlyChart.data.datasets.map(dataset=>({label:dataset.label,data:[...dataset.data]})),labels=fiscalSummary?['FY '+state.start+'-'+(Number(state.start)+1)]:rawLabels,series=fiscalSummary?rawSeries.map(dataset=>({label:dataset.label,data:[dataset.data.reduce((total,value)=>total+value,0)]})):rawSeries,theme=chartStyle(),canvas=monthlyChart.canvas,chartWrap=canvas.parentElement,viewportWidth=chartWrap?.clientWidth||0,mobileViewport=window.matchMedia('(max-width:700px)').matches,chartWidth=mobileViewport?Math.max(viewportWidth,labels.length*88):viewportWidth,barCategoryPercentage=Math.min(.9,Math.max(.35,104/(chartWidth/Math.max(1,labels.length))));monthlyChart.destroy();if(chartWrap){chartWrap.style.height='320px';chartWrap.style.overflowX=mobileViewport&&chartWidth>viewportWidth?'auto':'hidden'}canvas.style.minWidth=mobileViewport&&chartWidth>viewportWidth?chartWidth+'px':'0';monthlyChart=new Chart(canvas,{type:'bar',data:{labels,datasets:series.map((dataset,index)=>({label:dataset.label,data:dataset.data,backgroundColor:index===0?(theme.dark?'#4eb4cd':'#16866a'):(theme.dark?'#ff8755':'#d12a31'),hoverBackgroundColor:index===0?(theme.dark?'#4eb4cd':'#16866a'):(theme.dark?'#ff8755':'#d12a31'),borderWidth:0,hoverBorderWidth:0,borderSkipped:false,borderRadius:{topLeft:10,topRight:10,bottomLeft:0,bottomRight:0},maxBarThickness:42}))},options:{responsive:true,maintainAspectRatio:false,animation:{duration:900,easing:'easeOutCubic'},plugins:{legend:{display:false},tooltip:{...theme.tooltip,callbacks:{label:item=>' '+item.dataset.label+': '+format(item.raw)+' pages',labelColor:item=>{const color=item.datasetIndex===0?(theme.dark?'#4eb4cd':'#16866a'):(theme.dark?'#ff8755':'#d12a31');return{backgroundColor:color,borderColor:color,borderWidth:1,borderRadius:2}}}}},datasets:{bar:{categoryPercentage:barCategoryPercentage,barPercentage:.8}},scales:{x:{offset:true,grid:{color:theme.grid},ticks:{color:theme.text,font:{family:'Poppins',size:9}}},y:{beginAtZero:true,grid:{color:theme.grid},ticks:{color:theme.text,font:{family:'Poppins',size:9}}}}}})};render=()=>{renderDashboard();applyMonthlyChartType()};
-  panel.__refreshCopierTheme=()=>{render()};
-  function bind(prefix){['Period','Month','Start','End','Company','Department','Copier'].forEach(name=>document.getElementById(prefix+name).addEventListener('change',event=>{const map={Period:'period',Month:'start',Start:'start',End:'end',Company:'company',Department:'department',Copier:'copier'};state[map[name]]=event.target.value;if(name==='Period'&&event.target.value==='monthly')state.start=source.months[source.months.length-1];if(name==='Period'&&event.target.value==='yearly')state.start='2026';render()}));}bind('copierChart');bind('copierTable');document.getElementById('copierDepartmentChartType').addEventListener('change',render);document.getElementById('copierPieMetric').addEventListener('change',render);document.getElementById('copierMonthlyChartType').addEventListener('change',render);document.getElementById('copierResetFilters').addEventListener('click',()=>{Object.assign(state,{period:'all',start:source.months[0],end:source.months[source.months.length-1],company:'all',department:'all',copier:'all'});render()});new MutationObserver(()=>{if(!panel.hidden)requestAnimationFrame(render)}).observe(panel,{attributes:true,attributeFilter:['hidden']});const navigate=window.navigateHubPage;if(typeof navigate==='function')window.navigateHubPage=function(name,push=true){navigate(name,push);panel.hidden=name!=='Copier & Printer Usage';if(!panel.hidden)render()};panel.hidden=typeof active==='undefined'||active!=='Copier & Printer Usage';if(!panel.hidden)render();
+(function () {
+  const panel = document.getElementById("copierprinterusageDashboard"),
+    source = window.COPIER_PRINTER_DATA;
+  if (!panel || !source?.records?.length) return;
+  const icon = {
+    pages:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9V4h12v16H6v-5"></path><path d="M4 9h10v8H4zM7 13h4M8 4v5M16 9h2"></path></svg>',
+    color:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16v10H4zM7 17v3h10v-3M7 7V4h10v3"></path><path d="M8 12h.01M12 12h4"></path></svg>',
+    bw: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9V4h12v16H6v-5"></path><path d="M4 9h10v8H4zM7 13h4M8 4v5M16 9h2"></path></svg>',
+    cost: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v2H6.5A2.5 2.5 0 0 0 4 11.5v5A2.5 2.5 0 0 0 6.5 19H20v-8H6.5"></path><path d="M16 14h.01"></path></svg>',
+  };
+  const periodIndex = (value) => source.months.indexOf(value),
+    format = (n) => Number(n || 0).toLocaleString(),
+    sum = (rows, key) =>
+      rows.reduce((total, row) => total + (Number(row[key]) || 0), 0),
+    clean = (value) =>
+      String(value ?? "").replace(
+        /[&<>"']/g,
+        (char) =>
+          ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;",
+          })[char],
+      );
+  panel.innerHTML = `<section class="unified-kpi-grid"><article class="unified-kpi-card tone-orange"><span class="unified-kpi-icon" aria-hidden="true">${icon.pages}</span><div><b>Total Pages</b><small id="copierTotalPagesSubtitle">All usage records</small></div><strong id="copierTotalPages">0</strong></article><article class="unified-kpi-card tone-green"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 17h8M12 9v6M14 10.5c-.4-.5-1.1-.8-2-.8-1.1 0-2 .6-2 1.5 0 2.2 4 1.1 4 3.2 0 .9-.9 1.5-2 1.5-.9 0-1.7-.3-2.2-.9"/></svg></span><div><b>Pages Cost</b><small id="copierColorPagesSubtitle">All companies</small></div><strong id="copierColorPages">0</strong></article><article class="unified-kpi-card tone-yellow"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h10v6H7zM5 10h14v8H5z"/><path d="M8 18v3h8v-3M8 13h.01"/></svg></span><div><b>Cartridge Cost</b><small id="copierBwPagesSubtitle">All companies</small></div><strong id="copierBwPages">0</strong></article><article class="unified-kpi-card tone-blue"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M15 15h3"/></svg></span><div><b>Total Print Amount</b><small id="copierTotalCostSubtitle">All companies</small></div><strong id="copierTotalCost">0</strong></article></section><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Print Usage Analytics</h2><p>Review page volumes and printing costs by period, company, department, and device.</p></div><button id="copierResetFilters" class="btn" type="button">Reset filters</button></div><div id="copierChartFilters" class="unified-filter-grid"></div></section><section class="unified-chart-grid"><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready chart-control-stacked"><div><h2>Department Print Volume</h2><p>Page usage by department</p></div><select id="copierDepartmentChartType" class="filter unified-chart-select" aria-label="Department chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div><div class="unified-bar-canvas"><canvas id="copierDepartmentChart" aria-label="Department print volume chart"></canvas></div><p id="copierDepartmentChartFooter" class="unified-chart-footer"></p></article><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready chart-control-stacked"><div><h2>Device Usage Distribution</h2><p>Total pages by copier and printer</p></div><select id="copierPieMetric" class="filter unified-chart-select" aria-label="Device usage metric"><option value="totalAmount">Total amount</option><option value="totalPages">Total pages</option></select></div><div class="unified-pie-layout"><div class="unified-pie-canvas"><canvas id="copierDeviceChart" aria-label="Device usage distribution chart"></canvas></div><div id="copierDeviceLegend" class="unified-chart-legend"></div></div></article></section><article class="unified-chart-card"><div class="unified-chart-header"><div><h2>Monthly Color and B/W Usage</h2><p>Color and black-and-white page volumes over time</p></div></div><div class="unified-line-canvas"><canvas id="copierMonthlyChart" aria-label="Monthly color and black-and-white usage chart"></canvas></div><p class="unified-chart-footer budget-summary-key"><span><i class="budget-summary-budget" aria-hidden="true"></i>Color pages</span><span><i class="budget-summary-actual" aria-hidden="true"></i>B/W pages</span></p></article><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Usage Record Filters</h2><p>Refine the detailed print records using the same reporting controls.</p></div></div><div id="copierTableFilters" class="unified-filter-grid"></div></section><section class="card unified-table-card"><div class="unified-table-head"><div class="unified-table-title"><span class="unified-table-title-icon" aria-hidden="true">${icon.pages}</span><div><h2>Copier &amp; Printer Usage Records</h2><p>Department-level printing volumes and costs</p></div></div></div><div class="unified-table-scroll"><table class="unified-data-table"><thead><tr><th>Period</th><th>Company</th><th>Department</th><th>Device</th><th>Color Pages</th><th>B/W Pages</th><th>Total Pages</th><th>Cost (MMK)</th></tr></thead><tbody id="copierUsageTableBody"></tbody><tfoot id="copierUsageTableFoot"></tfoot></table></div><footer class="unified-table-footer"><span id="copierUsageTableNote">0 records</span></footer></section>`;
+  const hasPrintUsage = (row) =>
+      [
+        row.colorPages,
+        row.bwPages,
+        row.totalPages,
+        row.pagesCost,
+        row.suppliesCost,
+        row.totalAmount,
+        row.cost,
+      ].some((value) => Number(value) > 0),
+    usageRecords = source.records.filter(hasPrintUsage),
+    activeMonths = source.months.filter((month) =>
+      usageRecords.some((row) => row.period === month),
+    ),
+    latestActiveMonth = activeMonths.at(-1) || source.months.at(-1);
+  const state = {
+    period: "all",
+    start: source.months[0],
+    end: source.months[source.months.length - 1],
+    company: "all",
+    department: "all",
+    copier: "all",
+  };
+  const options = (items, selected, allLabel) =>
+    `<option value="all">${allLabel}</option>${items.map((item) => `<option value="${clean(item)}" ${item === selected ? "selected" : ""}>${clean(item)}</option>`).join("")}`;
+  const filterMarkup = (prefix) =>
+    `<label><span>Period</span><select id="${prefix}Period" class="filter"><option value="all">All data</option><option value="monthly">Monthly</option><option value="last3">Last 3 months</option><option value="last6">Last 6 months</option><option value="yearly">Yearly</option><option value="custom">Custom range</option></select></label><label class="copier-period-detail" hidden><span>Month</span><select id="${prefix}Month" class="filter"></select></label><label class="copier-custom-range" hidden><span>From month</span><select id="${prefix}Start" class="filter"></select></label><label class="copier-custom-range" hidden><span>To month</span><select id="${prefix}End" class="filter"></select></label><label><span>Company</span><select id="${prefix}Company" class="filter"></select></label><label><span>Department</span><select id="${prefix}Department" class="filter"></select></label><label><span>Copier &amp; Printer</span><select id="${prefix}Copier" class="filter"></select></label>`;
+  document.getElementById("copierChartFilters").innerHTML =
+    filterMarkup("copierChart");
+  document.getElementById("copierTableFilters").innerHTML =
+    filterMarkup("copierTable");
+  const monthlyHeader = panel
+    .querySelector("#copierMonthlyChart")
+    ?.closest(".unified-chart-card")
+    ?.querySelector(".unified-chart-header");
+  if (monthlyHeader) {
+    monthlyHeader.classList.add("chart-control-ready", "chart-control-stacked");
+    monthlyHeader.insertAdjacentHTML(
+      "beforeend",
+      '<select id="copierMonthlyChartType" class="filter unified-chart-select" aria-label="Color and black-and-white usage chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select>',
+    );
+  }
+  let departmentChart, deviceChart, monthlyChart;
+  function selectedMonths() {
+    if (state.period === "last3") return activeMonths.slice(-3);
+    if (state.period === "last6") return activeMonths.slice(-6);
+    if (state.period === "monthly") return [state.start];
+    if (state.period === "yearly") {
+      const fiscalYear = Number(state.start),
+        monthOrder = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+      return source.months.filter((month) => {
+        const [name, shortYear] = month.split("-"),
+          calendarYear = 2000 + Number(shortYear),
+          monthIndex = monthOrder.indexOf(name);
+        return (
+          (calendarYear === fiscalYear && monthIndex >= 3) ||
+          (calendarYear === fiscalYear + 1 && monthIndex < 3)
+        );
+      });
+    }
+    if (state.period === "custom")
+      return source.months.filter(
+        (month) =>
+          periodIndex(month) >= periodIndex(state.start) &&
+          periodIndex(month) <= periodIndex(state.end),
+      );
+    return source.months;
+  }
+  function filtered() {
+    const months = selectedMonths();
+    return usageRecords.filter(
+      (row) =>
+        months.includes(row.period) &&
+        (state.company === "all" || row.company === state.company) &&
+        (state.department === "all" || row.department === state.department) &&
+        (state.copier === "all" || row.copier === state.copier),
+    );
+  }
+  function syncFilters() {
+    const companies = [
+        ...new Set(usageRecords.map((row) => row.company)),
+      ].sort(),
+      departments = [
+        ...new Set(usageRecords.map((row) => row.department)),
+      ].sort(),
+      copiers = [...new Set(usageRecords.map((row) => row.copier))].sort(),
+      fiscalYears = [2027, 2026, 2025, 2024];
+    ["copierChart", "copierTable"].forEach((prefix) => {
+      const period = document.getElementById(prefix + "Period"),
+        month = document.getElementById(prefix + "Month"),
+        start = document.getElementById(prefix + "Start"),
+        end = document.getElementById(prefix + "End"),
+        detail = period.closest("label").nextElementSibling,
+        range = detail.nextElementSibling,
+        detailLabel = detail.querySelector("span");
+      period.value = state.period;
+      if (state.period === "yearly") {
+        if (detailLabel) detailLabel.textContent = "Financial year";
+        month.innerHTML = fiscalYears
+          .map(
+            (year) => `<option value="${year}">FY ${year}-${year + 1}</option>`,
+          )
+          .join("");
+        month.value = fiscalYears.includes(Number(state.start))
+          ? String(state.start)
+          : "2026";
+      } else {
+        if (detailLabel) detailLabel.textContent = "Month";
+        month.innerHTML = source.months
+          .map((item) => `<option value="${item}">${item}</option>`)
+          .join("");
+        month.value = state.start;
+      }
+      start.innerHTML = source.months
+        .map((item) => `<option value="${item}">${item}</option>`)
+        .join("");
+      end.innerHTML = start.innerHTML;
+      start.value = state.start;
+      end.value = state.end;
+      document.getElementById(prefix + "Company").innerHTML = options(
+        companies,
+        state.company,
+        "All companies",
+      );
+      document.getElementById(prefix + "Department").innerHTML = options(
+        departments,
+        state.department,
+        "All departments",
+      );
+      document.getElementById(prefix + "Copier").innerHTML = options(
+        copiers,
+        state.copier,
+        "All devices",
+      );
+      detail.hidden = state.period !== "monthly" && state.period !== "yearly";
+      range.hidden = state.period !== "custom";
+      range.nextElementSibling.hidden = state.period !== "custom";
+    });
+  }
+  function chartStyle() {
+    const dark = document.body.classList.contains("dark");
+    return {
+      dark,
+      text: dark ? "#ead4cf" : "#806864",
+      grid: dark ? "rgba(255,221,208,.17)" : "rgba(125,92,87,.18)",
+      card: dark ? "#32171e" : "#fffaf7",
+      tooltip: {
+        displayColors: true,
+        backgroundColor: "#171114",
+        titleColor: "#fff7f2",
+        bodyColor: "#fff7f2",
+        borderColor: "#d99284",
+        borderWidth: 2,
+        position: "nearest",
+        padding: 10,
+        cornerRadius: 8,
+        caretPadding: 10,
+        boxPadding: 4,
+        titleFont: { family: "Poppins", size: 11, weight: "700" },
+        bodyFont: { family: "Poppins", size: 12, weight: "600" },
+      },
+    };
+  }
+  function render() {
+    syncFilters();
+    const rows = filtered(),
+      total = sum(rows, "totalPages"),
+      color = sum(rows, "colorPages"),
+      bw = sum(rows, "bwPages"),
+      cost = sum(rows, "cost"),
+      pagesCost = sum(rows, "pagesCost"),
+      suppliesCost = sum(rows, "suppliesCost"),
+      totalAmount = sum(rows, "totalAmount"),
+      kpiIcon = {
+        pages:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>',
+        pagesCost:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 17h8M12 9v6M14 10.5c-.4-.5-1.1-.8-2-.8-1.1 0-2 .6-2 1.5 0 2.2 4 1.1 4 3.2 0 .9-.9 1.5-2 1.5-.9 0-1.7-.3-2.2-.9"/></svg>',
+        cartridge:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h10v6H7zM5 10h14v8H5z"/><path d="M8 18v3h8v-3M8 13h.01"/></svg>',
+        amount:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M15 15h3"/></svg>',
+        departments:
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4v18M12 10h7v11M8 9h1M8 13h1M8 17h1M15 14h1M15 18h1"/></svg>',
+      },
+      setKpi = (id, title, value, subtitle, iconName) => {
+        const valueNode = document.getElementById(id),
+          card = valueNode?.closest(".unified-kpi-card");
+        if (!valueNode || !card) return;
+        const titleNode = card.querySelector(":scope > div > b"),
+          subtitleNode = card.querySelector(":scope > div > small"),
+          iconNode = card.querySelector(".unified-kpi-icon");
+        if (titleNode) titleNode.textContent = title;
+        valueNode.textContent =
+          typeof value === "number" ? format(value) : String(value);
+        valueNode.toggleAttribute(
+          "data-currency",
+          title === "Pages Cost" || title === "Cartridge Cost",
+        );
+        if (subtitleNode) subtitleNode.textContent = subtitle;
+        if (iconNode && kpiIcon[iconName])
+          iconNode.innerHTML = kpiIcon[iconName];
+      };
+    const printerRows = rows.filter((row) => /printer/i.test(row.copier || "")),
+      copierRows = rows.filter((row) => !/printer/i.test(row.copier || "")),
+      isAllDevices = state.copier === "all",
+      isPrinter = !isAllDevices && /printer/i.test(state.copier || "");
+    if (isAllDevices) {
+      const cartridgeCost =
+        sum(copierRows, "suppliesCost") + sum(printerRows, "totalAmount");
+      setKpi(
+        "copierTotalPages",
+        "Printed Pages",
+        total,
+        state.company === "all" ? "All companies" : state.company,
+        "pages",
+      );
+      setKpi(
+        "copierColorPages",
+        "Pages Cost",
+        pagesCost,
+        state.company === "all" ? "All companies" : state.company,
+        "pagesCost",
+      );
+      setKpi(
+        "copierBwPages",
+        "Cartridge Cost",
+        cartridgeCost,
+        "Cartridge Charges",
+        "cartridge",
+      );
+      setKpi(
+        "copierTotalCost",
+        "Total Print Amount",
+        totalAmount,
+        "Combined Print Cost",
+        "amount",
+      );
+    } else if (isPrinter) {
+      const printerCompanies = [
+        ...new Set(rows.map((row) => row.company).filter(Boolean)),
+      ];
+      setKpi(
+        "copierTotalPages",
+        "Companies with Printer Activity",
+        printerCompanies.length,
+        printerCompanies.join(", "),
+        "departments",
+      );
+      setKpi(
+        "copierColorPages",
+        "Pages Cost",
+        pagesCost,
+        state.company === "all" ? "All companies" : state.company,
+        "pagesCost",
+      );
+      setKpi(
+        "copierBwPages",
+        "Cartridge Cost",
+        suppliesCost,
+        "Cartridge Charges",
+        "cartridge",
+      );
+      setKpi(
+        "copierTotalCost",
+        "Total Print Amount",
+        totalAmount,
+        "Combined Print Cost",
+        "amount",
+      );
+    } else {
+      setKpi(
+        "copierTotalPages",
+        "Printed Pages",
+        total,
+        state.company === "all" ? "All companies" : state.company,
+        "pages",
+      );
+      setKpi(
+        "copierColorPages",
+        "Pages Cost",
+        pagesCost,
+        state.company === "all" ? "All companies" : state.company,
+        "pagesCost",
+      );
+      setKpi(
+        "copierBwPages",
+        "Cartridge Cost",
+        suppliesCost,
+        "Cartridge Charges",
+        "cartridge",
+      );
+      setKpi(
+        "copierTotalCost",
+        "Total Print Amount",
+        totalAmount,
+        "Combined Print Cost",
+        "amount",
+      );
+    }
+    const theme = chartStyle(),
+      chartGroupKey =
+        state.company === "all"
+          ? "company"
+          : state.department === "all"
+            ? "department"
+            : "copier",
+      departmentGroups = new Map();
+    rows.forEach((row) =>
+      departmentGroups.set(
+        row[chartGroupKey],
+        (departmentGroups.get(row[chartGroupKey]) || 0) + row.totalAmount,
+      ),
+    );
+    const departments = [...departmentGroups.entries()].sort(
+        (a, b) => b[1] - a[1],
+      ),
+      activityTitle = document
+        .querySelector("#copierDepartmentChart")
+        ?.closest(".unified-chart-card")
+        ?.querySelector("h2"),
+      activitySubtitle = document
+        .querySelector("#copierDepartmentChart")
+        ?.closest(".unified-chart-card")
+        ?.querySelector("p");
+    if (activityTitle)
+      activityTitle.textContent =
+        chartGroupKey === "company"
+          ? "Company Print Activity"
+          : chartGroupKey === "department"
+            ? "Department Print Activity"
+            : "Device Print Activity";
+    if (activitySubtitle)
+      activitySubtitle.textContent =
+        chartGroupKey === "company"
+          ? "Compare total amount across companies"
+          : chartGroupKey === "department"
+            ? "Compare total amount across departments"
+            : "Compare total amount across devices";
+    const chartType = document.getElementById(
+        "copierDepartmentChartType",
+      ).value,
+      isLine = chartType === "line",
+      departmentCanvas = document.getElementById("copierDepartmentChart");
+    if (departmentChart) departmentChart.destroy();
+    const departmentOptions = {
+      indexAxis: isLine ? "x" : "y",
+      responsive: true,
+      maintainAspectRatio: false,
+      animation: { duration: 900, easing: "easeOutCubic" },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          ...theme.tooltip,
+          callbacks: { label: (item) => " " + format(item.raw) + " MMK" },
+        },
+      },
+      scales: isLine
+        ? {
+            x: {
+              grid: { color: theme.grid },
+              ticks: {
+                color: theme.text,
+                font: { family: "Poppins", size: 9 },
+              },
+            },
+            y: {
+              beginAtZero: true,
+              grid: { color: theme.grid },
+              ticks: {
+                color: theme.text,
+                font: { family: "Poppins", size: 9 },
+              },
+            },
+          }
+        : {
+            y: {
+              grid: { display: false },
+              ticks: {
+                color: theme.text,
+                font: { family: "Poppins", size: 9, weight: "600" },
+              },
+            },
+            x: {
+              beginAtZero: true,
+              grid: { color: theme.grid },
+              ticks: {
+                color: theme.text,
+                font: { family: "Poppins", size: 9 },
+              },
+            },
+          },
+    };
+    departmentChart = new Chart(departmentCanvas, {
+      type: isLine ? "line" : "bar",
+      data: {
+        labels: departments.map((item) => item[0]),
+        datasets: [
+          {
+            label: "Total amount (MMK)",
+            data: departments.map((item) => item[1]),
+            backgroundColor: isLine
+              ? theme.dark
+                ? "rgba(255,135,85,.14)"
+                : "rgba(209,42,49,.11)"
+              : theme.dark
+                ? "#e57255"
+                : "#d12a31",
+            borderColor: theme.dark ? "#ff9569" : "#d12a31",
+            borderWidth: isLine ? 2.5 : 1.5,
+            borderRadius: isLine ? 0 : 7,
+            barThickness: isLine ? undefined : 22,
+            fill: isLine,
+            tension: 0.34,
+            pointRadius: isLine ? 4 : 0,
+            pointHoverRadius: isLine ? 6 : 0,
+            pointBackgroundColor: theme.dark ? "#ff9a70" : "#c9252d",
+          },
+        ],
+      },
+      options: departmentOptions,
+    });
+    document.getElementById("copierDepartmentChartFooter").textContent =
+      "Total: " +
+      format(departments.reduce((sum, item) => sum + item[1], 0)) +
+      " MMK";
+    const metric = document.getElementById("copierPieMetric").value,
+      deviceSubtitle = document
+        .querySelector("#copierDeviceChart")
+        ?.closest(".unified-chart-card")
+        ?.querySelector(".unified-chart-header p");
+    if (deviceSubtitle)
+      deviceSubtitle.textContent =
+        metric === "totalAmount"
+          ? "Total amount by copier and printer"
+          : "Total pages by copier and printer";
+    const deviceGroups = new Map();
+    rows.forEach((row) =>
+      deviceGroups.set(
+        row.copier,
+        (deviceGroups.get(row.copier) || 0) +
+          (metric === "totalAmount" ? row.totalAmount : row.totalPages),
+      ),
+    );
+    const devices = [...deviceGroups.entries()].sort((a, b) => b[1] - a[1]),
+      palette = theme.dark
+        ? ["#ff8755", "#f5c66b", "#7056d8", "#4eb4cd"]
+        : ["#d12a31", "#f06428", "#7056d8", "#3194ad"];
+    if (deviceChart) deviceChart.destroy();
+    deviceChart = new Chart(document.getElementById("copierDeviceChart"), {
+      type: "doughnut",
+      data: {
+        labels: devices.map((item) => item[0]),
+        datasets: [
+          {
+            data: devices.map((item) => item[1]),
+            backgroundColor: devices.map(
+              (_, index) => palette[index % palette.length],
+            ),
+            borderColor: theme.card,
+            borderWidth: 4,
+            hoverOffset: 4,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 900, easing: "easeOutCubic" },
+        cutout: "64%",
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            ...theme.tooltip,
+            callbacks: {
+              label: (item) =>
+                " " +
+                format(item.raw) +
+                (metric === "totalAmount" ? " MMK" : " pages"),
+            },
+          },
+        },
+      },
+    });
+    document.getElementById("copierDeviceLegend").innerHTML = devices
+      .map(
+        (item, index) =>
+          '<div><span><i class="dot" style="background:' +
+          palette[index % palette.length] +
+          '"></i>' +
+          clean(item[0]) +
+          "</span><b>" +
+          format(item[1]) +
+          (metric === "totalAmount" ? " MMK" : " pages") +
+          "</b></div>",
+      )
+      .join("");
+    const months = selectedMonths().filter((month) =>
+        rows.some(
+          (row) =>
+            row.period === month &&
+            (Number(row.colorPages) > 0 || Number(row.bwPages) > 0),
+        ),
+      ),
+      monthlyColor = months.map((month) =>
+        sum(
+          rows.filter((row) => row.period === month),
+          "colorPages",
+        ),
+      ),
+      monthlyBw = months.map((month) =>
+        sum(
+          rows.filter((row) => row.period === month),
+          "bwPages",
+        ),
+      );
+    if (monthlyChart) monthlyChart.destroy();
+    monthlyChart = new Chart(document.getElementById("copierMonthlyChart"), {
+      type: "line",
+      data: {
+        labels: months,
+        datasets: [
+          {
+            label: "Color pages",
+            data: monthlyColor,
+            borderColor: theme.dark ? "#82d5bb" : "#1d987b",
+            backgroundColor: "transparent",
+            borderWidth: 2.5,
+            tension: 0.34,
+            pointRadius: 3,
+            pointHoverRadius: 5,
+          },
+          {
+            label: "B/W pages",
+            data: monthlyBw,
+            borderColor: theme.dark ? "#ff9569" : "#d12a31",
+            backgroundColor: "transparent",
+            borderWidth: 2.5,
+            tension: 0.34,
+            pointRadius: 3,
+            pointHoverRadius: 5,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 900, easing: "easeOutCubic" },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            ...theme.tooltip,
+            callbacks: {
+              label: (item) =>
+                " " + item.dataset.label + ": " + format(item.raw) + " pages",
+            },
+          },
+        },
+        scales: {
+          x: {
+            grid: { color: theme.grid },
+            ticks: { color: theme.text, font: { family: "Poppins", size: 9 } },
+          },
+          y: {
+            beginAtZero: true,
+            grid: { color: theme.grid },
+            ticks: { color: theme.text, font: { family: "Poppins", size: 9 } },
+          },
+        },
+      },
+    });
+    const ordered = rows
+      .slice()
+      .sort(
+        (a, b) =>
+          periodIndex(a.period) - periodIndex(b.period) ||
+          a.company.localeCompare(b.company) ||
+          a.department.localeCompare(b.department),
+      );
+    document.getElementById("copierUsageTableBody").innerHTML = ordered
+      .map(
+        (row) =>
+          `<tr><td>${clean(row.period)}</td><td>${clean(row.company)}</td><td>${clean(row.department)}</td><td>${clean(row.copier)}</td><td>${format(row.colorPages)}</td><td>${format(row.bwPages)}</td><td>${format(row.totalPages)}</td><td>${format(row.cost)}</td></tr>`,
+      )
+      .join("");
+    document.getElementById("copierUsageTableFoot").innerHTML =
+      `<tr><th colspan="4">Grand Total</th><th>${format(color)}</th><th>${format(bw)}</th><th>${format(total)}</th><th>${format(cost)}</th></tr>`;
+    document.getElementById("copierUsageTableNote").textContent =
+      "Showing " +
+      ordered.length +
+      " of " +
+      usageRecords.length +
+      " usage records";
+  }
+  const renderDashboard = render,
+    applyMonthlyChartType = () => {
+      const chartType =
+        document.getElementById("copierMonthlyChartType")?.value || "bar";
+      if (!monthlyChart || chartType === "line") return;
+      const fiscalSummary = state.period === "yearly",
+        rawLabels = [...monthlyChart.data.labels],
+        rawSeries = monthlyChart.data.datasets.map((dataset) => ({
+          label: dataset.label,
+          data: [...dataset.data],
+        })),
+        labels = fiscalSummary
+          ? ["FY " + state.start + "-" + (Number(state.start) + 1)]
+          : rawLabels,
+        series = fiscalSummary
+          ? rawSeries.map((dataset) => ({
+              label: dataset.label,
+              data: [dataset.data.reduce((total, value) => total + value, 0)],
+            }))
+          : rawSeries,
+        theme = chartStyle(),
+        canvas = monthlyChart.canvas,
+        chartWrap = canvas.parentElement,
+        viewportWidth = chartWrap?.clientWidth || 0,
+        mobileViewport = window.matchMedia("(max-width:700px)").matches,
+        chartWidth = mobileViewport
+          ? Math.max(viewportWidth, labels.length * 88)
+          : viewportWidth,
+        barCategoryPercentage = Math.min(
+          0.9,
+          Math.max(0.35, 104 / (chartWidth / Math.max(1, labels.length))),
+        );
+      monthlyChart.destroy();
+      if (chartWrap) {
+        chartWrap.style.height = "320px";
+        chartWrap.style.overflowX =
+          mobileViewport && chartWidth > viewportWidth ? "auto" : "hidden";
+      }
+      canvas.style.minWidth =
+        mobileViewport && chartWidth > viewportWidth ? chartWidth + "px" : "0";
+      monthlyChart = new Chart(canvas, {
+        type: "bar",
+        data: {
+          labels,
+          datasets: series.map((dataset, index) => ({
+            label: dataset.label,
+            data: dataset.data,
+            backgroundColor:
+              index === 0
+                ? theme.dark
+                  ? "#4eb4cd"
+                  : "#16866a"
+                : theme.dark
+                  ? "#ff8755"
+                  : "#d12a31",
+            hoverBackgroundColor:
+              index === 0
+                ? theme.dark
+                  ? "#4eb4cd"
+                  : "#16866a"
+                : theme.dark
+                  ? "#ff8755"
+                  : "#d12a31",
+            borderWidth: 0,
+            hoverBorderWidth: 0,
+            borderSkipped: false,
+            borderRadius: {
+              topLeft: 10,
+              topRight: 10,
+              bottomLeft: 0,
+              bottomRight: 0,
+            },
+            maxBarThickness: 42,
+          })),
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 900, easing: "easeOutCubic" },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              ...theme.tooltip,
+              callbacks: {
+                label: (item) =>
+                  " " + item.dataset.label + ": " + format(item.raw) + " pages",
+                labelColor: (item) => {
+                  const color =
+                    item.datasetIndex === 0
+                      ? theme.dark
+                        ? "#4eb4cd"
+                        : "#16866a"
+                      : theme.dark
+                        ? "#ff8755"
+                        : "#d12a31";
+                  return {
+                    backgroundColor: color,
+                    borderColor: color,
+                    borderWidth: 1,
+                    borderRadius: 2,
+                  };
+                },
+              },
+            },
+          },
+          datasets: {
+            bar: {
+              categoryPercentage: barCategoryPercentage,
+              barPercentage: 0.8,
+            },
+          },
+          scales: {
+            x: {
+              offset: true,
+              grid: { color: theme.grid },
+              ticks: {
+                color: theme.text,
+                font: { family: "Poppins", size: 9 },
+              },
+            },
+            y: {
+              beginAtZero: true,
+              grid: { color: theme.grid },
+              ticks: {
+                color: theme.text,
+                font: { family: "Poppins", size: 9 },
+              },
+            },
+          },
+        },
+      });
+    };
+  render = () => {
+    renderDashboard();
+    applyMonthlyChartType();
+  };
+  panel.__refreshCopierTheme = () => {
+    render();
+  };
+  function bind(prefix) {
+    [
+      "Period",
+      "Month",
+      "Start",
+      "End",
+      "Company",
+      "Department",
+      "Copier",
+    ].forEach((name) =>
+      document
+        .getElementById(prefix + name)
+        .addEventListener("change", (event) => {
+          const map = {
+            Period: "period",
+            Month: "start",
+            Start: "start",
+            End: "end",
+            Company: "company",
+            Department: "department",
+            Copier: "copier",
+          };
+          state[map[name]] = event.target.value;
+          if (name === "Period" && event.target.value === "monthly")
+            state.start = latestActiveMonth;
+          if (name === "Period" && event.target.value === "yearly")
+            state.start = "2026";
+          render();
+        }),
+    );
+  }
+  bind("copierChart");
+  bind("copierTable");
+  document
+    .getElementById("copierDepartmentChartType")
+    .addEventListener("change", render);
+  document.getElementById("copierPieMetric").addEventListener("change", render);
+  document
+    .getElementById("copierMonthlyChartType")
+    .addEventListener("change", render);
+  document
+    .getElementById("copierResetFilters")
+    .addEventListener("click", () => {
+      Object.assign(state, {
+        period: "all",
+        start: source.months[0],
+        end: source.months[source.months.length - 1],
+        company: "all",
+        department: "all",
+        copier: "all",
+      });
+      render();
+    });
+  new MutationObserver(() => {
+    if (!panel.hidden) requestAnimationFrame(render);
+  }).observe(panel, { attributes: true, attributeFilter: ["hidden"] });
+  const navigate = window.navigateHubPage;
+  if (typeof navigate === "function")
+    window.navigateHubPage = function (name, push = true) {
+      navigate(name, push);
+      panel.hidden = name !== "Copier & Printer Usage";
+      if (!panel.hidden) render();
+    };
+  panel.hidden =
+    typeof active === "undefined" || active !== "Copier & Printer Usage";
+  if (!panel.hidden) render();
+})();
+/* Animate Company Financial Performance utilization bars whenever the table is rebuilt. */
+(() => {
+  const panel = document.getElementById("budgetExpenseDashboard");
+  if (!panel) return;
+  const animateBars = () => {
+    panel.querySelectorAll(".budget-utilization > span > i").forEach((bar) => {
+      const target = bar.dataset.targetWidth || bar.style.width || "0%";
+      bar.dataset.targetWidth = target;
+      bar.style.transition = "none";
+      bar.style.width = "0%";
+      void bar.offsetWidth;
+      requestAnimationFrame(() => {
+        bar.style.transition = "";
+        requestAnimationFrame(() => {
+          bar.style.width = target;
+        });
+      });
+    });
+  };
+  const queueAnimation = () => requestAnimationFrame(animateBars);
+  new MutationObserver((records) => {
+    if (
+      records.some((record) =>
+        [...record.addedNodes].some(
+          (node) =>
+            node.nodeType === 1 &&
+            (node.matches?.(".budget-utilization") ||
+              node.querySelector?.(".budget-utilization")),
+        ),
+      )
+    )
+      queueAnimation();
+  }).observe(panel, { childList: true, subtree: true });
+  queueAnimation();
 })();

@@ -1,270 +1,523 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Nature A Digital Hub</title>
-<script>(function(){window.devToolsReportSoftNavs=false;var isInstrumentationError=function(error,message){var text=String(message||error&&error.message||'');return text.includes("startTime")};window.addEventListener('error',function(event){if(isInstrumentationError(event.error,event.message)){event.preventDefault();event.stopImmediatePropagation()}},true);window.addEventListener('unhandledrejection',function(event){if(isInstrumentationError(event.reason)){event.preventDefault();event.stopImmediatePropagation()}},true)})()</script>
-<link rel="icon" href="assets/images/favicon.ico" sizes="any">
-<link rel="shortcut icon" href="assets/images/favicon.ico">
-<script src="https://cdn.jsdelivr.net/npm/chart.js">
-</script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js">
-</script>
-<link rel="stylesheet" href="styles.css">
-<script src="data/tickets-data.js">
-</script>
-<script src="data/2026/budget-expense-data-26.js">
-</script>
-<script src="data/2026/copier-printer-data-26.js">
-</script>
-<script src="data/fixed-assets-data.js">
-</script>
-<script src="data/microsoft-license-data.js">
-</script>
-<script src="app.js" defer>
-</script>
-</head>
-<body class="login-required">
-<section id="loginPage" class="login-page" aria-labelledby="loginTitle" hidden>
-<div class="login-panel">
-<div class="login-brand-mark" aria-hidden="true">
-<img src="assets/images/logo.png" alt="">
-</div>
-<div class="login-copy">
-<span>Nature A Digital Hub</span>
-<h1 id="loginTitle">Welcome back</h1>
-<p>Sign in to access your digital operations dashboard.</p>
-</div>
-<form id="loginForm" class="login-form" novalidate>
-<label for="loginUsername">Username</label>
-<input id="loginUsername" name="username" type="text" autocomplete="username" required autofocus>
-<label for="loginPassword">Password</label>
-<div class="login-password-field">
-<input id="loginPassword" name="password" type="password" autocomplete="current-password" required>
-<button id="loginPasswordToggle" class="login-password-toggle" type="button" aria-label="Show password" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.8"/></svg></button>
-</div>
-<p id="loginError" class="login-error" role="alert" hidden>Incorrect username or password.</p>
-<button type="submit" class="login-submit">Sign in</button>
-</form>
-</div>
-</section>
-<div class="app">
-<aside class="side" id="side">
-<div class="brand">
-<i aria-hidden="true">
-<img src="assets/images/logo.png" alt="">
-</i>
-<span>
-<strong>Nature A</strong>
-<small>Digital Hub</small>
-</span>
-</div>
-<div class="label">WORKSPACE</div>
-<div class="nav" id="nav">
-</div>
-</aside>
-<main class="main">
-<header class="top">
-<button class="hamb" onclick="side.classList.toggle('open')">☰</button>
-<div class="crumb">Nature A Digital Hub / <b id="crumb">Dashboard</b>
-</div>
-<span class="reporting-year" aria-label="Financial year 2026 to 2027"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16M8 14h3M8 17h5"></path></svg>FY 2026–2027</span>
-<div class="actions">
-<button class="btn theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false" title="Switch light or dark theme">
-<span class="sr-only">Toggle theme</span>
-</button>
-<input id="file" type="file" accept=".xlsx,.xls,.csv" hidden>
-<button class="btn export-btn export-excel" type="button" onclick="exportXlsx()" aria-label="Export Excel" title="Export Excel">
-<svg viewBox="0 0 24 24" aria-hidden="true">
-<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-<path d="M14 2v6h6M8 13h2M14 13h2M8 17h2M14 17h2"/>
-</svg>
-<span>Excel</span>
-</button>
-<button class="btn export-btn export-pdf" type="button" onclick="toggleDashboardFullscreen()" aria-label="Toggle fullscreen" title="Fullscreen">
-<svg viewBox="0 0 24 24" aria-hidden="true">
-<path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/>
-</svg>
-<span>Fullscreen</span>
-</button>
-</div>
-</header>
-<div class="tabs" id="tabs">
-</div>
-<section class="hero">
-<div>
-<h1 id="h1">Digital Operations</h1>
-<p id="sub">A complete view of your digital operations and performance.</p>
-</div>
-</section>
-<section id="mainDashboard" class="main-dashboard" hidden>
-<section class="unified-kpi-grid" aria-label="FY 2026 to 2027 dashboard summary">
-<article class="unified-kpi-card tone-orange"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M4 21h16M6 21V7l6-4v18M12 10h6v11M9 9h1M9 13h1M9 17h1M15 14h1M15 18h1"></path></svg></span><div><b>Managed Companies</b><small>Digital operations portfolio</small></div><strong>10</strong></article>
-<article class="unified-kpi-card tone-green"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.8M16.5 3.2a4 4 0 0 1 0 7.6"></path></svg></span><div><b>IT Team Members</b><small>Active digital workforce</small></div><strong>9</strong></article>
-<article class="unified-kpi-card tone-yellow"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8M12 16v4"></path></svg></span><div><b>Fixed Assets</b><small>Recorded technology assets</small></div><strong>557</strong></article>
-<article class="unified-kpi-card tone-blue"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 10h18M7 15h4M15 14h2"></path></svg></span><div><b>Microsoft 365 Licenses</b><small>Purchased cloud capacity</small></div><strong>360</strong></article>
-</section>
-</section>
-<section id="comparisonDashboard" class="comparison-dashboard" hidden><h1>Coming Soon</h1></section>
-<section id="budgetExpenseDashboard" class="budgetexpense-dashboard" hidden>
-</section>
-<section id="copierprinterusageDashboard" hidden>
-</section>
-<section id="fixedassetsDashboard" class="fixedassets-dashboard" hidden>
-</section>
-<section id="microsoft365Dashboard" class="microsoft365-dashboard" hidden>
-</section>
-<section id="manpowerDashboard" class="manpower-dashboard" hidden>
-<section class="unified-kpi-grid">
-<article class="unified-kpi-card tone-orange">
-<span class="unified-kpi-icon" aria-hidden="true">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-<circle cx="9" cy="8" r="4">
-</circle>
-<path d="M3 21v-2a6 6 0 0 1 12 0v2M16 11l2 2 4-5">
-</path>
-</svg>
-</span>
-<div>
-<b>Current Manpower</b>
-<small id="manpowerCurrentSubtitle">Active team members</small>
-</div>
-<strong id="manpowerCurrent">9</strong>
-</article>
-<article class="unified-kpi-card tone-green">
-<span class="unified-kpi-icon" aria-hidden="true">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-<path d="M16 21v-2.2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V21">
-</path>
-<circle cx="9" cy="7" r="4">
-</circle>
-<path d="M22 21v-2.2a4 4 0 0 0-3-3.8M16.5 3.2a4 4 0 0 1 0 7.6">
-</path>
-</svg>
-</span>
-<div>
-<b>Planned Headcount</b>
-<small id="manpowerPlannedSubtitle">Target workforce capacity</small>
-</div>
-<strong id="manpowerPlanned">13</strong>
-</article>
-<article class="unified-kpi-card tone-yellow">
-<span class="unified-kpi-icon" aria-hidden="true">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2">
-</path>
-<circle cx="9" cy="7" r="4">
-</circle>
-<path d="M19 8v6M16 11h6">
-</path>
-</svg>
-</span>
-<div>
-<b>Hiring Vacancies</b>
-<small id="manpowerVacanciesSubtitle">Roles open for hiring</small>
-</div>
-<strong id="manpowerVacancies">4</strong>
-</article>
-<article class="unified-kpi-card tone-blue">
-<span class="unified-kpi-icon" aria-hidden="true">
-<svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-<path d="M4 19a8 8 0 1 1 16 0">
-</path>
-<path d="m12 15 4-5">
-</path>
-<path d="M7 19h10">
-</path>
-</svg>
-</span>
-<div>
-<b>Workforce Capacity</b>
-<small id="manpowerCapacitySubtitle">Positions currently filled</small>
-</div>
-<strong id="manpowerCapacity">67%</strong>
-</article>
-</section>
-</section>
-<section class="unified-kpi-grid" id="kpis">
-</section>
-<section class="grid">
-<article class="card">
-<div class="title">
-<div>
-<h2 id="ctitle">Operational performance</h2>
-<p>Data-driven worksheet overview</p>
-</div>
-<select class="select" id="type" onchange="charts()">
-<option value="bar">Bar chart</option>
-<option value="line">Line chart</option>
-</select>
-</div>
-<div class="chart unified-bar-canvas">
-<canvas id="chart">
-</canvas>
-</div>
-</article>
-<article class="card">
-<div class="title">
-<div>
-<h2>Status distribution</h2>
-<p>Live portfolio snapshot</p>
-</div>
-</div>
-<div class="piegrid">
-<div class="pie">
-<canvas id="pie">
-</canvas>
-</div>
-<div class="legend" id="legend">
-</div>
-</div>
-</article>
-</section>
-<section class="card tablecard">
-<div class="head">
-<h2 id="ttitle">Dashboard records</h2>
-<div class="tools">
-<input class="search" id="search" oninput="table()" placeholder="Search records...">
-<select class="filter" id="filter" onchange="table()">
-</select>
-</div>
-</div>
-<div id="table">
-</div>
-<div class="foot" id="foot">
-</div>
-</section>
-</main>
-</div>
-<div class="toast" id="toast">
-</div>
-<script>
-window.addEventListener('DOMContentLoaded',()=>{
-  const panel=document.getElementById('comparisonDashboard');
-  const navigate=window.navigateHubPage;
-  if(!panel||typeof navigate!=='function')return;
-  window.navigateHubPage=function(name,push=true){
-    navigate(name,push);
-    const selected=name==='FY Comparison';
-    panel.hidden=!selected;
-    document.querySelectorAll('#kpis,main>.grid,main>section.card.tablecard').forEach(element=>element.hidden=selected);
-  };
-  const selected=location.hash.toLowerCase()==='#/fy-comparison';
-  panel.hidden=!selected;
-  document.querySelectorAll('#kpis,main>.grid,main>section.card.tablecard').forEach(element=>element.hidden=selected);
-});
-</script>
-<script>
-window.addEventListener('DOMContentLoaded',()=>{
-  const heading=document.getElementById('h1'),crumb=document.getElementById('crumb');
-  const updateTitle=()=>{if(((crumb?.textContent||'').trim()==='Dashboard'||location.hash===''||location.hash==='#/')&&heading.textContent!=='Digital Operations')heading.textContent='Digital Operations'};
-  const navigate=window.navigateHubPage;
-  if(typeof navigate==='function')window.navigateHubPage=function(name,push=true){const result=navigate(name,push);if(name==='Dashboard')updateTitle();return result};
-  new MutationObserver(updateTitle).observe(heading,{childList:true,characterData:true,subtree:true});
-  new MutationObserver(updateTitle).observe(crumb,{childList:true,characterData:true,subtree:true});
-  updateTitle();
-});
-</script>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Nature A Digital Hub</title>
+    <script>
+      (function () {
+        var isInstrumentationError = function (error, message) {
+          var text = String(message || (error && error.message) || "");
+          return text.includes("startTime");
+        };
+        window.addEventListener(
+          "error",
+          function (event) {
+            if (isInstrumentationError(event.error, event.message)) {
+              event.preventDefault();
+              event.stopImmediatePropagation();
+            }
+          },
+          true,
+        );
+        window.addEventListener(
+          "unhandledrejection",
+          function (event) {
+            if (isInstrumentationError(event.reason)) {
+              event.preventDefault();
+              event.stopImmediatePropagation();
+            }
+          },
+          true,
+        );
+      })();
+    </script>
+    <link rel="icon" href="assets/images/favicon.ico" sizes="any" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="data/tickets-data.js"></script>
+    <script src="data/2026/budget-expense-data-26.js"></script>
+    <script src="data/2026/copier-printer-data-26.js"></script>
+    <script src="data/fixed-assets-data.js"></script>
+    <script src="data/microsoft-license-data.js"></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body class="login-required">
+    <section
+      id="loginPage"
+      class="login-page"
+      aria-labelledby="loginTitle"
+      hidden
+    >
+      <div class="login-panel">
+        <div class="login-brand-mark" aria-hidden="true">
+          <img src="assets/images/logo.png" alt="" />
+        </div>
+        <div class="login-copy">
+          <span>Nature A Digital Hub</span>
+          <h1 id="loginTitle">Welcome back</h1>
+          <p>Sign in to access your digital operations dashboard.</p>
+        </div>
+        <form id="loginForm" class="login-form" novalidate>
+          <label for="loginUsername">Username</label>
+          <input
+            id="loginUsername"
+            name="username"
+            type="text"
+            autocomplete="username"
+            required
+            autofocus
+          />
+          <label for="loginPassword">Password</label>
+          <div class="login-password-field">
+            <input
+              id="loginPassword"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+            />
+            <button
+              id="loginPasswordToggle"
+              class="login-password-toggle"
+              type="button"
+              aria-label="Show password"
+              aria-pressed="false"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z"
+                />
+                <circle cx="12" cy="12" r="2.8" />
+              </svg>
+            </button>
+          </div>
+          <p id="loginError" class="login-error" role="alert" hidden>
+            Incorrect username or password.
+          </p>
+          <button type="submit" class="login-submit">Sign in</button>
+        </form>
+      </div>
+    </section>
+    <div class="app">
+      <aside class="side" id="side">
+        <div class="brand">
+          <i aria-hidden="true">
+            <img src="assets/images/logo.png" alt="" />
+          </i>
+          <span>
+            <strong>Nature A</strong>
+            <small>Digital Hub</small>
+          </span>
+        </div>
+        <div class="label">WORKSPACE</div>
+        <div class="nav" id="nav"></div>
+      </aside>
+      <main class="main">
+        <header class="top">
+          <button class="hamb" onclick="side.classList.toggle('open')">
+            ☰
+          </button>
+          <div class="crumb">
+            Nature A Digital Hub / <b id="crumb">Dashboard</b>
+          </div>
+          <span class="reporting-year" aria-label="Financial year 2026 to 2027"
+            ><svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="4" y="5" width="16" height="15" rx="2"></rect>
+              <path d="M8 3v4M16 3v4M4 10h16M8 14h3M8 17h5"></path></svg
+            >FY 2026–2027</span
+          >
+          <div class="actions">
+            <button
+              class="btn theme-toggle"
+              type="button"
+              aria-label="Switch to dark mode"
+              aria-pressed="false"
+              title="Switch light or dark theme"
+            >
+              <span class="sr-only">Toggle theme</span>
+            </button>
+            <input id="file" type="file" accept=".xlsx,.xls,.csv" hidden />
+            <button
+              class="btn export-btn export-excel"
+              type="button"
+              onclick="exportXlsx()"
+              aria-label="Export Excel"
+              title="Export Excel"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                />
+                <path d="M14 2v6h6M8 13h2M14 13h2M8 17h2M14 17h2" />
+              </svg>
+              <span>Excel</span>
+            </button>
+            <button
+              class="btn export-btn export-pdf"
+              type="button"
+              onclick="toggleDashboardFullscreen()"
+              aria-label="Toggle fullscreen"
+              title="Fullscreen"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"
+                />
+              </svg>
+              <span>Fullscreen</span>
+            </button>
+          </div>
+        </header>
+        <div class="tabs" id="tabs"></div>
+        <section class="hero">
+          <div>
+            <h1 id="h1">Digital Operations</h1>
+            <p id="sub">
+              A complete view of your digital operations and performance.
+            </p>
+          </div>
+        </section>
+        <section id="mainDashboard" class="main-dashboard" hidden>
+          <section
+            class="unified-kpi-grid"
+            aria-label="FY 2026 to 2027 dashboard summary"
+          >
+            <article class="unified-kpi-card tone-orange">
+              <span class="unified-kpi-icon" aria-hidden="true"
+                ><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path
+                    d="M22 21v-2a4 4 0 0 0-3-3.8M16.5 3.2a4 4 0 0 1 0 7.6"
+                  ></path></svg
+              ></span>
+              <div>
+                <b>Current Manpower</b><small>Active digital workforce</small>
+              </div>
+              <strong id="mainCurrentManpower">0</strong>
+            </article>
+            <article class="unified-kpi-card tone-green">
+              <span class="unified-kpi-icon" aria-hidden="true"
+                ><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+                  <path
+                    d="M4 21h16M6 21V7l6-4v18M12 10h6v11M9 9h1M9 13h1M9 17h1M15 14h1M15 18h1"
+                  ></path></svg
+              ></span>
+              <div>
+                <b>Managed Companies</b
+                ><small>Digital operations portfolio</small>
+              </div>
+              <strong id="mainManagedCompanies">0</strong>
+            </article>
+            <article class="unified-kpi-card tone-yellow">
+              <span class="unified-kpi-icon" aria-hidden="true"
+                ><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+                  <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                  <path d="M3 10h18M7 15h4M15 14h2"></path></svg
+              ></span>
+              <div>
+                <b>Microsoft 365 Active Licenses</b
+                ><small>Licenses currently assigned</small>
+              </div>
+              <strong id="mainActiveLicenses">0</strong>
+            </article>
+            <article class="unified-kpi-card tone-blue">
+              <span class="unified-kpi-icon" aria-hidden="true"
+                ><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+                  <path d="M12 3a9 9 0 1 0 9 9"></path>
+                  <path d="m9 12 2 2 4-5"></path></svg
+              ></span>
+              <div>
+                <b>Available Licenses</b><small>Capacity ready to assign</small>
+              </div>
+              <strong id="mainAvailableLicenses">0</strong>
+            </article>
+          </section>
+          <section
+            class="unified-chart-grid main-dashboard-chart-grid"
+            aria-label="Digital operations overview"
+          >
+            <article class="unified-chart-card card main-workforce-card">
+              <header class="unified-chart-header">
+                <div>
+                  <h2>Workforce Capacity</h2>
+                  <p>Current staffing against planned headcount</p>
+                </div>
+              </header>
+              <div class="unified-pie-layout main-dashboard-pie-layout">
+                <div class="unified-pie-canvas main-dashboard-pie">
+                  <canvas
+                    id="mainWorkforcePie"
+                    aria-label="Workforce capacity chart"
+                  ></canvas>
+                </div>
+                <div class="main-dashboard-legend-panel">
+                  <div class="unified-chart-legend">
+                    <div>
+                      <span
+                        ><i class="dot manpower-dot"></i>Current manpower</span
+                      ><b
+                        ><strong id="mainWorkforceCurrent">0</strong
+                        ><small>People</small></b
+                      >
+                    </div>
+                    <div>
+                      <span><i class="dot neutral-dot"></i>Open positions</span
+                      ><b
+                        ><strong id="mainWorkforceGap">0</strong
+                        ><small>People</small></b
+                      >
+                    </div>
+                  </div>
+                  <div class="main-dashboard-progress">
+                    <div class="main-dashboard-progress-label">
+                      Workforce fulfillment
+                      <b id="mainWorkforceFulfillment">0%</b>
+                    </div>
+                    <span><i id="mainWorkforceBar" style="width: 0%"></i></span>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="unified-chart-card card main-license-card">
+              <header class="unified-chart-header">
+                <div>
+                  <h2>Microsoft 365 Capacity</h2>
+                  <p>License assignment and available capacity</p>
+                </div>
+              </header>
+              <div class="unified-pie-layout main-dashboard-pie-layout">
+                <div class="unified-pie-canvas main-dashboard-pie">
+                  <canvas
+                    id="mainLicensePie"
+                    aria-label="Microsoft 365 license capacity chart"
+                  ></canvas>
+                </div>
+                <div class="main-dashboard-legend-panel">
+                  <div class="unified-chart-legend">
+                    <div>
+                      <span><i class="dot license-dot"></i>Active licenses</span
+                      ><b
+                        ><strong id="mainLicenseActiveChart">0</strong
+                        ><small>Licenses</small></b
+                      >
+                    </div>
+                    <div>
+                      <span
+                        ><i class="dot neutral-dot"></i>Available licenses</span
+                      ><b
+                        ><strong id="mainLicenseAvailableChart">0</strong
+                        ><small>Licenses</small></b
+                      >
+                    </div>
+                  </div>
+                  <div class="main-dashboard-progress main-license-progress">
+                    <div class="main-dashboard-progress-label">
+                      License utilization <b id="mainLicenseUtilization">0%</b>
+                    </div>
+                    <span><i id="mainLicenseBar" style="width: 0%"></i></span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+        </section>
+        <section id="comparisonDashboard" class="comparison-dashboard" hidden>
+          <h1>Coming Soon</h1>
+        </section>
+        <section
+          id="budgetExpenseDashboard"
+          class="budgetexpense-dashboard"
+          hidden
+        ></section>
+        <section id="copierprinterusageDashboard" hidden></section>
+        <section
+          id="fixedassetsDashboard"
+          class="fixedassets-dashboard"
+          hidden
+        ></section>
+        <section
+          id="microsoft365Dashboard"
+          class="microsoft365-dashboard"
+          hidden
+        ></section>
+        <section
+          id="manpowerDashboard"
+          class="manpower-dashboard"
+          data-planned-headcount="13"
+          hidden
+        >
+          <section class="unified-kpi-grid">
+            <article class="unified-kpi-card tone-orange">
+              <span class="unified-kpi-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+                  <circle cx="9" cy="8" r="4"></circle>
+                  <path d="M3 21v-2a6 6 0 0 1 12 0v2M16 11l2 2 4-5"></path>
+                </svg>
+              </span>
+              <div>
+                <b>Current Manpower</b>
+                <small id="manpowerCurrentSubtitle">Active team members</small>
+              </div>
+              <strong id="manpowerCurrent">9</strong>
+            </article>
+            <article class="unified-kpi-card tone-green">
+              <span class="unified-kpi-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+                  <path d="M16 21v-2.2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V21"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path
+                    d="M22 21v-2.2a4 4 0 0 0-3-3.8M16.5 3.2a4 4 0 0 1 0 7.6"
+                  ></path>
+                </svg>
+              </span>
+              <div>
+                <b>Planned Headcount</b>
+                <small id="manpowerPlannedSubtitle"
+                  >Target workforce capacity</small
+                >
+              </div>
+              <strong id="manpowerPlanned">13</strong>
+            </article>
+            <article class="unified-kpi-card tone-yellow">
+              <span class="unified-kpi-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M19 8v6M16 11h6"></path>
+                </svg>
+              </span>
+              <div>
+                <b>Hiring Vacancies</b>
+                <small id="manpowerVacanciesSubtitle"
+                  >Roles open for hiring</small
+                >
+              </div>
+              <strong id="manpowerVacancies">4</strong>
+            </article>
+            <article class="unified-kpi-card tone-blue">
+              <span class="unified-kpi-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+                  <path d="M4 19a8 8 0 1 1 16 0"></path>
+                  <path d="m12 15 4-5"></path>
+                  <path d="M7 19h10"></path>
+                </svg>
+              </span>
+              <div>
+                <b>Workforce Capacity</b>
+                <small id="manpowerCapacitySubtitle"
+                  >Positions currently filled</small
+                >
+              </div>
+              <strong id="manpowerCapacity">67%</strong>
+            </article>
+          </section>
+        </section>
+        <section class="unified-kpi-grid" id="kpis"></section>
+        <section class="grid">
+          <article class="card">
+            <div class="title">
+              <div>
+                <h2 id="ctitle">Operational performance</h2>
+                <p>Data-driven worksheet overview</p>
+              </div>
+              <select class="select" id="type" onchange="charts()">
+                <option value="bar">Bar chart</option>
+                <option value="line">Line chart</option>
+              </select>
+            </div>
+            <div class="chart unified-bar-canvas">
+              <canvas id="chart"> </canvas>
+            </div>
+          </article>
+          <article class="card">
+            <div class="title">
+              <div>
+                <h2>Status distribution</h2>
+                <p>Live portfolio snapshot</p>
+              </div>
+            </div>
+            <div class="piegrid">
+              <div class="pie">
+                <canvas id="pie"> </canvas>
+              </div>
+              <div class="legend" id="legend"></div>
+            </div>
+          </article>
+        </section>
+        <section class="card tablecard">
+          <div class="head">
+            <h2 id="ttitle">Dashboard records</h2>
+            <div class="tools">
+              <input
+                class="search"
+                id="search"
+                oninput="table()"
+                placeholder="Search records..."
+              />
+              <select class="filter" id="filter" onchange="table()"></select>
+            </div>
+          </div>
+          <div id="table"></div>
+          <div class="foot" id="foot"></div>
+        </section>
+      </main>
+    </div>
+    <div class="toast" id="toast"></div>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const panel = document.getElementById("comparisonDashboard");
+        const navigate = window.navigateHubPage;
+        if (!panel || typeof navigate !== "function") return;
+        window.navigateHubPage = function (name, push = true) {
+          navigate(name, push);
+          const selected = name === "FY Comparison";
+          panel.hidden = !selected;
+          document
+            .querySelectorAll("#kpis,main>.grid,main>section.card.tablecard")
+            .forEach((element) => (element.hidden = selected));
+        };
+        const selected = location.hash.toLowerCase() === "#/fy-comparison";
+        panel.hidden = !selected;
+        document
+          .querySelectorAll("#kpis,main>.grid,main>section.card.tablecard")
+          .forEach((element) => (element.hidden = selected));
+      });
+    </script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const heading = document.getElementById("h1"),
+          crumb = document.getElementById("crumb");
+        const updateTitle = () => {
+          if (
+            ((crumb?.textContent || "").trim() === "Dashboard" ||
+              location.hash === "" ||
+              location.hash === "#/") &&
+            heading.textContent !== "Digital Operations"
+          )
+            heading.textContent = "Digital Operations";
+        };
+        const navigate = window.navigateHubPage;
+        if (typeof navigate === "function")
+          window.navigateHubPage = function (name, push = true) {
+            const result = navigate(name, push);
+            if (name === "Dashboard") updateTitle();
+            return result;
+          };
+        new MutationObserver(updateTitle).observe(heading, {
+          childList: true,
+          characterData: true,
+          subtree: true,
+        });
+        new MutationObserver(updateTitle).observe(crumb, {
+          childList: true,
+          characterData: true,
+          subtree: true,
+        });
+        updateTitle();
+      });
+    </script>
+  </body>
 </html>
