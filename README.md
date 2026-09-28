@@ -5,14 +5,14 @@
 Each dashboard has its own folder and entry page. Shared styles, scripts,
 assets, and data remain central so a common improvement is made only once.
 
-- `pages/overview/index.html` — Digital Operations overview
-- `pages/manpower/index.html` — Manpower
-- `pages/budget-expense/index.html` — Budget & Expense
-- `pages/copier-printer/index.html` — Copier & Printer Usage
-- `pages/service-tickets/index.html` — Service Tickets
-- `pages/fixed-assets/index.html` — Fixed Assets
-- `pages/microsoft-365/index.html` — Microsoft 365
-- `pages/fy-comparison/index.html` — FY Comparison
+- `index.html` — Digital Operations overview
+- `manpower/index.html` — Manpower
+- `budget-expense/index.html` — Budget & Expense
+- `copier-printer/index.html` — Copier & Printer Usage
+- `service-tickets/index.html` — Service Tickets
+- `fixed-assets/index.html` — Fixed Assets
+- `microsoft-365/index.html` — Microsoft 365
+- `fy-comparison/index.html` — FY Comparison
 - `src/css/styles.css` — shared dashboard styles
 - `src/js/app.js` — shared dashboard behavior
 
