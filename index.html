@@ -118,14 +118,6 @@
             </svg>
             <span>Excel</span>
           </button>
-          <button class="btn export-btn export-pdf" type="button" onclick="toggleDashboardFullscreen()"
-            aria-label="Toggle fullscreen" title="Fullscreen">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3" />
-            </svg>
-            <span>Fullscreen</span>
-          </button>
         </div>
       </header>
       <div class="tabs" id="tabs"></div>
@@ -405,15 +397,30 @@
   <div class="toast" id="toast"></div>
   <script>
     window.addEventListener("DOMContentLoaded", () => {
-      const panel = document.getElementById("comparisonDashboard"),
-        heading = document.getElementById("h1"),
-        crumb = document.getElementById("crumb"),
-        genericSections = document.querySelectorAll(
-          "#kpis,main>.grid,main>section.card.tablecard",
-        );
+      const panel = document.getElementById("comparisonDashboard");
+      const navigate = window.navigateHubPage;
+      if (!panel || typeof navigate !== "function") return;
+      window.navigateHubPage = function (name, push = true) {
+        navigate(name, push);
+        const selected = name === "FY Comparison";
+        panel.hidden = !selected;
+        document
+          .querySelectorAll("#kpis,main>.grid,main>section.card.tablecard")
+          .forEach((element) => (element.hidden = selected));
+      };
+      const selected = location.hash.toLowerCase() === "#/fy-comparison";
+      panel.hidden = !selected;
+      document
+        .querySelectorAll("#kpis,main>.grid,main>section.card.tablecard")
+        .forEach((element) => (element.hidden = selected));
+    });
+  </script>
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const heading = document.getElementById("h1"),
+        crumb = document.getElementById("crumb");
       const updateTitle = () => {
         if (
-          heading &&
           ((crumb?.textContent || "").trim() === "Dashboard" ||
             location.hash === "" ||
             location.hash === "#/") &&
@@ -421,35 +428,23 @@
         )
           heading.textContent = "Digital Operations";
       };
-      const syncComparison = (name) => {
-        if (!panel) return;
-        const selected =
-          name === "FY Comparison" ||
-          (!name && location.hash.toLowerCase() === "#/fy-comparison");
-        panel.hidden = !selected;
-        genericSections.forEach((element) => (element.hidden = selected));
-      };
       const navigate = window.navigateHubPage;
       if (typeof navigate === "function")
         window.navigateHubPage = function (name, push = true) {
           const result = navigate(name, push);
-          syncComparison(name);
           if (name === "Dashboard") updateTitle();
           return result;
         };
-      if (heading)
-        new MutationObserver(updateTitle).observe(heading, {
-          childList: true,
-          characterData: true,
-          subtree: true,
-        });
-      if (crumb)
-        new MutationObserver(updateTitle).observe(crumb, {
-          childList: true,
-          characterData: true,
-          subtree: true,
-        });
-      syncComparison();
+      new MutationObserver(updateTitle).observe(heading, {
+        childList: true,
+        characterData: true,
+        subtree: true,
+      });
+      new MutationObserver(updateTitle).observe(crumb, {
+        childList: true,
+        characterData: true,
+        subtree: true,
+      });
       updateTitle();
     });
   </script>

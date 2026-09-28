@@ -456,23 +456,6 @@ function table() {
     data[active].length +
     " records · Click any value to edit";
 }
-file.onchange = (e) => {
-  let rd = new FileReader();
-  rd.onload = (z) => {
-    let wb = XLSX.read(z.target.result, { type: "array" }),
-      o = {};
-    wb.SheetNames.forEach((s) => {
-      let r = XLSX.utils.sheet_to_json(wb.Sheets[s], { defval: "" });
-      if (r.length) o[s] = r;
-    });
-    if (!Object.keys(o).length) return show("No data rows found");
-    data = o;
-    buildNav();
-    page(Object.keys(o)[0]);
-    show(Object.keys(o).length + " worksheet(s) imported");
-  };
-  rd.readAsArrayBuffer(e.target.files[0]);
-};
 function exportXlsx() {
   let w = XLSX.utils.book_new();
   Object.entries(data).forEach(([n, r]) =>
@@ -484,10 +467,6 @@ function exportXlsx() {
   );
   XLSX.writeFile(w, "Digital-IT-Hub.xlsx");
   show("Excel workbook exported");
-}
-function save() {
-  localStorage.setItem("itHubData", JSON.stringify(data));
-  show("Changes saved in this browser");
 }
 try {
   data = JSON.parse(localStorage.getItem("itHubData")) || data;
@@ -2498,10 +2477,6 @@ document.addEventListener(
     "Fixed Assets": "#/fixed-assets",
     "Microsoft 365": "#/microsoft-365",
   };
-  const routePages = Object.fromEntries(
-    Object.entries(routes).map(([page, path]) => [path.toLowerCase(), page]),
-  );
-  const routeKey = () => location.hash.toLowerCase() || "#/";
   const icons = {
     Dashboard: "🏠",
     Manpower: "👥",
@@ -2547,22 +2522,6 @@ document.addEventListener(
         localStorage.setItem("serviceTicketSampleVersion", "3");
     } catch (e) {}
   }
-  function syncActive(name) {
-    [...nav.children].forEach((button) => {
-      const selected = button.querySelector(".nav-text")?.textContent === name;
-      button.classList.toggle("active", selected);
-      button.setAttribute("aria-current", selected ? "page" : "false");
-    });
-    [...tabs.children].forEach((button) =>
-      button.classList.toggle("active", button.textContent === name),
-    );
-  }
-  function go(name, push = true) {
-    if (push && routeKey() !== routes[name].toLowerCase())
-      history.pushState({ page: name }, "", routes[name]);
-    page(name);
-    syncActive(name);
-  }
   window.buildNav = function () {
     limitPages();
     nav.innerHTML = tabs.innerHTML = "";
@@ -2578,28 +2537,15 @@ document.addEventListener(
       a.dataset.decorated = "yes";
       a.dataset.href = routes[name];
       a.dataset.page = name;
-      a.onclick = () => go(name);
+      a.onclick = () => window.navigateHubPage?.(name, true);
       b.textContent = name;
-      b.onclick = () => go(name);
+      b.onclick = () => window.navigateHubPage?.(name, true);
       nav.append(a);
       tabs.append(b);
     });
   };
-  window.addEventListener("popstate", () =>
-    go(routePages[routeKey()] || "Dashboard", false),
-  );
-  window.addEventListener("hashchange", () =>
-    go(routePages[routeKey()] || "Dashboard", false),
-  );
   limitPages();
   buildNav();
-  const requested = routePages[routeKey()] || "Dashboard";
-  if (!routePages[routeKey()])
-    history.replaceState({ page: requested }, "", routes[requested]);
-  go(requested, false);
-  const brand = document.querySelector(".brand span");
-  if (brand)
-    brand.innerHTML = "<strong>Nature A</strong><small>Digital Hub</small>";
 })();
 
 (function () {
@@ -10867,7 +10813,7 @@ window.exportXlsx = function () {
         sortCompanyRows();
       } else renderOverviewRecord();
     };
-    const fixedAssetFilterIds = [
+    [
       "fixedAssetPeriod",
       "fixedAssetCompany",
       "fixedAssetDepartment",
@@ -10878,36 +10824,79 @@ window.exportXlsx = function () {
       "fixedAssetYear",
       "fixedAssetFrom",
       "fixedAssetTo",
-    ];
-    fixedAssetFilterIds.forEach((id) =>
+    ].forEach((id) =>
       panel
         .querySelector("#" + id)
         ?.addEventListener("change", () =>
           requestAnimationFrame(refreshCompanyFixedAssets),
         ),
     );
-    fixedAssetFilterIds.forEach((id) =>
+    [
+      "fixedAssetPeriod",
+      "fixedAssetCompany",
+      "fixedAssetDepartment",
+      "fixedAssetType",
+      "fixedAssetBrand",
+      "fixedAssetCondition",
+      "fixedAssetMonth",
+      "fixedAssetYear",
+      "fixedAssetFrom",
+      "fixedAssetTo",
+    ].forEach((id) =>
       panel
         .querySelector("#" + id)
         ?.addEventListener("change", () =>
           requestAnimationFrame(setupOverviewSearch),
         ),
     );
-    fixedAssetFilterIds.forEach((id) =>
+    [
+      "fixedAssetPeriod",
+      "fixedAssetCompany",
+      "fixedAssetDepartment",
+      "fixedAssetType",
+      "fixedAssetBrand",
+      "fixedAssetCondition",
+      "fixedAssetMonth",
+      "fixedAssetYear",
+      "fixedAssetFrom",
+      "fixedAssetTo",
+    ].forEach((id) =>
       panel
         .querySelector("#" + id)
         ?.addEventListener("change", () =>
           requestAnimationFrame(enhanceOverviewConditions),
         ),
     );
-    fixedAssetFilterIds.forEach((id) =>
+    [
+      "fixedAssetPeriod",
+      "fixedAssetCompany",
+      "fixedAssetDepartment",
+      "fixedAssetType",
+      "fixedAssetBrand",
+      "fixedAssetCondition",
+      "fixedAssetMonth",
+      "fixedAssetYear",
+      "fixedAssetFrom",
+      "fixedAssetTo",
+    ].forEach((id) =>
       panel
         .querySelector("#" + id)
         ?.addEventListener("change", () =>
           requestAnimationFrame(enhanceFixedAssetCodes),
         ),
     );
-    fixedAssetFilterIds.forEach((id) =>
+    [
+      "fixedAssetPeriod",
+      "fixedAssetCompany",
+      "fixedAssetDepartment",
+      "fixedAssetType",
+      "fixedAssetBrand",
+      "fixedAssetCondition",
+      "fixedAssetMonth",
+      "fixedAssetYear",
+      "fixedAssetFrom",
+      "fixedAssetTo",
+    ].forEach((id) =>
       panel
         .querySelector("#" + id)
         ?.addEventListener("change", () =>
@@ -10966,9 +10955,7 @@ window.exportXlsx = function () {
               control.tagName === "SELECT" &&
               primaryControl.tagName === "SELECT"
             )
-              control.innerHTML = primaryControl.innerHTML;
-            control.value = primaryControl.value;
-            control.disabled = primaryControl.disabled;
+              control.value = primaryControl.value;
             secondaryField.hidden = primaryField.hidden;
           },
         );
@@ -10978,17 +10965,17 @@ window.exportXlsx = function () {
       primaryFilterCard.addEventListener("change", () =>
         requestAnimationFrame(syncSecondaryFilters),
       );
-      secondaryFilterCard.addEventListener("change", (event) => {
-        const control = event.target.closest("select,input"),
-          primaryControl = control
-            ? panel.querySelector("#" + control.dataset.primaryId)
-            : null;
-        if (!control || !secondaryFilterCard.contains(control) || !primaryControl)
-          return;
-        primaryControl.value = control.value;
-        primaryControl.dispatchEvent(new Event("change", { bubbles: true }));
-        requestAnimationFrame(syncSecondaryFilters);
-      });
+      secondaryControls.forEach((control) =>
+        control.addEventListener("change", () => {
+          const primaryControl = panel.querySelector(
+            "#" + control.dataset.primaryId,
+          );
+          if (!primaryControl) return;
+          primaryControl.value = control.value;
+          primaryControl.dispatchEvent(new Event("change", { bubbles: true }));
+          requestAnimationFrame(syncSecondaryFilters);
+        }),
+      );
       secondaryReset?.addEventListener("click", () => {
         panel.querySelector("#fixedAssetResetFilters")?.click();
         requestAnimationFrame(syncSecondaryFilters);
@@ -11271,15 +11258,6 @@ window.exportXlsx = function () {
     );
   else window.refreshMainDashboardMetrics();
 })();
-
-/* Fullscreen dashboard control. */
-window.toggleDashboardFullscreen = () => {
-  const root = document.documentElement;
-  const action = document.fullscreenElement
-    ? document.exitFullscreen()
-    : root.requestFullscreen?.();
-  if (action?.catch) action.catch(() => {});
-};
 
 /* Local access gate for the static dashboard. */
 (() => {
