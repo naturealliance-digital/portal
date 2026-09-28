@@ -21,7 +21,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-3M",
     "durationMinutes": 3,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-28T09:52:00"
   },
   {
@@ -29,7 +29,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-28T09:52:00"
   },
   {
@@ -37,7 +37,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-28T10:48:00"
   },
   {
@@ -53,7 +53,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-28T10:48:00"
   },
   {
@@ -61,7 +61,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-0M",
     "durationMinutes": 0,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-28T10:48:00"
   },
   {
@@ -85,7 +85,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-0M",
     "durationMinutes": 0,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-24T12:38:00"
   },
   {
@@ -125,7 +125,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-23T17:30:00"
   },
   {
@@ -133,7 +133,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-23T17:31:00"
   },
   {
@@ -141,7 +141,7 @@ window.TICKETS_DATA = [
     "duration": "0D-2H-40M",
     "durationMinutes": 160,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-23T13:27:00"
   },
   {
@@ -149,7 +149,7 @@ window.TICKETS_DATA = [
     "duration": "0D-7H-18M",
     "durationMinutes": 438,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-23T17:22:00"
   },
   {
@@ -221,7 +221,7 @@ window.TICKETS_DATA = [
     "duration": "0D-7H-24M",
     "durationMinutes": 444,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-23T17:23:00"
   },
   {
@@ -229,7 +229,7 @@ window.TICKETS_DATA = [
     "duration": "0D-7H-23M",
     "durationMinutes": 443,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-23T17:22:00"
   },
   {
@@ -237,7 +237,7 @@ window.TICKETS_DATA = [
     "duration": "0D-7H-22M",
     "durationMinutes": 442,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-23T17:22:00"
   },
   {
@@ -245,7 +245,7 @@ window.TICKETS_DATA = [
     "duration": "0D-7H-21M",
     "durationMinutes": 441,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-23T17:22:00"
   },
   {
@@ -253,7 +253,7 @@ window.TICKETS_DATA = [
     "duration": "0D-7H-20M",
     "durationMinutes": 440,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-23T17:22:00"
   },
   {
@@ -261,15 +261,15 @@ window.TICKETS_DATA = [
     "duration": "0D-7H-19M",
     "durationMinutes": 439,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-23T17:22:00"
   },
   {
     "assignedTo": "Than Toe Aung",
     "duration": "0D-8H-2M",
     "durationMinutes": 482,
-    "problem": "",
-    "company": "ARISE",
+    "problem": "Windows Error",
+    "company": "Arise",
     "completedAt": "2026-09-22T14:20:00"
   },
   {
@@ -285,7 +285,7 @@ window.TICKETS_DATA = [
     "duration": "1D-2H-0M",
     "durationMinutes": 1560,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-22T14:20:00"
   },
   {
@@ -293,7 +293,7 @@ window.TICKETS_DATA = [
     "duration": "0D-7H-18M",
     "durationMinutes": 438,
     "problem": "Hardware Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-23T17:22:00"
   },
   {
@@ -309,7 +309,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-21M",
     "durationMinutes": 21,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-21T11:12:00"
   },
   {
@@ -317,7 +317,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-21T11:12:00"
   },
   {
@@ -325,7 +325,7 @@ window.TICKETS_DATA = [
     "duration": "0D-1H-4M",
     "durationMinutes": 64,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-21T11:13:00"
   },
   {
@@ -333,7 +333,7 @@ window.TICKETS_DATA = [
     "duration": "0D-1H-3M",
     "durationMinutes": 63,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-21T11:12:00"
   },
   {
@@ -357,7 +357,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-9M",
     "durationMinutes": 9,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-19T16:17:00"
   },
   {
@@ -373,7 +373,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-9M",
     "durationMinutes": 9,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-19T16:17:00"
   },
   {
@@ -381,15 +381,15 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-9M",
     "durationMinutes": 9,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-19T16:16:00"
   },
   {
     "assignedTo": "Soe Maung Maung",
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
-    "problem": "",
-    "company": "",
+    "problem": "Microsoft 365 Error",
+    "company": "Nature Alliance",
     "completedAt": "2026-09-18T10:02:00"
   },
   {
@@ -397,7 +397,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-19T16:08:00"
   },
   {
@@ -405,7 +405,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-4M",
     "durationMinutes": 4,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-19T16:09:00"
   },
   {
@@ -413,7 +413,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-3M",
     "durationMinutes": 3,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-16T17:12:00"
   },
   {
@@ -421,7 +421,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-16T17:11:00"
   },
   {
@@ -445,7 +445,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-16T10:14:00"
   },
   {
@@ -461,7 +461,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-0M",
     "durationMinutes": 0,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-16T10:14:00"
   },
   {
@@ -469,7 +469,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-49M",
     "durationMinutes": 49,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-15T10:46:00"
   },
   {
@@ -477,7 +477,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-5M",
     "durationMinutes": 5,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-19T16:09:00"
   },
   {
@@ -485,7 +485,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-15T09:57:00"
   },
   {
@@ -493,7 +493,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-13M",
     "durationMinutes": 13,
     "problem": "SQL Software Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-14T17:16:00"
   },
   {
@@ -509,55 +509,55 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-12M",
     "durationMinutes": 12,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-14T11:22:00"
   },
   {
     "assignedTo": "Khin Maung Thant",
     "duration": "0D-0H-12M",
     "durationMinutes": 12,
-    "problem": "",
-    "company": "ARISE",
+    "problem": "Windows Error",
+    "company": "Arise",
     "completedAt": "2026-09-14T11:22:00"
   },
   {
     "assignedTo": "Khin Maung Thant",
     "duration": "0D-0H-10M",
     "durationMinutes": 10,
-    "problem": "",
-    "company": "ARISE",
+    "problem": "Windows Error",
+    "company": "Arise",
     "completedAt": "2026-09-14T11:22:00"
   },
   {
     "assignedTo": "Khin Maung Thant",
     "duration": "0D-0H-11M",
     "durationMinutes": 11,
-    "problem": "",
-    "company": "ARISE",
+    "problem": "Windows Error",
+    "company": "Arise",
     "completedAt": "2026-09-14T11:22:00"
   },
   {
     "assignedTo": "Khin Maung Thant",
     "duration": "0D-0H-7M",
     "durationMinutes": 7,
-    "problem": "",
-    "company": "ARISE",
+    "problem": "Windows Error",
+    "company": "Arise",
     "completedAt": "2026-09-14T11:23:00"
   },
   {
     "assignedTo": "Khin Maung Thant",
     "duration": "0D-0H-8M",
     "durationMinutes": 8,
-    "problem": "",
-    "company": "ARISE",
+    "problem": "Windows Error",
+    "company": "Arise",
     "completedAt": "2026-09-14T11:22:00"
   },
   {
     "assignedTo": "Khin Maung Thant",
     "duration": "0D-6H-1M",
     "durationMinutes": 361,
-    "problem": "",
-    "company": "ARISE",
+    "problem": "Windows Error",
+    "company": "Arise",
     "completedAt": "2026-09-14T17:18:00"
   },
   {
@@ -580,8 +580,8 @@ window.TICKETS_DATA = [
     "assignedTo": "Khin Maung Thant",
     "duration": "0D-6H-1M",
     "durationMinutes": 361,
-    "problem": "",
-    "company": "ARISE",
+    "problem": "Windows Error",
+    "company": "Arise",
     "completedAt": "2026-09-14T17:18:00"
   },
   {
@@ -596,16 +596,16 @@ window.TICKETS_DATA = [
     "assignedTo": "Khin Maung Thant",
     "duration": "0D-6H-0M",
     "durationMinutes": 360,
-    "problem": "",
-    "company": "ARISE",
+    "problem": "Windows Error",
+    "company": "Arise",
     "completedAt": "2026-09-14T17:19:00"
   },
   {
     "assignedTo": "Khin Maung Thant",
     "duration": "0D-5H-60M",
     "durationMinutes": 360,
-    "problem": "",
-    "company": "ARISE",
+    "problem": "Windows Error",
+    "company": "Arise",
     "completedAt": "2026-09-14T17:19:00"
   },
   {
@@ -613,7 +613,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-9M",
     "durationMinutes": 9,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-14T19:37:00"
   },
   {
@@ -652,8 +652,8 @@ window.TICKETS_DATA = [
     "assignedTo": "Khin Maung Thant",
     "duration": "0D-5H-59M",
     "durationMinutes": 359,
-    "problem": "",
-    "company": "ARISE",
+    "problem": "Windows Error",
+    "company": "Arise",
     "completedAt": "2026-09-14T17:19:00"
   },
   {
@@ -661,7 +661,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-0M",
     "durationMinutes": 0,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-14T19:39:00"
   },
   {
@@ -669,7 +669,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-8M",
     "durationMinutes": 8,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-14T19:36:00"
   },
   {
@@ -677,7 +677,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-5M",
     "durationMinutes": 5,
     "problem": "SQL Software Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-14T19:35:00"
   },
   {
@@ -685,7 +685,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-6M",
     "durationMinutes": 6,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-14T19:36:00"
   },
   {
@@ -717,7 +717,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-3M",
     "durationMinutes": 3,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-14T19:35:00"
   },
   {
@@ -741,7 +741,7 @@ window.TICKETS_DATA = [
     "duration": "0D-1H-37M",
     "durationMinutes": 97,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-09T15:00:00"
   },
   {
@@ -781,7 +781,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-14T19:34:00"
   },
   {
@@ -797,7 +797,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-08T09:49:00"
   },
   {
@@ -805,7 +805,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-08T09:50:00"
   },
   {
@@ -877,7 +877,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "SQL Software Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-14T19:34:00"
   },
   {
@@ -933,7 +933,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-10M",
     "durationMinutes": 10,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-02T09:43:00"
   },
   {
@@ -965,7 +965,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-15M",
     "durationMinutes": 15,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-01T10:28:00"
   },
   {
@@ -973,7 +973,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-18M",
     "durationMinutes": 18,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-09-01T10:00:00"
   },
   {
@@ -1005,7 +1005,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-31T17:02:00"
   },
   {
@@ -1021,7 +1021,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Hardware Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-31T17:02:00"
   },
   {
@@ -1037,7 +1037,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-31T12:20:00"
   },
   {
@@ -1061,7 +1061,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-7M",
     "durationMinutes": 7,
     "problem": "Hardware Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-31T12:03:00"
   },
   {
@@ -1069,7 +1069,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-19M",
     "durationMinutes": 19,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-31T12:15:00"
   },
   {
@@ -1125,7 +1125,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-7M",
     "durationMinutes": 7,
     "problem": "SQL Software Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-31T12:04:00"
   },
   {
@@ -1149,7 +1149,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-31T10:46:00"
   },
   {
@@ -1157,7 +1157,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-31T10:46:00"
   },
   {
@@ -1165,7 +1165,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-31T10:46:00"
   },
   {
@@ -1173,7 +1173,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-31T10:46:00"
   },
   {
@@ -1181,7 +1181,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-31T10:46:00"
   },
   {
@@ -1189,7 +1189,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-60M",
     "durationMinutes": 60,
     "problem": "Website Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-31T11:26:00"
   },
   {
@@ -1197,7 +1197,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-60M",
     "durationMinutes": 60,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-31T11:26:00"
   },
   {
@@ -1237,7 +1237,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-26T14:30:00"
   },
   {
@@ -1253,7 +1253,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-26T14:29:00"
   },
   {
@@ -1285,7 +1285,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-10M",
     "durationMinutes": 10,
     "problem": "Printer Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-08-25T14:15:00"
   },
   {
@@ -1293,7 +1293,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-24M",
     "durationMinutes": 24,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-25T14:21:00"
   },
   {
@@ -1301,7 +1301,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-23M",
     "durationMinutes": 23,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-25T14:21:00"
   },
   {
@@ -1309,7 +1309,7 @@ window.TICKETS_DATA = [
     "duration": "0D-1H-39M",
     "durationMinutes": 99,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-25T14:25:00"
   },
   {
@@ -1317,7 +1317,7 @@ window.TICKETS_DATA = [
     "duration": "0D-1H-37M",
     "durationMinutes": 97,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-25T14:24:00"
   },
   {
@@ -1333,7 +1333,7 @@ window.TICKETS_DATA = [
     "duration": "0D-1H-31M",
     "durationMinutes": 91,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-25T14:23:00"
   },
   {
@@ -1341,7 +1341,7 @@ window.TICKETS_DATA = [
     "duration": "0D-1H-28M",
     "durationMinutes": 88,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-25T14:22:00"
   },
   {
@@ -1357,7 +1357,7 @@ window.TICKETS_DATA = [
     "duration": "0D-1H-27M",
     "durationMinutes": 87,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-25T14:22:00"
   },
   {
@@ -1365,7 +1365,7 @@ window.TICKETS_DATA = [
     "duration": "0D-1H-25M",
     "durationMinutes": 85,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-25T14:21:00"
   },
   {
@@ -1381,7 +1381,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-23M",
     "durationMinutes": 23,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-25T14:21:00"
   },
   {
@@ -1397,7 +1397,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-10M",
     "durationMinutes": 10,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-24T19:21:00"
   },
   {
@@ -1413,7 +1413,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-21M",
     "durationMinutes": 21,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-25T14:21:00"
   },
   {
@@ -1453,7 +1453,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-29M",
     "durationMinutes": 29,
     "problem": "Microsoft 365 Error",
-    "company": "arise",
+    "company": "Arise",
     "completedAt": "2026-08-24T10:41:00"
   },
   {
@@ -1461,7 +1461,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Microsoft 365 Error",
-    "company": "arise",
+    "company": "Arise",
     "completedAt": "2026-08-24T10:31:00"
   },
   {
@@ -1469,7 +1469,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-33M",
     "durationMinutes": 33,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-24T10:42:00"
   },
   {
@@ -1477,7 +1477,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-34M",
     "durationMinutes": 34,
     "problem": "Microsoft 365 Error",
-    "company": "arise",
+    "company": "Arise",
     "completedAt": "2026-08-24T10:41:00"
   },
   {
@@ -1493,7 +1493,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-21T09:53:00"
   },
   {
@@ -1501,7 +1501,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-0M",
     "durationMinutes": 0,
     "problem": "Microsoft 365 Error",
-    "company": "arise",
+    "company": "Arise",
     "completedAt": "2026-08-21T09:53:00"
   },
   {
@@ -1549,7 +1549,7 @@ window.TICKETS_DATA = [
     "duration": "0D-1H-21M",
     "durationMinutes": 81,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-20T16:13:00"
   },
   {
@@ -1573,7 +1573,7 @@ window.TICKETS_DATA = [
     "duration": "0D-1H-6M",
     "durationMinutes": 66,
     "problem": "Microsoft 365 Error",
-    "company": "arise",
+    "company": "Arise",
     "completedAt": "2026-08-20T16:14:00"
   },
   {
@@ -1581,7 +1581,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-25T14:20:00"
   },
   {
@@ -1597,7 +1597,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-25T14:20:00"
   },
   {
@@ -1613,7 +1613,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-21M",
     "durationMinutes": 21,
     "problem": "Installation Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-19T10:56:00"
   },
   {
@@ -1669,7 +1669,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-10M",
     "durationMinutes": 10,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-18T14:10:00"
   },
   {
@@ -1677,7 +1677,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-9M",
     "durationMinutes": 9,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-18T14:10:00"
   },
   {
@@ -1701,7 +1701,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-7M",
     "durationMinutes": 7,
     "problem": "Windows Error",
-    "company": "arise",
+    "company": "Arise",
     "completedAt": "2026-08-18T14:11:00"
   },
   {
@@ -1725,7 +1725,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Microsoft 365 Error",
-    "company": "arise",
+    "company": "Arise",
     "completedAt": "2026-08-17T12:12:00"
   },
   {
@@ -1741,7 +1741,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-5M",
     "durationMinutes": 5,
     "problem": "Microsoft 365 Error",
-    "company": "arise",
+    "company": "Arise",
     "completedAt": "2026-08-17T10:54:00"
   },
   {
@@ -1773,7 +1773,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-14T17:22:00"
   },
   {
@@ -1781,7 +1781,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Printer Error",
-    "company": "arise",
+    "company": "Arise",
     "completedAt": "2026-08-17T10:54:00"
   },
   {
@@ -1789,7 +1789,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-17M",
     "durationMinutes": 17,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-25T14:20:00"
   },
   {
@@ -1797,7 +1797,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-15M",
     "durationMinutes": 15,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-25T14:20:00"
   },
   {
@@ -1821,7 +1821,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-15M",
     "durationMinutes": 15,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-25T14:20:00"
   },
   {
@@ -1869,7 +1869,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-6M",
     "durationMinutes": 6,
     "problem": "Hardware Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-25T14:20:00"
   },
   {
@@ -1893,7 +1893,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-14M",
     "durationMinutes": 14,
     "problem": "Printer Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-08-13T10:46:00"
   },
   {
@@ -1917,7 +1917,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-5M",
     "durationMinutes": 5,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-12T17:06:00"
   },
   {
@@ -1925,7 +1925,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-5M",
     "durationMinutes": 5,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-12T17:06:00"
   },
   {
@@ -1933,7 +1933,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-4M",
     "durationMinutes": 4,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-12T17:06:00"
   },
   {
@@ -1941,7 +1941,7 @@ window.TICKETS_DATA = [
     "duration": "0D-2H-11M",
     "durationMinutes": 131,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-12T17:05:00"
   },
   {
@@ -1949,7 +1949,7 @@ window.TICKETS_DATA = [
     "duration": "0D-2H-10M",
     "durationMinutes": 130,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-12T17:05:00"
   },
   {
@@ -1957,7 +1957,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-13M",
     "durationMinutes": 13,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-12T11:26:00"
   },
   {
@@ -1973,7 +1973,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-0M",
     "durationMinutes": 0,
     "problem": "SQL Software Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-12T17:08:00"
   },
   {
@@ -1981,7 +1981,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-4M",
     "durationMinutes": 4,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-12T17:06:00"
   },
   {
@@ -1989,7 +1989,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-3M",
     "durationMinutes": 3,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-12T17:06:00"
   },
   {
@@ -2013,7 +2013,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-3M",
     "durationMinutes": 3,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-12T17:07:00"
   },
   {
@@ -2053,7 +2053,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-12T17:07:00"
   },
   {
@@ -2093,7 +2093,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-39M",
     "durationMinutes": 39,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-10T11:39:00"
   },
   {
@@ -2101,7 +2101,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-38M",
     "durationMinutes": 38,
     "problem": "Installation Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-07T16:44:00"
   },
   {
@@ -2109,7 +2109,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-3M",
     "durationMinutes": 3,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-07T16:53:00"
   },
   {
@@ -2117,7 +2117,7 @@ window.TICKETS_DATA = [
     "duration": "0D-4H-9M",
     "durationMinutes": 249,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-07T20:59:00"
   },
   {
@@ -2133,7 +2133,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-07T15:28:00"
   },
   {
@@ -2173,7 +2173,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-21M",
     "durationMinutes": 21,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-07T09:59:00"
   },
   {
@@ -2181,7 +2181,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-3M",
     "durationMinutes": 3,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-06T17:26:00"
   },
   {
@@ -2197,7 +2197,7 @@ window.TICKETS_DATA = [
     "duration": "0D-1H-38M",
     "durationMinutes": 98,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-06T17:26:00"
   },
   {
@@ -2229,7 +2229,7 @@ window.TICKETS_DATA = [
     "duration": "0D-4H-53M",
     "durationMinutes": 293,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-06T14:44:00"
   },
   {
@@ -2245,7 +2245,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-14M",
     "durationMinutes": 14,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-06T09:41:00"
   },
   {
@@ -2269,7 +2269,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-8M",
     "durationMinutes": 8,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-05T14:12:00"
   },
   {
@@ -2277,7 +2277,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-22M",
     "durationMinutes": 22,
     "problem": "Installation Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-05T12:06:00"
   },
   {
@@ -2293,7 +2293,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-5M",
     "durationMinutes": 5,
     "problem": "Hardware Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-05T14:09:00"
   },
   {
@@ -2301,7 +2301,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-42M",
     "durationMinutes": 42,
     "problem": "Installation Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-05T11:14:00"
   },
   {
@@ -2309,7 +2309,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-4M",
     "durationMinutes": 4,
     "problem": "Hardware Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-05T14:09:00"
   },
   {
@@ -2317,7 +2317,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-0M",
     "durationMinutes": 0,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-05T14:11:00"
   },
   {
@@ -2333,7 +2333,7 @@ window.TICKETS_DATA = [
     "duration": "0D-20H-8M",
     "durationMinutes": 1208,
     "problem": "Meeting Request",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-08-05T11:31:00"
   },
   {
@@ -2357,7 +2357,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-60M",
     "durationMinutes": 60,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-04T12:10:00"
   },
   {
@@ -2373,7 +2373,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-04T11:32:00"
   },
   {
@@ -2397,7 +2397,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-3M",
     "durationMinutes": 3,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-03T16:46:00"
   },
   {
@@ -2405,7 +2405,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-0M",
     "durationMinutes": 0,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-03T15:49:00"
   },
   {
@@ -2413,7 +2413,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-03T16:46:00"
   },
   {
@@ -2421,7 +2421,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-53M",
     "durationMinutes": 53,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-03T16:47:00"
   },
   {
@@ -2461,7 +2461,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-59M",
     "durationMinutes": 59,
     "problem": "Installation Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-03T15:47:00"
   },
   {
@@ -2469,7 +2469,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-3M",
     "durationMinutes": 3,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-03T14:06:00"
   },
   {
@@ -2477,7 +2477,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-19M",
     "durationMinutes": 19,
     "problem": "SQL Software Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-03T12:34:00"
   },
   {
@@ -2493,7 +2493,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-5M",
     "durationMinutes": 5,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-03T11:45:00"
   },
   {
@@ -2501,7 +2501,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-10M",
     "durationMinutes": 10,
     "problem": "Microsoft 365 Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-08-03T10:44:00"
   },
   {
@@ -2525,7 +2525,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-08-04T09:54:00"
   },
   {
@@ -2533,7 +2533,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-16M",
     "durationMinutes": 16,
     "problem": "Installation Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-31T10:04:00"
   },
   {
@@ -2565,7 +2565,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-7M",
     "durationMinutes": 7,
     "problem": "SQL Software Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-30T12:20:00"
   },
   {
@@ -2573,7 +2573,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-6M",
     "durationMinutes": 6,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-30T12:20:00"
   },
   {
@@ -2629,7 +2629,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-28T10:25:00"
   },
   {
@@ -2637,7 +2637,7 @@ window.TICKETS_DATA = [
     "duration": "0D-1H-27M",
     "durationMinutes": 87,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-28T11:51:00"
   },
   {
@@ -2645,7 +2645,7 @@ window.TICKETS_DATA = [
     "duration": "0D-17H-36M",
     "durationMinutes": 1056,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-28T10:27:00"
   },
   {
@@ -2653,7 +2653,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Installation Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-27T16:52:00"
   },
   {
@@ -2685,7 +2685,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-12M",
     "durationMinutes": 12,
     "problem": "Microsoft 365 Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-07-27T11:44:00"
   },
   {
@@ -2693,7 +2693,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-12M",
     "durationMinutes": 12,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-07-27T11:44:00"
   },
   {
@@ -2725,7 +2725,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-9M",
     "durationMinutes": 9,
     "problem": "Microsoft 365 Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-07-27T11:45:00"
   },
   {
@@ -2733,7 +2733,7 @@ window.TICKETS_DATA = [
     "duration": "0D-22H-49M",
     "durationMinutes": 1369,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-28T10:25:00"
   },
   {
@@ -2741,7 +2741,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-8M",
     "durationMinutes": 8,
     "problem": "Microsoft 365 Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-07-27T11:45:00"
   },
   {
@@ -2749,7 +2749,7 @@ window.TICKETS_DATA = [
     "duration": "0D-22H-50M",
     "durationMinutes": 1370,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-28T10:27:00"
   },
   {
@@ -2781,7 +2781,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-16M",
     "durationMinutes": 16,
     "problem": "Installation Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-24T15:00:00"
   },
   {
@@ -2789,7 +2789,7 @@ window.TICKETS_DATA = [
     "duration": "0D-22H-50M",
     "durationMinutes": 1370,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-28T10:27:00"
   },
   {
@@ -2797,7 +2797,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-4M",
     "durationMinutes": 4,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-24T14:45:00"
   },
   {
@@ -2805,7 +2805,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-23T14:37:00"
   },
   {
@@ -2813,7 +2813,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-7M",
     "durationMinutes": 7,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-23T14:37:00"
   },
   {
@@ -2821,7 +2821,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-31M",
     "durationMinutes": 31,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-28T12:23:00"
   },
   {
@@ -2829,7 +2829,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Installation Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-24T09:58:00"
   },
   {
@@ -2837,7 +2837,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-23T14:02:00"
   },
   {
@@ -2853,7 +2853,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-46M",
     "durationMinutes": 46,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-23T12:47:00"
   },
   {
@@ -2861,7 +2861,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-23T11:13:00"
   },
   {
@@ -2869,7 +2869,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-23T10:09:00"
   },
   {
@@ -2877,7 +2877,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-23T10:08:00"
   },
   {
@@ -2885,7 +2885,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-11M",
     "durationMinutes": 11,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-23T10:14:00"
   },
   {
@@ -2909,7 +2909,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-29M",
     "durationMinutes": 29,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-28T12:23:00"
   },
   {
@@ -2917,7 +2917,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-3M",
     "durationMinutes": 3,
     "problem": "SQL Software Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-22T17:32:00"
   },
   {
@@ -2925,7 +2925,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-28T11:51:00"
   },
   {
@@ -2933,7 +2933,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-28T11:51:00"
   },
   {
@@ -2949,7 +2949,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Installation Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-22T14:40:00"
   },
   {
@@ -2965,7 +2965,7 @@ window.TICKETS_DATA = [
     "duration": "0D-1H-7M",
     "durationMinutes": 67,
     "problem": "Printer Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-07-22T11:24:00"
   },
   {
@@ -3013,7 +3013,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-8M",
     "durationMinutes": 8,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-21T10:52:00"
   },
   {
@@ -3021,7 +3021,7 @@ window.TICKETS_DATA = [
     "duration": "0D-23H-33M",
     "durationMinutes": 1413,
     "problem": "Hardware Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-07-22T09:43:00"
   },
   {
@@ -3093,7 +3093,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-0M",
     "durationMinutes": 0,
     "problem": "Meeting Request",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-20T10:34:00"
   },
   {
@@ -3101,7 +3101,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-10M",
     "durationMinutes": 10,
     "problem": "Microsoft 365 Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-07-20T10:39:00"
   },
   {
@@ -3125,7 +3125,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Meeting Request",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-17T18:59:00"
   },
   {
@@ -3133,7 +3133,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-3M",
     "durationMinutes": 3,
     "problem": "Meeting Request",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-17T18:58:00"
   },
   {
@@ -3165,7 +3165,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-17T11:24:00"
   },
   {
@@ -3181,7 +3181,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-23M",
     "durationMinutes": 23,
     "problem": "Hardware Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-17T11:24:00"
   },
   {
@@ -3197,7 +3197,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-17T10:26:00"
   },
   {
@@ -3221,7 +3221,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-15M",
     "durationMinutes": 15,
     "problem": "SQL Software Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-16T14:15:00"
   },
   {
@@ -3245,7 +3245,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-16T11:11:00"
   },
   {
@@ -3261,7 +3261,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-30M",
     "durationMinutes": 30,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-16T10:53:00"
   },
   {
@@ -3301,7 +3301,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-59M",
     "durationMinutes": 59,
     "problem": "SQL Software Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-15T11:08:00"
   },
   {
@@ -3317,7 +3317,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-13M",
     "durationMinutes": 13,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-15T09:54:00"
   },
   {
@@ -3325,7 +3325,7 @@ window.TICKETS_DATA = [
     "duration": "0D-23H-59M",
     "durationMinutes": 1439,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-07-16T09:37:00"
   },
   {
@@ -3341,7 +3341,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-14M",
     "durationMinutes": 14,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-15T09:24:00"
   },
   {
@@ -3349,7 +3349,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-15T09:29:00"
   },
   {
@@ -3357,7 +3357,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-14T16:20:00"
   },
   {
@@ -3405,7 +3405,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-30M",
     "durationMinutes": 30,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-14T10:34:00"
   },
   {
@@ -3413,7 +3413,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-13T17:30:00"
   },
   {
@@ -3421,7 +3421,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-22M",
     "durationMinutes": 22,
     "problem": "Printer Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-07-13T16:51:00"
   },
   {
@@ -3437,7 +3437,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-0M",
     "durationMinutes": 0,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-13T15:17:00"
   },
   {
@@ -3445,7 +3445,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-13T15:20:00"
   },
   {
@@ -3453,7 +3453,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Hardware Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-13T17:30:00"
   },
   {
@@ -3461,7 +3461,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-0M",
     "durationMinutes": 0,
     "problem": "Installation Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-13T15:23:00"
   },
   {
@@ -3477,7 +3477,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-33M",
     "durationMinutes": 33,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-13T11:45:00"
   },
   {
@@ -3493,7 +3493,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-8M",
     "durationMinutes": 8,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-13T10:22:00"
   },
   {
@@ -3501,7 +3501,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-6M",
     "durationMinutes": 6,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-13T09:26:00"
   },
   {
@@ -3509,7 +3509,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-7M",
     "durationMinutes": 7,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-13T09:19:00"
   },
   {
@@ -3533,7 +3533,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-34M",
     "durationMinutes": 34,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-10T16:46:00"
   },
   {
@@ -3549,7 +3549,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-7M",
     "durationMinutes": 7,
     "problem": "Network Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-10T15:22:00"
   },
   {
@@ -3573,7 +3573,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-0M",
     "durationMinutes": 0,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-10T13:32:00"
   },
   {
@@ -3581,7 +3581,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-7M",
     "durationMinutes": 7,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-10T14:43:00"
   },
   {
@@ -3597,7 +3597,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-10T10:35:00"
   },
   {
@@ -3621,7 +3621,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-21M",
     "durationMinutes": 21,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-10T10:10:00"
   },
   {
@@ -3637,7 +3637,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-09T15:43:00"
   },
   {
@@ -3653,7 +3653,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-28M",
     "durationMinutes": 28,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-07-09T14:27:00"
   },
   {
@@ -3669,7 +3669,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-10M",
     "durationMinutes": 10,
     "problem": "SQL Software Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-09T10:51:00"
   },
   {
@@ -3677,7 +3677,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-8M",
     "durationMinutes": 8,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-08T17:15:00"
   },
   {
@@ -3685,7 +3685,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-8M",
     "durationMinutes": 8,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-08T14:03:00"
   },
   {
@@ -3693,7 +3693,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-8M",
     "durationMinutes": 8,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-08T13:53:00"
   },
   {
@@ -3701,7 +3701,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-16M",
     "durationMinutes": 16,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-08T13:26:00"
   },
   {
@@ -3717,7 +3717,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-19M",
     "durationMinutes": 19,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-08T11:53:00"
   },
   {
@@ -3725,7 +3725,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-12M",
     "durationMinutes": 12,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-07-08T10:24:00"
   },
   {
@@ -3781,7 +3781,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-17M",
     "durationMinutes": 17,
     "problem": "Network Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-07-07T09:35:00"
   },
   {
@@ -3789,7 +3789,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-21M",
     "durationMinutes": 21,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-06T16:12:00"
   },
   {
@@ -3805,7 +3805,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-46M",
     "durationMinutes": 46,
     "problem": "Printer Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-07-06T16:30:00"
   },
   {
@@ -3813,7 +3813,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-18M",
     "durationMinutes": 18,
     "problem": "Hardware Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-06T15:42:00"
   },
   {
@@ -3853,7 +3853,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-16M",
     "durationMinutes": 16,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-06T13:30:00"
   },
   {
@@ -3861,7 +3861,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-32M",
     "durationMinutes": 32,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-06T12:33:00"
   },
   {
@@ -3869,7 +3869,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-7M",
     "durationMinutes": 7,
     "problem": "Hardware Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-06T10:49:00"
   },
   {
@@ -3893,7 +3893,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-14M",
     "durationMinutes": 14,
     "problem": "Network Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-07-06T09:56:00"
   },
   {
@@ -3901,7 +3901,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-10M",
     "durationMinutes": 10,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-06T09:34:00"
   },
   {
@@ -3925,7 +3925,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-9M",
     "durationMinutes": 9,
     "problem": "SQL Software Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-03T15:04:00"
   },
   {
@@ -3933,7 +3933,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Installation Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-03T11:34:00"
   },
   {
@@ -3941,7 +3941,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-5M",
     "durationMinutes": 5,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-03T11:19:00"
   },
   {
@@ -3949,7 +3949,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-17M",
     "durationMinutes": 17,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-03T10:12:00"
   },
   {
@@ -3957,7 +3957,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-28M",
     "durationMinutes": 28,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-03T10:22:00"
   },
   {
@@ -3965,7 +3965,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-32M",
     "durationMinutes": 32,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-02T18:02:00"
   },
   {
@@ -3973,7 +3973,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-5M",
     "durationMinutes": 5,
     "problem": "Meeting Request",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-02T17:35:00"
   },
   {
@@ -3989,7 +3989,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-7M",
     "durationMinutes": 7,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-02T15:38:00"
   },
   {
@@ -4005,7 +4005,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-13M",
     "durationMinutes": 13,
     "problem": "Printer Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-07-02T14:54:00"
   },
   {
@@ -4037,7 +4037,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-8M",
     "durationMinutes": 8,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-02T13:08:00"
   },
   {
@@ -4045,7 +4045,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-12M",
     "durationMinutes": 12,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-02T13:12:00"
   },
   {
@@ -4061,7 +4061,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-8M",
     "durationMinutes": 8,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-01T15:22:00"
   },
   {
@@ -4085,7 +4085,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-44M",
     "durationMinutes": 44,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-01T15:55:00"
   },
   {
@@ -4093,7 +4093,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-6M",
     "durationMinutes": 6,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-01T15:16:00"
   },
   {
@@ -4101,7 +4101,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-19M",
     "durationMinutes": 19,
     "problem": "Printer Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-01T15:34:00"
   },
   {
@@ -4117,7 +4117,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Windows Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-01T15:07:00"
   },
   {
@@ -4125,7 +4125,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-19M",
     "durationMinutes": 19,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-01T15:25:00"
   },
   {
@@ -4133,7 +4133,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Microsoft 365 Error",
-    "company": "ARISE",
+    "company": "Arise",
     "completedAt": "2026-07-01T15:25:00"
   },
   {
@@ -4213,7 +4213,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-10M",
     "durationMinutes": 10,
     "problem": "Printer Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-06-29T13:04:00"
   },
   {
@@ -4325,7 +4325,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-55M",
     "durationMinutes": 55,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-06-26T15:37:00"
   },
   {
@@ -4341,7 +4341,7 @@ window.TICKETS_DATA = [
     "duration": "0D-6H-44M",
     "durationMinutes": 404,
     "problem": "Printer Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-06-25T17:26:00"
   },
   {
@@ -4349,7 +4349,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-14M",
     "durationMinutes": 14,
     "problem": "Microsoft 365 Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-06-24T17:01:00"
   },
   {
@@ -4437,7 +4437,7 @@ window.TICKETS_DATA = [
     "duration": "0D-4H-29M",
     "durationMinutes": 269,
     "problem": "Windows Error",
-    "company": "MSG",
+    "company": "Myanmar Safety Glass",
     "completedAt": "2026-06-18T14:35:00"
   },
   {
@@ -4469,7 +4469,7 @@ window.TICKETS_DATA = [
     "duration": "0D-3H-10M",
     "durationMinutes": 190,
     "problem": "Microsoft 365 Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-06-17T13:40:00"
   },
   {
@@ -4613,7 +4613,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-9M",
     "durationMinutes": 9,
     "problem": "Microsoft 365 Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-06-18T11:11:00"
   },
   {
@@ -4709,7 +4709,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-22M",
     "durationMinutes": 22,
     "problem": "Printer Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-06-08T11:22:00"
   },
   {
@@ -4741,7 +4741,7 @@ window.TICKETS_DATA = [
     "duration": "0D-1H-1M",
     "durationMinutes": 61,
     "problem": "Printer Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-06-04T13:15:00"
   },
   {
@@ -4933,7 +4933,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Microsoft 365 Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-05-26T13:06:00"
   },
   {
@@ -4965,7 +4965,7 @@ window.TICKETS_DATA = [
     "duration": "0D-19H-32M",
     "durationMinutes": 1172,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-05-26T09:14:00"
   },
   {
@@ -5117,7 +5117,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-22M",
     "durationMinutes": 22,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-05-20T10:20:00"
   },
   {
@@ -5149,7 +5149,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-11M",
     "durationMinutes": 11,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-05-18T11:08:00"
   },
   {
@@ -5277,7 +5277,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-3M",
     "durationMinutes": 3,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-05-11T16:41:00"
   },
   {
@@ -5301,7 +5301,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-20M",
     "durationMinutes": 20,
     "problem": "Printer Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-05-11T09:31:00"
   },
   {
@@ -5317,7 +5317,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Printer Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-05-11T09:11:00"
   },
   {
@@ -5373,7 +5373,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-27M",
     "durationMinutes": 27,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-05-07T10:41:00"
   },
   {
@@ -5549,7 +5549,7 @@ window.TICKETS_DATA = [
     "duration": "0D-2H-11M",
     "durationMinutes": 131,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-04-29T12:31:00"
   },
   {
@@ -5581,7 +5581,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-0M",
     "durationMinutes": 0,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-04-28T13:41:00"
   },
   {
@@ -5613,7 +5613,7 @@ window.TICKETS_DATA = [
     "duration": "0D-1H-42M",
     "durationMinutes": 102,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-04-28T11:38:00"
   },
   {
@@ -5629,7 +5629,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-04-27T15:10:00"
   },
   {
@@ -5901,7 +5901,7 @@ window.TICKETS_DATA = [
     "duration": "0D-19H-25M",
     "durationMinutes": 1165,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-04-09T11:05:00"
   },
   {
@@ -6109,7 +6109,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Microsoft 365 Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-03-30T14:06:00"
   },
   {
@@ -6221,7 +6221,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-6M",
     "durationMinutes": 6,
     "problem": "Printer Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-03-20T16:12:00"
   },
   {
@@ -6269,7 +6269,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-2M",
     "durationMinutes": 2,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-03-18T13:55:00"
   },
   {
@@ -6341,7 +6341,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-11M",
     "durationMinutes": 11,
     "problem": "Microsoft 365 Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-03-13T12:02:00"
   },
   {
@@ -6357,7 +6357,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-45M",
     "durationMinutes": 45,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-03-12T14:57:00"
   },
   {
@@ -6453,7 +6453,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-17M",
     "durationMinutes": 17,
     "problem": "Printer Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-03-09T10:05:00"
   },
   {
@@ -6469,7 +6469,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-13M",
     "durationMinutes": 13,
     "problem": "Installation Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-03-05T17:08:00"
   },
   {
@@ -6781,7 +6781,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-27M",
     "durationMinutes": 27,
     "problem": "Windows Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-02-19T10:18:00"
   },
   {
@@ -6981,7 +6981,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-14M",
     "durationMinutes": 14,
     "problem": "Printer Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-02-06T17:23:00"
   },
   {
@@ -7053,7 +7053,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-12M",
     "durationMinutes": 12,
     "problem": "Printer Error",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-02-05T15:08:00"
   },
   {
@@ -7450,11 +7450,11 @@ window.TICKETS_DATA = [
   },
   {
     "assignedTo": "Khon Tay Za",
-    "duration": "0D-0H-0M",
-    "durationMinutes": 0,
+    "duration": "0D-0H-15M",
+    "durationMinutes": 15,
     "problem": "Microsoft 365 Error",
     "company": "Prime Asset",
-    "completedAt": ""
+    "completedAt": "2026-01-16T09:30:00"
   },
   {
     "assignedTo": "Khaing Zaw Shein",
@@ -7565,7 +7565,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-0M",
     "durationMinutes": 0,
     "problem": "Meeting Request",
-    "company": "PIP",
+    "company": "PIP Myanmar",
     "completedAt": "2026-01-10T10:53:00"
   },
   {
