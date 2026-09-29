@@ -2271,31 +2271,6 @@ document.addEventListener(
     oldTheme();
     applyProfessionalCharts();
   };
-  /* A file updates the currently open page only. Sheet names never create menus. */
-  file.onchange = (e) => {
-    const upload = e.target.files[0];
-    if (!upload) return;
-    const reader = new FileReader();
-    reader.onload = (result) => {
-      const workbook = XLSX.read(result.target.result, { type: "array" });
-      const normal = (x) =>
-        String(x)
-          .toLowerCase()
-          .replace(/[^a-z0-9]/g, "");
-      const preferred =
-        workbook.SheetNames.find((name) => normal(name) === normal(active)) ||
-        workbook.SheetNames[0];
-      const rows = XLSX.utils.sheet_to_json(workbook.Sheets[preferred], {
-        defval: "",
-      });
-      if (!rows.length)
-        return show("No data rows found in the selected worksheet");
-      data[active] = rows;
-      page(active);
-      show("Excel data updated for " + active + " only");
-    };
-    reader.readAsArrayBuffer(upload);
-  };
   applyProfessionalCharts();
 })();
 
