@@ -601,10 +601,6 @@ td[contenteditable]:focus {
   font-size: 11px
 }
 
-.dark .switch i {
-  transform: translateX(16px)
-}
-
 body.dark {
   --i: #fff7f0;
   --m: #cbb9bb;
@@ -662,9 +658,6 @@ body.dark td[contenteditable]:focus {
     padding: 6px
   }
 
-  .theme-toggle .switch {
-    width: 32px
-  }
 }
 
 
@@ -762,8 +755,7 @@ body.dark .unified-tab.active {
   border-radius: 9px
 }
 
-.theme-toggle b,
-.theme-toggle .switch {
+.theme-toggle b {
   display: none
 }
 
@@ -2511,11 +2503,6 @@ body.dark .visual-panel h3 {
   color: #fff5ef
 }
 
-body.dark .sample-chip {
-  background: #4a2428;
-  color: #ffab82
-}
-
 body.dark .visual-kpi,
 body.dark .visual-panel {
   background: #32171e;
@@ -3652,8 +3639,7 @@ body.dark .org-profile li.org-highlight.service {
   padding: 12px 13px
 }
 
-.shared-service-list span,
-.shared-service-list .core-emphasis {
+.shared-service-list span {
   font-weight: 500
 }
 
@@ -9673,7 +9659,6 @@ body.dark .unified-table-footer {
   --expense-soft: #fff0d7
 }
 
-.expense-table-card,
 .unified-chart-card {
   min-width: 0;
   border: 1px solid #eadbd5;
@@ -9682,7 +9667,6 @@ body.dark .unified-table-footer {
   box-shadow: 0 7px 20px rgba(70, 37, 30, .045)
 }
 
-.expense-table-head,
 .unified-chart-header {
   display: flex;
   align-items: center;
@@ -9690,22 +9674,16 @@ body.dark .unified-table-footer {
   gap: 16px
 }
 
-.expense-table-head h2,
 .unified-chart-header h2 {
   margin: 0;
   color: #443438;
   font-size: 15px
 }
 
-.expense-table-head p,
 .unified-chart-header p {
   margin-top: 3px;
   color: #887477;
   font-size: 10px
-}
-
-.expense-table-head .search {
-  width: 230px
 }
 
 .unified-chart-card {
@@ -9759,7 +9737,6 @@ body.dark .unified-table-footer {
 }
 
 body.dark .unified-kpi-card,
-body.dark .expense-table-card,
 body.dark .unified-chart-card {
   border-color: #553137;
   background: #2d171c;
@@ -9768,52 +9745,17 @@ body.dark .unified-chart-card {
 
 body.dark .unified-kpi-card b,
 body.dark .unified-kpi-card strong,
-body.dark :is(.unified-filter-heading, .expense-table-head, .unified-chart-header) h2 {
+body.dark :is(.unified-filter-heading, .unified-chart-header) h2 {
   color: #f1e3df
 }
 
-body.dark .unified-filter-heading,
-body.dark .expense-table-head {
+body.dark .unified-filter-heading {
   border-color: #553137
 }
 
-body.dark :is(.unified-filter-heading, .expense-table-head, .unified-chart-header) p,
+body.dark :is(.unified-filter-heading, .unified-chart-header) p,
 body.dark .unified-filter-grid label>span {
   color: #bfa9ab
-}
-
-body.dark .expense-date {
-  color-scheme: dark
-}
-
-body.dark .expense-table thead th {
-  background: #32171e;
-  color: #d9c4c2
-}
-
-body.dark .expense-table tbody td {
-  border-color: #4d3035;
-  background: #2d171c;
-  color: #eadbd7
-}
-
-body.dark .expense-table tbody tr:nth-child(even) td {
-  background: #32191f
-}
-
-body.dark .expense-table td b {
-  color: #f1e3df
-}
-
-body.dark .expense-table tfoot th {
-  border-color: #81504a;
-  background: #422229;
-  color: #f7f1ef
-}
-
-body.dark .expense-table-card>footer {
-  background: #32171e;
-  color: #cbb9bb
 }
 
 body.dark .unified-chart-legend {
@@ -9863,8 +9805,7 @@ body.dark .unified-chart-legend>div {
     padding: 12px
   }
 
-  .unified-filter-heading,
-  .expense-table-head {
+  .unified-filter-heading {
     padding: 14px
   }
 }
@@ -9909,15 +9850,15 @@ body.dark .unified-chart-legend>div {
 }
 
 @media(max-width:700px) {
-  :is(.unified-kpi-grid .unified-kpi-card, .unified-kpi-grid .unified-kpi-card, .unified-kpi-grid .unified-kpi-card, .unified-kpi-grid .unified-kpi-card) {
+  .unified-kpi-grid .unified-kpi-card {
     height: auto !important;
     min-height: 100px !important;
     max-height: none !important;
     padding: 12px 13px 11px !important
   }
 
-  :is(.unified-kpi-grid .unified-kpi-card, .unified-kpi-grid .unified-kpi-card) .kt>span,
-  :is(.unified-kpi-grid .unified-kpi-card, .unified-kpi-grid .unified-kpi-card)>div>b {
+  .unified-kpi-grid .unified-kpi-card .kt>span,
+  .unified-kpi-grid .unified-kpi-card>div>b {
     white-space: normal !important;
     overflow: visible !important;
     text-overflow: clip !important
@@ -9925,7 +9866,7 @@ body.dark .unified-chart-legend>div {
 }
 
 @media(max-width:420px) {
-  :is(.unified-kpi-grid .unified-kpi-card, .unified-kpi-grid .unified-kpi-card, .unified-kpi-grid .unified-kpi-card, .unified-kpi-grid .unified-kpi-card) {
+  .unified-kpi-grid .unified-kpi-card {
     min-height: 96px !important;
     padding: 11px 12px 10px !important
   }
@@ -15318,3 +15259,50 @@ body.dark .reporting-year {
     height: 13px
   }
 }
+/* Reusable two-card layout for dashboard sections. */
+.unified-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+  width: 100%;
+}
+
+.unified-grid > * {
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  .unified-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+}
+
+/* Keep Overview controls available below the fixed application header. */
+#mainDashboard .main-dashboard-filter-card {
+  position: sticky;
+  top: 60px;
+  z-index: 30;
+  margin: 0 0 16px;
+  background: rgba(255, 250, 247, 0.96);
+  border-color: rgba(214, 174, 162, 0.62);
+  box-shadow: 0 10px 26px rgba(83, 41, 34, 0.12);
+  backdrop-filter: blur(14px);
+}
+
+body.dark #mainDashboard .main-dashboard-filter-card {
+  background: rgba(49, 24, 30, 0.96);
+  border-color: rgba(145, 87, 91, 0.68);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 760px) {
+  #mainDashboard .main-dashboard-filter-card {
+    top: 52px;
+    margin: 0 0 12px;
+    max-height: calc(100dvh - 64px);
+    overflow: auto;
+  }
+}
+

@@ -4462,6 +4462,13 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
           state.assignee = panel.querySelector("#ticketAssignee").value;
           state.from = panel.querySelector("#ticketFrom").value;
           state.to = panel.querySelector("#ticketTo").value;
+          if (
+            control.id === "ticketCompany" &&
+            state.company === "All companies"
+          ) {
+            panel.querySelector("#ticketReset")?.click();
+            return;
+          }
           applyFilters();
         }),
       );
@@ -4544,6 +4551,46 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
         return false;
       return true;
     });
+  }
+  function syncTicketFilterOptions() {
+    const { start, end } = rangeBounds();
+    const filters = [
+      { id: "#ticketCompany", key: "company", allLabel: "All companies", valueKey: "company" },
+      { id: "#ticketProblem", key: "problem", allLabel: "All problems", valueKey: "problem" },
+      { id: "#ticketAssignee", key: "assignee", allLabel: "All assignees", valueKey: "assignedTo", formatLabel: assigneeLabel },
+    ];
+    const rowsFor = (excludedKey) =>
+        source.filter((row) => {
+          const date = new Date(row.completedAt),
+            valid = !Number.isNaN(date.getTime());
+          if (start && (!valid || date < start)) return false;
+          if (end && (!valid || date >= end)) return false;
+          if (excludedKey !== "company" && state.company !== "All companies" && row.company !== state.company) return false;
+          if (excludedKey !== "problem" && state.problem !== "All problems" && row.problem !== state.problem) return false;
+          if (excludedKey !== "assignee" && state.assignee !== "All assignees" && row.assignedTo !== state.assignee) return false;
+          return true;
+        });
+    const rebuild = ({ id, key, allLabel, valueKey, formatLabel = (value) => value }) => {
+        const control = ticketPanel.querySelector(id);
+        const values = [...new Set(rowsFor(key).map((row) => row[valueKey]).filter(Boolean))].sort(
+            (left, right) => String(left).localeCompare(String(right)),
+          );
+        if (!control) return;
+        if (state[key] !== allLabel && !values.includes(state[key])) state[key] = allLabel;
+        control.innerHTML =
+          `<option value="${allLabel}">${allLabel}</option>` +
+          values
+            .map((value) => `<option value="${clean(value)}">${clean(formatLabel(value))}</option>`)
+            .join("");
+        control.value = state[key];
+      };
+    // A changed filter may invalidate an earlier selection. Repeat until each
+    // dropdown and its "All" option reflect the same final ticket scope.
+    for (let pass = 0; pass < filters.length; pass += 1) {
+      const before = filters.map(({ key }) => state[key]).join("\u0000");
+      filters.forEach(rebuild);
+      if (before === filters.map(({ key }) => state[key]).join("\u0000")) break;
+    }
   }
   function countBy(rows, key) {
     const counts = {};
@@ -4848,7 +4895,7 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
   }
   function applyFilters() {
     const panel = ticketPanel,
-      rows = filteredRows(),
+      rows = (syncTicketFilterOptions(), filteredRows()),
       companyCount = new Set(rows.map((row) => row.company)).size,
       problemCount = new Set(rows.map((row) => row.problem)).size,
       average = rows.length
@@ -7238,17 +7285,16 @@ window.exportXlsx = function () {
       department =
         document.getElementById("budgetExpenseDepartmentFilter")?.value ||
         "all",
+      detailedExpenses = source.expenseDetails?.length
+        ? source.expenseDetails
+        : source.expenses,
       matches = (row) =>
         (company === "all" || row.company === company) &&
         (category === "all" || row.category === category),
       budget = source.budgets.filter(
         (row) => monthSet.has(row.month) && matches(row),
       ),
-      actualSource =
-        department === "all"
-          ? source.expenses.filter((row) => !row.department)
-          : source.expenses.filter((row) => row.department),
-      actual = actualSource.filter(
+      actual = (department === "all" ? source.expenses : detailedExpenses).filter(
         (row) =>
           monthSet.has(row.month) &&
           matches(row) &&
@@ -7473,16 +7519,21 @@ window.exportXlsx = function () {
           : "category",
       chartActual =
         company !== "all" && department === "all"
-          ? source.expenses.filter(
+          ? detailedExpenses.filter(
               (row) =>
                 row.department && monthSet.has(row.month) && matches(row),
             )
           : actual,
+      departmentItems = [...sumBy(chartActual, "department").entries()]
+        .filter(([label, value]) => label && value > 0)
+        .sort((a, b) => b[1] - a[1]),
       companyItems =
         companyChartGroup === "department"
-          ? [...sumBy(chartActual, "department").entries()]
-              .filter(([label, value]) => label && value > 0)
-              .sort((a, b) => b[1] - a[1])
+          ? departmentItems.length
+            ? departmentItems
+            : totalActual > 0
+              ? [["Unallocated expense", totalActual]]
+              : []
           : [...sumBy(actual, companyChartGroup).entries()]
               .filter(([, value]) => value > 0)
               .sort((a, b) => b[1] - a[1]),
@@ -7506,8 +7557,8 @@ window.exportXlsx = function () {
         companyChartGroup === "company"
           ? "Actual spending distribution across companies"
           : companyChartGroup === "department"
-            ? "Actual spending distribution across departments"
-            : "Actual spending distribution across categories";
+            ? "Actual spending across departments in " + company
+            : "Actual spending across categories in " + department;
     const companyLine = companyChartType.value === "line",
       companyCanvas = document.getElementById("budgetCompanyChart"),
       companyWrap = companyCanvas.parentElement,
@@ -9106,6 +9157,7 @@ window.exportXlsx = function () {
 /* Main dashboard filter controls combine company and department data from all dashboards. */
 (() => {
   const companySelect = document.getElementById("mainDashboardCompany"),
+    sourceSelect = document.getElementById("mainDashboardSource"),
     departmentSelect = document.getElementById("mainDashboardDepartment"),
     departmentField = document.getElementById("mainDashboardDepartmentField"),
     periodSelect = document.getElementById("mainDashboardPeriod"),
@@ -9119,6 +9171,7 @@ window.exportXlsx = function () {
     resetButton = document.getElementById("mainDashboardResetFilters");
   if (
     !companySelect ||
+    !sourceSelect ||
     !departmentSelect ||
     !departmentField ||
     !periodSelect ||
@@ -9140,6 +9193,56 @@ window.exportXlsx = function () {
       `<option value="all">${label}</option>${items.map((item) => `<option value="${item}">${item}</option>`).join("")}`;
   let departmentsByCompany = {},
     months = [];
+  const categoryField = document.createElement("label"),
+    categorySelect = document.createElement("select"),
+    deviceField = document.createElement("label"),
+    deviceSelect = document.createElement("select"),
+    problemField = document.createElement("label"),
+    problemSelect = document.createElement("select"),
+    assetTypeField = document.createElement("label"),
+    assetTypeSelect = document.createElement("select");
+  const licenseField = document.createElement("label"),
+    licenseSelect = document.createElement("select");
+  categoryField.id = "mainDashboardCategoryField";
+  categoryField.hidden = true;
+  categoryField.innerHTML = "<span>Category</span>";
+  categorySelect.id = "mainDashboardCategory";
+  categorySelect.className = "filter";
+  categorySelect.setAttribute("aria-label", "Budget and expense category");
+  categoryField.append(categorySelect);
+  deviceField.id = "mainDashboardDeviceField";
+  deviceField.hidden = true;
+  deviceField.innerHTML = "<span>Copier &amp; Printer</span>";
+  deviceSelect.id = "mainDashboardDevice";
+  deviceSelect.className = "filter";
+  deviceSelect.setAttribute("aria-label", "Copier and printer");
+  deviceField.append(deviceSelect);
+  problemField.id = "mainDashboardProblemField";
+  problemField.hidden = true;
+  problemField.innerHTML = "<span>Problem</span>";
+  problemSelect.id = "mainDashboardProblem";
+  problemSelect.className = "filter";
+  problemSelect.setAttribute("aria-label", "Service ticket problem");
+  problemField.append(problemSelect);
+  assetTypeField.id = "mainDashboardAssetTypeField";
+  assetTypeField.hidden = true;
+  assetTypeField.innerHTML = "<span>Asset type</span>";
+  assetTypeSelect.id = "mainDashboardAssetType";
+  assetTypeSelect.className = "filter";
+  assetTypeSelect.setAttribute("aria-label", "Fixed asset type");
+  assetTypeField.append(assetTypeSelect);
+  licenseField.id = "mainDashboardLicenseField";
+  licenseField.hidden = true;
+  licenseField.innerHTML = "<span>License</span>";
+  licenseSelect.id = "mainDashboardLicense";
+  licenseSelect.className = "filter";
+  licenseSelect.setAttribute("aria-label", "Microsoft 365 license");
+  licenseField.append(licenseSelect);
+  sourceSelect.closest("label")?.after(categoryField);
+  categoryField.after(deviceField);
+  deviceField.after(problemField);
+  problemField.after(assetTypeField);
+  assetTypeField.after(licenseField);
   const readFilterData = () => {
     const readSavedRows = (key, fallback) => {
         try {
@@ -9217,11 +9320,140 @@ window.exportXlsx = function () {
     const company = companySelect.value,
       departments = [...(departmentsByCompany[company] || [])].sort((a, b) =>
         a.localeCompare(b),
-      );
+      ),
+      sourceField = sourceSelect.closest("label"),
+      companyField = companySelect.closest("label");
     departmentField.hidden = company === "all" || departments.length === 0;
     departmentSelect.innerHTML = optionMarkup(departments, "All departments");
     if (departments.includes(selectedDepartment))
       departmentSelect.value = selectedDepartment;
+    if (sourceField)
+      if (departmentField.hidden) companyField?.after(sourceField);
+      else departmentField.after(sourceField);
+    sourceField?.after(categoryField);
+    categoryField.after(deviceField);
+    deviceField.after(problemField);
+    problemField.after(assetTypeField);
+    assetTypeField.after(licenseField);
+  };
+  const rowsInOverviewScope = (rows, companyKey = "company", departmentKey = "department") =>
+    rows.filter((row) => {
+      const rowCompany = normalizeCompany(row[companyKey] || row.Company || row.c);
+      const rowDepartment = row[departmentKey] || row.Department || row.d;
+      return (
+        (companySelect.value === "all" || rowCompany === companySelect.value) &&
+        (departmentSelect.value === "all" || rowDepartment === departmentSelect.value)
+      );
+    });
+  const syncSources = () => {
+    const budget = window.budgetExpenseData || {},
+      candidates = [
+        ["budget", "Budget & Expense", departmentSelect.value === "all" ? [...(budget.budgets || []), ...(budget.expenses || [])] : budget.expenseDetails || []],
+        ["copier", "Copier & Printer Usage", window.COPIER_PRINTER_DATA?.records || []],
+        ["tickets", "Service Tickets", window.TICKETS_DATA || []],
+        ["assets", "Fixed Assets", window.FIXED_ASSETS_DATA?.records || []],
+        ["m365", "Microsoft 365", (window.MICROSOFT_LICENSE_DATA?.companies || []).map((row) => ({ company: row.Company }))],
+      ],
+      current = sourceSelect.value,
+      available = candidates.filter(([, , rows]) => rowsInOverviewScope(rows).length);
+    sourceSelect.innerHTML = '<option value="all">All overview</option>' +
+      available.map(([value, label]) => `<option value="${value}">${label}</option>`).join("");
+    sourceSelect.value = available.some(([value]) => value === current) ? current : "all";
+  };
+  const syncCategory = () => {
+    const isBudget = sourceSelect.value === "budget",
+      budget = window.budgetExpenseData || {},
+      budgetRows = departmentSelect.value === "all"
+        ? [...(budget.budgets || []), ...(budget.expenses || []), ...(budget.purchases || [])]
+        : budget.expenseDetails?.length ? budget.expenseDetails : budget.expenses || [],
+      categories = rowsInOverviewScope(budgetRows)
+        .map((row) => row.category || row.description)
+        .filter(Boolean),
+      selected = categorySelect.value;
+    categoryField.hidden = !isBudget;
+    categorySelect.innerHTML = optionMarkup(
+      [...new Set(categories)].sort((a, b) => a.localeCompare(b)),
+      "All categories",
+    );
+    if (categories.includes(selected)) categorySelect.value = selected;
+  };
+  const syncDevice = () => {
+    const isCopier = sourceSelect.value === "copier",
+      devices = rowsInOverviewScope(window.COPIER_PRINTER_DATA?.records || [])
+        .map((row) => row.copier)
+        .filter(Boolean),
+      selected = deviceSelect.value;
+    deviceField.hidden = !isCopier;
+    deviceSelect.innerHTML = optionMarkup(
+      [...new Set(devices)].sort((a, b) => a.localeCompare(b)),
+      "All copiers & printers",
+    );
+    if (devices.includes(selected)) deviceSelect.value = selected;
+  };
+  const syncProblem = () => {
+    const isTickets = sourceSelect.value === "tickets",
+      problems = rowsInOverviewScope(window.TICKETS_DATA || [])
+        .map((row) => row.problem).filter(Boolean),
+      selected = problemSelect.value;
+    problemField.hidden = !isTickets;
+    problemSelect.innerHTML = optionMarkup(
+      [...new Set(problems)].sort((a, b) => a.localeCompare(b)),
+      "All problems",
+    );
+    if (problems.includes(selected)) problemSelect.value = selected;
+  };
+  const syncAssetType = () => {
+    const isAssets = sourceSelect.value === "assets",
+      types = rowsInOverviewScope(window.FIXED_ASSETS_DATA?.records || [])
+        .map((row) => row.t).filter(Boolean),
+      selected = assetTypeSelect.value;
+    assetTypeField.hidden = !isAssets;
+    assetTypeSelect.innerHTML = optionMarkup(
+      [...new Set(types)].sort((a, b) => a.localeCompare(b)),
+      "All asset types",
+    );
+    if (types.includes(selected)) assetTypeSelect.value = selected;
+  };
+  const syncLicense = () => {
+    const isM365 = sourceSelect.value === "m365",
+      licenseRows = (() => {
+        try {
+          const saved = JSON.parse(localStorage.getItem("m365LicensesDB"));
+          return Array.isArray(saved) && saved.length
+            ? saved
+            : window.MICROSOFT_LICENSE_DATA?.licenses || [];
+        } catch {
+          return window.MICROSOFT_LICENSE_DATA?.licenses || [];
+        }
+      })(),
+      companyRows = (() => {
+        try {
+          const saved = JSON.parse(localStorage.getItem("m365CompanyDB"));
+          return Array.isArray(saved) && saved.length
+            ? saved
+            : window.MICROSOFT_LICENSE_DATA?.companies || [];
+        } catch {
+          return window.MICROSOFT_LICENSE_DATA?.companies || [];
+        }
+      })(),
+      selectedCompany = companyRows.find(
+        (row) => normalizeCompany(row.Company || row.company) === companySelect.value,
+      ),
+      licenses = licenseRows
+        .filter(
+          (row) =>
+            companySelect.value === "all" ||
+            (departmentSelect.value === "all" && Number(selectedCompany?.[row.Licenses]) > 0),
+        )
+        .map((row) => row.Licenses)
+        .filter((value) => value && value !== "Total"),
+      selected = licenseSelect.value;
+    licenseField.hidden = !isM365;
+    licenseSelect.innerHTML = optionMarkup(
+      [...new Set(licenses)].sort((a, b) => a.localeCompare(b)),
+      "All license",
+    );
+    if (licenses.includes(selected)) licenseSelect.value = selected;
   };
   const notify = () => {
     const filters = {
@@ -9230,6 +9462,12 @@ window.exportXlsx = function () {
       fromMonth: fromSelect.value,
       toMonth: toSelect.value,
       company: companySelect.value,
+      source: sourceSelect.value,
+      category: categorySelect.value,
+      device: deviceSelect.value,
+      problem: problemSelect.value,
+      assetType: assetTypeSelect.value,
+      license: licenseSelect.value,
       department: departmentSelect.value,
     };
     window.overviewDashboardState = {
@@ -9252,13 +9490,44 @@ window.exportXlsx = function () {
       companySelect.value = selectedCompany;
     syncPeriodFields();
     syncDepartments(selectedDepartment);
+    syncSources();
+    syncCategory();
+    syncDevice();
+    syncProblem();
+    syncAssetType();
+    syncLicense();
     notify();
   };
   companySelect.addEventListener("change", () => {
+    if (companySelect.value === "all") {
+      resetButton.click();
+      return;
+    }
     syncDepartments();
+    syncSources();
+    syncCategory();
+    syncDevice();
+    syncProblem();
+    syncAssetType();
+    syncLicense();
     notify();
   });
-  departmentSelect.addEventListener("change", notify);
+  sourceSelect.addEventListener("change", () => {
+    refreshFilters();
+  });
+  categorySelect.addEventListener("change", notify);
+  deviceSelect.addEventListener("change", notify);
+  problemSelect.addEventListener("change", notify);
+  assetTypeSelect.addEventListener("change", notify);
+  licenseSelect.addEventListener("change", notify);
+  departmentSelect.addEventListener("change", () => {
+    syncCategory();
+    syncDevice();
+    syncProblem();
+    syncAssetType();
+    syncLicense();
+    notify();
+  });
   periodSelect.addEventListener("change", () => {
     syncPeriodFields();
     notify();
@@ -9269,9 +9538,14 @@ window.exportXlsx = function () {
   resetButton.addEventListener("click", () => {
     periodSelect.value = "all";
     companySelect.value = "all";
-    syncPeriodFields();
-    syncDepartments();
-    notify();
+    departmentSelect.value = "all";
+    sourceSelect.value = "all";
+    categorySelect.value = "all";
+    deviceSelect.value = "all";
+    problemSelect.value = "all";
+    assetTypeSelect.value = "all";
+    licenseSelect.value = "all";
+    refreshFilters();
   });
   window.refreshMainDashboardFilters = refreshFilters;
   window.notifyDashboardDataUpdated = () =>
@@ -9413,6 +9687,57 @@ window.exportXlsx = function () {
   requestAnimationFrame(applyFilters);
 })();
 
+/* Keep Budget & Expense category choices valid for the selected scope. */
+(() => {
+  const syncCategories = () => {
+    const source = window.budgetExpenseData || {};
+    const company = document.getElementById("budgetCompanyFilter")?.value || "all";
+    const department = document.getElementById("budgetExpenseDepartmentFilter")?.value || "all";
+    const mainCategory = document.getElementById("budgetCategoryFilter");
+    const categoryControls = [
+      mainCategory,
+      document.getElementById("budgetPortfolioCategoryFilter"),
+      document.getElementById("budgetPieCategoryFilter"),
+    ].filter(Boolean);
+    const expenseRecords = department === "all"
+      ? source.expenses || []
+      : source.expenseDetails?.length
+        ? source.expenseDetails
+        : source.expenses || [];
+    const records = [...(source.budgets || []), ...expenseRecords]
+      .filter((record) => company === "all" || record.company === company)
+      .filter((record) => department === "all" || record.department === department);
+    const categories = [...new Set(records.map((record) => record.category).filter(Boolean))]
+      .sort((left, right) => left.localeCompare(right));
+    const active = mainCategory?.value || "all";
+    const value = categories.includes(active) ? active : "all";
+    categoryControls.forEach((control) => {
+      control.replaceChildren(new Option("All categories", "all"));
+      categories.forEach((category) => control.add(new Option(category, category)));
+      control.value = value;
+    });
+    if (active !== value)
+      mainCategory?.dispatchEvent(new Event("change", { bubbles: true }));
+  };
+  const bind = () => {
+    const company = document.getElementById("budgetCompanyFilter");
+    const portfolioCompany = document.getElementById("budgetPortfolioCompanyFilter");
+    const department = document.getElementById("budgetExpenseDepartmentFilter");
+    const portfolioDepartment = document.getElementById("budgetPortfolioDepartmentFilter");
+    [company, portfolioCompany, department, portfolioDepartment].filter(Boolean)
+      .forEach((control) => control.addEventListener("change", () => {
+        requestAnimationFrame(syncCategories);
+      }));
+    ["budgetResetFilters", "budgetPortfolioResetFilters"].forEach((id) =>
+      document.getElementById(id)?.addEventListener("click", () =>
+        requestAnimationFrame(syncCategories),
+      ),
+    );
+    syncCategories();
+  };
+  requestAnimationFrame(bind);
+})();
+
 /* Keep the paired Budget & Expense company filters and department list in sync. */
 (() => {
   const primary = document.getElementById("budgetCompanyFilter");
@@ -9421,6 +9746,10 @@ window.exportXlsx = function () {
   portfolio.addEventListener("change", () => {
     primary.value = portfolio.value;
     primary.dispatchEvent(new Event("change"));
+  });
+  primary.addEventListener("change", () => {
+    if (primary.value === "all")
+      document.getElementById("budgetResetFilters")?.click();
   });
   document
     .getElementById("budgetPortfolioResetFilters")
@@ -9612,10 +9941,6 @@ window.exportXlsx = function () {
       monthField = month.closest("label"),
       yearField = year.closest("label"),
       records = assetsData.records || [];
-    const resetDependent = (select, items, label) => {
-      select.innerHTML = optionList(items, label);
-      select.value = "all";
-    };
     const renderCharts = (selected) => {
       const dark = document.body.classList.contains("dark"),
         text = dark ? "#d9c4c2" : "#806864",
@@ -10155,22 +10480,43 @@ window.exportXlsx = function () {
       yearField.hidden = period.value !== "yearly";
       updateKpis();
     };
-    const syncDepartments = () => {
-      const selected = company.value,
-        items =
-          selected === "all"
-            ? []
-            : assetsData.companyDepartments[selected] || [];
-      resetDependent(department, items, "All departments");
-      departmentField.hidden = selected === "all";
-      updateKpis();
-    };
-    const syncBrands = () => {
-      const selected = type.value,
-        items =
-          selected === "all" ? [] : assetsData.assetTypeBrands[selected] || [];
-      resetDependent(brand, items, "All brands");
-      brandField.hidden = selected === "all";
+    const syncAllAssetFilters = () => {
+      const controls = [
+        { control: company, key: "c", label: "All companies" },
+        { control: department, key: "d", label: "All departments" },
+        { control: type, key: "t", label: "All asset types" },
+        { control: brand, key: "b", label: "All brands" },
+        { control: condition, key: "o", label: "All conditions" },
+      ];
+      controls.forEach(({ control }) => {
+        if (!control.value) control.value = "all";
+      });
+      let selected = Object.fromEntries(
+        controls.map(({ control, key }) => [key, control.value]),
+      );
+      const valuesFor = (key) =>
+        [...new Set(records.filter((record) => controls.every(({ key: otherKey }) =>
+          otherKey === key || selected[otherKey] === "all" || record[otherKey] === selected[otherKey],
+        )).map((record) => record[key]).filter(Boolean))]
+          .sort((left, right) => String(left).localeCompare(String(right)));
+      for (let pass = 0; pass < controls.length; pass += 1) {
+        let changed = false;
+        controls.forEach(({ control, key, label }) => {
+          const values = valuesFor(key);
+          const next = values.includes(selected[key]) ? selected[key] : "all";
+          control.innerHTML = optionList(values, label);
+          control.value = next;
+          changed ||= selected[key] !== next;
+          selected[key] = next;
+        });
+        if (!changed) break;
+      }
+      departmentField.hidden = company.value === "all";
+      brandField.hidden = type.value === "all";
+      if (conditionChartFilter) {
+        conditionChartFilter.innerHTML = condition.innerHTML;
+        conditionChartFilter.value = condition.value;
+      }
       updateKpis();
     };
     const months = [
@@ -10239,9 +10585,14 @@ window.exportXlsx = function () {
       attributeFilter: ["class"],
     });
     period.addEventListener("change", syncPeriod);
-    company.addEventListener("change", syncDepartments);
-    type.addEventListener("change", syncBrands);
-    [department, brand, condition, month, year, from, to].forEach((control) =>
+    [company, department, type, brand, condition].forEach((control) =>
+      control.addEventListener("change", syncAllAssetFilters),
+    );
+    company.addEventListener("change", () => {
+      if (company.value === "all")
+        panel.querySelector("#fixedAssetResetFilters")?.click();
+    });
+    [month, year, from, to].forEach((control) =>
       control.addEventListener("change", updateKpis),
     );
     [from, to].forEach((input) =>
@@ -10256,17 +10607,20 @@ window.exportXlsx = function () {
       .addEventListener("click", () => {
         period.value = "all";
         company.value = "all";
+        department.value = "all";
         type.value = "all";
+        brand.value = "all";
         condition.value = "all";
+        month.value = "all";
+        year.value = "all";
         from.value = "";
         to.value = "";
-        syncDepartments();
-        syncBrands();
+        syncAllAssetFilters();
         syncPeriod();
+        panel.dispatchEvent(new Event("fixed-assets-filters-reset"));
       });
     syncPeriod();
-    syncDepartments();
-    syncBrands();
+    syncAllAssetFilters();
     updateKpis();
   };
   window.renderFixedAssetsKpis = (
@@ -10348,7 +10702,7 @@ window.exportXlsx = function () {
         .join("") +
       '</section><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Fixed Assets Analysis</h2><p>Analyze asset inventory, asset types, and condition across reporting periods and companies.</p></div><button id="fixedAssetResetFilters" class="btn" type="button">Reset filters</button></div><div class="unified-filter-grid"><label><span>Period</span><select id="fixedAssetPeriod" class="filter"><option value="all">All data</option><option value="monthly">Monthly</option><option value="yearly">Yearly</option><option value="last3">Last 3 months</option><option value="last6">Last 6 months</option><option value="custom">Custom range</option></select></label><label class="fixed-asset-period-value" hidden><span>Month</span><select id="fixedAssetMonth" class="filter"></select></label><label class="fixed-asset-period-value" hidden><span>Year</span><select id="fixedAssetYear" class="filter"></select></label><label class="fixed-asset-custom-range" hidden><span>From</span><input id="fixedAssetFrom" class="filter" type="date"></label><label class="fixed-asset-custom-range" hidden><span>To</span><input id="fixedAssetTo" class="filter" type="date"></label><label><span>Company</span><select id="fixedAssetCompany" class="filter">' +
       optionList(
-        Object.keys(assetsData.companyDepartments).sort(),
+        [...new Set(assetsData.records.map((record) => record.c).filter(Boolean))].sort(),
         "All companies",
       ) +
       '</select></label><label hidden><span>Department</span><select id="fixedAssetDepartment" class="filter"></select></label><label><span>Asset type</span><select id="fixedAssetType" class="filter">' +
@@ -11095,8 +11449,11 @@ window.exportXlsx = function () {
             if (
               control.tagName === "SELECT" &&
               primaryControl.tagName === "SELECT"
-            )
+            ) {
+              control.innerHTML = primaryControl.innerHTML;
               control.value = primaryControl.value;
+            }
+            if (control.tagName === "INPUT") control.value = primaryControl.value;
             secondaryField.hidden = primaryField.hidden;
           },
         );
@@ -11104,6 +11461,9 @@ window.exportXlsx = function () {
         .querySelector(".fixed-asset-yearly-chart-card")
         ?.insertAdjacentElement("afterend", secondaryFilterCard);
       primaryFilterCard.addEventListener("change", () =>
+        requestAnimationFrame(syncSecondaryFilters),
+      );
+      panel.addEventListener("fixed-assets-filters-reset", () =>
         requestAnimationFrame(syncSecondaryFilters),
       );
       secondaryControls.forEach((control) =>
@@ -11263,6 +11623,11 @@ window.exportXlsx = function () {
     const budget = window.budgetExpenseData || {},
       months = window.COPIER_PRINTER_DATA?.months || budget.months || [],
       company = filters.company || "all",
+      source = filters.source || "all",
+      category = filters.category || "all",
+      device = filters.device || "all",
+      problem = filters.problem || "all",
+      assetType = filters.assetType || "all",
       department = filters.department || "all",
       period = filters.period || "all",
       matchesMonth = (value) => {
@@ -11281,29 +11646,51 @@ window.exportXlsx = function () {
       },
       rows = [
         ...(window.FIXED_ASSETS_DATA?.records || []).map((row) => ({
+          source: "assets",
           company: row.c,
           department: row.d,
+          assetType: row.t,
           month: null,
         })),
         ...(window.COPIER_PRINTER_DATA?.records || []).map((row) => ({
+          source: "copier",
           company: row.company,
           department: row.department,
+          device: row.copier,
           month: row.period,
         })),
         ...[...(budget.budgets || []), ...(budget.expenses || []), ...(budget.purchases || [])].map(
-          (row) => ({ company: row.company, department: row.department, month: row.month }),
+          (row) => ({ source: "budget", company: row.company, department: row.department, category: row.category || row.description, month: row.month }),
         ),
         ...(window.TICKETS_DATA || []).map((row) => ({
+          source: "tickets",
           company: row.company,
           department: row.department,
+          problem: row.problem,
           month: row.completedAt
             ? new Intl.DateTimeFormat("en-US", { month: "short", year: "2-digit" })
                 .format(new Date(row.completedAt))
                 .replace(" ", "-")
             : null,
         })),
+        ...readStore(
+          "m365CompanyDB",
+          window.MICROSOFT_LICENSE_DATA?.companies || [],
+        )
+          .filter((row) => row.Company !== "Total")
+          .map((row) => ({
+            source: "m365",
+            company: row.Company,
+            department: null,
+            month: null,
+          })),
       ];
     return rows.filter((row) => {
+      if (source !== "all" && row.source !== source) return false;
+      if (category !== "all" && row.category !== category) return false;
+      if (device !== "all" && row.device !== device) return false;
+      if (problem !== "all" && row.problem !== problem) return false;
+      if (assetType !== "all" && row.assetType !== assetType) return false;
       const rowCompany = normalizeOverviewCompany(row.company);
       if (company !== "all" && rowCompany !== normalizeOverviewCompany(company)) return false;
       if (department !== "all" && row.department !== department) return false;
@@ -11779,11 +12166,25 @@ window.exportXlsx = function () {
     const companies = [
         ...new Set(usageRecords.map((row) => row.company)),
       ].sort(),
+      companyRecords = usageRecords.filter(
+        (row) => state.company === "all" || row.company === state.company,
+      ),
       departments = [
-        ...new Set(usageRecords.map((row) => row.department)),
+        ...new Set(companyRecords.map((row) => row.department)),
       ].sort(),
-      copiers = [...new Set(usageRecords.map((row) => row.copier))].sort(),
       fiscalYears = [2027, 2026, 2025, 2024];
+    if (
+      state.department !== "all" &&
+      !departments.includes(state.department)
+    )
+      state.department = "all";
+    const scopedRecords = companyRecords.filter(
+      (row) =>
+        state.department === "all" || row.department === state.department,
+    );
+    const copiers = [...new Set(scopedRecords.map((row) => row.copier))].sort();
+    if (state.copier !== "all" && !copiers.includes(state.copier))
+      state.copier = "all";
     ["copierChart", "copierTable"].forEach((prefix) => {
       const period = document.getElementById(prefix + "Period"),
         month = document.getElementById(prefix + "Month"),
@@ -11816,21 +12217,30 @@ window.exportXlsx = function () {
       end.innerHTML = start.innerHTML;
       start.value = state.start;
       end.value = state.end;
-      document.getElementById(prefix + "Company").innerHTML = options(
+      const companyControl = document.getElementById(prefix + "Company"),
+        departmentControl = document.getElementById(prefix + "Department"),
+        copierControl = document.getElementById(prefix + "Copier");
+      companyControl.innerHTML = options(
         companies,
         state.company,
         "All companies",
       );
-      document.getElementById(prefix + "Department").innerHTML = options(
+      departmentControl.innerHTML = options(
         departments,
         state.department,
         "All departments",
       );
-      document.getElementById(prefix + "Copier").innerHTML = options(
+      copierControl.innerHTML = options(
         copiers,
         state.copier,
         "All devices",
       );
+      // Rebuilding <select> options can otherwise fall back to the first
+      // option. Restore the shared state for both filter cards explicitly.
+      companyControl.value = state.company;
+      departmentControl.value = state.department;
+      copierControl.value = state.copier;
+      departmentControl.closest("label").hidden = state.company === "all";
       detail.hidden = state.period !== "monthly" && state.period !== "yearly";
       range.hidden = state.period !== "custom";
       range.nextElementSibling.hidden = state.period !== "custom";
@@ -12457,6 +12867,11 @@ window.exportXlsx = function () {
             Copier: "copier",
           };
           state[map[name]] = event.target.value;
+          if (name === "Company") state.copier = "all";
+          if (name === "Company" && state.company === "all") {
+            document.getElementById("copierResetFilters")?.click();
+            return;
+          }
           if (name === "Period" && event.target.value === "monthly")
             state.start = latestActiveMonth;
           if (name === "Period" && event.target.value === "yearly")
@@ -12485,6 +12900,9 @@ window.exportXlsx = function () {
         department: "all",
         copier: "all",
       });
+      document.getElementById("copierDepartmentChartType").value = "bar";
+      document.getElementById("copierPieMetric").value = "totalAmount";
+      document.getElementById("copierMonthlyChartType").value = "bar";
       render();
     });
   new MutationObserver(() => {

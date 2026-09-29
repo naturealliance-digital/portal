@@ -9167,7 +9167,7 @@ window.FIXED_ASSETS_DATA = {
       s: 19,
       x: "-",
       c: "Arise",
-      d: "Quality Management",
+      d: "Common",
       u: "Thu Zar Htway",
       o: "Good",
       l: "Rice Mill Complex",
@@ -11802,3 +11802,13 @@ window.FIXED_ASSETS_DATA = {
     },
   ],
 };
+
+/* Excel serial dates were previously converted in a local timezone, shifting
+   each workbook purchase date back by one day. Normalize them to the source
+   workbook's calendar date before the dashboard reads the records. */
+window.FIXED_ASSETS_DATA.records.forEach((record) => {
+  if (!record.p) return;
+  const date = new Date(`${record.p}T00:00:00Z`);
+  date.setUTCDate(date.getUTCDate() + 1);
+  record.p = date.toISOString().slice(0, 10);
+});

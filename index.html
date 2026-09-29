@@ -132,6 +132,61 @@
         </div>
       </section>
       <section id="mainDashboard" class="main-dashboard" hidden>
+        <section class="unified-filter-card card main-dashboard-filter-card" aria-label="Main dashboard filters">
+          <div class="unified-filter-heading">
+            <div>
+              <h2>Financial Year 2026-2027 Report</h2>
+              <p>Review overall by period and company</p>
+            </div>
+            <button id="mainDashboardResetFilters" class="btn" type="button">
+              Reset filters
+            </button>
+          </div>
+          <div class="unified-filter-grid">
+            <label>
+              <span>Period</span>
+              <select id="mainDashboardPeriod" class="filter">
+                <option value="all">All data</option>
+                <option value="last3">Last 3 months</option>
+                <option value="last6">Last 6 months</option>
+                <option value="monthly">Monthly</option>
+                <option value="yearly">Yearly</option>
+                <option value="custom">Custom range</option>
+              </select>
+            </label>
+            <label id="mainDashboardPeriodValueField" hidden>
+              <span id="mainDashboardPeriodValueLabel">Month</span>
+              <select id="mainDashboardPeriodValue" class="filter"></select>
+            </label>
+            <label id="mainDashboardFromField" hidden>
+              <span>From month</span>
+              <select id="mainDashboardFromMonth" class="filter"></select>
+            </label>
+            <label id="mainDashboardToField" hidden>
+              <span>To month</span>
+              <select id="mainDashboardToMonth" class="filter"></select>
+            </label>
+            <label>
+              <span>Company</span>
+              <select id="mainDashboardCompany" class="filter"></select>
+            </label>
+            <label>
+              <span>Overview</span>
+              <select id="mainDashboardSource" class="filter" aria-label="Overview data source">
+                <option value="all">All overview</option>
+                <option value="budget">Budget &amp; Expense</option>
+                <option value="copier">Copier &amp; Printer Usage</option>
+                <option value="tickets">Service Tickets</option>
+                <option value="assets">Fixed Assets</option>
+                <option value="m365">Microsoft 365</option>
+              </select>
+            </label>
+            <label id="mainDashboardDepartmentField" hidden>
+              <span>Department</span>
+              <select id="mainDashboardDepartment" class="filter"></select>
+            </label>
+          </div>
+        </section>
         <section class="unified-kpi-grid" aria-label="FY 2026 to 2027 dashboard summary">
           <article class="unified-kpi-card tone-orange">
             <span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
@@ -174,7 +229,7 @@
             <strong id="mainAvailableLicenses">0</strong>
           </article>
         </section>
-        <section class="unified-chart-grid main-dashboard-chart-grid" aria-label="Digital operations overview">
+        <section class="unified-grid main-dashboard-chart-grid" aria-label="Digital operations overview">
           <article class="unified-chart-card card main-workforce-card">
             <header class="unified-chart-header">
               <div>
@@ -239,110 +294,8 @@
             </div>
           </article>
         </section>
-        <section class="unified-filter-card card main-dashboard-filter-card" aria-label="Main dashboard filters">
-          <div class="unified-filter-heading">
-            <div>
-              <h2>Financial Year 2026-2027 Report</h2>
-              <p>Review overall by period and company</p>
-            </div>
-            <button id="mainDashboardResetFilters" class="btn" type="button">
-              Reset filters
-            </button>
-          </div>
-          <div class="unified-filter-grid">
-            <label>
-              <span>Period</span>
-              <select id="mainDashboardPeriod" class="filter">
-                <option value="all">All data</option>
-                <option value="last3">Last 3 months</option>
-                <option value="last6">Last 6 months</option>
-                <option value="monthly">Monthly</option>
-                <option value="yearly">Yearly</option>
-                <option value="custom">Custom range</option>
-              </select>
-            </label>
-            <label id="mainDashboardPeriodValueField" hidden>
-              <span id="mainDashboardPeriodValueLabel">Month</span>
-              <select id="mainDashboardPeriodValue" class="filter"></select>
-            </label>
-            <label id="mainDashboardFromField" hidden>
-              <span>From month</span>
-              <select id="mainDashboardFromMonth" class="filter"></select>
-            </label>
-            <label id="mainDashboardToField" hidden>
-              <span>To month</span>
-              <select id="mainDashboardToMonth" class="filter"></select>
-            </label>
-            <label>
-              <span>Company</span>
-              <select id="mainDashboardCompany" class="filter"></select>
-            </label>
-            <label id="mainDashboardDepartmentField" hidden>
-              <span>Department</span>
-              <select id="mainDashboardDepartment" class="filter"></select>
-            </label>
-          </div>
-        </section>
       </section>
-      <section id="manpowerDashboard" class="manpower-dashboard" data-planned-headcount="13" hidden>
-        <section class="unified-kpi-grid">
-          <article class="unified-kpi-card tone-orange">
-            <span class="unified-kpi-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-                <circle cx="9" cy="8" r="4"></circle>
-                <path d="M3 21v-2a6 6 0 0 1 12 0v2M16 11l2 2 4-5"></path>
-              </svg>
-            </span>
-            <div>
-              <b>Current Manpower</b>
-              <small id="manpowerCurrentSubtitle">Active team members</small>
-            </div>
-            <strong id="manpowerCurrent">9</strong>
-          </article>
-          <article class="unified-kpi-card tone-green">
-            <span class="unified-kpi-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-                <path d="M16 21v-2.2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V21"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M22 21v-2.2a4 4 0 0 0-3-3.8M16.5 3.2a4 4 0 0 1 0 7.6"></path>
-              </svg>
-            </span>
-            <div>
-              <b>Planned Headcount</b>
-              <small id="manpowerPlannedSubtitle">Target workforce capacity</small>
-            </div>
-            <strong id="manpowerPlanned">13</strong>
-          </article>
-          <article class="unified-kpi-card tone-yellow">
-            <span class="unified-kpi-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M19 8v6M16 11h6"></path>
-              </svg>
-            </span>
-            <div>
-              <b>Hiring Vacancies</b>
-              <small id="manpowerVacanciesSubtitle">Roles open for hiring</small>
-            </div>
-            <strong id="manpowerVacancies">4</strong>
-          </article>
-          <article class="unified-kpi-card tone-blue">
-            <span class="unified-kpi-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-                <path d="M4 19a8 8 0 1 1 16 0"></path>
-                <path d="m12 15 4-5"></path>
-                <path d="M7 19h10"></path>
-              </svg>
-            </span>
-            <div>
-              <b>Workforce Capacity</b>
-              <small id="manpowerCapacitySubtitle">Positions currently filled</small>
-            </div>
-            <strong id="manpowerCapacity">67%</strong>
-          </article>
-        </section>
-      </section>
+      <section id="manpowerDashboard" class="manpower-dashboard" data-planned-headcount="13" hidden></section>
       <section id="budgetExpenseDashboard" class="budgetexpense-dashboard" hidden></section>
       <section id="copierprinterusageDashboard" hidden></section>
       <section id="serviceTicketsDashboard" hidden></section>

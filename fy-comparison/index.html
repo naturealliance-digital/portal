@@ -174,7 +174,7 @@
             <strong id="mainAvailableLicenses">0</strong>
           </article>
         </section>
-        <section class="unified-chart-grid main-dashboard-chart-grid" aria-label="Digital operations overview">
+        <section class="unified-grid main-dashboard-chart-grid" aria-label="Digital operations overview">
           <article class="unified-chart-card card main-workforce-card">
             <header class="unified-chart-header">
               <div>
@@ -276,6 +276,10 @@
             <label>
               <span>Company</span>
               <select id="mainDashboardCompany" class="filter"></select>
+            </label>
+            <label>
+              <span>Overview</span>
+              <select id="mainDashboardSource" class="filter" aria-label="Overview data source"><option value="all">All overview</option><option value="budget">Budget &amp; Expense</option><option value="copier">Copier &amp; Printer Usage</option><option value="tickets">Service Tickets</option><option value="assets">Fixed Assets</option><option value="m365">Microsoft 365</option></select>
             </label>
             <label id="mainDashboardDepartmentField" hidden>
               <span>Department</span>

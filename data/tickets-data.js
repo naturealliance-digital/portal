@@ -1188,7 +1188,7 @@ window.TICKETS_DATA = [
     "assignedTo": "Khin Maung Thant",
     "duration": "0D-0H-60M",
     "durationMinutes": 60,
-    "problem": "Website Error",
+    "problem": "Windows Error",
     "company": "Arise",
     "completedAt": "2026-08-31T11:26:00"
   },
@@ -5988,7 +5988,7 @@ window.TICKETS_DATA = [
     "assignedTo": "Khaing Zaw Shein",
     "duration": "0D-0H-34M",
     "durationMinutes": 34,
-    "problem": "Website Error",
+    "problem": "Windows Error",
     "company": "Innobuilder",
     "completedAt": "2026-04-03T11:44:00"
   },
