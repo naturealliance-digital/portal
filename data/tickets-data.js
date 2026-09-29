@@ -2981,7 +2981,7 @@ window.TICKETS_DATA = [
     "duration": "0D-0H-8M",
     "durationMinutes": 8,
     "problem": "Printer Error",
-    "company": "Pyay",
+    "company": "Khittayar Hinthar Trading",
     "completedAt": "2026-07-22T09:30:00"
   },
   {

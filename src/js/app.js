@@ -13,7 +13,7 @@ if (microsoftLicenseSource) {
       localStorage.setItem("m365DataVersion", microsoftLicenseSource.version);
       localStorage.setItem("m365WorkbookRefresh2", "done");
     }
-  } catch (e) {}
+  } catch {}
 }
 if (window.Chart && Chart.defaults.animation) {
   Chart.defaults.animation.duration = 900;
@@ -473,7 +473,7 @@ function exportXlsx() {
 }
 try {
   data = JSON.parse(localStorage.getItem("itHubData")) || data;
-} catch (e) {}
+} catch {}
 buildNav();
 
 /* Switching theme on the Copier page must not invoke legacy table renderers. */
@@ -1830,7 +1830,7 @@ document.addEventListener(
     let saved;
     try {
       saved = JSON.parse(localStorage.getItem(storageKey));
-    } catch (e) {}
+    } catch {}
     const rows = [...table.tBodies[0].rows];
     if (Array.isArray(saved) && saved.length === rows.length)
       rows.forEach((row, index) => {
@@ -2522,7 +2522,7 @@ document.addEventListener(
       localStorage.setItem("itHubData", JSON.stringify(savedClean));
       if (refreshTicketSample)
         localStorage.setItem("serviceTicketSampleVersion", "3");
-    } catch (e) {}
+    } catch {}
   }
   window.buildNav = function () {
     limitPages();
@@ -2926,7 +2926,7 @@ window.exportXlsx = function () {
     try {
       const saved = JSON.parse(localStorage.getItem("m365CompanyDB"));
       if (validCompany(saved)) return saved;
-    } catch (e) {}
+    } catch {}
     return clone(companyDefaults);
   }
   function loadLicenses() {
@@ -2936,7 +2936,7 @@ window.exportXlsx = function () {
       const saved = JSON.parse(localStorage.getItem("m365LicensesDB"));
       if (Array.isArray(saved) && saved.length && saved[0].Licenses)
         return saved;
-    } catch (e) {}
+    } catch {}
     return clone(licenseDefaults);
   }
   let licenseRows = loadLicenses();
@@ -2982,7 +2982,19 @@ window.exportXlsx = function () {
             '" class="' +
             (row.Licenses === "Total" ? "total-row" : "") +
             '">' +
-            keys.map((k) => "<td>" + escCell(row[k]) + "</td>").join("") +
+            keys
+              .map((key) =>
+                key === "Licenses"
+                  ? '<td><span class="m365-license-badge">' +
+                    escCell(row[key]) +
+                    "</span></td>"
+                  : key === "Features" && row[key]
+                    ? '<td><span class="m365-feature-badge">' +
+                      escCell(row[key]) +
+                      "</span></td>"
+                  : "<td>" + escCell(row[key]) + "</td>",
+              )
+              .join("") +
             "</tr>",
         )
         .join("") +
@@ -3029,6 +3041,7 @@ window.exportXlsx = function () {
           JSON.stringify(data["Microsoft 365"]),
         );
         localStorage.setItem("m365LicensesDB", JSON.stringify(licenseRows));
+        window.notifyDashboardDataUpdated?.();
       }
     });
   window.exportXlsx = function () {
@@ -3153,7 +3166,7 @@ window.exportXlsx = function () {
   try {
     if (!licenses)
       licenses = JSON.parse(localStorage.getItem("m365LicensesDB"));
-  } catch (e) {}
+  } catch {}
   if (!Array.isArray(licenses) || !licenses.length)
     licenses = JSON.parse(JSON.stringify(licenseSeed));
   const escapeHtml = (value) =>
@@ -3225,6 +3238,7 @@ window.exportXlsx = function () {
     localStorage.setItem("m365CompanyDB", JSON.stringify(rows));
     localStorage.setItem("m365LicensesDB", JSON.stringify(licenses));
     localStorage.setItem("itHubData", JSON.stringify(data));
+    window.notifyDashboardDataUpdated?.();
   }
   function title(icon, title, sub) {
     return (
@@ -3387,7 +3401,7 @@ window.exportXlsx = function () {
             keys
               .map((key) =>
                 key === "Features" && !isTotal
-                  ? '<td><span class="feature-badge feature-' +
+                  ? '<td class="m365-feature-cell"><span class="feature-badge feature-' +
                     slug(row[key]) +
                     '">' +
                     escapeHtml(row[key]) +
@@ -3474,19 +3488,25 @@ window.exportXlsx = function () {
     let licenses = [];
     try {
       licenses = JSON.parse(localStorage.getItem("m365LicensesDB")) || [];
-    } catch (e) {}
+    } catch {}
     const selectedLicense =
-        document.getElementById("m365CompanyLicenseFilter")?.value ||
-        document.getElementById("m365PieFilter")?.value ||
-        "All",
+        document.getElementById("m365PieFilter")?.value || "All",
+      selectedCompany =
+        document.getElementById("m365CompanyFilter")?.value || "All",
+      selectedFeature =
+        document.getElementById("m365FeatureFilter")?.value || "All",
       companyCount = companies.filter(
-        (row) => row.Company && row.Company !== "Total",
+        (row) =>
+          row.Company &&
+          row.Company !== "Total" &&
+          (selectedCompany === "All" || row.Company === selectedCompany),
       ).length,
       visibleLicenses = licenses.filter(
         (row) =>
           row.Licenses &&
           row.Licenses !== "Total" &&
-          (selectedLicense === "All" || row.Licenses === selectedLicense),
+          (selectedLicense === "All" || row.Licenses === selectedLicense) &&
+          (selectedFeature === "All" || row.Features === selectedFeature),
       ),
       total = {
         "Total Licenses": visibleLicenses.reduce(
@@ -3506,34 +3526,38 @@ window.exportXlsx = function () {
       [
         "Total Companies",
         companyCount,
-        "Companies in the license portfolio",
+        selectedCompany === "All"
+          ? "Companies in the license portfolio"
+          : "Selected company",
         "tone-orange",
         icons.company,
       ],
       [
         "Total Licenses",
         Number(total["Total Licenses"]) || 0,
-        selectedLicense === "All"
-          ? "Purchased Microsoft 365 capacity"
-          : selectedLicense,
+        selectedLicense !== "All"
+          ? selectedLicense
+          : selectedFeature !== "All"
+            ? selectedFeature
+            : "Purchased Microsoft 365 capacity",
         "tone-green",
         icons.license,
       ],
       [
         "Active Users",
         Number(total["Active Users"]) || 0,
-        selectedLicense === "All"
+        selectedLicense === "All" && selectedFeature === "All"
           ? "Licenses currently assigned"
-          : "Assigned for " + selectedLicense,
+          : "Selected license capacity",
         "tone-yellow",
         icons.users,
       ],
       [
         "Available Licenses",
         Number(total["Available License"]) || 0,
-        selectedLicense === "All"
+        selectedLicense === "All" && selectedFeature === "All"
           ? "Capacity ready to assign"
-          : "Available for " + selectedLicense,
+          : "Available selected capacity",
         "tone-blue",
         icons.available,
       ],
@@ -3731,24 +3755,47 @@ window.exportXlsx = function () {
       return;
     }
     const selectedLicense =
-        document.getElementById("m365CompanyLicenseFilter")?.value ||
-        document.getElementById("m365PieFilter")?.value ||
-        "All",
-      metric = selectedLicense === "All" ? "Total Account" : selectedLicense,
-      licenseOptions = Object.keys(
-        (data["Microsoft 365"] || []).find(
-          (row) => row.Company && row.Company !== "Total",
-        ) || {},
-      )
-        .filter((key) => !["Company", "Total Account"].includes(key))
-        .sort((left, right) => left.localeCompare(right)),
+        document.getElementById("m365PieFilter")?.value || "All",
+      selectedCompany =
+        document.getElementById("m365CompanyFilter")?.value || "All",
+      selectedFeature =
+        document.getElementById("m365FeatureFilter")?.value || "All";
+    let featureLicenses = [];
+    if (selectedFeature !== "All") {
+      try {
+        featureLicenses = (
+          JSON.parse(localStorage.getItem("m365LicensesDB")) || []
+        )
+          .filter((row) => row.Features === selectedFeature)
+          .map((row) => row.Licenses);
+      } catch {}
+    }
+    const metric =
+        selectedLicense === "All" && selectedFeature !== "All"
+          ? "__m365FeatureTotal"
+          : selectedLicense === "All"
+            ? "Total Account"
+            : selectedLicense,
       rows = (data["Microsoft 365"] || [])
         .filter(
           (row) =>
             row.Company &&
             row.Company !== "Total" &&
+            (selectedCompany === "All" || row.Company === selectedCompany) &&
             (selectedLicense === "All" || Number(row[metric]) > 0),
         )
+        .map((row) =>
+          metric === "__m365FeatureTotal"
+            ? {
+                ...row,
+                [metric]: featureLicenses.reduce(
+                  (sum, license) => sum + (Number(row[license]) || 0),
+                  0,
+                ),
+              }
+            : row,
+        )
+        .filter((row) => Number(row[metric]) > 0)
         .sort((a, b) => (Number(b[metric]) || 0) - (Number(a[metric]) || 0));
     const compactViewport = window.innerWidth <= 460,
       phoneViewport = window.innerWidth <= 700,
@@ -3795,7 +3842,7 @@ window.exportXlsx = function () {
     ) {
       try {
         bar.destroy();
-      } catch (e) {}
+      } catch {}
     }
     if (chartTypeControl) chartTypeControl.disabled = false;
     bar = new Chart(chart, {
@@ -3805,7 +3852,11 @@ window.exportXlsx = function () {
         datasets: [
           {
             label:
-              selectedLicense === "All" ? "Total Accounts" : selectedLicense,
+              selectedLicense !== "All"
+                ? selectedLicense
+                : selectedFeature !== "All"
+                  ? selectedFeature
+                  : "Total Accounts",
             data: rows.map((row) => Number(row[metric]) || 0),
             backgroundColor: isLine
               ? dark
@@ -3918,48 +3969,6 @@ window.exportXlsx = function () {
         selectedLicense === "All"
           ? "Comparative account allocation"
           : selectedLicense + " allocation";
-    const chartHeader = chartTitle?.closest(".unified-chart-header,.title");
-    chartHeader?.querySelector("#m365CompanyLicenseFilter")?.remove();
-    if (chartHeader) {
-      const filter = document.createElement("select");
-      filter.id = "m365CompanyLicenseFilter";
-      filter.className = "filter unified-chart-select";
-      filter.setAttribute(
-        "aria-label",
-        "Filter company account distribution by license",
-      );
-      filter.innerHTML =
-        '<option value="All">All licenses</option>' +
-        licenseOptions
-          .map(
-            (license) =>
-              '<option value="' +
-              license.replace(/"/g, "&quot;") +
-              '" ' +
-              (license === selectedLicense ? "selected" : "") +
-              ">" +
-              license +
-              "</option>",
-          )
-          .join("");
-      filter.addEventListener("change", () => {
-        const pieFilter = document.getElementById("m365PieFilter"),
-          licenseSearch = document.getElementById("m365LicenseSearch");
-        if (
-          pieFilter &&
-          [...pieFilter.options].some((option) => option.value === filter.value)
-        )
-          pieFilter.value = filter.value;
-        if (licenseSearch) {
-          licenseSearch.value = filter.value === "All" ? "" : filter.value;
-          licenseSearch.dispatchEvent(new Event("input", { bubbles: true }));
-        }
-        window.renderM365LicenseAvailabilityPie?.();
-        window.renderM365Kpis?.();
-        renderCompanyRanking();
-      });
-      chartHeader.insertBefore(filter, chartTypeControl || null);
-    }
   }
   window.renderM365CompanyRanking = renderCompanyRanking;
   const previousCharts = window.charts;
@@ -3989,9 +3998,16 @@ window.exportXlsx = function () {
       document.getElementById("microsoft365LicenseLegend") ||
       document.getElementById("legend");
     if (active !== "Microsoft 365" || !licenseLegend) return;
-    const all = licenseData(),
+    const selectedFeature =
+        document.getElementById("m365FeatureFilter")?.value || "All",
+      all = licenseData(),
       licenseRows = all
-        .filter((row) => row.Licenses && row.Licenses !== "Total")
+        .filter(
+          (row) =>
+            row.Licenses &&
+            row.Licenses !== "Total" &&
+            (selectedFeature === "All" || row.Features === selectedFeature),
+        )
         .sort(
           (a, b) =>
             (Number(b["Available License"]) || 0) -
@@ -4000,10 +4016,7 @@ window.exportXlsx = function () {
       availableRows = licenseRows.filter(
         (row) => (Number(row["Available License"]) || 0) > 0,
       ),
-      current =
-        document.getElementById("m365CompanyLicenseFilter")?.value ||
-        document.getElementById("m365PieFilter")?.value ||
-        "All",
+      current = document.getElementById("m365PieFilter")?.value || "All",
       selected =
         current === "All" || licenseRows.some((row) => row.Licenses === current)
           ? current
@@ -4046,7 +4059,7 @@ window.exportXlsx = function () {
     ) {
       try {
         donut.destroy();
-      } catch (e) {}
+      } catch {}
     }
     donut = new Chart(pie, {
       type: "doughnut",
@@ -4106,7 +4119,9 @@ window.exportXlsx = function () {
     caption.removeAttribute("class");
     caption.textContent =
       selected === "All"
-        ? "Unassigned Microsoft 365 Licenses"
+        ? selectedFeature === "All"
+          ? "Unassigned Microsoft 365 Licenses"
+          : "Unassigned " + selectedFeature + " licenses"
         : "Availability for " + selected;
     titleWrap.querySelector("#m365PieFilter")?.remove();
     if (licenseRows.length) {
@@ -4131,22 +4146,13 @@ window.exportXlsx = function () {
           )
           .join("");
       filter.onchange = () => {
-        const licenseSearch = document.getElementById("m365LicenseSearch"),
-          companyFilter = document.getElementById("m365CompanyLicenseFilter");
-        if (
-          companyFilter &&
-          [...companyFilter.options].some(
-            (option) => option.value === filter.value,
-          )
-        )
-          companyFilter.value = filter.value;
+        const licenseSearch = document.getElementById("m365LicenseSearch");
         if (licenseSearch) {
           licenseSearch.value = filter.value === "All" ? "" : filter.value;
           licenseSearch.dispatchEvent(new Event("input", { bubbles: true }));
         }
         renderLicenseAvailabilityPie();
-        window.renderM365CompanyRanking?.();
-        window.renderM365Kpis?.();
+        window.syncM365DashboardFilters?.("pie");
       };
       titleWrap.append(filter);
     }
@@ -4203,7 +4209,7 @@ window.exportXlsx = function () {
   let companies;
   try {
     companies = JSON.parse(localStorage.getItem("m365CompanyDB"));
-  } catch (e) {}
+  } catch {}
   if (!Array.isArray(companies) || !companies.length)
     companies = data["Microsoft 365"] || [];
   const pip = companies.find((row) => row.Company === "PIP Myanmar");
@@ -4259,7 +4265,7 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
       localStorage.getItem("serviceTicketData") || "null",
     );
     if (Array.isArray(saved) && saved.length) source = saved;
-  } catch (e) {}
+  } catch {}
   if (!source.length) return;
   const clean = (value) =>
     String(value ?? "").replace(
@@ -4464,7 +4470,7 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
         if (typeof input.showPicker === "function")
           try {
             input.showPicker();
-          } catch (e) {}
+          } catch {}
       });
     });
     panel
@@ -4554,7 +4560,12 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
         row.assignedTo !== state.assignee
       )
         return false;
-      if (query && !String(row.company).toLowerCase().includes(query))
+      if (
+        query &&
+        ![row.company, row.problem, row.assignedTo].some((value) =>
+          String(value || "").toLowerCase().includes(query),
+        )
+      )
         return false;
       return true;
     });
@@ -4871,6 +4882,10 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
             0,
           ) / rows.length
         : 0;
+    window.serviceTicketsDashboardState = {
+      filters: { ...state },
+      rows,
+    };
     updateControlVisibility();
     panel.querySelector("#ticketTotal").textContent =
       rows.length.toLocaleString();
@@ -5167,7 +5182,7 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
   let rows;
   try {
     rows = JSON.parse(localStorage.getItem("manpowerDirectoryDB"));
-  } catch (e) {}
+  } catch {}
   if (!Array.isArray(rows) || !rows.length)
     rows = defaults.map((row) => ({ ...row }));
   window.MANPOWER_DIRECTORY_DATA = rows;
@@ -5216,6 +5231,56 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
           "'": "&#39;",
         })[char],
     );
+  window.syncManpowerDashboardFilters = (query = "", division = "All") => {
+    const normalizedQuery = String(query).trim().toLowerCase(),
+      selected = rows.filter(
+        (row) =>
+          (division === "All" || row.Division === division) &&
+          (!normalizedQuery ||
+            Object.values(row)
+              .join(" ")
+              .toLowerCase()
+              .includes(normalizedQuery)),
+      ),
+      panel = document.getElementById("manpowerDashboard"),
+      plannedByDivision = {
+        Director: 1,
+        Manager: 1,
+        Infrastructure: 8,
+        "Software Development": 3,
+      },
+      totalPlanned = Number(panel?.dataset.plannedHeadcount) || 13,
+      planned =
+        division === "All"
+          ? totalPlanned
+          : plannedByDivision[division] || selected.length,
+      vacancies = Math.max(0, planned - selected.length),
+      capacity = planned ? (selected.length / planned) * 100 : 0,
+      set = (id, value) => {
+        const node = document.getElementById(id);
+        if (node) node.textContent = value;
+      };
+    window.manpowerDashboardState = {
+      filters: { query: normalizedQuery, division },
+      rows: selected,
+      planned,
+      vacancies,
+    };
+    set("manpowerCurrent", selected.length.toLocaleString());
+    set("manpowerPlanned", planned.toLocaleString());
+    set("manpowerVacancies", vacancies.toLocaleString());
+    set("manpowerCapacity", capacity.toFixed(1) + "%");
+    set(
+      "manpowerCurrentSubtitle",
+      division === "All" ? "Active team members" : division + " team members",
+    );
+    set("manpowerPlannedSubtitle", "Target workforce capacity");
+    set(
+      "manpowerVacanciesSubtitle",
+      vacancies === 1 ? "Role open for hiring" : "Roles open for hiring",
+    );
+    set("manpowerCapacitySubtitle", "Positions currently filled");
+  };
   function renderDirectory() {
     if (active !== "Manpower") return;
     document.body.classList.add("manpower-page");
@@ -5285,6 +5350,7 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
     document.getElementById("manpowerSearch").oninput = renderDirectory;
     document.getElementById("manpowerDivisionFilter").onchange =
       renderDirectory;
+    window.syncManpowerDashboardFilters(currentSearch, currentDivision);
   }
   const previousNavigate = window.navigateHubPage;
   window.navigateHubPage = function (name, push = true) {
@@ -5419,7 +5485,7 @@ window.exportXlsx = function () {
     charts.forEach((c) => {
       try {
         c.destroy();
-      } catch (e) {}
+      } catch {}
     });
     charts = [];
   }
@@ -6661,7 +6727,7 @@ window.exportXlsx = function () {
     localStorage.setItem("m365CompanyDB", JSON.stringify(companies));
     localStorage.setItem("m365LicensesDB", JSON.stringify(licenses));
     localStorage.setItem(key, "done");
-  } catch (e) {}
+  } catch {}
 })();
 /* Keep only Manpower-specific content inside its own dashboard wrapper. */
 (function () {
@@ -6771,6 +6837,7 @@ window.exportXlsx = function () {
       event.stopImmediatePropagation();
       query = event.target.value.trim().toLowerCase();
       apply();
+      window.syncManpowerDashboardFilters?.(query, division);
     },
     true,
   );
@@ -6781,6 +6848,7 @@ window.exportXlsx = function () {
       event.stopImmediatePropagation();
       division = event.target.value;
       apply();
+      window.syncManpowerDashboardFilters?.(query, division);
     },
     true,
   );
@@ -6847,11 +6915,13 @@ window.exportXlsx = function () {
         event.stopImmediatePropagation();
         companyQuery = event.target.value.trim().toLowerCase();
         filterCompany();
+        window.syncM365DashboardFilters?.("company-search");
       }
       if (event.target.id === "m365LicenseSearch") {
         event.stopImmediatePropagation();
         licenseQuery = event.target.value.trim().toLowerCase();
         filterLicenses();
+        window.syncM365DashboardFilters?.("license-search");
       }
     },
     true,
@@ -6863,15 +6933,26 @@ window.exportXlsx = function () {
         event.stopImmediatePropagation();
         companyFilter = event.target.value;
         filterCompany();
+        window.syncM365DashboardFilters?.("company");
       }
       if (event.target.id === "m365FeatureFilter") {
         event.stopImmediatePropagation();
         licenseFilter = event.target.value;
         filterLicenses();
+        window.syncM365DashboardFilters?.("feature");
       }
     },
     true,
   );
+})();
+/* A single Microsoft 365 filter state refreshes every dashboard surface. */
+(function () {
+  window.syncM365DashboardFilters = (source = "filter") => {
+    if (typeof active === "undefined" || active !== "Microsoft 365") return;
+    window.renderM365Kpis?.();
+    window.renderM365CompanyRanking?.();
+    if (source !== "pie") window.renderM365LicenseAvailabilityPie?.();
+  };
 })();
 /* Remove legacy redraw handlers from Microsoft 365 controls before the user interacts. */
 (function () {
@@ -6959,7 +7040,9 @@ window.exportXlsx = function () {
   const panel = document.getElementById("budgetExpenseDashboard");
   const source = window.budgetExpenseData;
   if (!panel || !source) return;
-  const departmentActuals = source.expenses.filter((row) => row.department);
+  const departmentActuals = (
+    source.expenseDetails?.length ? source.expenseDetails : source.expenses
+  ).filter((row) => row.department);
   panel.__budgetExpenseDetailData = source;
   const fmt = (value) => {
     const number = Number(value) || 0,
@@ -7202,6 +7285,21 @@ window.exportXlsx = function () {
           (company === "all" || row.company === company) &&
           (department === "all" || row.department === department),
       );
+    window.budgetExpenseDashboardState = {
+      filters: {
+        period: period.value,
+        periodValue: periodValue.value,
+        start: start.value,
+        end: end.value,
+        company,
+        category,
+        department,
+      },
+      months,
+      budget,
+      actual,
+      purchases,
+    };
     const totalBudget = budget.reduce((sum, row) => sum + row.amount, 0),
       totalActual = actual.reduce((sum, row) => sum + row.amount, 0),
       variance = totalBudget - totalActual,
@@ -9068,7 +9166,23 @@ window.exportXlsx = function () {
   let departmentsByCompany = {},
     months = [];
   const readFilterData = () => {
-    const budgetSource = window.budgetExpenseData || {},
+    const readSavedRows = (key, fallback) => {
+        try {
+          const saved = JSON.parse(localStorage.getItem(key));
+          return Array.isArray(saved) && saved.length ? saved : fallback;
+        } catch {
+          return fallback;
+        }
+      },
+      budgetSource = window.budgetExpenseData || {},
+      microsoftCompanies = readSavedRows(
+        "m365CompanyDB",
+        window.MICROSOFT_LICENSE_DATA?.companies || [],
+      ),
+      microsoftLicenses = readSavedRows(
+        "m365LicensesDB",
+        window.MICROSOFT_LICENSE_DATA?.licenses || [],
+      ),
       sourceRows = [
         ...(window.FIXED_ASSETS_DATA?.records || []),
         ...(window.COPIER_PRINTER_DATA?.records || []),
@@ -9076,8 +9190,8 @@ window.exportXlsx = function () {
         ...(budgetSource.expenses || []),
         ...(budgetSource.purchases || []),
         ...(window.TICKETS_DATA || []),
-        ...(window.MICROSOFT_LICENSE_DATA?.companies || []),
-        ...(window.MICROSOFT_LICENSE_DATA?.licenses || []),
+        ...microsoftCompanies,
+        ...microsoftLicenses,
       ],
       companyRows = sourceRows
         .map((record) => ({
@@ -9134,16 +9248,24 @@ window.exportXlsx = function () {
     if (departments.includes(selectedDepartment))
       departmentSelect.value = selectedDepartment;
   };
-  const notify = () =>
+  const notify = () => {
+    const filters = {
+      period: periodSelect.value,
+      periodValue: periodValueSelect.value,
+      fromMonth: fromSelect.value,
+      toMonth: toSelect.value,
+      company: companySelect.value,
+      department: departmentSelect.value,
+    };
+    window.overviewDashboardState = {
+      filters,
+      sources: readFilterData(),
+      updatedAt: Date.now(),
+    };
     window.dispatchEvent(
-      new CustomEvent("main-dashboard-filters-updated", {
-        detail: {
-          period: periodSelect.value,
-          company: companySelect.value,
-          department: departmentSelect.value,
-        },
-      }),
+      new CustomEvent("main-dashboard-filters-updated", { detail: filters }),
     );
+  };
   const refreshFilters = () => {
     const selectedCompany = companySelect.value,
       selectedDepartment = departmentSelect.value,
@@ -9155,6 +9277,7 @@ window.exportXlsx = function () {
       companySelect.value = selectedCompany;
     syncPeriodFields();
     syncDepartments(selectedDepartment);
+    notify();
   };
   companySelect.addEventListener("change", () => {
     syncDepartments();
@@ -9165,6 +9288,9 @@ window.exportXlsx = function () {
     syncPeriodFields();
     notify();
   });
+  [periodValueSelect, fromSelect, toSelect].forEach((control) =>
+    control.addEventListener("change", notify),
+  );
   resetButton.addEventListener("click", () => {
     periodSelect.value = "all";
     companySelect.value = "all";
@@ -9173,7 +9299,17 @@ window.exportXlsx = function () {
     notify();
   });
   window.refreshMainDashboardFilters = refreshFilters;
+  window.notifyDashboardDataUpdated = () =>
+    window.dispatchEvent(new Event("dashboard-data-updated"));
   window.addEventListener("dashboard-data-updated", refreshFilters);
+  window.addEventListener("storage", (event) => {
+    if (
+      ["m365CompanyDB", "m365LicensesDB", "manpowerDirectoryDB", "itHubData"].includes(
+        event.key,
+      )
+    )
+      window.notifyDashboardDataUpdated();
+  });
   refreshFilters();
 })();
 
@@ -9193,7 +9329,10 @@ window.exportXlsx = function () {
 (() => {
   const departmentsByCompany = (() => {
     const source = window.budgetExpenseData || {},
-      actuals = (source.expenses || []).filter((row) => row.department),
+      actuals = (source.expenseDetails?.length
+        ? source.expenseDetails
+        : source.expenses || []
+      ).filter((row) => row.department),
       companiesWithActuals = new Set(actuals.map((row) => row.company)),
       records = [
         ...actuals,
@@ -10006,6 +10145,17 @@ window.exportXlsx = function () {
           0,
         ),
         scope = count + " selected asset record" + (count === 1 ? "" : "s");
+      window.fixedAssetsDashboardState = {
+        records: selected,
+        filters: {
+          period: period.value,
+          company: company.value,
+          department: department.value,
+          type: type.value,
+          brand: brand.value,
+          condition: condition.value,
+        },
+      };
       panel.querySelector("#fixedAssetTotal").textContent = format(count);
       panel.querySelector("#fixedAssetCompanies").textContent = format(good);
       panel.querySelector("#fixedAssetDamage").textContent = format(damaged);
@@ -10123,7 +10273,7 @@ window.exportXlsx = function () {
       input.addEventListener("click", () => {
         try {
           input.showPicker?.();
-        } catch (error) {}
+        } catch {}
       }),
     );
     panel
@@ -10760,6 +10910,19 @@ window.exportXlsx = function () {
         from = panel.querySelector("#fixedAssetFrom"),
         to = panel.querySelector("#fixedAssetTo");
       if (!period) return;
+      const sharedRecords = window.fixedAssetsDashboardState?.records;
+      if (Array.isArray(sharedRecords)) {
+        assetRecords = sharedRecords;
+        if (
+          assetTabs
+            .find((tab) => tab.dataset.fixedAssetTab === "company")
+            ?.classList.contains("active")
+        ) {
+          renderAssetTab("company");
+          sortCompanyRows();
+        } else renderOverviewRecord();
+        return;
+      }
       const dated = allAssetRecords
           .map((record) => record.p)
           .filter(Boolean)
@@ -11030,14 +11193,15 @@ window.exportXlsx = function () {
       color,
       centreLabel,
       labels = ["In use", "Available"],
+      percentageTotal = filled + remaining,
+      other = 0,
     ) => {
       const canvas = document.getElementById(id);
       if (!canvas || typeof Chart === "undefined") return;
       window.mainDashboardPies ??= {};
       window.mainDashboardPies[id]?.destroy();
       const dark = document.body.classList.contains("dark"),
-        percentage =
-          filled + remaining ? (filled / (filled + remaining)) * 100 : 0,
+        percentage = percentageTotal ? (filled / percentageTotal) * 100 : 0,
         centre = {
           id: "mainDashboardPieCentre",
           afterDatasetsDraw(chart) {
@@ -11060,8 +11224,12 @@ window.exportXlsx = function () {
           labels,
           datasets: [
             {
-              data: [Math.max(0, filled), Math.max(0, remaining)],
-              backgroundColor: [color, dark ? "#51616b" : "#94a5af"],
+              data: [Math.max(0, filled), Math.max(0, remaining), Math.max(0, other)],
+              backgroundColor: [
+                color,
+                dark ? "#51616B" : "#94A5AF",
+                dark ? "#62545c" : "#d8c8c2",
+              ],
               borderColor: dark ? "#32171e" : "#fffaf7",
               borderWidth: 5,
               hoverOffset: 4,
@@ -11112,34 +11280,76 @@ window.exportXlsx = function () {
         },
       });
     };
-  const dashboardCompanyCount = () => {
+  const normalizeOverviewCompany = (company) =>
+    ({ "Nature Allliance": "Nature Alliance", PIP: "PIP Myanmar" })[
+      company
+    ] || company;
+  const overviewRows = (filters = {}) => {
     const budget = window.budgetExpenseData || {},
-      normalize = (company) =>
-        ({ "Nature Allliance": "Nature Alliance", PIP: "PIP Myanmar" })[
-          company
-        ] || company,
-      companyValues = [
-        ...(window.FIXED_ASSETS_DATA?.records || []).map((row) => row.c),
-        ...(window.COPIER_PRINTER_DATA?.records || []).map(
-          (row) => row.company,
+      months = window.COPIER_PRINTER_DATA?.months || budget.months || [],
+      company = filters.company || "all",
+      department = filters.department || "all",
+      period = filters.period || "all",
+      matchesMonth = (value) => {
+        if (period === "all" || period === "yearly") return true;
+        const index = months.indexOf(value);
+        if (index < 0) return false;
+        if (period === "monthly") return value === filters.periodValue;
+        if (period === "last3") return index >= Math.max(0, months.length - 3);
+        if (period === "last6") return index >= Math.max(0, months.length - 6);
+        if (period === "custom") {
+          const start = months.indexOf(filters.fromMonth),
+            end = months.indexOf(filters.toMonth);
+          return index >= Math.min(start, end) && index <= Math.max(start, end);
+        }
+        return true;
+      },
+      rows = [
+        ...(window.FIXED_ASSETS_DATA?.records || []).map((row) => ({
+          company: row.c,
+          department: row.d,
+          month: null,
+        })),
+        ...(window.COPIER_PRINTER_DATA?.records || []).map((row) => ({
+          company: row.company,
+          department: row.department,
+          month: row.period,
+        })),
+        ...[...(budget.budgets || []), ...(budget.expenses || []), ...(budget.purchases || [])].map(
+          (row) => ({ company: row.company, department: row.department, month: row.month }),
         ),
-        ...(budget.budgets || []).map((row) => row.company),
-        ...(budget.expenses || []).map((row) => row.company),
-        ...(budget.purchases || []).map((row) => row.company),
-        ...(window.TICKETS_DATA || []).map((row) => row.company),
-        ...(window.MICROSOFT_LICENSE_DATA?.companies || []).map(
-          (row) => row.Company,
-        ),
-      ]
-        .map(normalize)
-        .filter(
-          (company) =>
-            company && !["all", "total"].includes(company.trim().toLowerCase()),
-        );
-    return new Set(companyValues).size;
+        ...(window.TICKETS_DATA || []).map((row) => ({
+          company: row.company,
+          department: row.department,
+          month: row.completedAt
+            ? new Intl.DateTimeFormat("en-US", { month: "short", year: "2-digit" })
+                .format(new Date(row.completedAt))
+                .replace(" ", "-")
+            : null,
+        })),
+      ];
+    return rows.filter((row) => {
+      const rowCompany = normalizeOverviewCompany(row.company);
+      if (company !== "all" && rowCompany !== normalizeOverviewCompany(company)) return false;
+      if (department !== "all" && row.department !== department) return false;
+      return row.month ? matchesMonth(row.month) : period === "all" || period === "yearly";
+    });
   };
+  const dashboardCompanyCount = (filters = {}) =>
+    new Set(
+      overviewRows(filters)
+        .map((row) => normalizeOverviewCompany(row.company))
+        .filter(Boolean),
+    ).size;
   window.refreshMainDashboardMetrics = () => {
-    const manpower = window.MANPOWER_DIRECTORY_DATA || [],
+    const overviewFilters = window.overviewDashboardState?.filters || {},
+      manpower = window.MANPOWER_DIRECTORY_DATA || [],
+      selectedCompany = overviewFilters.company || "all",
+      selectedDepartment = overviewFilters.department || "all",
+      companyLicenses = readStore(
+        "m365CompanyDB",
+        window.MICROSOFT_LICENSE_DATA?.companies || [],
+      ),
       licenses = readStore(
         "m365LicensesDB",
         window.MICROSOFT_LICENSE_DATA?.licenses || [],
@@ -11147,7 +11357,7 @@ window.exportXlsx = function () {
       licenseRows = licenses.filter(
         (row) => row.Licenses && row.Licenses !== "Total",
       );
-    const currentManpower = manpower.length,
+    let currentManpower = manpower.length,
       plannedManpower =
         Number(
           String(
@@ -11162,12 +11372,57 @@ window.exportXlsx = function () {
         (sum, row) => sum + (Number(row["Available License"]) || 0),
         0,
       ),
-      totalLicenses = activeLicenses + availableLicenses,
-      percent = (value) => Math.max(0, Math.min(100, value)).toFixed(1) + "%";
+      totalLicenseCapacity = licenseRows.reduce(
+        (sum, row) => sum + (Number(row["Total Licenses"]) || 0),
+        0,
+      ),
+      selectedCompanyRow = companyLicenses.find(
+        (row) =>
+          normalizeOverviewCompany(row.Company) ===
+          normalizeOverviewCompany(selectedCompany),
+      );
+    if (selectedCompany !== "all") {
+      activeLicenses = Number(selectedCompanyRow?.["Total Account"]) || 0;
+    }
+    const totalLicenses = totalLicenseCapacity || activeLicenses + availableLicenses,
+      percent = (value) => Math.max(0, Math.min(100, value)).toFixed(1) + "%",
+      scopeParts = [
+        selectedCompany !== "all" ? selectedCompany : "",
+        selectedDepartment !== "all" ? selectedDepartment : "",
+        overviewFilters.period === "monthly" ? overviewFilters.periodValue : "",
+        overviewFilters.period === "last3" ? "Last 3 months" : "",
+        overviewFilters.period === "last6" ? "Last 6 months" : "",
+        overviewFilters.period === "yearly" ? "FY 2026–2027" : "",
+        overviewFilters.period === "custom"
+          ? `${overviewFilters.fromMonth}–${overviewFilters.toMonth}`
+          : "",
+      ].filter(Boolean),
+      scopeLabel = scopeParts.length ? scopeParts.join(" · ") : "All dashboard data",
+      setSubtitle = (id, value) => setText(id, value);
     setValue("mainCurrentManpower", currentManpower);
-    setValue("mainManagedCompanies", dashboardCompanyCount());
+    setValue("mainManagedCompanies", dashboardCompanyCount(overviewFilters));
     setValue("mainActiveLicenses", activeLicenses);
     setValue("mainAvailableLicenses", availableLicenses);
+    setSubtitle(
+      "mainCurrentManpowerSubtitle",
+      "Active digital workforce",
+    );
+    setSubtitle(
+      "mainManagedCompaniesSubtitle",
+      selectedCompany !== "all"
+        ? selectedCompany
+        : scopeParts.length
+          ? `Portfolio filtered by ${scopeLabel}`
+          : "Digital operations portfolio",
+    );
+    setSubtitle(
+      "mainActiveLicensesSubtitle",
+      `${selectedCompany === "all" ? "All companies" : selectedCompany} - license assigned`,
+    );
+    setSubtitle(
+      "mainAvailableLicensesSubtitle",
+      `${selectedCompany === "all" ? "All companies" : selectedCompany} - capacity license`,
+    );
     const workforceRate = plannedManpower
         ? (currentManpower / plannedManpower) * 100
         : 0,
@@ -11224,7 +11479,9 @@ window.exportXlsx = function () {
       availableLicenses,
       licenseColor,
       "Licenses",
-      ["Active licenses", "Available licenses"],
+      ["Active Licenses", "Available Licenses", "Other Company Licenses"],
+      totalLicenses,
+      Math.max(0, totalLicenses - activeLicenses - availableLicenses),
     );
   };
   window.addEventListener("storage", (event) => {
@@ -11262,6 +11519,50 @@ window.exportXlsx = function () {
   else window.refreshMainDashboardMetrics();
 })();
 
+/* One Material loading surface for authentication and page navigation. */
+(() => {
+  let hideTimer;
+  const loading = () => document.getElementById("hubLoading");
+  window.showHubLoading = (message = "Loading dashboard…") => {
+    const element = loading();
+    if (!element) return;
+    window.clearTimeout(hideTimer);
+    const text = element.querySelector("small");
+    if (text) text.textContent = message;
+    element.hidden = false;
+    document.body.setAttribute("aria-busy", "true");
+    requestAnimationFrame(() => element.classList.add("is-visible"));
+  };
+  window.hideHubLoading = (delay = 0) => {
+    window.clearTimeout(hideTimer);
+    hideTimer = window.setTimeout(() => {
+      const element = loading();
+      if (!element) return;
+      element.classList.remove("is-visible");
+      document.body.removeAttribute("aria-busy");
+      window.setTimeout(() => {
+        if (!element.classList.contains("is-visible")) element.hidden = true;
+      }, 200);
+    }, delay);
+  };
+  const authenticated =
+    sessionStorage.getItem("natureADashboardAuthenticated") === "true";
+  if (authenticated) window.hideHubLoading(550);
+  else window.hideHubLoading();
+  document.addEventListener(
+    "click",
+    (event) => {
+      const button = event.target.closest?.("#nav button, #tabs button");
+      const isCurrentPage =
+        button?.classList.contains("active") ||
+        button?.getAttribute("aria-current") === "page";
+      if (button && authenticated && !isCurrentPage)
+        window.showHubLoading("Opening dashboard…");
+    },
+    true,
+  );
+})();
+
 /* Local access gate for the static dashboard. */
 (() => {
   const page = document.getElementById("loginPage"),
@@ -11272,6 +11573,7 @@ window.exportXlsx = function () {
   const reveal = () => {
     page.hidden = true;
     document.body.classList.remove("login-required");
+    window.hideHubLoading?.(420);
   };
   if (authenticated) reveal();
   else {
@@ -11300,7 +11602,8 @@ window.exportXlsx = function () {
     if (username === "admin" && password === "NatureA2026!") {
       sessionStorage.setItem("natureADashboardAuthenticated", "true");
       if (error) error.hidden = true;
-      reveal();
+      window.showHubLoading?.("Signing you in…");
+      window.setTimeout(reveal, 360);
       return;
     }
     if (error) error.hidden = false;
@@ -11622,6 +11925,10 @@ window.exportXlsx = function () {
         if (iconNode && kpiIcon[iconName])
           iconNode.innerHTML = kpiIcon[iconName];
       };
+    window.copierPrinterDashboardState = {
+      filters: { ...state },
+      rows,
+    };
     const printerRows = rows.filter((row) => /printer/i.test(row.copier || "")),
       copierRows = rows.filter((row) => !/printer/i.test(row.copier || "")),
       isAllDevices = state.copier === "all",

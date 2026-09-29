@@ -270,84 +270,84 @@ window.budgetExpenseData = {
     {
       "company": "Nature Alliance",
       "description": "ayeyarhinthar.com (Email)",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Apr-26",
       "amount": 3200000
     },
     {
       "company": "Nature Alliance",
       "description": "ayeyarhinthar.com (Email)",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "May-26",
       "amount": 3200000
     },
     {
       "company": "Nature Alliance",
       "description": "ayeyarhinthar.com (Email)",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Jun-26",
       "amount": 3200000
     },
     {
       "company": "Nature Alliance",
       "description": "ayeyarhinthar.com (Email)",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Jul-26",
       "amount": 3200000
     },
     {
       "company": "Nature Alliance",
       "description": "ayeyarhinthar.com (Email)",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Aug-26",
       "amount": 3200000
     },
     {
       "company": "Nature Alliance",
       "description": "ayeyarhinthar.com (Email)",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Sep-26",
       "amount": 3200000
     },
     {
       "company": "Nature Alliance",
       "description": "ayeyarhinthar.com (Email)",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Oct-26",
       "amount": 3200000
     },
     {
       "company": "Nature Alliance",
       "description": "ayeyarhinthar.com (Email)",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Nov-26",
       "amount": 3200000
     },
     {
       "company": "Nature Alliance",
       "description": "ayeyarhinthar.com (Email)",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Dec-26",
       "amount": 3200000
     },
     {
       "company": "Nature Alliance",
       "description": "ayeyarhinthar.com (Email)",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Jan-27",
       "amount": 3200000
     },
     {
       "company": "Nature Alliance",
       "description": "ayeyarhinthar.com (Email)",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Feb-27",
       "amount": 3200000
     },
     {
       "company": "Nature Alliance",
       "description": "ayeyarhinthar.com (Email)",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Mar-27",
       "amount": 3200000
     },
@@ -1278,84 +1278,84 @@ window.budgetExpenseData = {
     {
       "company": "Nature Alliance",
       "description": "Ayeyar Hinthar Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Apr-26",
       "amount": 140000
     },
     {
       "company": "Nature Alliance",
       "description": "Ayeyar Hinthar Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "May-26",
       "amount": 140000
     },
     {
       "company": "Nature Alliance",
       "description": "Ayeyar Hinthar Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Jun-26",
       "amount": 140000
     },
     {
       "company": "Nature Alliance",
       "description": "Ayeyar Hinthar Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Jul-26",
       "amount": 140000
     },
     {
       "company": "Nature Alliance",
       "description": "Ayeyar Hinthar Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Aug-26",
       "amount": 140000
     },
     {
       "company": "Nature Alliance",
       "description": "Ayeyar Hinthar Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Sep-26",
       "amount": 140000
     },
     {
       "company": "Nature Alliance",
       "description": "Ayeyar Hinthar Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Oct-26",
       "amount": 140000
     },
     {
       "company": "Nature Alliance",
       "description": "Ayeyar Hinthar Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Nov-26",
       "amount": 140000
     },
     {
       "company": "Nature Alliance",
       "description": "Ayeyar Hinthar Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Dec-26",
       "amount": 140000
     },
     {
       "company": "Nature Alliance",
       "description": "Ayeyar Hinthar Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Jan-27",
       "amount": 154000
     },
     {
       "company": "Nature Alliance",
       "description": "Ayeyar Hinthar Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Feb-27",
       "amount": 154000
     },
     {
       "company": "Nature Alliance",
       "description": "Ayeyar Hinthar Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Mar-27",
       "amount": 154000
     },
@@ -1698,84 +1698,84 @@ window.budgetExpenseData = {
     {
       "company": "Nature Alliance",
       "description": "AIP Website & Nature Alliance Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Apr-26",
       "amount": 1670000
     },
     {
       "company": "Nature Alliance",
       "description": "AIP Website & Nature Alliance Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "May-26",
       "amount": 1670000
     },
     {
       "company": "Nature Alliance",
       "description": "AIP Website & Nature Alliance Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Jun-26",
       "amount": 1670000
     },
     {
       "company": "Nature Alliance",
       "description": "AIP Website & Nature Alliance Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Jul-26",
       "amount": 1670000
     },
     {
       "company": "Nature Alliance",
       "description": "AIP Website & Nature Alliance Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Aug-26",
       "amount": 1670000
     },
     {
       "company": "Nature Alliance",
       "description": "AIP Website & Nature Alliance Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Sep-26",
       "amount": 1670000
     },
     {
       "company": "Nature Alliance",
       "description": "AIP Website & Nature Alliance Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Oct-26",
       "amount": 1670000
     },
     {
       "company": "Nature Alliance",
       "description": "AIP Website & Nature Alliance Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Nov-26",
       "amount": 1670000
     },
     {
       "company": "Nature Alliance",
       "description": "AIP Website & Nature Alliance Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Dec-26",
       "amount": 1670000
     },
     {
       "company": "Nature Alliance",
       "description": "AIP Website & Nature Alliance Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Jan-27",
       "amount": 1670000
     },
     {
       "company": "Nature Alliance",
       "description": "AIP Website & Nature Alliance Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Feb-27",
       "amount": 1670000
     },
     {
       "company": "Nature Alliance",
       "description": "AIP Website & Nature Alliance Website",
-      "category": "Domain / Email",
+      "category": "Software",
       "month": "Mar-27",
       "amount": 1670000
     },
@@ -6907,3242 +6907,2810 @@ window.budgetExpenseData = {
   "expenses": [
     {
       "company": "AIP",
-      "category": "Repair & Maintenance",
       "month": "Apr-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Repair & Maintenance",
       "month": "May-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Repair & Maintenance",
       "month": "Jun-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Repair & Maintenance",
       "month": "Jul-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Repair & Maintenance",
       "month": "Aug-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Repair & Maintenance",
       "month": "Sep-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Repair & Maintenance",
       "month": "Oct-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Repair & Maintenance",
       "month": "Nov-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Repair & Maintenance",
       "month": "Dec-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Repair & Maintenance",
       "month": "Jan-27",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Repair & Maintenance",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "AIP",
       "category": "Repair & Maintenance",
-      "month": "Mar-27",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Device & Accessories",
+      "month": "Mar-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "AIP",
       "month": "Apr-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Device & Accessories",
       "month": "May-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Device & Accessories",
       "month": "Jun-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Device & Accessories",
       "month": "Jul-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Device & Accessories",
       "month": "Aug-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Device & Accessories",
       "month": "Sep-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Device & Accessories",
       "month": "Oct-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Device & Accessories",
       "month": "Nov-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Device & Accessories",
       "month": "Dec-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Device & Accessories",
       "month": "Jan-27",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Device & Accessories",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "AIP",
       "category": "Device & Accessories",
-      "month": "Mar-27",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Software",
+      "month": "Mar-27",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "AIP",
       "month": "Apr-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Software",
       "month": "May-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Software",
       "month": "Jun-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Software",
       "month": "Jul-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Software",
       "month": "Aug-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Software",
       "month": "Sep-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Software",
       "month": "Oct-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Software",
       "month": "Nov-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Software",
       "month": "Dec-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Software",
       "month": "Jan-27",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Software",
       "month": "Feb-27",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "AIP",
-      "category": "Software",
       "month": "Mar-27",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Fixed Assets",
       "month": "Apr-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Fixed Assets",
       "month": "May-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Fixed Assets",
       "month": "Jun-26",
+      "category": "Fixed Assets",
       "amount": 8306000
     },
     {
       "company": "Nature Alliance",
-      "category": "Fixed Assets",
       "month": "Jul-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Fixed Assets",
       "month": "Aug-26",
+      "category": "Fixed Assets",
       "amount": 20050000
     },
     {
       "company": "Nature Alliance",
-      "category": "Fixed Assets",
       "month": "Sep-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Fixed Assets",
       "month": "Oct-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Fixed Assets",
       "month": "Nov-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Fixed Assets",
       "month": "Dec-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Fixed Assets",
       "month": "Jan-27",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Fixed Assets",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
       "category": "Fixed Assets",
-      "month": "Mar-27",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Copier Toner",
+      "month": "Mar-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
       "month": "Apr-26",
+      "category": "Copier Toner",
       "amount": 12657456
     },
     {
       "company": "Nature Alliance",
-      "category": "Copier Toner",
       "month": "May-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Copier Toner",
       "month": "Jun-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Copier Toner",
       "month": "Jul-26",
+      "category": "Copier Toner",
       "amount": 15104000
     },
     {
       "company": "Nature Alliance",
-      "category": "Copier Toner",
       "month": "Aug-26",
+      "category": "Copier Toner",
       "amount": 17047500
     },
     {
       "company": "Nature Alliance",
-      "category": "Copier Toner",
       "month": "Sep-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Copier Toner",
       "month": "Oct-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Copier Toner",
       "month": "Nov-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Copier Toner",
       "month": "Dec-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Copier Toner",
       "month": "Jan-27",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Copier Toner",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
       "category": "Copier Toner",
-      "month": "Mar-27",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Repair & Maintenance",
+      "month": "Mar-27",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
       "month": "Apr-26",
+      "category": "Repair & Maintenance",
       "amount": 375000
     },
     {
       "company": "Nature Alliance",
-      "category": "Repair & Maintenance",
       "month": "May-26",
+      "category": "Repair & Maintenance",
       "amount": 664000
     },
     {
       "company": "Nature Alliance",
-      "category": "Repair & Maintenance",
       "month": "Jun-26",
+      "category": "Repair & Maintenance",
       "amount": 685000
     },
     {
       "company": "Nature Alliance",
-      "category": "Repair & Maintenance",
       "month": "Jul-26",
+      "category": "Repair & Maintenance",
       "amount": 515000
     },
     {
       "company": "Nature Alliance",
-      "category": "Repair & Maintenance",
       "month": "Aug-26",
+      "category": "Repair & Maintenance",
       "amount": 2503000
     },
     {
       "company": "Nature Alliance",
-      "category": "Repair & Maintenance",
       "month": "Sep-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Repair & Maintenance",
       "month": "Oct-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Repair & Maintenance",
       "month": "Nov-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Repair & Maintenance",
       "month": "Dec-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Repair & Maintenance",
       "month": "Jan-27",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Repair & Maintenance",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
       "category": "Repair & Maintenance",
-      "month": "Mar-27",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Device & Accessories",
+      "month": "Mar-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
       "month": "Apr-26",
+      "category": "Device & Accessories",
       "amount": 25023450
     },
     {
       "company": "Nature Alliance",
-      "category": "Device & Accessories",
       "month": "May-26",
+      "category": "Device & Accessories",
       "amount": 3281500
     },
     {
       "company": "Nature Alliance",
-      "category": "Device & Accessories",
       "month": "Jun-26",
+      "category": "Device & Accessories",
       "amount": 2765000
     },
     {
       "company": "Nature Alliance",
-      "category": "Device & Accessories",
       "month": "Jul-26",
+      "category": "Device & Accessories",
       "amount": 4158600
     },
     {
       "company": "Nature Alliance",
-      "category": "Device & Accessories",
       "month": "Aug-26",
+      "category": "Device & Accessories",
       "amount": 6193200
     },
     {
       "company": "Nature Alliance",
-      "category": "Device & Accessories",
       "month": "Sep-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Device & Accessories",
       "month": "Oct-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Device & Accessories",
       "month": "Nov-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Device & Accessories",
       "month": "Dec-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Device & Accessories",
       "month": "Jan-27",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Device & Accessories",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
       "category": "Device & Accessories",
-      "month": "Mar-27",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Internet Bill",
+      "month": "Mar-27",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
       "month": "Apr-26",
+      "category": "Internet Bill",
       "amount": 2188925
     },
     {
       "company": "Nature Alliance",
-      "category": "Internet Bill",
       "month": "May-26",
+      "category": "Internet Bill",
       "amount": 1800893
     },
     {
       "company": "Nature Alliance",
-      "category": "Internet Bill",
       "month": "Jun-26",
+      "category": "Internet Bill",
       "amount": 1871413
     },
     {
       "company": "Nature Alliance",
-      "category": "Internet Bill",
       "month": "Jul-26",
+      "category": "Internet Bill",
       "amount": 3131925
     },
     {
       "company": "Nature Alliance",
-      "category": "Internet Bill",
       "month": "Aug-26",
+      "category": "Internet Bill",
       "amount": 2303925
     },
     {
       "company": "Nature Alliance",
-      "category": "Internet Bill",
       "month": "Sep-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Internet Bill",
       "month": "Oct-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Internet Bill",
       "month": "Nov-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Internet Bill",
       "month": "Dec-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Internet Bill",
       "month": "Jan-27",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
       "category": "Internet Bill",
-      "month": "Feb-27",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
+      "month": "Feb-27",
       "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
       "month": "Mar-27",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Software",
       "month": "Apr-26",
-      "amount": 750173
+      "category": "Software",
+      "amount": 4150218.4
     },
     {
       "company": "Nature Alliance",
-      "category": "Software",
       "month": "May-26",
-      "amount": 0
+      "category": "Software",
+      "amount": 3400045.9
     },
     {
       "company": "Nature Alliance",
-      "category": "Software",
       "month": "Jun-26",
-      "amount": 0
+      "category": "Software",
+      "amount": 3226737.6
     },
     {
       "company": "Nature Alliance",
-      "category": "Software",
       "month": "Jul-26",
-      "amount": 1518432
+      "category": "Software",
+      "amount": 4797454.5
     },
     {
       "company": "Nature Alliance",
-      "category": "Software",
       "month": "Aug-26",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
       "category": "Software",
-      "month": "Sep-26",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "category": "Software",
-      "month": "Oct-26",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "category": "Software",
-      "month": "Nov-26",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "category": "Software",
-      "month": "Dec-26",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "category": "Software",
-      "month": "Jan-27",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "category": "Software",
-      "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "category": "Software",
-      "month": "Mar-27",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "category": "Domain / Email",
-      "month": "Apr-26",
-      "amount": 3400046
-    },
-    {
-      "company": "Nature Alliance",
-      "category": "Domain / Email",
-      "month": "May-26",
-      "amount": 3400046
-    },
-    {
-      "company": "Nature Alliance",
-      "category": "Domain / Email",
-      "month": "Jun-26",
-      "amount": 3226738
-    },
-    {
-      "company": "Nature Alliance",
-      "category": "Domain / Email",
-      "month": "Jul-26",
-      "amount": 3279023
-    },
-    {
-      "company": "Nature Alliance",
-      "category": "Domain / Email",
-      "month": "Aug-26",
       "amount": 3571185
     },
     {
       "company": "Nature Alliance",
-      "category": "Domain / Email",
       "month": "Sep-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Domain / Email",
       "month": "Oct-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Domain / Email",
       "month": "Nov-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Domain / Email",
       "month": "Dec-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Domain / Email",
       "month": "Jan-27",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Domain / Email",
       "month": "Feb-27",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Alliance",
-      "category": "Domain / Email",
       "month": "Mar-27",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Fixed Assets",
       "month": "Apr-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Fixed Assets",
       "month": "May-26",
+      "category": "Fixed Assets",
       "amount": 8200000
     },
     {
       "company": "Nature Valley",
-      "category": "Fixed Assets",
       "month": "Jun-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Fixed Assets",
       "month": "Jul-26",
+      "category": "Fixed Assets",
       "amount": 22763000
     },
     {
       "company": "Nature Valley",
-      "category": "Fixed Assets",
       "month": "Aug-26",
+      "category": "Fixed Assets",
       "amount": 4790000
     },
     {
       "company": "Nature Valley",
-      "category": "Fixed Assets",
       "month": "Sep-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Fixed Assets",
       "month": "Oct-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Fixed Assets",
       "month": "Nov-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Fixed Assets",
       "month": "Dec-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Fixed Assets",
       "month": "Jan-27",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Fixed Assets",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
       "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
       "month": "Mar-27",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Copier Toner",
       "month": "Apr-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Copier Toner",
       "month": "May-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Copier Toner",
       "month": "Jun-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Copier Toner",
       "month": "Jul-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Copier Toner",
       "month": "Aug-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Copier Toner",
       "month": "Sep-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Copier Toner",
       "month": "Oct-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Copier Toner",
       "month": "Nov-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Copier Toner",
       "month": "Dec-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Copier Toner",
       "month": "Jan-27",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Copier Toner",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
       "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
       "month": "Mar-27",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Repair & Maintenance",
       "month": "Apr-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Repair & Maintenance",
       "month": "May-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Repair & Maintenance",
       "month": "Jun-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Repair & Maintenance",
       "month": "Jul-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Repair & Maintenance",
       "month": "Aug-26",
+      "category": "Repair & Maintenance",
       "amount": 670000
     },
     {
       "company": "Nature Valley",
-      "category": "Repair & Maintenance",
       "month": "Sep-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Repair & Maintenance",
       "month": "Oct-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Repair & Maintenance",
       "month": "Nov-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Repair & Maintenance",
       "month": "Dec-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Repair & Maintenance",
       "month": "Jan-27",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Repair & Maintenance",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
       "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
       "month": "Mar-27",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Device & Accessories",
       "month": "Apr-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Device & Accessories",
       "month": "May-26",
+      "category": "Device & Accessories",
       "amount": 727000
     },
     {
       "company": "Nature Valley",
-      "category": "Device & Accessories",
       "month": "Jun-26",
+      "category": "Device & Accessories",
       "amount": 87000
     },
     {
       "company": "Nature Valley",
-      "category": "Device & Accessories",
       "month": "Jul-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Device & Accessories",
       "month": "Aug-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Device & Accessories",
       "month": "Sep-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Device & Accessories",
       "month": "Oct-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Device & Accessories",
       "month": "Nov-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Device & Accessories",
       "month": "Dec-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Device & Accessories",
       "month": "Jan-27",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Device & Accessories",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
       "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
       "month": "Mar-27",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Internet Bill",
       "month": "Apr-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Internet Bill",
       "month": "May-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Internet Bill",
       "month": "Jun-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Internet Bill",
       "month": "Jul-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Internet Bill",
       "month": "Aug-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Internet Bill",
       "month": "Sep-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Internet Bill",
       "month": "Oct-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Internet Bill",
       "month": "Nov-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Internet Bill",
       "month": "Dec-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Internet Bill",
       "month": "Jan-27",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
       "category": "Internet Bill",
-      "month": "Feb-27",
       "amount": 0
     },
     {
       "company": "Nature Valley",
+      "month": "Feb-27",
       "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
       "month": "Mar-27",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Software",
       "month": "Apr-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Software",
       "month": "May-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Software",
       "month": "Jun-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Software",
       "month": "Jul-26",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
       "category": "Software",
-      "month": "Aug-26",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "category": "Software",
-      "month": "Sep-26",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "category": "Software",
-      "month": "Oct-26",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "category": "Software",
-      "month": "Nov-26",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "category": "Software",
-      "month": "Dec-26",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "category": "Software",
-      "month": "Jan-27",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "category": "Software",
-      "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "category": "Software",
-      "month": "Mar-27",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "category": "Domain / Email",
-      "month": "Apr-26",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "category": "Domain / Email",
-      "month": "May-26",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "category": "Domain / Email",
-      "month": "Jun-26",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "category": "Domain / Email",
-      "month": "Jul-26",
       "amount": 50000
     },
     {
       "company": "Nature Valley",
-      "category": "Domain / Email",
       "month": "Aug-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Domain / Email",
       "month": "Sep-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Domain / Email",
       "month": "Oct-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Domain / Email",
       "month": "Nov-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Domain / Email",
       "month": "Dec-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Domain / Email",
       "month": "Jan-27",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Domain / Email",
       "month": "Feb-27",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Nature Valley",
-      "category": "Domain / Email",
       "month": "Mar-27",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Fixed Assets",
       "month": "Apr-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Fixed Assets",
       "month": "May-26",
+      "category": "Fixed Assets",
       "amount": 22626500
     },
     {
       "company": "Innobuilder",
-      "category": "Fixed Assets",
       "month": "Jun-26",
+      "category": "Fixed Assets",
       "amount": 24498000
     },
     {
       "company": "Innobuilder",
-      "category": "Fixed Assets",
       "month": "Jul-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Fixed Assets",
       "month": "Aug-26",
+      "category": "Fixed Assets",
       "amount": 17134000
     },
     {
       "company": "Innobuilder",
-      "category": "Fixed Assets",
       "month": "Sep-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Fixed Assets",
       "month": "Oct-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Fixed Assets",
       "month": "Nov-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Fixed Assets",
       "month": "Dec-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Fixed Assets",
       "month": "Jan-27",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Fixed Assets",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
       "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
       "month": "Mar-27",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Copier Toner",
       "month": "Apr-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Copier Toner",
       "month": "May-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Copier Toner",
       "month": "Jun-26",
+      "category": "Copier Toner",
       "amount": 2400000
     },
     {
       "company": "Innobuilder",
-      "category": "Copier Toner",
       "month": "Jul-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Copier Toner",
       "month": "Aug-26",
+      "category": "Copier Toner",
       "amount": 278000
     },
     {
       "company": "Innobuilder",
-      "category": "Copier Toner",
       "month": "Sep-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Copier Toner",
       "month": "Oct-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Copier Toner",
       "month": "Nov-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Copier Toner",
       "month": "Dec-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Copier Toner",
       "month": "Jan-27",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Copier Toner",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
       "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
       "month": "Mar-27",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Repair & Maintenance",
       "month": "Apr-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Repair & Maintenance",
       "month": "May-26",
+      "category": "Repair & Maintenance",
       "amount": 330000
     },
     {
       "company": "Innobuilder",
-      "category": "Repair & Maintenance",
       "month": "Jun-26",
+      "category": "Repair & Maintenance",
       "amount": 180000
     },
     {
       "company": "Innobuilder",
-      "category": "Repair & Maintenance",
       "month": "Jul-26",
+      "category": "Repair & Maintenance",
       "amount": 1300000
     },
     {
       "company": "Innobuilder",
-      "category": "Repair & Maintenance",
       "month": "Aug-26",
+      "category": "Repair & Maintenance",
       "amount": 50000
     },
     {
       "company": "Innobuilder",
-      "category": "Repair & Maintenance",
       "month": "Sep-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Repair & Maintenance",
       "month": "Oct-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Repair & Maintenance",
       "month": "Nov-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Repair & Maintenance",
       "month": "Dec-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Repair & Maintenance",
       "month": "Jan-27",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Repair & Maintenance",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
       "category": "Repair & Maintenance",
-      "month": "Mar-27",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Device & Accessories",
+      "month": "Mar-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
       "month": "Apr-26",
+      "category": "Device & Accessories",
       "amount": 317000
     },
     {
       "company": "Innobuilder",
-      "category": "Device & Accessories",
       "month": "May-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Device & Accessories",
       "month": "Jun-26",
+      "category": "Device & Accessories",
       "amount": 1397100
     },
     {
       "company": "Innobuilder",
-      "category": "Device & Accessories",
       "month": "Jul-26",
+      "category": "Device & Accessories",
       "amount": 3930000
     },
     {
       "company": "Innobuilder",
-      "category": "Device & Accessories",
       "month": "Aug-26",
+      "category": "Device & Accessories",
       "amount": 2094500
     },
     {
       "company": "Innobuilder",
-      "category": "Device & Accessories",
       "month": "Sep-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Device & Accessories",
       "month": "Oct-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Device & Accessories",
       "month": "Nov-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Device & Accessories",
       "month": "Dec-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Device & Accessories",
       "month": "Jan-27",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Device & Accessories",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
       "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
       "month": "Mar-27",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Internet Bill",
       "month": "Apr-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Internet Bill",
       "month": "May-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Internet Bill",
       "month": "Jun-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Internet Bill",
       "month": "Jul-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Internet Bill",
       "month": "Aug-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Internet Bill",
       "month": "Sep-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Internet Bill",
       "month": "Oct-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Internet Bill",
       "month": "Nov-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Internet Bill",
       "month": "Dec-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Internet Bill",
       "month": "Jan-27",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Internet Bill",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
       "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
       "month": "Mar-27",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Software",
       "month": "Apr-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Software",
       "month": "May-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Software",
       "month": "Jun-26",
+      "category": "Software",
       "amount": 9396264
     },
     {
       "company": "Innobuilder",
-      "category": "Software",
       "month": "Jul-26",
+      "category": "Software",
       "amount": 636111
     },
     {
       "company": "Innobuilder",
-      "category": "Software",
       "month": "Aug-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Software",
       "month": "Sep-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Software",
       "month": "Oct-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Software",
       "month": "Nov-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Software",
       "month": "Dec-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Software",
       "month": "Jan-27",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Innobuilder",
-      "category": "Software",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
       "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
       "month": "Mar-27",
+      "category": "Software",
       "amount": 0
     },
     {
-      "company": "Innobuilder",
-      "category": "Domain / Email",
+      "company": "Prime Asset",
       "month": "Apr-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
-      "company": "Innobuilder",
-      "category": "Domain / Email",
+      "company": "Prime Asset",
       "month": "May-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
-      "company": "Innobuilder",
-      "category": "Domain / Email",
+      "company": "Prime Asset",
       "month": "Jun-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
-      "company": "Innobuilder",
-      "category": "Domain / Email",
+      "company": "Prime Asset",
       "month": "Jul-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
-      "company": "Innobuilder",
-      "category": "Domain / Email",
+      "company": "Prime Asset",
       "month": "Aug-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
-      "company": "Innobuilder",
-      "category": "Domain / Email",
+      "company": "Prime Asset",
       "month": "Sep-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
-      "company": "Innobuilder",
-      "category": "Domain / Email",
+      "company": "Prime Asset",
       "month": "Oct-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
-      "company": "Innobuilder",
-      "category": "Domain / Email",
+      "company": "Prime Asset",
       "month": "Nov-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
-      "company": "Innobuilder",
-      "category": "Domain / Email",
+      "company": "Prime Asset",
       "month": "Dec-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
-      "company": "Innobuilder",
-      "category": "Domain / Email",
+      "company": "Prime Asset",
       "month": "Jan-27",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
-      "company": "Innobuilder",
-      "category": "Domain / Email",
+      "company": "Prime Asset",
       "month": "Feb-27",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
-      "company": "Innobuilder",
-      "category": "Domain / Email",
+      "company": "Prime Asset",
       "month": "Mar-27",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Fixed Assets",
       "month": "Apr-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Fixed Assets",
       "month": "May-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Fixed Assets",
       "month": "Jun-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Fixed Assets",
       "month": "Jul-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Fixed Assets",
       "month": "Aug-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Fixed Assets",
       "month": "Sep-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Fixed Assets",
       "month": "Oct-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Fixed Assets",
       "month": "Nov-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Fixed Assets",
       "month": "Dec-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Fixed Assets",
       "month": "Jan-27",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Fixed Assets",
       "month": "Feb-27",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Fixed Assets",
       "month": "Mar-27",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Copier Toner",
       "month": "Apr-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Copier Toner",
       "month": "May-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Copier Toner",
       "month": "Jun-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Copier Toner",
       "month": "Jul-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Copier Toner",
-      "month": "Aug-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Copier Toner",
-      "month": "Sep-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Copier Toner",
-      "month": "Oct-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Copier Toner",
-      "month": "Nov-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Copier Toner",
-      "month": "Dec-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Copier Toner",
-      "month": "Jan-27",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Copier Toner",
-      "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Copier Toner",
-      "month": "Mar-27",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
       "category": "Repair & Maintenance",
-      "month": "Apr-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Repair & Maintenance",
-      "month": "May-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Repair & Maintenance",
-      "month": "Jun-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Repair & Maintenance",
-      "month": "Jul-26",
       "amount": 128000
     },
     {
       "company": "Prime Asset",
-      "category": "Repair & Maintenance",
       "month": "Aug-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Repair & Maintenance",
       "month": "Sep-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Repair & Maintenance",
       "month": "Oct-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Repair & Maintenance",
       "month": "Nov-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Repair & Maintenance",
       "month": "Dec-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Repair & Maintenance",
       "month": "Jan-27",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Repair & Maintenance",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
       "category": "Repair & Maintenance",
-      "month": "Mar-27",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Device & Accessories",
+      "month": "Mar-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Prime Asset",
       "month": "Apr-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Device & Accessories",
       "month": "May-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Device & Accessories",
       "month": "Jun-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Device & Accessories",
       "month": "Jul-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Device & Accessories",
       "month": "Aug-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Device & Accessories",
       "month": "Sep-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Device & Accessories",
       "month": "Oct-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Device & Accessories",
       "month": "Nov-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Device & Accessories",
       "month": "Dec-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Device & Accessories",
       "month": "Jan-27",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Device & Accessories",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
       "category": "Device & Accessories",
-      "month": "Mar-27",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Internet Bill",
+      "month": "Mar-27",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Prime Asset",
       "month": "Apr-26",
+      "category": "Internet Bill",
       "amount": 63000
     },
     {
       "company": "Prime Asset",
-      "category": "Internet Bill",
       "month": "May-26",
+      "category": "Internet Bill",
       "amount": 63000
     },
     {
       "company": "Prime Asset",
-      "category": "Internet Bill",
       "month": "Jun-26",
+      "category": "Internet Bill",
       "amount": 63000
     },
     {
       "company": "Prime Asset",
-      "category": "Internet Bill",
       "month": "Jul-26",
+      "category": "Internet Bill",
       "amount": 63000
     },
     {
       "company": "Prime Asset",
-      "category": "Internet Bill",
       "month": "Aug-26",
+      "category": "Internet Bill",
       "amount": 63000
     },
     {
       "company": "Prime Asset",
-      "category": "Internet Bill",
       "month": "Sep-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Internet Bill",
       "month": "Oct-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Internet Bill",
       "month": "Nov-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Internet Bill",
       "month": "Dec-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Internet Bill",
       "month": "Jan-27",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Internet Bill",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
       "category": "Internet Bill",
-      "month": "Mar-27",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Software",
+      "month": "Mar-27",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Prime Asset",
       "month": "Apr-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Software",
       "month": "May-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Software",
       "month": "Jun-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Software",
       "month": "Jul-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Software",
       "month": "Aug-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Software",
       "month": "Sep-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Software",
       "month": "Oct-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Software",
       "month": "Nov-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Software",
       "month": "Dec-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Prime Asset",
-      "category": "Software",
       "month": "Jan-27",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
       "category": "Software",
-      "month": "Feb-27",
       "amount": 0
     },
     {
       "company": "Prime Asset",
+      "month": "Feb-27",
       "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Prime Asset",
       "month": "Mar-27",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Domain / Email",
-      "month": "Apr-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Domain / Email",
-      "month": "May-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Domain / Email",
-      "month": "Jun-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Domain / Email",
-      "month": "Jul-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Domain / Email",
-      "month": "Aug-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Domain / Email",
-      "month": "Sep-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Domain / Email",
-      "month": "Oct-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Domain / Email",
-      "month": "Nov-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Domain / Email",
-      "month": "Dec-26",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Domain / Email",
-      "month": "Jan-27",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Domain / Email",
-      "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "category": "Domain / Email",
-      "month": "Mar-27",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Fixed Assets",
       "month": "Apr-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Fixed Assets",
       "month": "May-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Fixed Assets",
       "month": "Jun-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Fixed Assets",
       "month": "Jul-26",
+      "category": "Fixed Assets",
       "amount": 17854000
     },
     {
       "company": "Seven Aluminium",
-      "category": "Fixed Assets",
       "month": "Aug-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Fixed Assets",
       "month": "Sep-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Fixed Assets",
       "month": "Oct-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Fixed Assets",
       "month": "Nov-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Fixed Assets",
       "month": "Dec-26",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Fixed Assets",
       "month": "Jan-27",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Fixed Assets",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
       "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
       "month": "Mar-27",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Copier Toner",
       "month": "Apr-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Copier Toner",
       "month": "May-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Copier Toner",
       "month": "Jun-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Copier Toner",
       "month": "Jul-26",
+      "category": "Copier Toner",
       "amount": 2740000
     },
     {
       "company": "Seven Aluminium",
-      "category": "Copier Toner",
       "month": "Aug-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Copier Toner",
       "month": "Sep-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Copier Toner",
       "month": "Oct-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Copier Toner",
       "month": "Nov-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Copier Toner",
       "month": "Dec-26",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Copier Toner",
       "month": "Jan-27",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Copier Toner",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
       "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
       "month": "Mar-27",
+      "category": "Copier Toner",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Repair & Maintenance",
       "month": "Apr-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Repair & Maintenance",
       "month": "May-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Repair & Maintenance",
       "month": "Jun-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Repair & Maintenance",
       "month": "Jul-26",
+      "category": "Repair & Maintenance",
       "amount": 400000
     },
     {
       "company": "Seven Aluminium",
-      "category": "Repair & Maintenance",
       "month": "Aug-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Repair & Maintenance",
       "month": "Sep-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Repair & Maintenance",
       "month": "Oct-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Repair & Maintenance",
       "month": "Nov-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Repair & Maintenance",
       "month": "Dec-26",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Repair & Maintenance",
       "month": "Jan-27",
+      "category": "Repair & Maintenance",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Repair & Maintenance",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
       "category": "Repair & Maintenance",
-      "month": "Mar-27",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Device & Accessories",
+      "month": "Mar-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
       "month": "Apr-26",
+      "category": "Device & Accessories",
       "amount": 45000
     },
     {
       "company": "Seven Aluminium",
-      "category": "Device & Accessories",
       "month": "May-26",
+      "category": "Device & Accessories",
       "amount": 405000
     },
     {
       "company": "Seven Aluminium",
-      "category": "Device & Accessories",
       "month": "Jun-26",
+      "category": "Device & Accessories",
       "amount": 79000
     },
     {
       "company": "Seven Aluminium",
-      "category": "Device & Accessories",
       "month": "Jul-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Device & Accessories",
       "month": "Aug-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Device & Accessories",
       "month": "Sep-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Device & Accessories",
       "month": "Oct-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Device & Accessories",
       "month": "Nov-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Device & Accessories",
       "month": "Dec-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Device & Accessories",
       "month": "Jan-27",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Device & Accessories",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
       "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
       "month": "Mar-27",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Internet Bill",
       "month": "Apr-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Internet Bill",
       "month": "May-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Internet Bill",
       "month": "Jun-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Internet Bill",
       "month": "Jul-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Internet Bill",
       "month": "Aug-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Internet Bill",
       "month": "Sep-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Internet Bill",
       "month": "Oct-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Internet Bill",
       "month": "Nov-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Internet Bill",
       "month": "Dec-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Internet Bill",
       "month": "Jan-27",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Internet Bill",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
       "category": "Internet Bill",
-      "month": "Mar-27",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Software",
+      "month": "Mar-27",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
       "month": "Apr-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Software",
       "month": "May-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Software",
       "month": "Jun-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Software",
       "month": "Jul-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Software",
       "month": "Aug-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Software",
       "month": "Sep-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Software",
       "month": "Oct-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Software",
       "month": "Nov-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Software",
       "month": "Dec-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Software",
       "month": "Jan-27",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Software",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
       "category": "Software",
-      "month": "Mar-27",
       "amount": 0
     },
     {
       "company": "Seven Aluminium",
-      "category": "Domain / Email",
+      "month": "Mar-27",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
       "month": "Apr-26",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "category": "Domain / Email",
-      "month": "May-26",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "category": "Domain / Email",
-      "month": "Jun-26",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "category": "Domain / Email",
-      "month": "Jul-26",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "category": "Domain / Email",
-      "month": "Aug-26",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "category": "Domain / Email",
-      "month": "Sep-26",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "category": "Domain / Email",
-      "month": "Oct-26",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "category": "Domain / Email",
-      "month": "Nov-26",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "category": "Domain / Email",
-      "month": "Dec-26",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "category": "Domain / Email",
-      "month": "Jan-27",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "category": "Domain / Email",
-      "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "category": "Domain / Email",
-      "month": "Mar-27",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
+      "month": "May-26",
       "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Jun-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Jul-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Aug-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Sep-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Oct-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Nov-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Dec-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Jan-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Feb-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Mar-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
       "month": "Apr-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Fixed Assets",
-      "month": "May-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Fixed Assets",
-      "month": "Jun-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Fixed Assets",
-      "month": "Jul-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Fixed Assets",
-      "month": "Aug-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Fixed Assets",
-      "month": "Sep-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Fixed Assets",
-      "month": "Oct-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Fixed Assets",
-      "month": "Nov-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Fixed Assets",
-      "month": "Dec-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Fixed Assets",
-      "month": "Jan-27",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Fixed Assets",
-      "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Fixed Assets",
-      "month": "Mar-27",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
       "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "May-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Jun-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Jul-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Aug-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Sep-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Oct-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Nov-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Dec-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Jan-27",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Feb-27",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Mar-27",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
       "month": "Apr-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Copier Toner",
-      "month": "May-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Copier Toner",
-      "month": "Jun-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Copier Toner",
-      "month": "Jul-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Copier Toner",
-      "month": "Aug-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Copier Toner",
-      "month": "Sep-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Copier Toner",
-      "month": "Oct-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Copier Toner",
-      "month": "Nov-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Copier Toner",
-      "month": "Dec-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Copier Toner",
-      "month": "Jan-27",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Copier Toner",
-      "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Copier Toner",
-      "month": "Mar-27",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
       "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "May-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Jun-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Jul-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Aug-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Sep-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Oct-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Nov-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Dec-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Jan-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Feb-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Mar-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
       "month": "Apr-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Repair & Maintenance",
-      "month": "May-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Repair & Maintenance",
-      "month": "Jun-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Repair & Maintenance",
-      "month": "Jul-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Repair & Maintenance",
-      "month": "Aug-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Repair & Maintenance",
-      "month": "Sep-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Repair & Maintenance",
-      "month": "Oct-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Repair & Maintenance",
-      "month": "Nov-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Repair & Maintenance",
-      "month": "Dec-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Repair & Maintenance",
-      "month": "Jan-27",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Repair & Maintenance",
-      "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Repair & Maintenance",
-      "month": "Mar-27",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
       "category": "Device & Accessories",
-      "month": "Apr-26",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Device & Accessories",
       "month": "May-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Device & Accessories",
       "month": "Jun-26",
+      "category": "Device & Accessories",
       "amount": 38000
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Device & Accessories",
       "month": "Jul-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Device & Accessories",
       "month": "Aug-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Device & Accessories",
       "month": "Sep-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Device & Accessories",
       "month": "Oct-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Device & Accessories",
       "month": "Nov-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Device & Accessories",
       "month": "Dec-26",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Device & Accessories",
       "month": "Jan-27",
+      "category": "Device & Accessories",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Device & Accessories",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
       "category": "Device & Accessories",
-      "month": "Mar-27",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Internet Bill",
+      "month": "Mar-27",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
       "month": "Apr-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Internet Bill",
       "month": "May-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Internet Bill",
       "month": "Jun-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Internet Bill",
       "month": "Jul-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Internet Bill",
       "month": "Aug-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Internet Bill",
       "month": "Sep-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Internet Bill",
       "month": "Oct-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Internet Bill",
       "month": "Nov-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Internet Bill",
       "month": "Dec-26",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Internet Bill",
       "month": "Jan-27",
+      "category": "Internet Bill",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Internet Bill",
       "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
       "category": "Internet Bill",
-      "month": "Mar-27",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Software",
+      "month": "Mar-27",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
       "month": "Apr-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Software",
       "month": "May-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Software",
       "month": "Jun-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Software",
       "month": "Jul-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Software",
       "month": "Aug-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Software",
       "month": "Sep-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Software",
       "month": "Oct-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Software",
       "month": "Nov-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Software",
       "month": "Dec-26",
+      "category": "Software",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
-      "category": "Software",
       "month": "Jan-27",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
       "category": "Software",
-      "month": "Feb-27",
       "amount": 0
     },
     {
       "company": "Myanmar Safety Glass",
+      "month": "Feb-27",
       "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
       "month": "Mar-27",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Domain / Email",
-      "month": "Apr-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Domain / Email",
-      "month": "May-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Domain / Email",
-      "month": "Jun-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Domain / Email",
-      "month": "Jul-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Domain / Email",
-      "month": "Aug-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Domain / Email",
-      "month": "Sep-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Domain / Email",
-      "month": "Oct-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Domain / Email",
-      "month": "Nov-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Domain / Email",
-      "month": "Dec-26",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Domain / Email",
-      "month": "Jan-27",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Domain / Email",
-      "month": "Feb-27",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "category": "Domain / Email",
-      "month": "Mar-27",
+      "category": "Software",
       "amount": 0
     }
   ],
@@ -10272,6 +9840,715 @@ window.budgetExpenseData = {
       "desktop": 1,
       "copier": 0,
       "printer": 0
+    }
+  ],
+  "expenseDetails": [
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-26",
+      "department": "Common",
+      "category": "Copier Toner",
+      "amount": 12657456
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 24313450
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 1557000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-26",
+      "department": "Common",
+      "category": "Software",
+      "amount": 4150218.4
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-26",
+      "department": "Admin",
+      "category": "Device & Accessories",
+      "amount": 530000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-26",
+      "department": "Chairman Room",
+      "category": "Internet Bill",
+      "amount": 631925
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-26",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 230000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-26",
+      "department": "Finance",
+      "category": "Device & Accessories",
+      "amount": 180000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-26",
+      "department": "Quality Management",
+      "category": "Repair & Maintenance",
+      "amount": 95000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-26",
+      "department": "BDPM",
+      "category": "Repair & Maintenance",
+      "amount": 50000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 97500
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 1168968
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-26",
+      "department": "Common",
+      "category": "Software",
+      "amount": 3400045.9
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-26",
+      "department": "Chairman Room",
+      "category": "Internet Bill",
+      "amount": 631925
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-26",
+      "department": "Admin",
+      "category": "Device & Accessories",
+      "amount": 750000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-26",
+      "department": "BDPM",
+      "category": "Repair & Maintenance",
+      "amount": 92000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-26",
+      "department": "BDPM",
+      "category": "Device & Accessories",
+      "amount": 240000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-26",
+      "department": "Corporate Secretarial",
+      "category": "Device & Accessories",
+      "amount": 170000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-26",
+      "department": "Digital",
+      "category": "Repair & Maintenance",
+      "amount": 365000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-26",
+      "department": "Digital",
+      "category": "Device & Accessories",
+      "amount": 1951000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-26",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 100000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-26",
+      "department": "Finance",
+      "category": "Device & Accessories",
+      "amount": 73000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-26",
+      "department": "BOD",
+      "category": "Repair & Maintenance",
+      "amount": 30000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-26",
+      "department": "Legal",
+      "category": "Repair & Maintenance",
+      "amount": 77000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 1250580
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-26",
+      "department": "Common",
+      "category": "Software",
+      "amount": 3226737.6
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-26",
+      "department": "Chairman Room",
+      "category": "Internet Bill",
+      "amount": 620833
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-26",
+      "department": "BDPM",
+      "category": "Fixed Assets",
+      "amount": 4153000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-26",
+      "department": "Legal",
+      "category": "Fixed Assets",
+      "amount": 4153000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-26",
+      "department": "Legal",
+      "category": "Repair & Maintenance",
+      "amount": 50000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-26",
+      "department": "BOD",
+      "category": "Device & Accessories",
+      "amount": 550000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-26",
+      "department": "Digital",
+      "category": "Device & Accessories",
+      "amount": 1505000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-26",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 635000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-26",
+      "department": "Admin",
+      "category": "Device & Accessories",
+      "amount": 710000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-26",
+      "department": "Common",
+      "category": "Copier Toner",
+      "amount": 15104000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-26",
+      "department": "Common",
+      "category": "Repair & Maintenance",
+      "amount": 360000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 2370600
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 2500000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-26",
+      "department": "Common",
+      "category": "Software",
+      "amount": 4380254.5
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-26",
+      "department": "Chairman Room",
+      "category": "Internet Bill",
+      "amount": 631925
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-26",
+      "department": "Digital",
+      "category": "Repair & Maintenance",
+      "amount": 55000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-26",
+      "department": "Digital",
+      "category": "Device & Accessories",
+      "amount": 312000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-26",
+      "department": "HR",
+      "category": "Repair & Maintenance",
+      "amount": 70000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-26",
+      "department": "HR",
+      "category": "Device & Accessories",
+      "amount": 50000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-26",
+      "department": "HR",
+      "category": "Software",
+      "amount": 417200
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-26",
+      "department": "Finance",
+      "category": "Device & Accessories",
+      "amount": 1426000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-26",
+      "department": "Quality Management",
+      "category": "Repair & Maintenance",
+      "amount": 30000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "Common",
+      "category": "Copier Toner",
+      "amount": 17047500
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "Common",
+      "category": "Repair & Maintenance",
+      "amount": 205000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 700000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 1672000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "Common",
+      "category": "Software",
+      "amount": 3571185
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "Chairman Room",
+      "category": "Internet Bill",
+      "amount": 631925
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "Corporate Secretarial",
+      "category": "Fixed Assets",
+      "amount": 4170000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "Corporate Secretarial",
+      "category": "Device & Accessories",
+      "amount": 1810000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "Finance",
+      "category": "Fixed Assets",
+      "amount": 11380000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "Finance",
+      "category": "Device & Accessories",
+      "amount": 1490000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "Admin",
+      "category": "Fixed Assets",
+      "amount": 4500000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "BOD",
+      "category": "Device & Accessories",
+      "amount": 155200
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "Digital",
+      "category": "Device & Accessories",
+      "amount": 525000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "HR",
+      "category": "Repair & Maintenance",
+      "amount": 98000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "HR",
+      "category": "Device & Accessories",
+      "amount": 623000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "BDPM",
+      "category": "Device & Accessories",
+      "amount": 890000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "department": "Quality Management",
+      "category": "Repair & Maintenance",
+      "amount": 2200000
+    },
+    {
+      "company": "Nature Valley",
+      "month": "May-26",
+      "department": "Sales & Marketing",
+      "category": "Fixed Assets",
+      "amount": 8200000
+    },
+    {
+      "company": "Nature Valley",
+      "month": "May-26",
+      "department": "Sales & Marketing",
+      "category": "Device & Accessories",
+      "amount": 727000
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Jun-26",
+      "department": "Sales & Marketing",
+      "category": "Device & Accessories",
+      "amount": 87000
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Jul-26",
+      "department": "BDPM",
+      "category": "Fixed Assets",
+      "amount": 12600000
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Jul-26",
+      "department": "BDPM",
+      "category": "Software",
+      "amount": 27706979.5
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Jul-26",
+      "department": "Sales & Marketing",
+      "category": "Fixed Assets",
+      "amount": 10163000
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Aug-26",
+      "department": "BDPM",
+      "category": "Repair & Maintenance",
+      "amount": 670000
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Aug-26",
+      "department": "Sales & Marketing",
+      "category": "Fixed Assets",
+      "amount": 4790000
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Apr-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 317000
+    },
+    {
+      "company": "Innobuilder",
+      "month": "May-26",
+      "department": "Common",
+      "category": "Fixed Assets",
+      "amount": 22626500
+    },
+    {
+      "company": "Innobuilder",
+      "month": "May-26",
+      "department": "Common",
+      "category": "Repair & Maintenance",
+      "amount": 330000
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Jun-26",
+      "department": "Common",
+      "category": "Fixed Assets",
+      "amount": 24498000
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Jun-26",
+      "department": "Common",
+      "category": "Copier Toner",
+      "amount": 2400000
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Jun-26",
+      "department": "Common",
+      "category": "Repair & Maintenance",
+      "amount": 180000
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Jun-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 1397100
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Jun-26",
+      "department": "Common",
+      "category": "Software",
+      "amount": 9396264
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Jul-26",
+      "department": "Common",
+      "category": "Repair & Maintenance",
+      "amount": 1300000
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Jul-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 3930000
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Jul-26",
+      "department": "Common",
+      "category": "Software",
+      "amount": 636111
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Aug-26",
+      "department": "HR",
+      "category": "Repair & Maintenance",
+      "amount": 50000
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Aug-26",
+      "department": "BOD",
+      "category": "Device & Accessories",
+      "amount": 41500
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Aug-26",
+      "department": "Common",
+      "category": "Fixed Assets",
+      "amount": 17134000
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Aug-26",
+      "department": "Common",
+      "category": "Copier Toner",
+      "amount": 278000
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Aug-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 2053000
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Apr-26",
+      "department": "Building Management",
+      "category": "Internet Bill",
+      "amount": 63000
+    },
+    {
+      "company": "Prime Asset",
+      "month": "May-26",
+      "department": "Building Management",
+      "category": "Internet Bill",
+      "amount": 63000
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Jun-26",
+      "department": "Building Management",
+      "category": "Internet Bill",
+      "amount": 63000
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Jul-26",
+      "department": "Building Management",
+      "category": "Repair & Maintenance",
+      "amount": 128000
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Jul-26",
+      "department": "Building Management",
+      "category": "Internet Bill",
+      "amount": 63000
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Aug-26",
+      "department": "Building Management",
+      "category": "Internet Bill",
+      "amount": 63000
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Apr-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 45000
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "May-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 405000
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Jun-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 79000
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Jul-26",
+      "department": "Common",
+      "category": "Fixed Assets",
+      "amount": 17854000
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Jul-26",
+      "department": "Common",
+      "category": "Copier Toner",
+      "amount": 2740000
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Jul-26",
+      "department": "Common",
+      "category": "Repair & Maintenance",
+      "amount": 400000
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Jun-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 38000
     }
   ]
 };

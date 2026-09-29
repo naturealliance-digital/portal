@@ -47,6 +47,8 @@
 </head>
 
 <body class="login-required">
+  <script>try { if (sessionStorage.getItem("natureADashboardAuthenticated") === "true") document.body.classList.remove("login-required"); document.body.classList.toggle("dark", localStorage.getItem("itHubTheme") === "dark"); } catch (_) {}</script>
+  <div id="hubLoading" class="hub-loading is-visible" role="status" aria-live="polite"><div class="hub-loading-card"><span class="hub-loading-ring" aria-hidden="true"></span><span><strong>Nature A Digital Hub</strong><small>Loading dashboard…</small></span></div></div>
   <section id="loginPage" class="login-page" aria-labelledby="loginTitle" hidden>
     <div class="login-panel">
       <div class="login-brand-mark" aria-hidden="true">
@@ -110,7 +112,6 @@
             title="Switch light or dark theme">
             <span class="sr-only">Toggle theme</span>
           </button>
-          <input id="file" type="file" accept=".xlsx,.xls,.csv" hidden />
           <button class="btn export-btn export-excel" type="button" onclick="exportXlsx()" aria-label="Export Excel"
             title="Export Excel">
             <svg viewBox="0 0 24 24" aria-hidden="true">
