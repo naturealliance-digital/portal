@@ -1,6 +1,158 @@
 /* Updated from Tickets.xlsx. */
 window.TICKETS_DATA = [
   {
+    "assignedTo": "Saw Wai Htun Ko",
+    "duration": "0D-0H-11M",
+    "durationMinutes": 11,
+    "problem": "Printer Error",
+    "company": "Innobuilder",
+    "completedAt": "2026-10-01T15:11:00"
+  },
+  {
+    "assignedTo": "Khon Tay Za",
+    "duration": "0D-1H-10M",
+    "durationMinutes": 70,
+    "problem": "SQL Software Error",
+    "company": "Nature Alliance",
+    "completedAt": "2026-10-01T14:05:00"
+  },
+  {
+    "assignedTo": "Htin Kyaw Lin",
+    "duration": "0D-4H-58M",
+    "durationMinutes": 298,
+    "problem": "Windows Error",
+    "company": "Nature Valley",
+    "completedAt": "2026-10-01T14:42:00"
+  },
+  {
+    "assignedTo": "Khaing Zaw Shein",
+    "duration": "0D-6H-31M",
+    "durationMinutes": 391,
+    "problem": "Windows Error",
+    "company": "Nature Alliance",
+    "completedAt": "2026-10-01T16:15:00"
+  },
+  {
+    "assignedTo": "Saw Wai Htun Ko",
+    "duration": "0D-0H-19M",
+    "durationMinutes": 19,
+    "problem": "Website Error",
+    "company": "Innobuilder",
+    "completedAt": "2026-10-01T09:31:00"
+  },
+  {
+    "assignedTo": "Khon Tay Za",
+    "duration": "0D-0H-30M",
+    "durationMinutes": 30,
+    "problem": "Windows Error",
+    "company": "Nature Alliance",
+    "completedAt": "2026-10-01T10:16:00"
+  },
+  {
+    "assignedTo": "Than Toe Aung",
+    "duration": "0D-0H-1M",
+    "durationMinutes": 1,
+    "problem": "Printer Error",
+    "company": "Arise",
+    "completedAt": "2026-09-30T16:47:00"
+  },
+  {
+    "assignedTo": "Khin Maung Thant",
+    "duration": "0D-0H-0M",
+    "durationMinutes": 0,
+    "problem": "Windows Error",
+    "company": "Nature Alliance",
+    "completedAt": "2026-10-01T09:22:00"
+  },
+  {
+    "assignedTo": "Than Toe Aung",
+    "duration": "0D-0H-1M",
+    "durationMinutes": 1,
+    "problem": "Website Error",
+    "company": "Arise",
+    "completedAt": "2026-09-30T11:24:00"
+  },
+  {
+    "assignedTo": "Saw Wai Htun Ko",
+    "duration": "0D-0H-1M",
+    "durationMinutes": 1,
+    "problem": "Printer Error",
+    "company": "Innobuilder",
+    "completedAt": "2026-09-30T10:05:00"
+  },
+  {
+    "assignedTo": "Khon Tay Za",
+    "duration": "0D-23H-29M",
+    "durationMinutes": 1409,
+    "problem": "Printer Error",
+    "company": "Nature Alliance",
+    "completedAt": "2026-10-01T10:16:00"
+  },
+  {
+    "assignedTo": "Saw Wai Htun Ko",
+    "duration": "0D-0H-1M",
+    "durationMinutes": 1,
+    "problem": "Network Error",
+    "company": "Innobuilder",
+    "completedAt": "2026-09-30T09:50:00"
+  },
+  {
+    "assignedTo": "Than Toe Aung",
+    "duration": "0D-0H-14M",
+    "durationMinutes": 14,
+    "problem": "Microsoft 365 Error",
+    "company": "Arise",
+    "completedAt": "2026-09-30T10:51:00"
+  },
+  {
+    "assignedTo": "Saw Wai Htun Ko",
+    "duration": "0D-0H-1M",
+    "durationMinutes": 1,
+    "problem": "Installation Error",
+    "company": "Innobuilder",
+    "completedAt": "2026-09-30T09:23:00"
+  },
+  {
+    "assignedTo": "Saw Wai Htun Ko",
+    "duration": "0D-0H-1M",
+    "durationMinutes": 1,
+    "problem": "Windows Error",
+    "company": "Innobuilder",
+    "completedAt": "2026-09-30T08:48:00"
+  },
+  {
+    "assignedTo": "Than Toe Aung",
+    "duration": "0D-0H-11M",
+    "durationMinutes": 11,
+    "problem": "Printer Error",
+    "company": "Arise",
+    "completedAt": "2026-09-30T10:51:00"
+  },
+  {
+    "assignedTo": "Khon Tay Za",
+    "duration": "1D-17H-47M",
+    "durationMinutes": 2507,
+    "problem": "Windows Error",
+    "company": "Nature Alliance",
+    "completedAt": "2026-10-01T10:16:00"
+  },
+  {
+    "assignedTo": "Khaing Zaw Shein",
+    "duration": "0D-2H-8M",
+    "durationMinutes": 128,
+    "problem": "Microsoft 365 Error",
+    "company": "Nature Alliance",
+    "completedAt": "2026-09-29T12:24:00"
+  },
+  {
+    "assignedTo": "Than Toe Aung",
+    "duration": "0D-0H-10M",
+    "durationMinutes": 10,
+    "problem": "Network Error",
+    "company": "Arise",
+    "completedAt": "2026-09-30T10:50:00"
+  },
+  {
     "assignedTo": "Khaing Zaw Shein",
     "duration": "0D-0H-0M",
     "durationMinutes": 0,
@@ -18,6 +170,14 @@ window.TICKETS_DATA = [
   },
   {
     "assignedTo": "Than Toe Aung",
+    "duration": "0D-0H-1M",
+    "durationMinutes": 1,
+    "problem": "Microsoft 365 Error",
+    "company": "Arise",
+    "completedAt": "2026-09-30T10:50:00"
+  },
+  {
+    "assignedTo": "Than Toe Aung",
     "duration": "0D-0H-3M",
     "durationMinutes": 3,
     "problem": "Microsoft 365 Error",
@@ -31,6 +191,14 @@ window.TICKETS_DATA = [
     "problem": "Microsoft 365 Error",
     "company": "Arise",
     "completedAt": "2026-09-28T09:52:00"
+  },
+  {
+    "assignedTo": "Khon Tay Za",
+    "duration": "0D-22H-45M",
+    "durationMinutes": 1365,
+    "problem": "Windows Error",
+    "company": "Nature Alliance",
+    "completedAt": "2026-09-29T08:51:00"
   },
   {
     "assignedTo": "Than Toe Aung",
@@ -175,6 +343,14 @@ window.TICKETS_DATA = [
     "problem": "Microsoft 365 Error",
     "company": "Nature Alliance",
     "completedAt": "2026-09-23T11:14:00"
+  },
+  {
+    "assignedTo": "Htin Kyaw Lin",
+    "duration": "8D-5H-5M",
+    "durationMinutes": 11825,
+    "problem": "Windows Error",
+    "company": "Nature Alliance",
+    "completedAt": "2026-10-01T14:42:00"
   },
   {
     "assignedTo": "Khaing Zaw Shein",
@@ -388,7 +564,7 @@ window.TICKETS_DATA = [
     "assignedTo": "Soe Maung Maung",
     "duration": "0D-0H-1M",
     "durationMinutes": 1,
-    "problem": "Microsoft 365 Error",
+    "problem": "Windows Error",
     "company": "Nature Alliance",
     "completedAt": "2026-09-18T10:02:00"
   },
@@ -5988,7 +6164,7 @@ window.TICKETS_DATA = [
     "assignedTo": "Khaing Zaw Shein",
     "duration": "0D-0H-34M",
     "durationMinutes": 34,
-    "problem": "Windows Error",
+    "problem": "Website Error",
     "company": "Innobuilder",
     "completedAt": "2026-04-03T11:44:00"
   },
@@ -7450,11 +7626,11 @@ window.TICKETS_DATA = [
   },
   {
     "assignedTo": "Khon Tay Za",
-    "duration": "0D-0H-15M",
-    "durationMinutes": 15,
+    "duration": "0D-0H-0M",
+    "durationMinutes": 0,
     "problem": "Microsoft 365 Error",
     "company": "Prime Asset",
-    "completedAt": "2026-01-16T09:30:00"
+    "completedAt": ""
   },
   {
     "assignedTo": "Khaing Zaw Shein",

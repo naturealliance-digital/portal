@@ -6902,6 +6902,1686 @@ window.budgetExpenseData = {
       "category": "Device & Accessories",
       "month": "Mar-27",
       "amount": 200000
+    },
+    {
+      "company": "Arise",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Apr-26",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "May-26",
+      "amount": 20000000
+    },
+    {
+      "company": "Arise",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Jun-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Aug-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Sep-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Oct-26",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Jan-27",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Feb-27",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Mar-27",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Apr-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "May-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Jun-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Jul-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Aug-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Sep-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Oct-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Nov-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Dec-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Jan-27",
+      "amount": 7000000
+    },
+    {
+      "company": "Arise",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Feb-27",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Mar-27",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Apr-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "May-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Jun-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Jul-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Aug-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Sep-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Oct-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Nov-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Dec-26",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Jan-27",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Feb-27",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Mar-27",
+      "amount": 3500000
+    },
+    {
+      "company": "Arise",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Apr-26",
+      "amount": 2731950
+    },
+    {
+      "company": "Arise",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "May-26",
+      "amount": 2731950
+    },
+    {
+      "company": "Arise",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Jun-26",
+      "amount": 2731950
+    },
+    {
+      "company": "Arise",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Jul-26",
+      "amount": 2731950
+    },
+    {
+      "company": "Arise",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Aug-26",
+      "amount": 2731950
+    },
+    {
+      "company": "Arise",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Sep-26",
+      "amount": 2731950
+    },
+    {
+      "company": "Arise",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Oct-26",
+      "amount": 2731950
+    },
+    {
+      "company": "Arise",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Nov-26",
+      "amount": 2731950
+    },
+    {
+      "company": "Arise",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Dec-26",
+      "amount": 2731950
+    },
+    {
+      "company": "Arise",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Jan-27",
+      "amount": 2731950
+    },
+    {
+      "company": "Arise",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Feb-27",
+      "amount": 2731950
+    },
+    {
+      "company": "Arise",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Mar-27",
+      "amount": 2731950
+    },
+    {
+      "company": "Arise",
+      "description": "Software",
+      "category": "Software",
+      "month": "Apr-26",
+      "amount": 6700000
+    },
+    {
+      "company": "Arise",
+      "description": "Software",
+      "category": "Software",
+      "month": "May-26",
+      "amount": 1500000
+    },
+    {
+      "company": "Arise",
+      "description": "Software",
+      "category": "Software",
+      "month": "Jun-26",
+      "amount": 500000
+    },
+    {
+      "company": "Arise",
+      "description": "Software",
+      "category": "Software",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "description": "Software",
+      "category": "Software",
+      "month": "Aug-26",
+      "amount": 500000
+    },
+    {
+      "company": "Arise",
+      "description": "Software",
+      "category": "Software",
+      "month": "Sep-26",
+      "amount": 500000
+    },
+    {
+      "company": "Arise",
+      "description": "Software",
+      "category": "Software",
+      "month": "Oct-26",
+      "amount": 4300000
+    },
+    {
+      "company": "Arise",
+      "description": "Software",
+      "category": "Software",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "description": "Software",
+      "category": "Software",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "description": "Software",
+      "category": "Software",
+      "month": "Jan-27",
+      "amount": 900000
+    },
+    {
+      "company": "Arise",
+      "description": "Software",
+      "category": "Software",
+      "month": "Feb-27",
+      "amount": 11000000
+    },
+    {
+      "company": "Arise",
+      "description": "Software",
+      "category": "Software",
+      "month": "Mar-27",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Apr-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "May-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Jun-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Aug-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Sep-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Oct-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Jan-27",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Feb-27",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Mar-27",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Apr-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "May-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Jun-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Aug-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Sep-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Oct-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Jan-27",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Feb-27",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Mar-27",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Apr-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "May-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Jun-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Aug-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Sep-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Oct-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Jan-27",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Feb-27",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Mar-27",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Apr-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "May-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Jun-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Aug-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Sep-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Oct-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Jan-27",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Feb-27",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Mar-27",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Software",
+      "category": "Software",
+      "month": "Apr-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Software",
+      "category": "Software",
+      "month": "May-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Software",
+      "category": "Software",
+      "month": "Jun-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Software",
+      "category": "Software",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Software",
+      "category": "Software",
+      "month": "Aug-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Software",
+      "category": "Software",
+      "month": "Sep-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Software",
+      "category": "Software",
+      "month": "Oct-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Software",
+      "category": "Software",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Software",
+      "category": "Software",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Software",
+      "category": "Software",
+      "month": "Jan-27",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Software",
+      "category": "Software",
+      "month": "Feb-27",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "description": "Software",
+      "category": "Software",
+      "month": "Mar-27",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Apr-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "May-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Jun-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Aug-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Sep-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Oct-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Jan-27",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Feb-27",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Mar-27",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Apr-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "May-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Jun-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Aug-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Sep-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Oct-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Jan-27",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Feb-27",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Mar-27",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Apr-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "May-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Jun-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Aug-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Sep-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Oct-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Jan-27",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Feb-27",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Mar-27",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Apr-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "May-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Jun-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Aug-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Sep-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Oct-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Jan-27",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Feb-27",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Mar-27",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Software",
+      "category": "Software",
+      "month": "Apr-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Software",
+      "category": "Software",
+      "month": "May-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Software",
+      "category": "Software",
+      "month": "Jun-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Software",
+      "category": "Software",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Software",
+      "category": "Software",
+      "month": "Aug-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Software",
+      "category": "Software",
+      "month": "Sep-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Software",
+      "category": "Software",
+      "month": "Oct-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Software",
+      "category": "Software",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Software",
+      "category": "Software",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Software",
+      "category": "Software",
+      "month": "Jan-27",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Software",
+      "category": "Software",
+      "month": "Feb-27",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "description": "Software",
+      "category": "Software",
+      "month": "Mar-27",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Apr-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "May-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Jun-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Aug-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Sep-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Oct-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Jan-27",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Feb-27",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "New Device",
+      "category": "Fixed Assets",
+      "month": "Mar-27",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Apr-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "May-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Jun-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Aug-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Sep-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Oct-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Jan-27",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Feb-27",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Copier Toner",
+      "category": "Copier Toner",
+      "month": "Mar-27",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Apr-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "May-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Jun-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Aug-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Sep-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Oct-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Jan-27",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Feb-27",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Repair & Maintenance",
+      "category": "Repair & Maintenance",
+      "month": "Mar-27",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Apr-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "May-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Jun-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Aug-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Sep-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Oct-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Jan-27",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Feb-27",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Internet Bill",
+      "category": "Internet Bill",
+      "month": "Mar-27",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Software",
+      "category": "Software",
+      "month": "Apr-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Software",
+      "category": "Software",
+      "month": "May-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Software",
+      "category": "Software",
+      "month": "Jun-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Software",
+      "category": "Software",
+      "month": "Jul-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Software",
+      "category": "Software",
+      "month": "Aug-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Software",
+      "category": "Software",
+      "month": "Sep-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Software",
+      "category": "Software",
+      "month": "Oct-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Software",
+      "category": "Software",
+      "month": "Nov-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Software",
+      "category": "Software",
+      "month": "Dec-26",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Software",
+      "category": "Software",
+      "month": "Jan-27",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Software",
+      "category": "Software",
+      "month": "Feb-27",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "description": "Software",
+      "category": "Software",
+      "month": "Mar-27",
+      "amount": 0
     }
   ],
   "expenses": [
@@ -7227,7 +8907,7 @@ window.budgetExpenseData = {
       "company": "Nature Alliance",
       "month": "Sep-26",
       "category": "Copier Toner",
-      "amount": 0
+      "amount": 2550000
     },
     {
       "company": "Nature Alliance",
@@ -7299,7 +8979,7 @@ window.budgetExpenseData = {
       "company": "Nature Alliance",
       "month": "Sep-26",
       "category": "Repair & Maintenance",
-      "amount": 0
+      "amount": 2535000
     },
     {
       "company": "Nature Alliance",
@@ -7371,7 +9051,7 @@ window.budgetExpenseData = {
       "company": "Nature Alliance",
       "month": "Sep-26",
       "category": "Device & Accessories",
-      "amount": 0
+      "amount": 860000
     },
     {
       "company": "Nature Alliance",
@@ -7443,7 +9123,7 @@ window.budgetExpenseData = {
       "company": "Nature Alliance",
       "month": "Sep-26",
       "category": "Internet Bill",
-      "amount": 0
+      "amount": 2270649
     },
     {
       "company": "Nature Alliance",
@@ -7515,7 +9195,7 @@ window.budgetExpenseData = {
       "company": "Nature Alliance",
       "month": "Sep-26",
       "category": "Software",
-      "amount": 0
+      "amount": 3361185
     },
     {
       "company": "Nature Alliance",
@@ -7551,6 +9231,78 @@ window.budgetExpenseData = {
       "company": "Nature Alliance",
       "month": "Mar-27",
       "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Oct-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Nov-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Dec-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jan-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Feb-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Mar-27",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
@@ -7803,7 +9555,7 @@ window.budgetExpenseData = {
       "company": "Nature Valley",
       "month": "Sep-26",
       "category": "Device & Accessories",
-      "amount": 0
+      "amount": 640000
     },
     {
       "company": "Nature Valley",
@@ -7983,6 +9735,78 @@ window.budgetExpenseData = {
       "company": "Nature Valley",
       "month": "Mar-27",
       "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Apr-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
+      "month": "May-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Jun-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Jul-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Aug-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Sep-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Oct-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Nov-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Dec-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Jan-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Feb-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Mar-27",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
@@ -8091,7 +9915,7 @@ window.budgetExpenseData = {
       "company": "Innobuilder",
       "month": "Sep-26",
       "category": "Copier Toner",
-      "amount": 0
+      "amount": 470000
     },
     {
       "company": "Innobuilder",
@@ -8163,7 +9987,7 @@ window.budgetExpenseData = {
       "company": "Innobuilder",
       "month": "Sep-26",
       "category": "Repair & Maintenance",
-      "amount": 0
+      "amount": 648000
     },
     {
       "company": "Innobuilder",
@@ -8235,7 +10059,7 @@ window.budgetExpenseData = {
       "company": "Innobuilder",
       "month": "Sep-26",
       "category": "Device & Accessories",
-      "amount": 0
+      "amount": 2566000
     },
     {
       "company": "Innobuilder",
@@ -8415,6 +10239,78 @@ window.budgetExpenseData = {
       "company": "Innobuilder",
       "month": "Mar-27",
       "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Apr-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
+      "month": "May-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Jun-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Jul-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Aug-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Sep-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Oct-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Nov-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Dec-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Jan-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Feb-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Mar-27",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
@@ -8739,7 +10635,7 @@ window.budgetExpenseData = {
       "company": "Prime Asset",
       "month": "Sep-26",
       "category": "Internet Bill",
-      "amount": 0
+      "amount": 63000
     },
     {
       "company": "Prime Asset",
@@ -8847,6 +10743,78 @@ window.budgetExpenseData = {
       "company": "Prime Asset",
       "month": "Mar-27",
       "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Apr-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Prime Asset",
+      "month": "May-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Jun-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Jul-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Aug-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Sep-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Oct-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Nov-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Dec-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Jan-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Feb-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Mar-27",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
@@ -9099,7 +11067,7 @@ window.budgetExpenseData = {
       "company": "Seven Aluminium",
       "month": "Sep-26",
       "category": "Device & Accessories",
-      "amount": 0
+      "amount": 450000
     },
     {
       "company": "Seven Aluminium",
@@ -9279,6 +11247,78 @@ window.budgetExpenseData = {
       "company": "Seven Aluminium",
       "month": "Mar-27",
       "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Apr-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "May-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Jun-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Jul-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Aug-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Sep-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Oct-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Nov-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Dec-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Jan-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Feb-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Mar-27",
+      "category": "Fixed Assets",
       "amount": 0
     },
     {
@@ -9531,7 +11571,7 @@ window.budgetExpenseData = {
       "company": "Myanmar Safety Glass",
       "month": "Sep-26",
       "category": "Device & Accessories",
-      "amount": 0
+      "amount": 100000
     },
     {
       "company": "Myanmar Safety Glass",
@@ -9711,6 +11751,2094 @@ window.budgetExpenseData = {
       "company": "Myanmar Safety Glass",
       "month": "Mar-27",
       "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Apr-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "May-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Jun-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Jul-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Aug-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Sep-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Oct-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Nov-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Dec-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Jan-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Feb-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Mar-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "May-26",
+      "category": "Fixed Assets",
+      "amount": 19016800
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "category": "Fixed Assets",
+      "amount": 382700
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Oct-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Nov-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Dec-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Jan-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Feb-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Mar-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-26",
+      "category": "Copier Toner",
+      "amount": 6940000
+    },
+    {
+      "company": "Arise",
+      "month": "May-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "category": "Copier Toner",
+      "amount": 2812000
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-26",
+      "category": "Copier Toner",
+      "amount": 2640000
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-26",
+      "category": "Copier Toner",
+      "amount": 2640000
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-26",
+      "category": "Copier Toner",
+      "amount": 3480000
+    },
+    {
+      "company": "Arise",
+      "month": "Oct-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Nov-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Dec-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Jan-27",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Feb-27",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Mar-27",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-26",
+      "category": "Repair & Maintenance",
+      "amount": 17750000
+    },
+    {
+      "company": "Arise",
+      "month": "May-26",
+      "category": "Repair & Maintenance",
+      "amount": 3023000
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "category": "Repair & Maintenance",
+      "amount": 893000
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-26",
+      "category": "Repair & Maintenance",
+      "amount": 1846850
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-26",
+      "category": "Repair & Maintenance",
+      "amount": 1669000
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-26",
+      "category": "Repair & Maintenance",
+      "amount": 1585000
+    },
+    {
+      "company": "Arise",
+      "month": "Oct-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Nov-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Dec-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Jan-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Feb-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Mar-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-26",
+      "category": "Device & Accessories",
+      "amount": 34000
+    },
+    {
+      "company": "Arise",
+      "month": "May-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-26",
+      "category": "Device & Accessories",
+      "amount": 753000
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-26",
+      "category": "Device & Accessories",
+      "amount": 150000
+    },
+    {
+      "company": "Arise",
+      "month": "Oct-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Nov-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Dec-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Jan-27",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Feb-27",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Mar-27",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-26",
+      "category": "Internet Bill",
+      "amount": 908118
+    },
+    {
+      "company": "Arise",
+      "month": "May-26",
+      "category": "Internet Bill",
+      "amount": 928313
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "category": "Internet Bill",
+      "amount": 934987
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-26",
+      "category": "Internet Bill",
+      "amount": 934987
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-26",
+      "category": "Internet Bill",
+      "amount": 2444555
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-26",
+      "category": "Internet Bill",
+      "amount": 2458254
+    },
+    {
+      "company": "Arise",
+      "month": "Oct-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Nov-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Dec-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Jan-27",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Feb-27",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Mar-27",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-26",
+      "category": "Software",
+      "amount": 10780754
+    },
+    {
+      "company": "Arise",
+      "month": "May-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-26",
+      "category": "Software",
+      "amount": 3593729
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Oct-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Nov-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Dec-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Jan-27",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Feb-27",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Mar-27",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "May-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Oct-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Nov-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Dec-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Jan-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Feb-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Arise",
+      "month": "Mar-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Apr-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "May-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jun-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jul-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Aug-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Sep-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Oct-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Nov-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Dec-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jan-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Feb-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Mar-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Apr-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "May-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jun-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jul-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Aug-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Sep-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Oct-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Nov-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Dec-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jan-27",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Feb-27",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Mar-27",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Apr-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "May-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jun-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jul-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Aug-26",
+      "category": "Repair & Maintenance",
+      "amount": 40000
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Sep-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Oct-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Nov-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Dec-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jan-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Feb-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Mar-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Apr-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "May-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jun-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jul-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Aug-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Sep-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Oct-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Nov-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Dec-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jan-27",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Feb-27",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Mar-27",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Apr-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "May-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jun-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jul-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Aug-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Sep-26",
+      "category": "Internet Bill",
+      "amount": 575200
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Oct-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Nov-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Dec-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jan-27",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Feb-27",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Mar-27",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Apr-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "May-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jun-26",
+      "category": "Software",
+      "amount": 136500
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jul-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Aug-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Sep-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Oct-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Nov-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Dec-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jan-27",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Feb-27",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Mar-27",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Apr-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "May-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jun-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jul-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Aug-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Sep-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Oct-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Nov-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Dec-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jan-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Feb-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Mar-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Apr-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "May-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jun-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jul-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Aug-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Sep-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Oct-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Nov-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Dec-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jan-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Feb-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Mar-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Apr-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "May-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jun-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jul-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Aug-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Sep-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Oct-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Nov-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Dec-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jan-27",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Feb-27",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Mar-27",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Apr-26",
+      "category": "Repair & Maintenance",
+      "amount": 20000
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "May-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jun-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jul-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Aug-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Sep-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Oct-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Nov-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Dec-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jan-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Feb-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Mar-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Apr-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "May-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jun-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jul-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Aug-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Sep-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Oct-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Nov-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Dec-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jan-27",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Feb-27",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Mar-27",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Apr-26",
+      "category": "Internet Bill",
+      "amount": 32200
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "May-26",
+      "category": "Internet Bill",
+      "amount": 32200
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jun-26",
+      "category": "Internet Bill",
+      "amount": 32200
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jul-26",
+      "category": "Internet Bill",
+      "amount": 32200
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Aug-26",
+      "category": "Internet Bill",
+      "amount": 32200
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Sep-26",
+      "category": "Internet Bill",
+      "amount": 32200
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Oct-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Nov-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Dec-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jan-27",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Feb-27",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Mar-27",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Apr-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "May-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jun-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jul-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Aug-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Sep-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Oct-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Nov-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Dec-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jan-27",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Feb-27",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Mar-27",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Apr-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "May-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jun-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jul-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Aug-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Sep-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Oct-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Nov-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Dec-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jan-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Feb-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Mar-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Apr-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "May-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jun-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jul-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Aug-26",
+      "category": "Fixed Assets",
+      "amount": 73357054
+    },
+    {
+      "company": "POSCO",
+      "month": "Sep-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Oct-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Nov-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Dec-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jan-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Feb-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Mar-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Apr-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "May-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jun-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jul-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Aug-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Sep-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Oct-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Nov-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Dec-26",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jan-27",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Feb-27",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Mar-27",
+      "category": "Copier Toner",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Apr-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "May-26",
+      "category": "Repair & Maintenance",
+      "amount": 2030000
+    },
+    {
+      "company": "POSCO",
+      "month": "Jun-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jul-26",
+      "category": "Repair & Maintenance",
+      "amount": 215000
+    },
+    {
+      "company": "POSCO",
+      "month": "Aug-26",
+      "category": "Repair & Maintenance",
+      "amount": 440000
+    },
+    {
+      "company": "POSCO",
+      "month": "Sep-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Oct-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Nov-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Dec-26",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jan-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Feb-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Mar-27",
+      "category": "Repair & Maintenance",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Apr-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "May-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jun-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jul-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Aug-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Sep-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Oct-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Nov-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Dec-26",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jan-27",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Feb-27",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Mar-27",
+      "category": "Device & Accessories",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Apr-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "May-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jun-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jul-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Aug-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Sep-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Oct-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Nov-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Dec-26",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jan-27",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Feb-27",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Mar-27",
+      "category": "Internet Bill",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Apr-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "May-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jun-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jul-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Aug-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Sep-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Oct-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Nov-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Dec-26",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jan-27",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Feb-27",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Mar-27",
+      "category": "Software",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Apr-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "May-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jun-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jul-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Aug-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Sep-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Oct-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Nov-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Dec-26",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Jan-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Feb-27",
+      "category": "Fixed Assets",
+      "amount": 0
+    },
+    {
+      "company": "POSCO",
+      "month": "Mar-27",
+      "category": "Fixed Assets",
       "amount": 0
     }
   ],
@@ -9838,6 +13966,15 @@ window.budgetExpenseData = {
       "department": "Common",
       "laptop": 5,
       "desktop": 1,
+      "copier": 0,
+      "printer": 0
+    },
+    {
+      "company": "Arise",
+      "month": "May-26",
+      "department": "Finance",
+      "laptop": 1,
+      "desktop": 0,
       "copier": 0,
       "printer": 0
     }
@@ -10292,6 +14429,76 @@ window.budgetExpenseData = {
       "amount": 2200000
     },
     {
+      "company": "Nature Alliance",
+      "month": "Sep-26",
+      "department": "Common",
+      "category": "Copier Toner",
+      "amount": 2550000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-26",
+      "department": "Common",
+      "category": "Repair & Maintenance",
+      "amount": 1595000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 110000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 1672000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-26",
+      "department": "Common",
+      "category": "Software",
+      "amount": 3361185
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-26",
+      "department": "BOD",
+      "category": "Device & Accessories",
+      "amount": 500000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-26",
+      "department": "BDPM",
+      "category": "Repair & Maintenance",
+      "amount": 940000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-26",
+      "department": "Chairman Room",
+      "category": "Internet Bill",
+      "amount": 598649
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-26",
+      "department": "Corporate Secretarial",
+      "category": "Device & Accessories",
+      "amount": 150000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-26",
+      "department": "Digital",
+      "category": "Device & Accessories",
+      "amount": 100000
+    },
+    {
       "company": "Nature Valley",
       "month": "May-26",
       "department": "Sales & Marketing",
@@ -10324,7 +14531,7 @@ window.budgetExpenseData = {
       "month": "Jul-26",
       "department": "BDPM",
       "category": "Software",
-      "amount": 27706979.5
+      "amount": 50000
     },
     {
       "company": "Nature Valley",
@@ -10346,6 +14553,13 @@ window.budgetExpenseData = {
       "department": "Sales & Marketing",
       "category": "Fixed Assets",
       "amount": 4790000
+    },
+    {
+      "company": "Nature Valley",
+      "month": "Sep-26",
+      "department": "Sales & Marketing",
+      "category": "Device & Accessories",
+      "amount": 640000
     },
     {
       "company": "Innobuilder",
@@ -10460,6 +14674,27 @@ window.budgetExpenseData = {
       "amount": 2053000
     },
     {
+      "company": "Innobuilder",
+      "month": "Sep-26",
+      "department": "Common",
+      "category": "Copier Toner",
+      "amount": 470000
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Sep-26",
+      "department": "Common",
+      "category": "Repair & Maintenance",
+      "amount": 648000
+    },
+    {
+      "company": "Innobuilder",
+      "month": "Sep-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 2566000
+    },
+    {
       "company": "Prime Asset",
       "month": "Apr-26",
       "department": "Building Management",
@@ -10497,6 +14732,13 @@ window.budgetExpenseData = {
     {
       "company": "Prime Asset",
       "month": "Aug-26",
+      "department": "Building Management",
+      "category": "Internet Bill",
+      "amount": 63000
+    },
+    {
+      "company": "Prime Asset",
+      "month": "Sep-26",
       "department": "Building Management",
       "category": "Internet Bill",
       "amount": 63000
@@ -10544,11 +14786,466 @@ window.budgetExpenseData = {
       "amount": 400000
     },
     {
+      "company": "Seven Aluminium",
+      "month": "Sep-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 450000
+    },
+    {
       "company": "Myanmar Safety Glass",
       "month": "Jun-26",
       "department": "Common",
       "category": "Device & Accessories",
       "amount": 38000
+    },
+    {
+      "company": "Myanmar Safety Glass",
+      "month": "Sep-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 100000
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-26",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 315000
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-26",
+      "department": "Admin",
+      "category": "Device & Accessories",
+      "amount": 34000
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-26",
+      "department": "Common",
+      "category": "Copier Toner",
+      "amount": 6940000
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-26",
+      "department": "Common",
+      "category": "Repair & Maintenance",
+      "amount": 16102000
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 908118
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-26",
+      "department": "Common",
+      "category": "Software",
+      "amount": 10780754.3
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-26",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 770000
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-26",
+      "department": "Processing",
+      "category": "Repair & Maintenance",
+      "amount": 538000
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-26",
+      "department": "Sale & Marketing",
+      "category": "Repair & Maintenance",
+      "amount": 25000
+    },
+    {
+      "company": "Arise",
+      "month": "May-26",
+      "department": "Common",
+      "category": "Fixed Assets",
+      "amount": 14716000
+    },
+    {
+      "company": "Arise",
+      "month": "May-26",
+      "department": "Common",
+      "category": "Repair & Maintenance",
+      "amount": 2475000
+    },
+    {
+      "company": "Arise",
+      "month": "May-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 928313
+    },
+    {
+      "company": "Arise",
+      "month": "May-26",
+      "department": "Finance",
+      "category": "Fixed Assets",
+      "amount": 4300800
+    },
+    {
+      "company": "Arise",
+      "month": "May-26",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 48000
+    },
+    {
+      "company": "Arise",
+      "month": "May-26",
+      "department": "Quality Control",
+      "category": "Repair & Maintenance",
+      "amount": 500000
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 90000
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "department": "Common",
+      "category": "Copier Toner",
+      "amount": 2640000
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "department": "Common",
+      "category": "Repair & Maintenance",
+      "amount": 670000
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 934986.7999999999
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 250000
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "department": "Finance",
+      "category": "Software",
+      "amount": 116100
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "department": "MD's Office",
+      "category": "Software",
+      "amount": 206400
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "department": "Operations",
+      "category": "Software",
+      "amount": 60200
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "department": "Sale & Marketing",
+      "category": "Repair & Maintenance",
+      "amount": 55000
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-26",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 36000
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-26",
+      "department": "Common",
+      "category": "Copier Toner",
+      "amount": 2640000
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-26",
+      "department": "Common",
+      "category": "Repair & Maintenance",
+      "amount": 1278850
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 934986.7999999999
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-26",
+      "department": "Common",
+      "category": "Software",
+      "amount": 2788002
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-26",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 532000
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-26",
+      "department": "Finance",
+      "category": "Software",
+      "amount": 752056
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-26",
+      "department": "Store",
+      "category": "Software",
+      "amount": 53671
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-26",
+      "department": "Admin",
+      "category": "Device & Accessories",
+      "amount": 188000
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-26",
+      "department": "Common",
+      "category": "Copier Toner",
+      "amount": 2640000
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-26",
+      "department": "Common",
+      "category": "Repair & Maintenance",
+      "amount": 1010000
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 350000
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 2444555
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-26",
+      "department": "BDPM",
+      "category": "Repair & Maintenance",
+      "amount": 19000
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-26",
+      "department": "Operations",
+      "category": "Repair & Maintenance",
+      "amount": 240000
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-26",
+      "department": "Perennial Crop",
+      "category": "Device & Accessories",
+      "amount": 215000
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-26",
+      "department": "Processing",
+      "category": "Repair & Maintenance",
+      "amount": 400000
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-26",
+      "department": "Common",
+      "category": "Copier Toner",
+      "amount": 3480000
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-26",
+      "department": "Common",
+      "category": "Repair & Maintenance",
+      "amount": 473000
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 150000
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 2458254
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-26",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 345000
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-26",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 747000
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-26",
+      "department": "Store",
+      "category": "Repair & Maintenance",
+      "amount": 20000
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Jun-26",
+      "department": "Common",
+      "category": "Software",
+      "amount": 136500
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Aug-26",
+      "department": "Palm Oleim",
+      "category": "Repair & Maintenance",
+      "amount": 40000
+    },
+    {
+      "company": "Great Golden Moon",
+      "month": "Sep-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 575200
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Apr-26",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 20000
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Apr-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 32200
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "May-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 32200
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jun-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 32200
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Jul-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 32200
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Aug-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 32200
+    },
+    {
+      "company": "Khittayar Hinthar Trading",
+      "month": "Sep-26",
+      "department": "Common",
+      "category": "Internet Bill",
+      "amount": 32200
+    },
+    {
+      "company": "POSCO",
+      "month": "May-26",
+      "department": "Common",
+      "category": "Repair & Maintenance",
+      "amount": 2030000
+    },
+    {
+      "company": "POSCO",
+      "month": "Jul-26",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 215000
+    },
+    {
+      "company": "POSCO",
+      "month": "Aug-26",
+      "department": "Common",
+      "category": "Fixed Assets",
+      "amount": 73357054
+    },
+    {
+      "company": "POSCO",
+      "month": "Aug-26",
+      "department": "Common",
+      "category": "Repair & Maintenance",
+      "amount": 230000
+    },
+    {
+      "company": "POSCO",
+      "month": "Aug-26",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 210000
     }
   ]
 };

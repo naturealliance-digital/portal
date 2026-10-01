@@ -101,6 +101,7 @@ if (window.Chart) {
     if (event.target.matches(".unified-chart-select")) playPending();
   });
 })();
+
 const menu = [
   ["🏠", "Dashboard", "Overall IT management view"],
   ["👥", "Manpower", "Digital team & workload"],
@@ -2030,56 +2031,6 @@ document.addEventListener(
 })();
 
 (function () {
-  function recolorCharts() {
-    const dark = document.body.classList.contains("dark");
-    if (window.bar) {
-      const ds = bar.data.datasets[0];
-      ds.backgroundColor =
-        bar.config.type === "line"
-          ? dark
-            ? "rgba(255,139,87,.16)"
-            : "rgba(209,42,49,.12)"
-          : dark
-            ? "#f27642"
-            : "#d12a31";
-      ds.borderColor = dark ? "#ff9b6f" : "#d12a31";
-      ds.borderWidth = 3;
-      bar.options.scales.x.ticks.color = dark ? "#d9c4c2" : "#827477";
-      bar.options.scales.y.ticks.color = dark ? "#d9c4c2" : "#827477";
-      bar.options.scales.y.grid.color = dark ? "#522e35" : "#f1e4dd";
-      bar.update();
-    }
-    if (window.donut) {
-      donut.data.datasets[0].backgroundColor = dark
-        ? ["#ff8755", "#f6c768", "#da5a62", "#9e7942"]
-        : ["#d12a31", "#f06428", "#d6a13b", "#8d5754"];
-      donut.data.datasets[0].borderColor = dark ? "#32171e" : "#fffaf6";
-      donut.update();
-    }
-  }
-  window.toggleTheme = function () {
-    document.body.classList.toggle("dark");
-    localStorage.setItem(
-      "itHubTheme",
-      document.body.classList.contains("dark") ? "dark" : "light",
-    );
-    recolorCharts();
-  };
-  const toggle = document.querySelector(".theme-toggle");
-  if (toggle) {
-    toggle.onclick = window.toggleTheme;
-    toggle.setAttribute("aria-label", "Toggle dark mode");
-    toggle.setAttribute("title", "Switch light or dark theme");
-  }
-  const baseCharts = window.charts;
-  window.charts = function () {
-    baseCharts();
-    recolorCharts();
-  };
-  recolorCharts();
-})();
-
-(function () {
   const navEl = document.getElementById("nav");
   function decorateNav() {
     navEl.querySelectorAll("button").forEach((button) => {
@@ -2117,162 +2068,10 @@ document.addEventListener(
     if (localStorage.getItem("itHubSidebar") === "collapsed")
       side.classList.add("collapsed");
   }
-  function updateBrandCharts() {
-    const dark = document.body.classList.contains("dark");
-    if (window.bar) {
-      const dataSet = bar.data.datasets[0],
-        ctx = bar.ctx,
-        gradient = ctx.createLinearGradient(0, 0, 0, bar.height);
-      gradient.addColorStop(0, dark ? "#ff9365" : "#d12a31");
-      gradient.addColorStop(1, dark ? "#b64138" : "#f5a044");
-      dataSet.backgroundColor =
-        bar.config.type === "line"
-          ? dark
-            ? "rgba(255,139,87,.16)"
-            : "rgba(209,42,49,.10)"
-          : gradient;
-      dataSet.borderColor = dark ? "#ff986c" : "#d12a31";
-      dataSet.borderWidth = 3;
-      dataSet.pointRadius = 4;
-      dataSet.pointHoverRadius = 6;
-      dataSet.pointBackgroundColor = dark ? "#ffc06b" : "#f06428";
-      bar.options.scales.x.ticks.color = dark ? "#dfc8c5" : "#7d6663";
-      bar.options.scales.y.ticks.color = dark ? "#dfc8c5" : "#7d6663";
-      bar.options.scales.y.grid.color = dark ? "#533035" : "#f1e2db";
-      bar.update();
-    }
-    if (window.donut) {
-      donut.data.datasets[0].backgroundColor = dark
-        ? ["#ff8452", "#f7c66a", "#d85962", "#a57943"]
-        : ["#d12a31", "#f06428", "#d6a13b", "#8d5754"];
-      donut.data.datasets[0].borderColor = dark ? "#32171e" : "#fffaf7";
-      donut.data.datasets[0].borderWidth = 5;
-      donut.options.plugins.brandCentre = {
-        label: "TOTAL",
-        value: donut.data.datasets[0].data.reduce((a, b) => a + b, 0),
-        dark,
-      };
-      donut.update();
-    }
-  }
-  if (!Chart.registry.plugins.get("brandCentre"))
-    Chart.register({
-      id: "brandCentre",
-      afterDatasetsDraw(chart, args, opts) {
-        if (chart.canvas.id !== "pie" || !opts) return;
-        const c = chart.ctx,
-          a = chart.chartArea,
-          x = (a.left + a.right) / 2,
-          y = (a.top + a.bottom) / 2;
-        c.save();
-        c.textAlign = "center";
-        c.fillStyle = opts.dark ? "#e4cbc6" : "#8b5d52";
-        c.font = "700 10px Arial";
-        c.fillText(opts.label, x, y - 4);
-        c.fillStyle = opts.dark ? "#fff3e9" : "#3d2525";
-        c.font = "700 22px Arial";
-        c.fillText(opts.value, x, y + 19);
-        c.restore();
-      },
-    });
-  const previousCharts = window.charts;
-  window.charts = function () {
-    previousCharts();
-    updateBrandCharts();
-  };
-  const previousToggle = window.toggleTheme;
-  window.toggleTheme = function () {
-    previousToggle();
-    updateBrandCharts();
-  };
-  updateBrandCharts();
 })();
 
-(function () {
-  buildNav();
-  page(active);
-  function applyProfessionalCharts() {
-    const dark = document.body.classList.contains("dark");
-    const colors = dark
-      ? [
-          "#ff8452",
-          "#f7c66a",
-          "#d85962",
-          "#a57943",
-          "#d98957",
-          "#c75b71",
-          "#e2af4d",
-        ]
-      : [
-          "#d12a31",
-          "#f06428",
-          "#d6a13b",
-          "#8d5754",
-          "#e48654",
-          "#b94958",
-          "#c89435",
-        ];
-    if (window.bar) {
-      const set = bar.data.datasets[0],
-        ctx = bar.ctx,
-        g = ctx.createLinearGradient(0, 0, 0, bar.height);
-      g.addColorStop(0, dark ? "#ff9569" : "#d12a31");
-      g.addColorStop(1, dark ? "#cc4e40" : "#f4a044");
-      set.backgroundColor =
-        bar.config.type === "line"
-          ? dark
-            ? "rgba(255,132,82,.16)"
-            : "rgba(209,42,49,.12)"
-          : g;
-      set.borderColor = dark ? "#ff9569" : "#d12a31";
-      set.pointBackgroundColor = "#f3ad4a";
-      set.pointBorderColor = dark ? "#32171e" : "#fffaf7";
-      set.pointRadius = 4;
-      set.pointHoverRadius = 7;
-      set.borderWidth = 3;
-      bar.update();
-    }
-    if (window.donut) {
-      donut.data.datasets[0].backgroundColor = donut.data.labels.map(
-        (_, i) => colors[i % colors.length],
-      );
-      donut.data.datasets[0].borderColor = dark ? "#32171e" : "#fffaf7";
-      donut.data.datasets[0].borderWidth = 5;
-      donut.options.plugins.brandCentre = {
-        label: "STATUS",
-        value: donut.data.datasets[0].data.reduce((a, b) => a + b, 0),
-        dark,
-      };
-      donut.update();
-      (
-        document.getElementById("microsoft365LicenseLegend") ||
-        document.getElementById("legend")
-      ).innerHTML = donut.data.labels
-        .map(
-          (label, i) =>
-            '<div><span><i class="dot" style="background:' +
-            colors[i % colors.length] +
-            '"></i>' +
-            label +
-            "</span><b>" +
-            donut.data.datasets[0].data[i] +
-            " records</b></div>",
-        )
-        .join("");
-    }
-  }
-  const oldCharts = window.charts;
-  window.charts = function () {
-    oldCharts();
-    applyProfessionalCharts();
-  };
-  const oldTheme = window.toggleTheme;
-  window.toggleTheme = function () {
-    oldTheme();
-    applyProfessionalCharts();
-  };
-  applyProfessionalCharts();
-})();
+/* The final chart-theme module below owns chart rendering and theme changes. */
+page(active);
 
 (function () {
   /* Replace the earlier centre-label renderer so no undefined text can be drawn. */
@@ -2650,21 +2449,6 @@ document.addEventListener(
   applyChartTheme();
 })();
 
-window.exportXlsx = function () {
-  const visibleTable = document.querySelector("#table table");
-  if (!visibleTable) return show("No table data to export");
-  const workbook = XLSX.utils.table_to_book(visibleTable, {
-    sheet: active.slice(0, 31),
-    raw: true,
-  });
-  const filePage = active
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-  XLSX.writeFile(workbook, "Nature-A-Digital-Hub-" + filePage + ".xlsx");
-  show(active + " table exported");
-};
-
 (function () {
   const companyDefaults = [
     {
@@ -2964,7 +2748,7 @@ window.exportXlsx = function () {
                     escCell(row[key]) +
                     "</span></td>"
                   : key === "Features" && row[key]
-                    ? '<td><span class="m365-feature-badge">' +
+                    ? '<td class="m365-feature-cell"><span class="m365-feature-badge feature-badge">' +
                       escCell(row[key]) +
                       "</span></td>"
                   : "<td>" + escCell(row[key]) + "</td>",
@@ -3019,36 +2803,6 @@ window.exportXlsx = function () {
         window.notifyDashboardDataUpdated?.();
       }
     });
-  window.exportXlsx = function () {
-    const tables = [
-      ...document.querySelectorAll(
-        active === "Microsoft 365"
-          ? '#table table,[data-table="license-utilization"] table'
-          : "#table table",
-      ),
-    ];
-    if (!tables.length) return show("No table data to export");
-    const workbook = XLSX.utils.book_new();
-    tables.forEach((table, index) => {
-      const sheet = XLSX.utils.table_to_sheet(table, { raw: true });
-      XLSX.utils.book_append_sheet(
-        workbook,
-        sheet,
-        active === "Microsoft 365"
-          ? index === 0
-            ? "CompanyDB"
-            : "LicensesDB"
-          : active.slice(0, 31),
-      );
-    });
-    XLSX.writeFile(
-      workbook,
-      "Nature-A-Digital-Hub-" +
-        active.toLowerCase().replace(/[^a-z0-9]+/g, "-") +
-        ".xlsx",
-    );
-    show((active === "Microsoft 365" ? "Two tables" : "Table") + " exported");
-  };
   if (active === "Microsoft 365") {
     data["Microsoft 365"] = loadCompany();
     render();
@@ -3375,7 +3129,7 @@ window.exportXlsx = function () {
             '">' +
             keys
               .map((key) =>
-                key === "Features" && !isTotal
+                key === "Features" && row[key]
                   ? '<td class="m365-feature-cell"><span class="feature-badge feature-' +
                     slug(row[key]) +
                     '">' +
@@ -4235,11 +3989,15 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
     ? window.TICKETS_DATA
     : [];
   let source = importedSource.map((row) => ({ ...row }));
+  if (!source.length)
+    try {
+      const saved = JSON.parse(
+        localStorage.getItem("serviceTicketData") || "null",
+      );
+      if (Array.isArray(saved) && saved.length) source = saved;
+    } catch {}
   try {
-    const saved = JSON.parse(
-      localStorage.getItem("serviceTicketData") || "null",
-    );
-    if (Array.isArray(saved) && saved.length) source = saved;
+    localStorage.setItem("serviceTicketData", JSON.stringify(source));
   } catch {}
   if (!source.length) return;
   const clean = (value) =>
