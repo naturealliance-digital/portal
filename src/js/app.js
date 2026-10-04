@@ -1,7 +1,10 @@
 const microsoftLicenseSource = window.MICROSOFT_LICENSE_DATA;
 if (microsoftLicenseSource) {
   try {
-    if (localStorage.getItem("m365WorkbookRefresh2") !== "done") {
+    if (
+      localStorage.getItem("m365DataVersion") !==
+      microsoftLicenseSource.version
+    ) {
       localStorage.setItem(
         "m365CompanyDB",
         JSON.stringify(microsoftLicenseSource.companies),
@@ -11,7 +14,6 @@ if (microsoftLicenseSource) {
         JSON.stringify(microsoftLicenseSource.licenses),
       );
       localStorage.setItem("m365DataVersion", microsoftLicenseSource.version);
-      localStorage.setItem("m365WorkbookRefresh2", "done");
     }
   } catch {}
 }
@@ -2450,227 +2452,6 @@ page(active);
 })();
 
 (function () {
-  const companyDefaults = [
-    {
-      Company: "AIP",
-      "Total Account": 25,
-      "Business Basic": 5,
-      "Business Standard": 9,
-      "Premium P1": 1,
-      "E3 (No Team)": 3,
-      F1: 0,
-      "Defender for Business": 0,
-      "Defender for Office (Plan 1)": 4,
-      "Defender for Office (Plan 2)": 1,
-      "Power BI Pro": 2,
-      "Exchange Online Archiving": 0,
-    },
-    {
-      Company: "Nature Allliance",
-      "Total Account": 152,
-      "Business Basic": 95,
-      "Business Standard": 44,
-      "Premium P1": 4,
-      "E3 (No Team)": 0,
-      F1: 1,
-      "Defender for Business": 1,
-      "Defender for Office (Plan 1)": 4,
-      "Defender for Office (Plan 2)": 1,
-      "Power BI Pro": 1,
-      "Exchange Online Archiving": 1,
-    },
-    {
-      Company: "Innobuilder",
-      "Total Account": 75,
-      "Business Basic": 52,
-      "Business Standard": 23,
-      "Premium P1": 0,
-      "E3 (No Team)": 0,
-      F1: 0,
-      "Defender for Business": 0,
-      "Defender for Office (Plan 1)": 0,
-      "Defender for Office (Plan 2)": 0,
-      "Power BI Pro": 0,
-      "Exchange Online Archiving": 0,
-    },
-    {
-      Company: "Nature Valley",
-      "Total Account": 33,
-      "Business Basic": 19,
-      "Business Standard": 14,
-      "Premium P1": 0,
-      "E3 (No Team)": 0,
-      F1: 0,
-      "Defender for Business": 0,
-      "Defender for Office (Plan 1)": 0,
-      "Defender for Office (Plan 2)": 0,
-      "Power BI Pro": 0,
-      "Exchange Online Archiving": 0,
-    },
-    {
-      Company: "PIP Myanmar",
-      "Total Account": 48,
-      "Business Basic": 35,
-      "Business Standard": 13,
-      "Premium P1": 0,
-      "E3 (No Team)": 0,
-      F1: 0,
-      "Defender for Business": 0,
-      "Defender for Office (Plan 1)": 0,
-      "Defender for Office (Plan 2)": 0,
-      "Power BI Pro": 0,
-      "Exchange Online Archiving": 0,
-    },
-    {
-      Company: "Prime Asset",
-      "Total Account": 4,
-      "Business Basic": 1,
-      "Business Standard": 3,
-      "Premium P1": 0,
-      "E3 (No Team)": 0,
-      F1: 0,
-      "Defender for Business": 0,
-      "Defender for Office (Plan 1)": 0,
-      "Defender for Office (Plan 2)": 0,
-      "Power BI Pro": 0,
-      "Exchange Online Archiving": 0,
-    },
-    {
-      Company: "Kuthen Estate",
-      "Total Account": 5,
-      "Business Basic": 3,
-      "Business Standard": 2,
-      "Premium P1": 0,
-      "E3 (No Team)": 0,
-      F1: 0,
-      "Defender for Business": 0,
-      "Defender for Office (Plan 1)": 0,
-      "Defender for Office (Plan 2)": 0,
-      "Power BI Pro": 0,
-      "Exchange Online Archiving": 0,
-    },
-    {
-      Company: "Solid Alliance",
-      "Total Account": 1,
-      "Business Basic": 0,
-      "Business Standard": 1,
-      "Premium P1": 0,
-      "E3 (No Team)": 0,
-      F1: 0,
-      "Defender for Business": 0,
-      "Defender for Office (Plan 1)": 0,
-      "Defender for Office (Plan 2)": 0,
-      "Power BI Pro": 0,
-      "Exchange Online Archiving": 0,
-    },
-    {
-      Company: "Nature Build",
-      "Total Account": 1,
-      "Business Basic": 0,
-      "Business Standard": 1,
-      "Premium P1": 0,
-      "E3 (No Team)": 0,
-      F1: 0,
-      "Defender for Business": 0,
-      "Defender for Office (Plan 1)": 0,
-      "Defender for Office (Plan 2)": 0,
-      "Power BI Pro": 0,
-      "Exchange Online Archiving": 0,
-    },
-    {
-      Company: "Total",
-      "Total Account": 344,
-      "Business Basic": 210,
-      "Business Standard": 110,
-      "Premium P1": 5,
-      "E3 (No Team)": 3,
-      F1: 1,
-      "Defender for Business": 1,
-      "Defender for Office (Plan 1)": 8,
-      "Defender for Office (Plan 2)": 2,
-      "Power BI Pro": 3,
-      "Exchange Online Archiving": 1,
-    },
-  ];
-  const licenseDefaults = [
-    {
-      Licenses: "Exchange Online Archiving",
-      Features: "Add-on",
-      "Total Licenses": 2,
-      "Active Users": 1,
-      "Available License": 1,
-    },
-    {
-      Licenses: "Business Basic",
-      Features: "Business",
-      "Total Licenses": 215,
-      "Active Users": 210,
-      "Available License": 5,
-    },
-    {
-      Licenses: "Business Standard",
-      Features: "Business",
-      "Total Licenses": 115,
-      "Active Users": 110,
-      "Available License": 5,
-    },
-    {
-      Licenses: "E3 (No Team)",
-      Features: "Enterprise",
-      "Total Licenses": 3,
-      "Active Users": 3,
-      "Available License": 0,
-    },
-    {
-      Licenses: "F1",
-      Features: "Frontline",
-      "Total Licenses": 3,
-      "Active Users": 1,
-      "Available License": 2,
-    },
-    {
-      Licenses: "Defender for Business",
-      Features: "Security Add-on",
-      "Total Licenses": 3,
-      "Active Users": 1,
-      "Available License": 2,
-    },
-    {
-      Licenses: "Defender for Office (Plan 1)",
-      Features: "Security Add-on",
-      "Total Licenses": 8,
-      "Active Users": 8,
-      "Available License": 0,
-    },
-    {
-      Licenses: "Defender for Office (Plan 2)",
-      Features: "Security Add-on",
-      "Total Licenses": 3,
-      "Active Users": 2,
-      "Available License": 1,
-    },
-    {
-      Licenses: "Premium P1",
-      Features: "Identity / Security",
-      "Total Licenses": 5,
-      "Active Users": 5,
-      "Available License": 0,
-    },
-    {
-      Licenses: "Power BI Pro",
-      Features: "Analytics",
-      "Total Licenses": 3,
-      "Active Users": 3,
-      "Available License": 0,
-    },
-    {
-      Licenses: "Total",
-      Features: "",
-      "Total Licenses": 360,
-      "Active Users": 344,
-      "Available License": 16,
-    },
-  ];
   const clone = (x) => JSON.parse(JSON.stringify(x));
   function validCompany(rows) {
     return (
@@ -2686,7 +2467,7 @@ page(active);
       const saved = JSON.parse(localStorage.getItem("m365CompanyDB"));
       if (validCompany(saved)) return saved;
     } catch {}
-    return clone(companyDefaults);
+    return [];
   }
   function loadLicenses() {
     if (Array.isArray(window.MICROSOFT_LICENSE_DATA?.licenses))
@@ -2696,7 +2477,7 @@ page(active);
       if (Array.isArray(saved) && saved.length && saved[0].Licenses)
         return saved;
     } catch {}
-    return clone(licenseDefaults);
+    return [];
   }
   let licenseRows = loadLicenses();
   data["Microsoft 365"] = loadCompany();
@@ -2810,85 +2591,6 @@ page(active);
 })();
 
 (function () {
-  const licenseSeed = [
-    {
-      Licenses: "Exchange Online Archiving",
-      Features: "Add-on",
-      "Total Licenses": 2,
-      "Active Users": 1,
-      "Available License": 1,
-    },
-    {
-      Licenses: "Business Basic",
-      Features: "Business",
-      "Total Licenses": 215,
-      "Active Users": 210,
-      "Available License": 5,
-    },
-    {
-      Licenses: "Business Standard",
-      Features: "Business",
-      "Total Licenses": 115,
-      "Active Users": 110,
-      "Available License": 5,
-    },
-    {
-      Licenses: "E3 (No Team)",
-      Features: "Enterprise",
-      "Total Licenses": 3,
-      "Active Users": 3,
-      "Available License": 0,
-    },
-    {
-      Licenses: "F1",
-      Features: "Frontline",
-      "Total Licenses": 3,
-      "Active Users": 1,
-      "Available License": 2,
-    },
-    {
-      Licenses: "Defender for Business",
-      Features: "Security Add-on",
-      "Total Licenses": 3,
-      "Active Users": 1,
-      "Available License": 2,
-    },
-    {
-      Licenses: "Defender for Office (Plan 1)",
-      Features: "Security Add-on",
-      "Total Licenses": 8,
-      "Active Users": 8,
-      "Available License": 0,
-    },
-    {
-      Licenses: "Defender for Office (Plan 2)",
-      Features: "Security Add-on",
-      "Total Licenses": 3,
-      "Active Users": 2,
-      "Available License": 1,
-    },
-    {
-      Licenses: "Premium P1",
-      Features: "Identity / Security",
-      "Total Licenses": 5,
-      "Active Users": 5,
-      "Available License": 0,
-    },
-    {
-      Licenses: "Power BI Pro",
-      Features: "Analytics",
-      "Total Licenses": 3,
-      "Active Users": 3,
-      "Available License": 0,
-    },
-    {
-      Licenses: "Total",
-      Features: "",
-      "Total Licenses": 360,
-      "Active Users": 344,
-      "Available License": 16,
-    },
-  ];
   let licenses = Array.isArray(window.MICROSOFT_LICENSE_DATA?.licenses)
     ? JSON.parse(JSON.stringify(window.MICROSOFT_LICENSE_DATA.licenses))
     : null;
@@ -2897,7 +2599,7 @@ page(active);
       licenses = JSON.parse(localStorage.getItem("m365LicensesDB"));
   } catch {}
   if (!Array.isArray(licenses) || !licenses.length)
-    licenses = JSON.parse(JSON.stringify(licenseSeed));
+    licenses = [];
   const escapeHtml = (value) =>
     String(value ?? "").replace(
       /[&<>"']/g,
@@ -3930,45 +3632,6 @@ page(active);
       renderLicenseAvailabilityPie();
     };
   renderLicenseAvailabilityPie();
-})();
-
-(function () {
-  const migrationKey = "m365PipBusinessBasic35";
-  if (localStorage.getItem(migrationKey) === "done") return;
-  let companies;
-  try {
-    companies = JSON.parse(localStorage.getItem("m365CompanyDB"));
-  } catch {}
-  if (!Array.isArray(companies) || !companies.length)
-    companies = data["Microsoft 365"] || [];
-  const pip = companies.find((row) => row.Company === "PIP Myanmar");
-  if (pip) {
-    pip["Business Basic"] = 35;
-    const totalRow = companies.find((row) => row.Company === "Total");
-    const licenseKeys = Object.keys(pip).filter(
-      (key) => key !== "Company" && key !== "Total Account",
-    );
-    pip["Total Account"] = licenseKeys.reduce(
-      (sum, key) => sum + (Number(pip[key]) || 0),
-      0,
-    );
-    if (totalRow) {
-      totalRow["Total Account"] = companies
-        .filter((row) => row.Company !== "Total")
-        .reduce((sum, row) => sum + (Number(row["Total Account"]) || 0), 0);
-      licenseKeys.forEach(
-        (key) =>
-          (totalRow[key] = companies
-            .filter((row) => row.Company !== "Total")
-            .reduce((sum, row) => sum + (Number(row[key]) || 0), 0)),
-      );
-    }
-    data["Microsoft 365"] = companies;
-    localStorage.setItem("m365CompanyDB", JSON.stringify(companies));
-    localStorage.setItem("itHubData", JSON.stringify(data));
-  }
-  localStorage.setItem(migrationKey, "done");
-  location.reload();
 })();
 
 /* Service Ticket Distribution uses a measured entrance animation for readable comparisons. */
@@ -6467,48 +6130,6 @@ window.exportXlsx = function () {
   });
   moveTotals();
 })();
-/* One-time Microsoft 365 update: Innobuilder and Business Basic allocations. */
-(function () {
-  const key = "m365Innobuilder75BusinessBasic210";
-  if (localStorage.getItem(key)) return;
-  try {
-    const companies = JSON.parse(localStorage.getItem("m365CompanyDB")) || [],
-      licenses = JSON.parse(localStorage.getItem("m365LicensesDB")) || [],
-      innobuilder = companies.find((row) => row.Company === "Innobuilder"),
-      basic = licenses.find((row) => row.Licenses === "Business Basic");
-    if (innobuilder) {
-      innobuilder["Total Account"] = 75;
-      innobuilder["Business Basic"] = 52;
-      const total = companies.find((row) => row.Company === "Total");
-      if (total) {
-        Object.keys(total)
-          .filter((name) => name !== "Company")
-          .forEach(
-            (name) =>
-              (total[name] = companies
-                .filter((row) => row.Company !== "Total")
-                .reduce((sum, row) => sum + (Number(row[name]) || 0), 0)),
-          );
-      }
-    }
-    if (basic) {
-      basic["Active Users"] = 210;
-      basic["Available License"] = 5;
-      const total = licenses.find((row) => row.Licenses === "Total");
-      if (total) {
-        ["Total Licenses", "Active Users", "Available License"].forEach(
-          (name) =>
-            (total[name] = licenses
-              .filter((row) => row.Licenses !== "Total")
-              .reduce((sum, row) => sum + (Number(row[name]) || 0), 0)),
-        );
-      }
-    }
-    localStorage.setItem("m365CompanyDB", JSON.stringify(companies));
-    localStorage.setItem("m365LicensesDB", JSON.stringify(licenses));
-    localStorage.setItem(key, "done");
-  } catch {}
-})();
 /* Keep only Manpower-specific content inside its own dashboard wrapper. */
 (function () {
   const wrapper = document.getElementById("manpowerDashboard"),
@@ -7082,7 +6703,7 @@ window.exportXlsx = function () {
     const totalBudget = budget.reduce((sum, row) => sum + row.amount, 0),
       totalActual = actual.reduce((sum, row) => sum + row.amount, 0),
       variance = totalBudget - totalActual,
-      utilization = totalBudget ? (totalActual / totalBudget) * 100 : 0;
+      utilization = totalBudget > 0 ? (totalActual / totalBudget) * 100 : null;
     const summaryFooter = panel.querySelector(".budget-summary-key");
     if (summaryFooter) {
       summaryFooter.innerHTML =
@@ -7100,32 +6721,53 @@ window.exportXlsx = function () {
       metric.removeAttribute("title");
       metric.setAttribute("aria-label", full(value) + " MMK");
     });
-    document.getElementById("budgetUtilization").textContent =
-      utilization.toFixed(1) + "%";
+    const utilizationMetric = document.getElementById("budgetUtilization");
+    utilizationMetric.textContent =
+      utilization === null ? "-" : utilization.toFixed(1) + "%";
+    utilizationMetric.setAttribute(
+      "aria-label",
+      utilization === null
+        ? "Budget utilization unavailable because no approved budget was selected"
+        : "Budget utilization " + utilization.toFixed(1) + "%",
+    );
     const selectedRecords = budget.length,
-      remaining = Math.max(0, 100 - utilization),
+      remaining = utilization === null ? 0 : Math.max(0, 100 - utilization),
       actualCompanies = new Set(
         actual.filter((row) => row.amount > 0).map((row) => row.company),
       ).size,
       status =
-        utilization <= 80
-          ? "On Budget"
-          : utilization <= 100
-            ? "Review Budget"
-            : "Over Budget",
-      overBudget = variance < 0 || utilization > 100,
+        utilization === null
+          ? totalActual > 0
+            ? "Unbudgeted Spending"
+            : "No Approved Budget"
+          : utilization <= 80
+            ? "On Budget"
+            : utilization <= 100
+              ? "Review Budget"
+              : "Over Budget",
+      overBudget = variance < 0 || (utilization !== null && utilization > 100),
       varianceCard = document.getElementById("budgetVarianceCard"),
       utilizationCard = document.getElementById("budgetUtilizationCard");
     varianceCard.classList.toggle("tone-red", overBudget);
     varianceCard.classList.toggle("tone-yellow", !overBudget);
-    utilizationCard.classList.toggle("tone-red", utilization > 100);
-    utilizationCard.classList.toggle("tone-blue", utilization <= 100);
+    utilizationCard.classList.toggle(
+      "tone-red",
+      utilization !== null && utilization > 100,
+    );
+    utilizationCard.classList.toggle(
+      "tone-blue",
+      utilization === null || utilization <= 100,
+    );
     document.getElementById("budgetTotalSubtitle").textContent =
       selectedRecords + " records selected";
     document.getElementById("budgetActualSubtitle").textContent =
-      utilization <= 100
-        ? remaining.toFixed(1) + "% left of approved budget"
-        : (utilization - 100).toFixed(1) + "% above approved budget";
+      utilization === null
+        ? totalActual > 0
+          ? "Unbudgeted spending"
+          : "No approved budget"
+        : utilization <= 100
+          ? remaining.toFixed(1) + "% left of approved budget"
+          : (utilization - 100).toFixed(1) + "% above approved budget";
     document.getElementById("budgetVarianceSubtitle").textContent = status;
     document.getElementById("budgetUtilizationSubtitle").textContent =
       "Across " +

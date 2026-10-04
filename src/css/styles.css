@@ -464,9 +464,6 @@ td[contenteditable]:focus {
   }
 }
 
-
-
-
 :root {
   --n: #36121a;
   --b: #d12a31;
@@ -648,8 +645,6 @@ body.dark td[contenteditable]:focus {
 
 }
 
-
-
 .unified-tabs {
   display: flex;
   align-items: center;
@@ -732,9 +727,6 @@ body.dark .unified-tab.active {
   }
 }
 
-
-
-
 .theme-toggle {
   width: 38px;
   height: 36px;
@@ -762,9 +754,6 @@ body.dark .unified-tab.active {
 body.dark .theme-toggle {
   background: #492127
 }
-
-
-
 
 /* Refined logo-led navigation and compact desktop mode */
 .side {
@@ -939,9 +928,6 @@ body.dark .collapse-btn {
   }
 }
 
-
-
-
 /* Final dark-mode readability and complete brand chart styling */
 body.dark,
 body.dark h1,
@@ -988,16 +974,12 @@ body.dark .status.bad {
   color: #ffb8c5 !important
 }
 
-
-
 .nav-icon img {
   display: block;
   width: 21px;
   height: 21px;
   object-fit: contain
 }
-
-
 
 tbody tr:nth-child(odd) td {
   background: #fff
@@ -1032,9 +1014,6 @@ body.dark td[contenteditable]:focus {
   color: #2e171b !important
 }
 
-
-
-
 #chart,
 #pie {
   transition: none !important
@@ -1049,9 +1028,6 @@ body.dark .chart,
 body.dark .pie {
   background: transparent
 }
-
-
-
 
 tbody tr:nth-child(odd) td,
 tbody tr:nth-child(odd):hover td {
@@ -1135,9 +1111,6 @@ body.dark .filter {
   color: #f3e3df !important
 }
 
-
-
-
 [data-table="license-utilization"] {
   margin-top: 20px;
   padding: 0;
@@ -1170,9 +1143,6 @@ body.dark #table tr.total-row td {
   background: #422126 !important;
   color: #fff1e8 !important
 }
-
-
-
 
 .unified-table-title {
   display: flex;
@@ -1271,9 +1241,6 @@ body.dark .derived-cell {
   }
 }
 
-
-
-
 .unified-kpi-grid .unified-kpi-icon {
   display: grid;
   place-items: center;
@@ -1321,9 +1288,6 @@ body.dark .unified-kpi-grid .unified-kpi-card:nth-child(3) .unified-kpi-icon {
   color: #9ac8f7
 }
 
-
-
-
 .brand>span {
   display: flex;
   flex-direction: column;
@@ -1353,13 +1317,6 @@ body.dark .unified-kpi-grid .unified-kpi-card:nth-child(3) .unified-kpi-icon {
   display: none
 }
 
-
-
-
-
-
-
-
 .chart,
 .chart canvas,
 #chart {
@@ -1371,9 +1328,6 @@ body.dark .chart canvas,
 body.dark #chart {
   background: transparent !important
 }
-
-
-
 
 .m365-license-name {
   font-size: 9px !important;
@@ -1422,8 +1376,6 @@ body.dark .m365-license-availability small {
     font-size: 12px
   }
 }
-
-
 
 .unified-kpi-grid {
   display: grid;
@@ -1544,9 +1496,6 @@ body.dark .unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-icon {
   color: #80dbb9
 }
 
-
-
-
 @media(max-width:768px) {
 
   main>.tablecard:has(.m365-company-table)>.head,
@@ -1634,9 +1583,6 @@ body.dark .unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-icon {
   }
 }
 
-
-
-
 main>.tablecard:has(.m365-company-table)>#table,
 [data-table="license-utilization"]>.table-scroll {
   display: block;
@@ -1708,9 +1654,6 @@ main>.tablecard:has(.m365-company-table)>.foot,
   }
 }
 
-
-
-
 main>.tablecard:has(.m365-company-table)>#table,
 [data-table="license-utilization"]>.table-scroll {
   max-height: none !important;
@@ -1766,9 +1709,6 @@ body.dark [data-table="license-utilization"] tbody tr.total-row td:first-child {
   color: #fff1e8 !important;
   box-shadow: 1px 0 #754333 !important
 }
-
-
-
 
 /* Unified Microsoft 365 Company and License table presentation */
 :is(main>.tablecard:has(.m365-company-table), [data-table="license-utilization"]) {
@@ -1839,7 +1779,6 @@ body.dark [data-table="license-utilization"] tbody tr.total-row td:first-child {
   z-index: 40 !important
 }
 
-
 body.dark :is(main>.tablecard:has(.m365-company-table), [data-table="license-utilization"]) {
   border-color: #553137 !important;
   background: #2d171c !important;
@@ -1885,7 +1824,6 @@ body.dark :is(.m365-company-table, .m365-license-table, [data-table="license-uti
   border-top-color: #684048 !important;
   box-shadow: none !important;
 }
-
 
 /* Match License table rows to the Company table */
 [data-table="license-utilization"] tbody tr:not(.total-row):nth-child(odd) td {
@@ -1939,7 +1877,6 @@ body.dark [data-table="license-utilization"] tbody tr:not(.total-row) td {
   border-color: #4d3035
 }
 
-
 /* Unified dark mode for both Microsoft 365 tables */
 body.dark :is(.m365-company-table, .m365-license-table) {
   background: #2d171c !important;
@@ -1983,7 +1920,6 @@ body.dark [data-table="license-utilization"] .table-scroll,
 body.dark main>.tablecard:has(.m365-company-table)>#table {
   background: #2d171c !important
 }
-
 
 /* Freeze the Microsoft 365 License name column */
 .m365-license-table :is(th, td):first-child {
@@ -2035,9 +1971,6 @@ body.manpower-page main>.tablecard {
   padding: 0 !important;
   overflow: visible !important
 }
-
-
-
 
 .role-level-cell {
   text-align: left
@@ -2092,12 +2025,6 @@ body.dark .role-badge[data-level^="G"] {
   background: #173e34;
   color: #80dbb9
 }
-
-
-
-
-
-
 
 .actions .export-btn {
   display: inline-flex;
@@ -2194,9 +2121,6 @@ body.dark .actions .export-btn:focus-visible {
     height: 18px
   }
 }
-
-
-
 
 .actions {
   gap: 6px !important;
@@ -2331,8 +2255,6 @@ body.dark .actions .export-btn {
     height: 34px !important
   }
 }
-
-
 
 .planning-visual-body {
   padding: 18px;
@@ -2481,7 +2403,6 @@ body.dark .actions .export-btn {
   font-size: 9px
 }
 
-
 body.dark .planning-visual-body {
   background: linear-gradient(180deg, #29151a, #241216)
 }
@@ -2528,7 +2449,6 @@ body.dark .visual-kpi.metric-tone-4 .visual-kpi-badge {
   background: #352b52;
   color: #c7b7ff
 }
-
 
 @media(max-width:1100px) {
   .visual-kpis {
@@ -2588,13 +2508,11 @@ body.dark .visual-kpi.metric-tone-4 .visual-kpi-badge {
   }
 }
 
-
 @media(max-width:700px) {
   .hamb {
     cursor: pointer !important
   }
 }
-
 
 @media(max-width:760px) {
   body.dark .actions .theme-toggle {
@@ -2610,7 +2528,6 @@ body.dark .visual-kpi.metric-tone-4 .visual-kpi-badge {
     border-color: #74434c !important
   }
 }
-
 
 @media(max-width:700px) {
   .hamb {
@@ -2644,7 +2561,6 @@ body.dark .visual-kpi.metric-tone-4 .visual-kpi-badge {
   }
 }
 
-
 body.dark .collapse-btn {
   background: #32171e !important;
   border-color: #593139 !important;
@@ -2663,7 +2579,6 @@ body.dark .collapse-btn:focus-visible {
   outline: 0;
   box-shadow: 0 0 0 3px rgba(244, 160, 68, .18), 0 3px 10px rgba(0, 0, 0, .22) !important
 }
-
 
 /* Modern Manpower insight cards */
 .visual-kpis {
@@ -2847,7 +2762,6 @@ body.dark .visual-kpi span {
   }
 }
 
-
 /* Compact horizontal metric cards */
 .visual-kpi {
   display: grid !important;
@@ -2973,7 +2887,6 @@ body.dark .visual-kpi strong {
   }
 }
 
-
 /* Immediate theme-correct sticky header surface */
 .top {
   background: #fff9f5 !important;
@@ -2983,7 +2896,6 @@ body.dark .visual-kpi strong {
 body.dark .top {
   background: #210f15 !important
 }
-
 
 /* Four-tone icon and subtitle badges for primary KPI cards */
 .unified-kpi-grid .unified-kpi-context,
@@ -3071,7 +2983,6 @@ body.dark .unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-context 
     font-size: 7px !important
   }
 }
-
 
 /* Responsive digital department organization chart */
 .structure-org-panel {
@@ -3334,7 +3245,6 @@ body.dark .org-profile-site header {
   }
 }
 
-
 /* KPI subtitles are plain text, coordinated with their icons */
 .unified-kpi-grid .unified-kpi-card:nth-child(n) .unified-kpi-context,
 .unified-kpi-grid .unified-kpi-card:nth-child(n) .unified-kpi-context {
@@ -3348,7 +3258,6 @@ body.dark .org-profile-site header {
   overflow: visible !important;
   text-overflow: clip !important
 }
-
 
 /* Peer-level digital operations responsibility tier */
 .org-team-tier {
@@ -3536,7 +3445,6 @@ body.dark .shared-service-list span {
   }
 }
 
-
 .org-profile li.org-highlight {
   list-style: none;
   margin-left: -15px;
@@ -3573,7 +3481,6 @@ body.dark .org-profile li.org-highlight.service {
   color: #ffab82
 }
 
-
 .org-profile li.org-highlight {
   list-style: disc;
   margin-left: 0;
@@ -3602,7 +3509,6 @@ body.dark .org-profile li.org-highlight.service {
   background: transparent !important;
   color: #ffab82
 }
-
 
 .org-profile ul {
   font-size: 9px !important
@@ -3658,7 +3564,6 @@ body.dark .org-profile li.org-highlight.service {
   }
 }
 
-
 .org-profile li.core-service-heading {
   list-style: none;
   margin: 6px 0 1px -14px;
@@ -3684,7 +3589,6 @@ body.dark .org-profile li.core-service-heading {
 body.dark .org-profile li.core-service-item {
   color: #cdbabc
 }
-
 
 /* Modern leadership hierarchy */
 .org-role {
@@ -3818,7 +3722,6 @@ body.dark .org-profile-lead header em {
   }
 }
 
-
 /* Simplified leadership cards */
 .org-role .org-role-icon,
 .org-profile-lead .lead-role-icon {
@@ -3935,7 +3838,6 @@ body.dark .org-profile-lead header em {
   }
 }
 
-
 /* Muted logo-theme leadership backgrounds */
 .org-role {
   border: 1px solid transparent;
@@ -4017,7 +3919,6 @@ body.dark .org-profile-lead header em {
   border-color: rgba(255, 255, 255, .18)
 }
 
-
 /* Unified professional dark theme for dashboard cards and tables */
 body.dark .unified-kpi-grid .unified-kpi-context,
 body.dark .unified-kpi-grid .unified-kpi-context {
@@ -4047,10 +3948,6 @@ body.dark [data-table="license-utilization"] tbody tr.total-row td:first-child {
   color: #eadbd7 !important;
   box-shadow: none !important
 }
-
-
-
-
 
 .top {
   position: sticky !important;
@@ -4237,8 +4134,6 @@ body.dark .back-to-top:focus-visible {
   }
 }
 
-
-
 .side#side {
   z-index: 9999 !important
 }
@@ -4250,7 +4145,6 @@ body.dark .back-to-top:focus-visible {
 .top {
   margin-top: 0 !important
 }
-
 
 .side-backdrop {
   position: fixed;
@@ -4292,7 +4186,6 @@ body.mobile-side-open {
     transition: none !important
   }
 }
-
 
 /* KPI subtitles: plain text in both themes */
 .unified-kpi-grid .unified-kpi-card:nth-child(n) .unified-kpi-context,
@@ -4354,7 +4247,6 @@ body.dark .unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-context,
 body.dark .unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-context {
   color: #c7b7ff !important
 }
-
 
 /* Responsive Workforce Plan organization graph */
 .workforce-org {
@@ -4787,7 +4679,6 @@ body.dark .software .workforce-functions span li:nth-child(even) {
   color: #eee0ad
 }
 
-
 /* Data Center services use one consistent primary card color */
 .workforce-branch.infrastructure .workforce-functions article:first-child span li,
 .workforce-branch.infrastructure .workforce-functions article:first-child span li:nth-child(even) {
@@ -4802,7 +4693,6 @@ body.dark .workforce-branch.infrastructure .workforce-functions article:first-ch
   background: #41251f;
   color: #ead6cf
 }
-
 
 /* IT Management, User Support and System Management use the secondary color */
 .workforce-branch.infrastructure .workforce-functions article:nth-child(2) span li,
@@ -4821,7 +4711,6 @@ body.dark .workforce-branch.infrastructure .workforce-functions article:nth-chil
   color: #f0dfa6
 }
 
-
 /* Selected Infrastructure services use the secondary color */
 .workforce-branch.infrastructure .workforce-functions article:nth-child(5) span li:nth-child(5),
 .workforce-branch.infrastructure .workforce-functions article:nth-child(6) span li,
@@ -4838,7 +4727,6 @@ body.dark .workforce-branch.infrastructure .workforce-functions article:nth-chil
   background: #463b21;
   color: #f0dfa6
 }
-
 
 /* Software services: primary color except Web Development and Coordinator */
 .workforce-branch.software .workforce-functions article:first-child span li {
@@ -4867,7 +4755,6 @@ body.dark .workforce-branch.software .workforce-functions article:first-child sp
   color: #f0dfa6
 }
 
-
 /* Data Science services use the primary Software Development color */
 .workforce-branch.software .workforce-functions article:nth-child(2) span li,
 .workforce-branch.software .workforce-functions article:nth-child(2) span li:nth-child(even) {
@@ -4883,8 +4770,6 @@ body.dark .workforce-branch.software .workforce-functions article:nth-child(2) s
   color: #ead6cf
 }
 
-
-
 @media(max-width:700px) {
   .workforce-functions span li {
     min-height: 28px;
@@ -4892,7 +4777,6 @@ body.dark .workforce-branch.software .workforce-functions article:nth-child(2) s
     font-size: 7px
   }
 }
-
 
 /* Eight Infrastructure functions in one professional desktop row */
 @media(min-width:1200px) {
@@ -4944,7 +4828,6 @@ body.dark .workforce-branch.software .workforce-functions article:nth-child(2) s
     grid-template-columns: 1fr
   }
 }
-
 
 /* Team Structure: keep every profile and responsibility fully visible */
 .structure-org-panel {
@@ -5013,7 +4896,6 @@ body.dark .workforce-branch.software .workforce-functions article:nth-child(2) s
   }
 }
 
-
 /* Team Structure hierarchy: Lead branches clearly to six peer cards */
 @media(min-width:781px) {
   .structure-org-panel {
@@ -5060,7 +4942,6 @@ body.dark .structure-org-panel {
   scrollbar-color: #754b4c transparent
 }
 
-
 /* Continuous Team Structure connectors and aligned leadership cards */
 .org-role {
   display: flex !important;
@@ -5105,7 +4986,6 @@ body.dark .structure-org-panel {
     display: none !important
   }
 }
-
 
 /* Final Team Structure leadership colors and sizing */
 .org-role {
@@ -5177,7 +5057,6 @@ body.dark .org-profile-lead header em {
   }
 }
 
-
 /* Team Structure and Workforce Plan graphs use an open, edge-to-edge layout */
 .structure-org-panel,
 .workforce-org {
@@ -5233,7 +5112,6 @@ body.dark .responsibility-org {
   }
 }
 
-
 /* Workforce Plan alignment */
 .workforce-leaders article {
   width: 245px !important;
@@ -5263,7 +5141,6 @@ body.dark .responsibility-org {
     min-width: 0 !important
   }
 }
-
 
 /* Professional Workforce Plan hierarchy connectors */
 .workforce-leaders {
@@ -5464,7 +5341,6 @@ body.dark .workforce-people article:before {
   }
 }
 
-
 /* Precisely align department connector with the unequal 2.25fr / 1fr columns */
 @media(min-width:1051px) {
   .workforce-branches:before {
@@ -5516,7 +5392,6 @@ body.dark .workforce-people article:before {
   }
 }
 
-
 /* Software Development footer: independent dashed ownership lines */
 @media(min-width:701px) {
   .workforce-branch.software .workforce-functions {
@@ -5563,7 +5438,6 @@ body.dark .workforce-people article:before {
   }
 }
 
-
 /* Solid Software Development footer connectors */
 @media(min-width:701px) {
   .workforce-branch.software .workforce-functions {
@@ -5578,7 +5452,6 @@ body.dark .workforce-people article:before {
     background-image: linear-gradient(#85615d, #85615d), linear-gradient(#85615d, #85615d)
   }
 }
-
 
 /* One continuous vertical connector per Software Development footer role */
 @media(min-width:391px) {
@@ -5679,7 +5552,6 @@ body.dark .workforce-people article:before {
   }
 }
 
-
 /* Softer hierarchy connectors for Team Structure and Workforce Plan */
 .org-link,
 .org-team-tier:before,
@@ -5776,7 +5648,6 @@ body.dark .workforce-branch.software .workforce-functions {
     background: #51363b !important
   }
 }
-
 
 /* Workforce Plan footer ownership map: five roles aligned to eight functions */
 @media(min-width:1200px) {
@@ -5885,7 +5756,6 @@ body.dark .workforce-branch.software .workforce-functions {
 
 }
 
-
 /* Exact Infrastructure responsibility routing */
 @media(min-width:1200px) {
   .workforce-branch.infrastructure .workforce-people {
@@ -5954,7 +5824,6 @@ body.dark .workforce-branch.software .workforce-functions {
 
 }
 
-
 /* Consolidated Infrastructure footer: one administrator card for three functions */
 @media(min-width:1200px) {
   .workforce-branch.infrastructure .workforce-people article:nth-child(1) {
@@ -5995,7 +5864,6 @@ body.dark .workforce-branch.software .workforce-functions {
 
 }
 
-
 /* Workforce Plan leadership labels from the approved reference */
 .workforce-leaders article:nth-of-type(1) b,
 .workforce-leaders article:nth-of-type(1) small,
@@ -6023,7 +5891,6 @@ body.dark .workforce-branch.software .workforce-functions {
   content: 'Operations & Service Delivery';
   font-size: 7px
 }
-
 
 /* Compact, responsive sidebar and stable collapsed logo */
 :root {
@@ -6175,7 +6042,6 @@ body.dark .workforce-branch.software .workforce-functions {
   }
 }
 
-
 /* Keep the sidebar control clear of the logo */
 .side#side .brand .collapse-btn {
   position: absolute;
@@ -6195,7 +6061,6 @@ body.dark .workforce-branch.software .workforce-functions {
     display: none
   }
 }
-
 
 /* Professional sidebar edge control: fully visible, never clipped */
 .side#side {
@@ -6291,7 +6156,6 @@ body.dark .side#side .nav::-webkit-scrollbar-thumb {
   }
 }
 
-
 /* Consistent interactive cursor across every viewport */
 button,
 [type="button"],
@@ -6299,7 +6163,6 @@ button,
 [type="reset"] {
   cursor: pointer !important
 }
-
 
 /* Professional Digital Core Services portfolio */
 .digital-services-heading {
@@ -6538,7 +6401,6 @@ body.dark .digital-service-item small {
   }
 }
 
-
 /* Service Portfolio cards aligned with the dashboard metric-card language */
 .service-portfolio-grid {
   display: grid;
@@ -6637,7 +6499,6 @@ body.dark .service-portfolio-grid .digital-service-item small {
   }
 }
 
-
 /* Vertically centered service badge on the card's right edge */
 .service-portfolio-grid .digital-service-item {
   position: relative;
@@ -6662,7 +6523,6 @@ body.dark .service-portfolio-grid .digital-service-item small {
   }
 }
 
-
 /* Requested label color and a properly clipped Workforce Directory card */
 .visual-kpi span,
 .digital-service-item b {
@@ -6673,7 +6533,6 @@ body.dark .visual-kpi span,
 body.dark .digital-service-item b {
   color: #f1e3df !important
 }
-
 
 /* Digital Service Functions */
 .digital-functions {
@@ -6846,7 +6705,6 @@ body.dark .digital-function-group li.function-emphasis {
   }
 }
 
-
 /* Readable three-column Digital Service Functions layout */
 .digital-functions-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -6914,7 +6772,6 @@ body.dark .digital-function-group li.function-emphasis {
   }
 }
 
-
 /* Four-column service-function cards with 10px readable text */
 .digital-functions-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr))
@@ -6951,7 +6808,6 @@ body.dark .digital-function-group li.function-emphasis {
     font-size: 10px
   }
 }
-
 
 /* One category card per row with horizontally flowing service items */
 .digital-functions-grid {
@@ -6999,7 +6855,6 @@ body.dark .digital-function-group li.function-emphasis {
   }
 }
 
-
 /* Reference palette: soft peach and warm yellow only */
 .digital-function-group,
 .digital-function-group.tone-1,
@@ -7033,7 +6888,6 @@ body.dark .digital-function-group li.function-emphasis {
   background: #3e351d;
   color: #f1df9c
 }
-
 
 /* Match the outer function card surface to the supplied reference */
 .digital-function-group {
@@ -7069,7 +6923,6 @@ body.dark .digital-function-group header {
 body.dark .digital-function-group ul {
   background: #2f1b20
 }
-
 
 /* Single-open accordion interaction */
 .digital-function-group>header {
@@ -7127,7 +6980,6 @@ body.dark .digital-function-group>header:after {
 body.dark .digital-function-group>header:focus-visible {
   box-shadow: inset 0 0 0 2px rgba(255, 154, 112, .38)
 }
-
 
 /* Refined accordion clarity, chevron and smooth open/close motion */
 .digital-function-group {
@@ -7272,7 +7124,6 @@ body.dark .digital-function-group li.function-emphasis {
   }
 }
 
-
 /* Unified service-item color: no alternating palette */
 .digital-function-group li,
 .digital-function-group li.function-emphasis {
@@ -7290,7 +7141,6 @@ body.dark .digital-function-group li.function-emphasis {
   box-shadow: none
 }
 
-
 /* Content-height animation keeps closing as smooth as opening */
 .digital-function-group>ul {
   transition: max-height .36s cubic-bezier(.4, 0, .2, 1), padding .36s cubic-bezier(.4, 0, .2, 1), opacity .2s ease, visibility 0s linear .36s
@@ -7306,7 +7156,6 @@ body.dark .digital-function-group li.function-emphasis {
     max-height: var(--accordion-height, 1600px)
   }
 }
-
 
 /* Comfortable inner spacing for wrapped accordion data */
 .digital-function-group>ul {
@@ -7347,7 +7196,6 @@ body.dark .digital-function-group li.function-emphasis {
   }
 }
 
-
 /* Two accordion cards per row; one per row on mobile */
 .digital-functions-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -7359,7 +7207,6 @@ body.dark .digital-function-group li.function-emphasis {
     grid-template-columns: 1fr
   }
 }
-
 
 /* Independent accordion columns prevent empty grid-row space */
 .digital-functions-grid {
@@ -7394,7 +7241,6 @@ body.dark .digital-function-group li.function-emphasis {
     order: var(--function-order)
   }
 }
-
 
 /* Digital Service Functions section card */
 .digital-functions {
@@ -7441,7 +7287,6 @@ body.dark .digital-functions-heading {
   }
 }
 
-
 /* Clean accordion headers and compact borderless control */
 .digital-functions-heading {
   padding-bottom: 0;
@@ -7480,11 +7325,9 @@ body.dark .digital-functions-heading {
   }
 }
 
-
 .service-portfolio-grid .digital-service-item small {
   font-size: 8.5px
 }
-
 
 /* Site-wide responsive typography and comfortable spacing */
 .unified-kpi-card .kt,
@@ -7553,7 +7396,6 @@ body.dark .digital-functions-heading {
   font-size: clamp(7.5px, .58vw, 9px);
   line-height: 1.45
 }
-
 
 /* Slightly larger professional type scale across every dashboard */
 .unified-kpi-card .kt,
@@ -7760,7 +7602,6 @@ body.dark .site-coverage-table td:nth-child(4) {
   line-height: 1.45
 }
 
-
 /* Standard dashboard-table header and one team member per column */
 .site-assignment-matrix {
   min-width: 1220px
@@ -7839,7 +7680,6 @@ body.dark .site-assignment-matrix th {
   }
 }
 
-
 .site-assignment-matrix .assignment-cell {
   color: #168166 !important;
   font-weight: 700 !important
@@ -7850,7 +7690,6 @@ body.dark .site-assignment-matrix .assignment-cell {
   font-weight: 700 !important
 }
 
-
 .site-coverage-table .coverage-select {
   width: auto;
   min-width: 0;
@@ -7858,12 +7697,10 @@ body.dark .site-assignment-matrix .assignment-cell {
   padding-right: 10px
 }
 
-
 .site-assignment-matrix .assigned-total {
   cursor: default;
   user-select: none
 }
-
 
 .site-assignment-matrix .assignment-cell {
   cursor: pointer;
@@ -7881,7 +7718,6 @@ body.dark .site-assignment-matrix .assignment-cell:focus-visible {
   box-shadow: inset 0 0 0 2px rgba(118, 214, 180, .35)
 }
 
-
 .site-assignment-matrix[data-readonly="true"] .assignment-cell {
   cursor: default
 }
@@ -7890,7 +7726,6 @@ body.dark .site-assignment-matrix .assignment-cell:focus-visible {
   width: auto;
   min-width: 0
 }
-
 
 .site-coverage-table .coverage-badge.planned {
   background: #fee8e7;
@@ -7902,7 +7737,6 @@ body.dark .site-coverage-table .coverage-badge.planned {
   color: #ff9b94
 }
 
-
 body.dark .site-coverage-table .coverage-badge.fulltime {
   background: #21443a;
   color: #8de0bf
@@ -7912,7 +7746,6 @@ body.dark .site-coverage-table .coverage-badge.scheduled {
   background: #49381d;
   color: #f2cc76
 }
-
 
 /* Site Coverage summary cards */
 .summary-card {
@@ -8038,11 +7871,9 @@ body.dark .summary-card.tone-blue {
   }
 }
 
-
 .site-overview-heading {
   margin-bottom: 14px
 }
-
 
 /* Microsoft 365 License Total row remains static */
 [data-table="license-utilization"] tbody tr.total-row:hover td,
@@ -8061,13 +7892,11 @@ body.dark [data-table="license-utilization"] tbody tr.total-row:hover td:first-c
   box-shadow: none !important
 }
 
-
 [data-table="license-utilization"] tr.total-row td {
   cursor: default !important;
   caret-color: transparent !important;
   user-select: none
 }
-
 
 /* Final synchronized Microsoft 365 table colors */
 :is(main>.tablecard:has(.m365-company-table), [data-table="license-utilization"]) {
@@ -8180,7 +8009,6 @@ body.dark :is(.m365-company-table, .m365-license-table, [data-table="license-uti
   border-top-color: #684048 !important;
   box-shadow: none !important
 }
-
 
 /* License Total is display-only and has no interactive or hover state */
 [data-table="license-utilization"] tbody tr.total-row {
@@ -8355,7 +8183,6 @@ body.dark [data-table="license-utilization"] .feature-badge.feature-identity-sec
   color: #ffc0d0;
 }
 
-
 /* Borderless License Total cells in light mode */
 body:not(.dark) [data-table="license-utilization"] tbody tr.total-row td,
 body:not(.dark) [data-table="license-utilization"] tbody tr.total-row:hover td {
@@ -8365,7 +8192,6 @@ body:not(.dark) [data-table="license-utilization"] tbody tr.total-row:hover td {
   box-shadow: none !important
 }
 
-
 .site-assignment-matrix tbody .assignment-cell {
   color: #168166 !important;
   font-weight: 700 !important
@@ -8374,7 +8200,6 @@ body:not(.dark) [data-table="license-utilization"] tbody tr.total-row:hover td {
 body.dark .site-assignment-matrix tbody .assignment-cell {
   color: #76d6b4 !important
 }
-
 
 /* Site Coverage charts aligned with the Microsoft 365 visual language */
 .site-coverage-chart-grid {
@@ -8563,7 +8388,6 @@ body.dark .site-chart-legend b {
   }
 }
 
-
 /* Interactive Site Coverage pie chart */
 .site-coverage-chart-grid.site-coverage-pie-only {
   grid-template-columns: 1fr
@@ -8709,7 +8533,6 @@ body.dark .site-coverage-model-legend {
   }
 }
 
-
 /* Clean text-only Site Coverage chart heading */
 .site-coverage-pie-only .site-chart-title>div {
   padding-left: 0
@@ -8719,7 +8542,6 @@ body.dark .site-coverage-model-legend {
   display: none !important;
   content: none !important
 }
-
 
 /* Location-level coverage detail */
 .site-team-location-list .site-team-location {
@@ -8791,7 +8613,6 @@ body.dark .site-team-location .coverage-planned {
     min-width: 0
   }
 }
-
 
 /* Responsive pie-to-details balance */
 .site-coverage-pie-only .site-chart-pie-layout {
@@ -8952,7 +8773,6 @@ body.dark .site-team-location .coverage-planned {
   }
 }
 
-
 /* Separate Team Site Coverage and Site Support Coverage cards */
 .site-team-coverage-card {
   margin: 0 0 16px
@@ -8978,7 +8798,6 @@ select,
 [role="combobox"] {
   cursor: pointer !important
 }
-
 
 /* Service Tickets analytics dashboard */
 .unified-filter-card {
@@ -9451,7 +9270,6 @@ body.dark .unified-table-footer {
   }
 }
 
-
 /* Service ticket company/assignee summary matrix */
 .service-tickets-page main>.unified-kpi-grid,
 .service-tickets-page main>.grid,
@@ -9459,21 +9277,14 @@ body.dark .unified-table-footer {
   display: none !important
 }
 
-
 /* Service Tickets KPI cards and table heading */
-
-
 
 /* Service Tickets typography and editable allocation counts */
 .service-tickets-page .hero h1 {
   font-size: clamp(22px, 2vw, 28px)
 }
 
-
-
-
 /* Microsoft 365-inspired Service Tickets charts */
-
 
 /* Expenses analytics */
 .unified-kpi-grid {
@@ -9704,9 +9515,7 @@ body.dark .unified-chart-legend>div {
   }
 }
 
-
 /* Responsive custom-range date controls */
-
 
 .unified-kpi-icon.currency-label {
   font-size: 8px;
@@ -9732,7 +9541,6 @@ body.dark .unified-chart-legend>div {
     display: none !important
   }
 }
-
 
 /* Responsive height rules shared by all four KPI summary sections. */
 @media(max-width:1100px) {
@@ -9773,7 +9581,6 @@ body.dark .unified-chart-legend>div {
   }
 }
 
-
 /* Intrinsic filter widths on larger screens; fluid controls on small screens. */
 :is(select.filter, select.select) {
   width: auto !important;
@@ -9798,7 +9605,6 @@ body.dark .unified-chart-legend>div {
   }
 }
 
-
 /* Service Ticket KPI line icons. */
 .service-tickets-page .unified-kpi-card .unified-kpi-icon svg {
   width: 16px;
@@ -9809,7 +9615,6 @@ body.dark .unified-chart-legend>div {
   stroke-linejoin: round;
   stroke-width: 1.8
 }
-
 
 /* Match the standard dashboard card hover effect. */
 .unified-kpi-card {
@@ -9825,7 +9630,6 @@ body.dark .unified-chart-legend>div {
 body.dark .unified-kpi-card:hover {
   box-shadow: 0 16px 32px rgba(0, 0, 0, .28), 0 3px 7px rgba(0, 0, 0, .14) !important
 }
-
 
 /* Standard KPI layout used by every main dashboard summary. */
 .unified-kpi-grid {
@@ -10019,7 +9823,6 @@ body.dark .unified-kpi-card.tone-blue {
   }
 }
 
-
 /* Each summary card carries its own accent through border, subtitle and icon. */
 .unified-kpi-card {
   border-color: color-mix(in srgb, var(--kpi-tone) 28%, #fff) !important;
@@ -10040,8 +9843,6 @@ body.dark .unified-kpi-card {
   background: var(--kpi-soft) !important
 }
 
-
-
 /* Poppins is the single interface font, including native form controls and buttons. */
 html {
   font-family: Poppins, "Segoe UI", Arial, sans-serif
@@ -10061,7 +9862,6 @@ select,
 textarea {
   font-size: inherit
 }
-
 
 /* Reusable analytics filter card shared by every dashboard page. */
 .unified-filter-heading {
@@ -10164,7 +9964,6 @@ body.dark .unified-filter-grid label>span {
   }
 }
 
-
 /* Date controls match standard filters and retain two columns on narrow screens. */
 @media(max-width:460px) {
   .unified-filter-grid {
@@ -10176,7 +9975,6 @@ body.dark .unified-filter-grid label>span {
     height: 38px
   }
 }
-
 
 /* Reusable chart card, header and chart-type control. */
 .unified-chart-card {
@@ -10382,7 +10180,6 @@ body.dark .unified-chart-legend b {
   }
 }
 
-
 /* Chart controls remain inline only when their full title and control fit. */
 .unified-chart-header.chart-control-ready {
   display: flex;
@@ -10426,7 +10223,6 @@ body.dark .unified-chart-legend b {
   }
 }
 
-
 /* Shared wrapper for every bar and line chart canvas. */
 .unified-bar-canvas {
   position: relative;
@@ -10438,12 +10234,10 @@ body.dark .unified-chart-legend b {
   max-width: 100%
 }
 
-
 /* Keep all shared chart controls crisp in the light theme. */
 body:not(.dark) .unified-chart-select {
   background-color: #fff !important
 }
-
 
 /* Shared table structure used by every data table. */
 .unified-table-scroll {
@@ -10473,7 +10267,6 @@ body.dark .unified-data-table tbody tr:hover td {
   background: inherit !important
 }
 
-
 /* Shared data-cell treatment: neutral editing, readable values and no row-hover fill. */
 body .unified-table-card .unified-data-table tbody tr:hover td {
   background: transparent !important
@@ -10487,7 +10280,6 @@ body .unified-table-card .unified-data-table :is(td[contenteditable="true"], .ed
 .unified-data-table .is-numeric {
   text-align: right !important
 }
-
 
 /* Shared zebra rows and a border-only editing affordance. */
 body .unified-table-card .unified-data-table tbody tr:nth-child(odd) td {
@@ -10521,7 +10313,6 @@ body.dark .unified-table-card .unified-data-table :is(td[contenteditable="true"]
   outline-color: rgba(255, 154, 112, .72) !important
 }
 
-
 /* One consistent header treatment across shared data tables. */
 body .unified-table-card .unified-data-table thead th {
   background: #fbfcfe !important;
@@ -10536,7 +10327,6 @@ body.dark .unified-table-card .unified-data-table thead th {
   background: #32171e !important;
   color: #d9c4c2 !important
 }
-
 
 /* Service Tickets: minimal dashboard-specific layout; shared components provide the visual system. */
 #serviceTicketsDashboard {
@@ -10714,7 +10504,6 @@ body.dark #serviceTicketsDashboard input[type="date"] {
   }
 }
 
-
 /* Microsoft 365 wrapper: visible only when the Microsoft 365 menu is active. */
 #microsoft365Dashboard {
   display: grid;
@@ -10744,7 +10533,6 @@ body.dark #serviceTicketsDashboard input[type="date"] {
   }
 }
 
-
 /* Microsoft 365 uses the same component layout as Service Tickets; only
    license-specific details keep the m365 modifier classes. */
 body.microsoft365-page #microsoft365Dashboard {
@@ -10766,8 +10554,6 @@ body.microsoft365-page #microsoft365Dashboard .unified-table-card {
   min-width: 0;
   overflow: hidden
 }
-
-
 
 body.dark.microsoft365-page #microsoft365Dashboard .unified-chart-card {
   background: #2d171c;
@@ -10799,7 +10585,6 @@ body.dark.microsoft365-page #microsoft365Dashboard .unified-chart-card {
     max-width: none
   }
 }
-
 
 /* Shared KPI accent names used by every dashboard. */
 .unified-kpi-card.tone-orange {
@@ -10842,13 +10627,11 @@ body.dark .unified-kpi-card.tone-blue {
   --kpi-soft: #352b52 !important
 }
 
-
 /* Tables scroll horizontally only when their columns exceed the viewport. */
 .unified-table-scroll {
   overflow-y: visible !important;
   max-height: none !important
 }
-
 
 /* Microsoft 365 uses the shared bar-canvas dimensions from Service Tickets. */
 #microsoft365Dashboard .unified-bar-canvas {
@@ -10869,15 +10652,12 @@ body.dark .unified-kpi-card.tone-blue {
   }
 }
 
-
-
 /* Microsoft 365 company-license table emphasis. */
 body.microsoft365-page .unified-table-title-icon svg {
   width: 18px;
   height: 18px;
   stroke: currentColor
 }
-
 
 /* Microsoft 365 shared table typography and semantic total footers. */
 body.microsoft365-page :is(.m365-company-table, [data-table="license-utilization"] table) :is(th, td) {
@@ -10903,11 +10683,9 @@ body.microsoft365-page :is(.m365-company-table, [data-table="license-utilization
   font-weight: 700 !important
 }
 
-
 [data-table="license-utilization"] {
   margin-top: 0 !important
 }
-
 
 /* Compact Service Ticket Allocation header and neutral company labels. */
 #serviceTicketsDashboard .unified-table-head {
@@ -10999,16 +10777,13 @@ body.microsoft365-page :is(.m365-company-table, [data-table="license-utilization
   display: none !important
 }
 
-
 /* Align the Manpower planning card with its dashboard content. */
-
 
 /* Shared Microsoft 365 source sections stay hidden until that dashboard wrapper owns them. */
 main>#kpis,
 main>.grid {
   display: none !important
 }
-
 
 /* Shared directory-title icon and compact responsive navigation. */
 .unified-table-title-icon svg {
@@ -11039,7 +10814,6 @@ main>.grid {
   }
 }
 
-
 /* The first visual KPI uses a text subtitle rather than a badge. */
 .visual-kpi.metric-tone-1 .visual-kpi-badge {
   padding: 0 !important;
@@ -11054,7 +10828,6 @@ body.dark .visual-kpi.metric-tone-1 .visual-kpi-badge {
   background: transparent !important;
   color: #cbb9bb !important
 }
-
 
 /* Balanced control text for filters and search fields. */
 .filter,
@@ -11078,8 +10851,6 @@ body.dark .visual-kpi.metric-tone-1 .visual-kpi-badge {
   white-space: nowrap;
 }
 
-
-
 .filter option {
   font-size: 12px
 }
@@ -11092,21 +10863,17 @@ body.dark .visual-kpi.metric-tone-1 .visual-kpi-badge {
   }
 }
 
-
 /* Reusable common summary-card red tone. */
 .summary-card.tone-red {
   --summary-color: #c94438;
   --summary-soft: #feece6
 }
 
-
 /* Planned coverage uses the shared red status tone. */
 .coverage-badge.planned {
   background: #fee8e7 !important;
   color: #c43d38 !important
 }
-
-
 
 /* Consistent Coverage badge palette in light and dark themes. */
 .coverage-badge.fulltime {
@@ -11139,11 +10906,9 @@ body.dark .coverage-badge.planned {
   color: #ff9b94 !important
 }
 
-
 .site-team-coverage-card {
   margin: 20px 0
 }
-
 
 /* Professional responsive typography for summary cards. */
 .summary-card b {
@@ -11180,7 +10945,6 @@ body.dark .coverage-badge.planned {
   }
 }
 
-
 /* Summary card tones remain matched across light and dark themes. */
 .summary-card.tone-orange {
   --summary-color: #d85b2b;
@@ -11202,7 +10966,6 @@ body.dark .summary-card.tone-red {
   --summary-soft: #51262a
 }
 
-
 /* Service Portfolio title-specific icons. */
 .digital-service-icon svg {
   width: 18px;
@@ -11213,7 +10976,6 @@ body.dark .summary-card.tone-red {
   stroke-linecap: round;
   stroke-linejoin: round
 }
-
 
 /* True blue summary-card tone. */
 .summary-card.tone-blue {
@@ -11226,7 +10988,6 @@ body.dark .summary-card.tone-blue {
   --summary-soft: #1e3549 !important
 }
 
-
 /* Shared blue accent for summary cards in both themes. */
 .summary-card.tone-blue {
   --summary-color: #7056d8 !important;
@@ -11238,11 +10999,9 @@ body.dark .summary-card.tone-blue {
   --summary-soft: #352b52 !important
 }
 
-
 .planning-visual-heading {
   margin-bottom: 20px
 }
-
 
 /* Sidebar identity and the persistent theme control. */
 .brand {
@@ -11316,7 +11075,6 @@ body.dark .theme-toggle {
 body.dark .theme-toggle:hover {
   background: #4b252c !important
 }
-
 
 /* Nature A brand lockup and left-aligned mobile navigation. */
 .brand {
@@ -11396,7 +11154,6 @@ body.dark .brand>span small {
   }
 }
 
-
 /* Prevent the collapsed sidebar brand from spilling beneath its toggle. */
 .side#side .brand {
   gap: 10px !important;
@@ -11448,7 +11205,6 @@ body.dark .brand>span small {
   }
 }
 
-
 /* Keep Microsoft 365 table controls usable on narrow phones. */
 @media(max-width:375px) {
   body.microsoft365-page .unified-table-head .tools {
@@ -11470,7 +11226,6 @@ body.dark .brand>span small {
     padding-right: 30px !important
   }
 }
-
 
 /* Professional mobile table header: title and controls never compete for one row. */
 @media(max-width:480px) {
@@ -11520,7 +11275,6 @@ body.dark .brand>span small {
   }
 }
 
-
 /* Compact mobile filters: equal-width search and company selector. */
 @media(max-width:480px) {
   body.microsoft365-page .unified-table-card .tools {
@@ -11538,7 +11292,6 @@ body.dark .brand>span small {
     font-size: 11px !important
   }
 }
-
 
 /* Keep Microsoft 365 table controls balanced from phone through tablet. */
 @media(max-width:991px) {
@@ -11840,7 +11593,6 @@ body.dark .main-license-card .main-dashboard-progress>span>i {
   }
 }
 
-
 .budgetexpense-dashboard {
   display: grid;
   gap: 16px;
@@ -11850,7 +11602,6 @@ body.dark .main-license-card .main-dashboard-progress>span>i {
 .budgetexpense-dashboard[hidden] {
   display: none !important
 }
-
 
 /* Compact budget values retain their currency unit. */
 #budgetExpenseDashboard .unified-kpi-card:nth-child(-n+3)>strong::after {
@@ -11868,13 +11619,11 @@ body.dark #budgetExpenseDashboard .unified-kpi-card:nth-child(-n+3)>strong::afte
   color: #cbb9bb
 }
 
-
 #budgetExpenseDashboard .unified-kpi-icon svg {
   width: 20px;
   height: 20px;
   stroke-width: 1.9
 }
-
 
 /* Over-budget variance is intentionally prominent. */
 #budgetExpenseDashboard .unified-kpi-card.tone-red {
@@ -11894,7 +11643,6 @@ body.dark #budgetExpenseDashboard .unified-kpi-card.tone-red {
 body.dark #budgetExpenseDashboard .unified-kpi-card.tone-red>strong {
   color: #ff9b94 !important
 }
-
 
 /* Analytics filter layout uses the shared controls with a balanced three-field row. */
 #budgetExpenseDashboard .unified-filter-grid {
@@ -11917,7 +11665,6 @@ body.dark #budgetExpenseDashboard .unified-kpi-card.tone-red>strong {
   }
 }
 
-
 /* A red variance state carries through every KPI detail. */
 #budgetExpenseDashboard .unified-kpi-card.tone-red .unified-kpi-icon {
   color: #d12a31 !important;
@@ -11938,7 +11685,6 @@ body.dark #budgetExpenseDashboard .unified-kpi-card.tone-red small,
 body.dark #budgetExpenseDashboard .unified-kpi-card.tone-red>strong::after {
   color: #ff9b94 !important
 }
-
 
 /* Responsive page-hero typography. */
 .hero {
@@ -11985,7 +11731,6 @@ body.dark .hero p {
   }
 }
 
-
 /* Budget chart pair and chart selector sizing. */
 #budgetExpenseDashboard .unified-chart-grid {
   grid-template-columns: minmax(0, 1.45fr) minmax(320px, .75fr)
@@ -11996,7 +11741,6 @@ body.dark .hero p {
     grid-template-columns: 1fr
   }
 }
-
 
 /* Shared chart selectors fit their label unless a stacked mobile layout requires full width. */
 .unified-chart-select {
@@ -12016,7 +11760,6 @@ body.dark .hero p {
   }
 }
 
-
 /* Shared data-driven chart footer. */
 .unified-chart-footer {
   margin: 8px 0 0;
@@ -12030,7 +11773,6 @@ body.dark .hero p {
 body.dark .unified-chart-footer {
   color: #cbb9bb
 }
-
 
 /* Budget summary uses an accessible, compact external key instead of a canvas legend. */
 #budgetExpenseDashboard .budget-summary-key {
@@ -12107,7 +11849,6 @@ body.dark #budgetExpenseDashboard .budget-summary-key .budget-summary-actual {
   }
 }
 
-
 /* Consistent, readable labels and values in every shared chart legend. */
 .unified-chart-legend :is(span, small) {
   color: #998689;
@@ -12138,12 +11879,10 @@ body.dark .unified-chart-legend :is(b, strong) {
   color: #ff9b70
 }
 
-
 /* Keep the shared theme renderer from flashing its fallback canvas before Budget charts redraw. */
 #budgetExpenseDashboard.budget-theme-transition canvas {
   opacity: 0 !important
 }
-
 
 /* Budget overview tabs and utilization status stay compact on every screen size. */
 .budget-utilization {
@@ -12263,9 +12002,7 @@ body.dark .budget-utilization:has(.budget-status.over)>b {
   }
 }
 
-
 /* The overview selector is a separate tab row; its selected content lives in the card below. */
-
 
 /* Expense company rows expand into their department-level actual-spend detail. */
 
@@ -12351,7 +12088,6 @@ body.dark #budgetExpenseDashboard :is(.budget-expense-department-row, .budget-ex
   color: inherit
 }
 
-
 /* A second shared filter card scopes the portfolio table without affecting dashboard charts. */
 #budgetExpenseDashboard .budget-portfolio-filter-card .unified-filter-grid {
   grid-template-columns: repeat(4, minmax(0, 1fr))
@@ -12372,7 +12108,6 @@ body.dark #budgetExpenseDashboard :is(.budget-expense-department-row, .budget-ex
     grid-template-columns: 1fr
   }
 }
-
 
 /* Shared total-row treatment for every data table. */
 table tfoot :is(th, td) {
@@ -12400,7 +12135,6 @@ body.dark table tfoot :is(th, td) {
   }
 }
 
-
 /* Data values are consistently scan-friendly in light and dark table views. */
 table td.numeric-cell,
 table tfoot :is(td, th).numeric-cell {
@@ -12418,7 +12152,6 @@ body.dark table td.negative-value,
 body.dark table tfoot :is(td, th).negative-value {
   color: #ff9b94 !important
 }
-
 
 /* Company rows reveal a focused monthly detail table without disrupting the overview. */
 .budget-company-row {
@@ -12471,7 +12204,6 @@ body.dark .budget-monthly-row td {
 body.dark .budget-monthly-row td:first-child span {
   color: #ff9b70
 }
-
 
 /* Financial-summary rows are an intentionally nested drill-down. */
 .budget-company-row {
@@ -12552,7 +12284,6 @@ body.dark .budget-company-row td:first-child::before {
   color: #ffb295 !important
 }
 
-
 /* Keep the primary financial rows clean; detail markers remain subtle. */
 .budget-company-row td:first-child::before {
   content: none !important
@@ -12577,7 +12308,6 @@ body.dark .budget-company-row td:first-child::before {
   background: transparent !important
 }
 
-
 /* Calendar marker for monthly drill-down rows. */
 .budget-monthly-row td:first-child .budget-month-icon {
   display: inline-flex !important;
@@ -12600,7 +12330,6 @@ body.dark .budget-company-row td:first-child::before {
 .dark .budget-monthly-row td:first-child .budget-month-icon {
   color: #ffad8e !important
 }
-
 
 /* Fixed Asset rows use the same in-table period drill-down pattern. */
 .budget-asset-row {
@@ -12667,7 +12396,6 @@ body.dark .budget-asset-period-row td:first-child .budget-month-icon {
   color: #ffad8e
 }
 
-
 /* Highlight only the currently expanded company row. */
 .budget-company-row td,
 .budget-asset-row td {
@@ -12679,29 +12407,24 @@ body.dark .budget-asset-period-row td:first-child .budget-month-icon {
   font-weight: 700 !important
 }
 
-
 .budget-monthly-row td:first-child {
   font-weight: 400 !important
 }
 
-
 .budget-asset-period-row td:first-child {
   font-weight: 400 !important
 }
-
 
 .budget-monthly-row td,
 .budget-asset-period-row td {
   font-size: 11px !important
 }
 
-
 /* Expanded parent rows take visual priority over their period details. */
 .unified-data-table tbody tr.budget-company-row.selected>td,
 .unified-data-table tbody tr.budget-asset-row.selected>td {
   font-weight: 700 !important
 }
-
 
 /* Distinct, responsive period-detail treatment for expandable asset rows. */
 .unified-data-table tbody tr.budget-asset-period-row:first-of-type>td {
@@ -12786,7 +12509,6 @@ body.dark .unified-data-table tbody tr.budget-asset-period-row>td:last-child {
 body.dark .unified-data-table tbody tr.budget-asset-period-row:hover>td {
   background: #40272d !important
 }
-
 
 /* Shared professional drill-down hierarchy for financial and asset period details. */
 .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-period-row)>td:first-child {
@@ -12901,7 +12623,6 @@ body.dark .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-perio
   }
 }
 
-
 /* Tighter period-detail indentation. */
 .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-period-row)>td:first-child::before {
   left: 16px !important
@@ -12917,7 +12638,6 @@ body.dark .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-perio
   }
 }
 
-
 .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-period-row)>td:first-child {
   padding-left: 32px !important
 }
@@ -12927,7 +12647,6 @@ body.dark .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-perio
     padding-left: 28px !important
   }
 }
-
 
 .unified-data-table tbody tr.budget-asset-period-row>td:first-child {
   padding-left: 32px !important
@@ -12946,7 +12665,6 @@ body.dark .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-perio
     left: 12px !important
   }
 }
-
 
 /* Budget Details groups records by company, with an in-table drill-down. */
 .budget-detail-company-row {
@@ -13025,7 +12743,6 @@ body.dark .budget-detail-company-row.selected td:first-child {
   }
 }
 
-
 /* Negative budget-detail values remain clear in either theme. */
 .unified-data-table tbody .budget-detail-record-row>td.negative-value {
   color: #c92b31 !important;
@@ -13036,7 +12753,6 @@ body.dark .unified-data-table tbody .budget-detail-record-row>td.negative-value 
   color: #ff9b94 !important
 }
 
-
 .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-period-row)>td.negative-value {
   color: #c92b31 !important;
   font-weight: 700 !important
@@ -13046,21 +12762,17 @@ body.dark .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-perio
   color: #ff9b94 !important
 }
 
-
 .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-period-row, .budget-detail-record-row)>td.negative-value {
   font-weight: 400 !important
 }
-
 
 .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-period-row, .budget-detail-record-row)>td.negative-value {
   font-weight: 700 !important
 }
 
-
 .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-period-row, .budget-detail-record-row)>td.negative-value {
   font-weight: 400 !important
 }
-
 
 /* Category badges distinguish allocation records from the company summary. */
 .budget-detail-record-row .budget-category-badge {
@@ -13092,7 +12804,6 @@ body.dark .budget-detail-record-row .budget-category-badge {
     text-overflow: ellipsis
   }
 }
-
 
 /* Varied category badge palette for budget allocation details. */
 .budget-detail-record-row:nth-of-type(6n+1) .budget-category-badge {
@@ -13154,7 +12865,6 @@ body.dark .budget-detail-record-row:nth-of-type(6n) .budget-category-badge {
   background: #52303f;
   color: #f3afd0
 }
-
 
 /* Category names map to stable badge colors across all companies. */
 .budget-category-badge.budget-category-computer {
@@ -13227,7 +12937,6 @@ body.dark .budget-category-badge.budget-category-other {
   color: #e3c8c5 !important
 }
 
-
 /* Second-level monthly drill-down for each budget description. */
 .budget-description-row {
   cursor: pointer
@@ -13296,7 +13005,6 @@ body.dark .budget-description-row.selected td:first-child {
     padding-left: 34px !important
   }
 }
-
 
 /* Twelve-month allocation strip for description drill-downs. */
 .budget-description-period-row>td {
@@ -13397,7 +13105,6 @@ body.dark .budget-description-period-row>td {
   }
 }
 
-
 /* Responsive scrolling and clear active hierarchy for allocation months. */
 .budget-detail-company-row.selected>td,
 .budget-description-row.selected>td {
@@ -13419,7 +13126,6 @@ body.dark .budget-description-period-row>td {
 .budget-description-period-row .budget-description-month-grid {
   overflow: visible !important
 }
-
 
 /* Continuous left accent for first-level Financial Summary and Fixed Asset period rows. */
 .unified-data-table tbody tr:is(.budget-monthly-row, .budget-asset-period-row)>td:first-child::before {
@@ -13458,7 +13164,6 @@ body.dark .unified-data-table tbody tr:is(.budget-monthly-row, .budget-asset-per
   }
 }
 
-
 /* Expanded detail rows align directly to the table edge. */
 .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-period-row)>td:first-child {
   padding: 7px 12px 7px 24px !important
@@ -13486,7 +13191,6 @@ body.dark .unified-data-table tbody tr:is(.budget-monthly-row, .budget-asset-per
   }
 }
 
-
 /* Larger, more legible allocation category badges. */
 .budget-detail-record-row .budget-category-badge {
   min-height: 24px;
@@ -13504,7 +13208,6 @@ body.dark .unified-data-table tbody tr:is(.budget-monthly-row, .budget-asset-per
     max-width: 108px !important
   }
 }
-
 
 /* Fixed Asset department level between company and period details. */
 .budget-asset-department-row {
@@ -13573,7 +13276,6 @@ body.dark .budget-asset-department-row td {
   min-width: 0;
 }
 
-
 #copierprinterusageDashboard[hidden] {
   display: none !important;
 }
@@ -13585,21 +13287,17 @@ body.dark .budget-asset-department-row td {
   visibility: hidden !important;
 }
 
-
 #copierprinterusageDashboard .unified-chart-grid {
   grid-template-columns: minmax(0, 1.45fr) minmax(320px, .75fr);
 }
-
 
 #copierprinterusageDashboard .unified-chart-card {
   min-width: 0;
 }
 
-
 #copierprinterusageDashboard :is(.unified-bar-canvas, .unified-line-canvas, .unified-pie-layout) {
   min-width: 0;
 }
-
 
 #copierprinterusageDashboard :is(.unified-bar-canvas, .unified-line-canvas)>canvas,
 #copierprinterusageDashboard .unified-pie-canvas>canvas {
@@ -13607,12 +13305,10 @@ body.dark .budget-asset-department-row td {
   max-width: 100%;
 }
 
-
 #copierprinterusageDashboard #copierPieMetric {
   width: 100%;
   max-width: 100%;
 }
-
 
 #copierprinterusageDashboard #copierDeviceLegend b {
   display: inline-flex;
@@ -13620,13 +13316,11 @@ body.dark .budget-asset-department-row td {
   gap: 4px;
 }
 
-
 #copierprinterusageDashboard #copierDeviceLegend b strong {
   color: #c92b31;
   font-size: 12px;
   font-weight: 700;
 }
-
 
 #copierprinterusageDashboard #copierDeviceLegend b small {
   color: #998689;
@@ -13637,16 +13331,13 @@ body.dark .budget-asset-department-row td {
   letter-spacing: .45px;
 }
 
-
 body.dark #copierprinterusageDashboard #copierDeviceLegend b strong {
   color: #ff9b70;
 }
 
-
 body.dark #copierprinterusageDashboard #copierDeviceLegend b small {
   color: #ae9698;
 }
-
 
 @media (max-width: 1100px) {
   #copierprinterusageDashboard .unified-chart-grid {
@@ -13655,16 +13346,13 @@ body.dark #copierprinterusageDashboard #copierDeviceLegend b small {
 
 }
 
-
 #copierprinterusageDashboard .unified-filter-card label.is-disabled {
   opacity: .62;
 }
 
-
 #copierprinterusageDashboard .unified-filter-card select:disabled {
   cursor: not-allowed;
 }
-
 
 #copierTotalCost::after {
   content: 'MMK';
@@ -13677,11 +13365,9 @@ body.dark #copierprinterusageDashboard #copierDeviceLegend b small {
   vertical-align: middle;
 }
 
-
 body.dark #copierTotalCost::after {
   color: #c7afb1;
 }
-
 
 @media (max-width: 480px) {
   #copierTotalCost::after {
@@ -13694,11 +13380,9 @@ body.dark #copierTotalCost::after {
   background: #16866a;
 }
 
-
 body.dark #copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-budget {
   background: #4eb4cd;
 }
-
 
 #copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-key {
   display: flex;
@@ -13708,14 +13392,12 @@ body.dark #copierprinterusageDashboard .copier-monthly-chart-card .budget-summar
   margin-top: 10px;
 }
 
-
 #copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-key span {
   display: inline-flex;
   align-items: center;
   gap: 7px;
   white-space: nowrap;
 }
-
 
 #copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-key i {
   display: block;
@@ -13724,16 +13406,13 @@ body.dark #copierprinterusageDashboard .copier-monthly-chart-card .budget-summar
   border-radius: 2px;
 }
 
-
 #copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-actual {
   background: #d12a31;
 }
 
-
 body.dark #copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-actual {
   background: #ff8755;
 }
-
 
 #copierprinterusageDashboard .copier-company-row,
 #copierprinterusageDashboard .copier-department-row,
@@ -13874,7 +13553,6 @@ body.dark #copierprinterusageDashboard .copier-period-label svg {
   color: #ff9b70;
 }
 
-
 @media (max-width: 480px) {
   #copierprinterusageDashboard .copier-monthly-chart-card .budget-summary-key {
     gap: 13px;
@@ -13882,7 +13560,6 @@ body.dark #copierprinterusageDashboard .copier-period-label svg {
   }
 
 }
-
 
 /* Clean period expansion for Company Financial Performance. */
 #budgetExpenseDashboard .budget-month-category-row>td:first-child>span {
@@ -13910,7 +13587,6 @@ body.dark #budgetExpenseDashboard .budget-monthly-row:not(.category-detail-open)
   color: inherit !important;
 }
 
-
 /* Nested financial and asset period rows. */
 .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-period-row)>td {
   color: #5f4d51 !important;
@@ -13919,7 +13595,6 @@ body.dark #budgetExpenseDashboard .budget-monthly-row:not(.category-detail-open)
 body.dark .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-period-row)>td {
   color: #d8c6c7 !important;
 }
-
 
 /* Category drill-down follows the same alternating table-row colors. */
 #budgetExpenseDashboard .unified-table-card .unified-data-table tbody tr.budget-month-category-row:nth-child(odd)>td {
@@ -13938,7 +13613,6 @@ body.dark #budgetExpenseDashboard .unified-table-card .unified-data-table tbody 
   background: #32191f !important;
 }
 
-
 .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-period-row)>td:last-child {
   box-shadow: none !important;
 }
@@ -13951,7 +13625,6 @@ body.dark #budgetExpenseDashboard .unified-table-card .unified-data-table tbody 
 .unified-data-table tbody .budget-asset-period-row>td:first-child::before {
   content: none !important;
 }
-
 
 /* Negative amounts are consistently visible across primary and nested tables. */
 table :is(td, th).negative-value {
@@ -13977,7 +13650,6 @@ body.dark #budgetExpenseDashboard .budget-monthly-row:not(.category-detail-open)
 body.dark #budgetExpenseDashboard .budget-month-category-row>td.negative-value {
   color: #ff9b94 !important;
 }
-
 
 /* Third level of Company Financial Performance: period → category. */
 #budgetExpenseDashboard .budget-monthly-row {
@@ -14040,7 +13712,6 @@ body.dark #budgetExpenseDashboard .budget-month-category-row>td:first-child span
   }
 
 }
-
 
 /* Dashboard sign-in screen. */
 .login-page {
@@ -14385,7 +14056,6 @@ body.dark .unified-kpi-card { border-color: rgba(209, 42, 49, .10) !important; }
   }
 }
 
-
 #mainDashboard,
 #fixedassetsDashboard {
   display: grid;
@@ -14448,7 +14118,6 @@ body.dark .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-perio
   border-top: 0 !important
 }
 
-
 /* Department drill rows retain a subtle leading accent in both themes. */
 #budgetExpenseDashboard .budget-expense-department-row>td:first-child {
   position: relative;
@@ -14468,7 +14137,6 @@ body.dark .unified-data-table tbody :is(.budget-monthly-row, .budget-asset-perio
 body.dark #budgetExpenseDashboard .budget-expense-department-row>td:first-child::before {
   background: #9e554d !important
 }
-
 
 /* Period drill rows use a pseudo-element accent instead of a table border. */
 #budgetExpenseDashboard .budget-expense-period-row>td:first-child {
@@ -14490,11 +14158,9 @@ body.dark #budgetExpenseDashboard .budget-expense-period-row>td:first-child::bef
   background: #9e554d !important
 }
 
-
 #budgetExpenseDashboard .budget-expense-category-row>td:first-child {
   padding-left: 24px !important
 }
-
 
 /* Compact inline calendar used only by Expense Analysis period rows. */
 #budgetExpenseDashboard .budget-expense-period-row .budget-month-icon {
@@ -14955,7 +14621,6 @@ body.dark #fixedassetsDashboard .fixed-asset-overview-table-card .fixed-asset-de
   color: #9bc8ff
 }
 
-
 @media(max-width:700px) {
   #fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-chart-header {
     align-items: stretch
@@ -15102,8 +14767,6 @@ body:has(#comparisonDashboard:not([hidden])) main>section.card.tablecard {
   display: none !important
 }
 
-
-
 /* FY comparison page shell. */
 .comparison-dashboard {
   margin-bottom: 20px
@@ -15166,7 +14829,6 @@ body.dark .reporting-year {
   background: #3a1d24;
   color: #ffb0a8
 }
-
 
 @media(max-width:760px) {
   .reporting-year {
@@ -15295,5 +14957,4 @@ body.dark .export-btn:hover {
     font-size: clamp(17px, 3.1vw, 22px);
   }
 }
-
 
