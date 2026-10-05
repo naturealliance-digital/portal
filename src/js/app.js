@@ -2452,142 +2452,32 @@ page(active);
 })();
 
 (function () {
-  const clone = (x) => JSON.parse(JSON.stringify(x));
-  function validCompany(rows) {
-    return (
-      Array.isArray(rows) &&
-      rows.length &&
-      Object.prototype.hasOwnProperty.call(rows[0], "Company")
-    );
-  }
-  function loadCompany() {
-    if (Array.isArray(window.MICROSOFT_LICENSE_DATA?.companies))
+  const clone = value => JSON.parse(JSON.stringify(value));
+  const hasCompanyRows = rows => Array.isArray(rows) && rows.length > 0 && Object.hasOwn(rows[0], "Company");
+
+  function loadM365Companies() {
+    if (Array.isArray(window.MICROSOFT_LICENSE_DATA?.companies)) {
       return clone(window.MICROSOFT_LICENSE_DATA.companies);
+    }
     try {
-      const saved = JSON.parse(localStorage.getItem("m365CompanyDB"));
-      if (validCompany(saved)) return saved;
-    } catch {}
+      const saved = JSON.parse(localStorage.getItem("m365CompanyDB") || "[]");
+      if (hasCompanyRows(saved)) return saved;
+    } catch (_) {
+      // Ignore malformed cached data and leave the dashboard empty.
+    }
     return [];
   }
-  function loadLicenses() {
-    if (Array.isArray(window.MICROSOFT_LICENSE_DATA?.licenses))
-      return clone(window.MICROSOFT_LICENSE_DATA.licenses);
-    try {
-      const saved = JSON.parse(localStorage.getItem("m365LicensesDB"));
-      if (Array.isArray(saved) && saved.length && saved[0].Licenses)
-        return saved;
-    } catch {}
-    return [];
+
+  function hydrateM365Companies() {
+    data["Microsoft 365"] = loadM365Companies();
   }
-  let licenseRows = loadLicenses();
-  data["Microsoft 365"] = loadCompany();
-  function escCell(value) {
-    return String(value ?? "").replace(
-      /[&<>"']/g,
-      (c) =>
-        ({
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;",
-        })[c],
-    );
-  }
-  function renderLicenses() {
-    let card = document.querySelector('[data-table="license-utilization"]');
-    if (active !== "Microsoft 365") {
-      if (card) card.remove();
-      return;
-    }
-    if (!card) {
-      card = document.createElement("section");
-      card.className = "card unified-table-card";
-      card.dataset.table = "license-utilization";
-      document.querySelector(".tablecard").after(card);
-    }
-    const keys = Object.keys(licenseRows[0] || {});
-    card.className = "card unified-table-card";
-    card.innerHTML =
-      '<div class="head"><div><h2>License Summary</h2><div class="table-note">LicensesDB · ' +
-      (licenseRows.length - 1) +
-      ' license types</div></div></div><div class="table-scroll"><table><thead><tr>' +
-      keys.map((k) => "<th>" + escCell(k) + "</th>").join("") +
-      "</tr></thead><tbody>" +
-      licenseRows
-        .map(
-          (row, index) =>
-            '<tr data-index="' +
-            index +
-            '" class="' +
-            (row.Licenses === "Total" ? "total-row" : "") +
-            '">' +
-            keys
-              .map((key) =>
-                key === "Licenses"
-                  ? '<td><span class="m365-license-badge">' +
-                    escCell(row[key]) +
-                    "</span></td>"
-                  : key === "Features" && row[key]
-                    ? '<td class="m365-feature-cell"><span class="m365-feature-badge feature-badge">' +
-                      escCell(row[key]) +
-                      "</span></td>"
-                  : "<td>" + escCell(row[key]) + "</td>",
-              )
-              .join("") +
-            "</tr>",
-        )
-        .join("") +
-      '</tbody></table></div><div class="foot">Showing ' +
-      (licenseRows.length - 1) +
-      " license records plus totals</div>";
-  }
-  const baseTable = window.table;
-  window.table = function () {
-    baseTable();
-    if (active === "Microsoft 365") {
-      document.getElementById("ttitle").textContent =
-        "Company License Allocation";
-      const rows = document.querySelectorAll("#table tbody tr");
-      if (rows.length) {
-        const last = rows[rows.length - 1];
-        last.classList.add("total-row");
-        last
-          .querySelectorAll("[contenteditable]")
-          .forEach((cell) => cell.removeAttribute("contenteditable"));
-      }
-      renderLicenses();
-    } else {
-      renderLicenses();
-    }
-  };
+
+  hydrateM365Companies();
   const basePage = window.page;
   window.page = function (name) {
-    if (name === "Microsoft 365" && !validCompany(data[name]))
-      data[name] = loadCompany();
+    if (name === "Microsoft 365") hydrateM365Companies();
     basePage(name);
-    if (name === "Microsoft 365") {
-      document.getElementById("ttitle").textContent =
-        "Company License Allocation";
-      renderLicenses();
-    }
   };
-  const saveButton = document.querySelector(".btn.primary");
-  if (saveButton)
-    saveButton.addEventListener("click", () => {
-      if (active === "Microsoft 365") {
-        localStorage.setItem(
-          "m365CompanyDB",
-          JSON.stringify(data["Microsoft 365"]),
-        );
-        localStorage.setItem("m365LicensesDB", JSON.stringify(licenseRows));
-        window.notifyDashboardDataUpdated?.();
-      }
-    });
-  if (active === "Microsoft 365") {
-    data["Microsoft 365"] = loadCompany();
-    render();
-  }
 })();
 
 (function () {
@@ -2619,57 +2509,6 @@ page(active);
       .replace(/^-|-$/g, "");
   function companies() {
     return data["Microsoft 365"] || [];
-  }
-  function recalculate() {
-    const rows = companies(),
-      normal = rows.filter((row) => row.Company !== "Total"),
-      total = rows.find((row) => row.Company === "Total") || {
-        Company: "Total",
-      };
-    if (!rows.includes(total)) rows.push(total);
-    const licenseNames = licenses
-      .filter((row) => row.Licenses !== "Total")
-      .map((row) => row.Licenses);
-    normal.forEach(
-      (row) =>
-        (row["Total Account"] = licenseNames.reduce(
-          (sum, name) => sum + (Number(row[name]) || 0),
-          0,
-        )),
-    );
-    total["Total Account"] = normal.reduce(
-      (sum, row) => sum + (Number(row["Total Account"]) || 0),
-      0,
-    );
-    licenseNames.forEach(
-      (name) =>
-        (total[name] = normal.reduce(
-          (sum, row) => sum + (Number(row[name]) || 0),
-          0,
-        )),
-    );
-    licenses
-      .filter((row) => row.Licenses !== "Total")
-      .forEach((row) => {
-        row["Total Licenses"] = Number(row["Total Licenses"]) || 0;
-        row["Active Users"] = Number(row["Active Users"]) || 0;
-        row["Available License"] = Number(row["Available License"]) || 0;
-      });
-    let licenseTotal = licenses.find((row) => row.Licenses === "Total");
-    if (!licenseTotal) {
-      licenseTotal = { Licenses: "Total", Features: "" };
-      licenses.push(licenseTotal);
-    }
-    ["Total Licenses", "Active Users", "Available License"].forEach(
-      (key) =>
-        (licenseTotal[key] = licenses
-          .filter((row) => row.Licenses !== "Total")
-          .reduce((sum, row) => sum + (Number(row[key]) || 0), 0)),
-    );
-    localStorage.setItem("m365CompanyDB", JSON.stringify(rows));
-    localStorage.setItem("m365LicensesDB", JSON.stringify(licenses));
-    localStorage.setItem("itHubData", JSON.stringify(data));
-    window.notifyDashboardDataUpdated?.();
   }
   function title(icon, title, sub) {
     return (
@@ -2856,7 +2695,6 @@ page(active);
     document.getElementById("m365LicenseSearch").oninput = null;
     document.getElementById("m365FeatureFilter").onchange = null;
   }
-  window.renderM365Licenses = renderLicenses;
   const priorTable = window.table;
   window.table = function () {
     if (active !== "Microsoft 365") {
@@ -2864,7 +2702,6 @@ page(active);
       if (card) card.remove();
       return priorTable();
     }
-    recalculate();
     renderCompany();
     renderLicenses();
   };
@@ -2872,17 +2709,10 @@ page(active);
   window.page = function (name) {
     priorPage(name);
     if (name === "Microsoft 365") {
-      recalculate();
       renderCompany();
       renderLicenses();
     }
   };
-  const saveButton = document.querySelector(".btn.primary");
-  if (saveButton)
-    saveButton.addEventListener("click", () => {
-      if (active === "Microsoft 365") recalculate();
-    });
-  recalculate();
   if (active === "Microsoft 365") {
     renderCompany();
     renderLicenses();
@@ -3582,7 +3412,6 @@ page(active);
           licenseSearch.value = filter.value === "All" ? "" : filter.value;
           licenseSearch.dispatchEvent(new Event("input", { bubbles: true }));
         }
-        renderLicenseAvailabilityPie();
         window.syncM365DashboardFilters?.("pie");
       };
       titleWrap.append(filter);
@@ -6348,11 +6177,18 @@ window.exportXlsx = function () {
 })();
 /* A single Microsoft 365 filter state refreshes every dashboard surface. */
 (function () {
+  let frame = 0;
   window.syncM365DashboardFilters = (source = "filter") => {
     if (typeof active === "undefined" || active !== "Microsoft 365") return;
-    window.renderM365Kpis?.();
-    window.renderM365CompanyRanking?.();
-    if (source !== "pie") window.renderM365LicenseAvailabilityPie?.();
+    if (source === "company-search" || source === "license-search") return;
+    if (frame) cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() => {
+      frame = 0;
+      if (typeof active === "undefined" || active !== "Microsoft 365") return;
+      window.renderM365Kpis?.();
+      window.renderM365CompanyRanking?.();
+      window.renderM365LicenseAvailabilityPie?.();
+    });
   };
 })();
 /* Remove legacy redraw handlers from Microsoft 365 controls before the user interacts. */
