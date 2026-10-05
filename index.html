@@ -187,46 +187,97 @@
             </label>
           </div>
         </section>
-        <section class="unified-kpi-grid" aria-label="FY 2026 to 2027 dashboard summary">
-          <article class="unified-kpi-card tone-orange">
-            <span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M22 21v-2a4 4 0 0 0-3-3.8M16.5 3.2a4 4 0 0 1 0 7.6"></path>
-              </svg></span>
-            <div>
-              <b>Current Manpower</b><small id="mainCurrentManpowerSubtitle">Active digital workforce</small>
+        <section class="unified-grid main-performance-grid" aria-label="Financial and print performance">
+          <article class="card main-performance-card main-financial-performance">
+            <header class="main-performance-heading">
+              <div>
+                <h2>Financial Performance</h2>
+                <p>Budget position for the selected scope.</p>
+              </div>
+              <span id="mainFinancialStatus" class="main-performance-status">On budget</span>
+            </header>
+            <div class="main-financial-metrics">
+              <div class="main-financial-row">
+                <span>Approved Budget</span>
+                <div class="main-performance-track"><i id="mainApprovedBudgetBar"></i></div>
+                <b id="mainApprovedBudget">0 <small>MMK</small></b>
+              </div>
+              <div class="main-financial-row is-expense">
+                <span>Actual Expense</span>
+                <div class="main-performance-track"><i id="mainActualExpenseBar"></i></div>
+                <b id="mainActualExpense">0 <small>MMK</small></b>
+              </div>
+              <div class="main-financial-row">
+                <span>Budget Remaining</span>
+                <div class="main-performance-track"><i id="mainBudgetRemainingBar"></i></div>
+                <b id="mainBudgetRemaining">0 <small>MMK</small></b>
+              </div>
+              <div class="main-financial-row is-utilization">
+                <span>Budget Utilization</span>
+                <div class="main-performance-track"><i id="mainBudgetUtilizationBar"></i></div>
+                <b id="mainBudgetUtilization">0<small>%</small></b>
+              </div>
             </div>
-            <strong id="mainCurrentManpower">0</strong>
           </article>
-          <article class="unified-kpi-card tone-green">
-            <span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-                <path d="M4 21h16M6 21V7l6-4v18M12 10h6v11M9 9h1M9 13h1M9 17h1M15 14h1M15 18h1"></path>
-              </svg></span>
-            <div>
-              <b>Managed Companies</b><small id="mainManagedCompaniesSubtitle">Digital operations portfolio</small>
+          <article class="card main-performance-card main-print-performance">
+            <header class="main-performance-heading">
+              <div>
+                <h2>Copier &amp; Printer Performance</h2>
+                <p>Print volume and operating costs at a glance.</p>
+              </div>
+            </header>
+            <div class="main-print-metrics">
+              <div><span class="main-print-icon pages" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"></rect><path d="M9 8h6M9 12h6M9 16h4"></path></svg></span><p><b>Total Pages</b><small>Printed output</small></p><strong id="mainPrintTotalPages">0 <small>Pages</small></strong></div>
+              <div><span class="main-print-icon pages-cost" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"></circle><path d="M12 8v8M9.5 10.5c.4-.6 1.1-1 2.5-1 1.2 0 2 .6 2 1.5 0 2.5-4.5 1.1-4.5 3.5 0 .9.8 1.5 2.2 1.5 1.1 0 1.9-.3 2.4-1"></path></svg></span><p><b>Pages Cost</b><small>Per-page charges</small></p><strong id="mainPrintPagesCost">0 <small>MMK</small></strong></div>
+              <div><span class="main-print-icon cartridge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h10v6H7zM5 10h14v8H5z"></path><path d="M8 18v3h8v-3M8 13h.01"></path></svg></span><p><b>Cartridge Cost</b><small>Supplies charges</small></p><strong id="mainPrintCartridgeCost">0 <small>MMK</small></strong></div>
+              <div><span class="main-print-icon total" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"></rect><path d="M3 10h18M7 15h4M16 15h1"></path></svg></span><p><b>Total Print Amount</b><small>Combined print cost</small></p><strong id="mainPrintTotalAmount">0 <small>MMK</small></strong></div>
             </div>
-            <strong id="mainManagedCompanies">0</strong>
           </article>
-          <article class="unified-kpi-card tone-yellow">
-            <span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-                <path d="M3 10h18M7 15h4M15 14h2"></path>
-              </svg></span>
-            <div>
-              <b>Microsoft 365 Active Licenses</b><small id="mainActiveLicensesSubtitle">Licenses currently assigned</small>
-            </div>
-            <strong id="mainActiveLicenses">0</strong>
+        </section>
+        <section class="main-summary-grid" aria-label="Main dashboard summaries">
+          <article class="main-summary-card tone-ticket">
+            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h5M8 16h4"></path></svg></span>
+            <div><p>Service Tickets</p><strong><span id="mainTicketSummary">0</span><small>Tickets</small></strong></div>
           </article>
-          <article class="unified-kpi-card tone-blue">
-            <span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-                <path d="M12 3a9 9 0 1 0 9 9"></path>
-                <path d="m9 12 2 2 4-5"></path>
-              </svg></span>
-            <div>
-              <b>Available Licenses</b><small id="mainAvailableLicensesSubtitle">Capacity ready to assign</small>
-            </div>
-            <strong id="mainAvailableLicenses">0</strong>
+          <article class="main-summary-card tone-assets">
+            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8M12 16v4"></path></svg></span>
+            <div><p>Fixed Assets</p><strong><span id="mainAssetSummary">0</span><small>Assets</small></strong></div>
+          </article>
+          <article class="main-summary-card tone-license">
+            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M7 9h6M7 13h10M7 16h7"></path></svg></span>
+            <div><p>Microsoft 365 Licenses</p><strong><span id="mainLicenseSummary">0</span><small>Licenses</small></strong></div>
+          </article>
+          <article class="main-summary-card tone-pages">
+            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"></rect><path d="M9 8h6M9 12h6M9 16h4"></path></svg></span>
+            <div><p>Total Pages</p><strong><span id="mainTotalPagesSummary">0</span><small>Pages</small></strong></div>
+          </article>
+          <article class="main-summary-card main-summary-financial-card tone-printing">
+            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"></rect><path d="M3 10h18M7 15h4M16 15h1"></path></svg></span>
+            <div><p>Total Printing</p><strong><span id="mainTotalPrintingSummary">0</span><small>MMK</small></strong></div>
+          </article>
+          <article class="main-summary-card main-summary-financial-card tone-budget">
+            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13M3 10h18M9 21v-5h6v5M8 12h1M15 12h1"></path></svg></span>
+            <div><p>Approved Budget</p><strong><span id="mainApprovedBudgetSummary">0</span><small>MMK</small></strong></div>
+          </article>
+          <article class="main-summary-card main-summary-financial-card tone-expense">
+            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h16V8H4zM7 8V5h10v3M8 13h.01M12 13h4"></path></svg></span>
+            <div><p>Actual Expense</p><strong><span id="mainActualExpenseSummary">0</span><small>MMK</small></strong></div>
+          </article>
+          <article class="main-summary-card tone-workforce">
+            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"></circle><path d="M3 21v-2a6 6 0 0 1 12 0v2M16 11l2 2 4-5"></path></svg></span>
+            <div><p>Current Manpower</p><strong><span id="mainCurrentManpowerSummary">0</span><small>People</small></strong></div>
+          </article>
+          <article class="main-summary-card tone-planned">
+            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 21v-2.2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V21"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2.2a4 4 0 0 0-3-3.8M16.5 3.2a4 4 0 0 1 0 7.6"></path></svg></span>
+            <div><p>Planned Workforce</p><strong><span id="mainPlannedWorkforceSummary">0</span><small>People</small></strong></div>
+          </article>
+          <article class="main-summary-card tone-vacancy">
+            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M19 8v6M16 11h6"></path></svg></span>
+            <div><p>Hiring Vacancies</p><strong><span id="mainHiringVacanciesSummary">0</span><small>Roles</small></strong></div>
+          </article>
+          <article class="main-summary-card tone-company">
+            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 21h16M6 21V7l6-4v18M12 10h6v11M9 9h1M9 13h1M9 17h1M15 14h1M15 18h1"></path></svg></span>
+            <div><p>Managed Companies</p><strong><span id="mainManagedCompaniesSummary">0</span><small>Companies</small></strong></div>
           </article>
         </section>
         <section class="unified-grid main-dashboard-chart-grid" aria-label="Digital operations overview">
@@ -243,6 +294,10 @@
               </div>
               <div class="main-dashboard-legend-panel">
                 <div class="unified-chart-legend">
+                  <div>
+                    <span><i class="dot neutral-dot"></i>Planned workforce</span><b><strong
+                        id="mainWorkforcePlanned">0</strong><small>People</small></b>
+                  </div>
                   <div>
                     <span><i class="dot manpower-dot"></i>Current manpower</span><b><strong
                         id="mainWorkforceCurrent">0</strong><small>People</small></b>
@@ -275,6 +330,10 @@
               </div>
               <div class="main-dashboard-legend-panel">
                 <div class="unified-chart-legend">
+                  <div>
+                    <span><i class="dot neutral-dot"></i>Total licenses</span><b><strong
+                        id="mainLicenseTotalChart">0</strong><small>Licenses</small></b>
+                  </div>
                   <div>
                     <span><i class="dot license-dot"></i>Active licenses</span><b><strong
                         id="mainLicenseActiveChart">0</strong><small>Licenses</small></b>

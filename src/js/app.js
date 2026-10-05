@@ -1,4 +1,12 @@
 const microsoftLicenseSource = window.MICROSOFT_LICENSE_DATA;
+const previousCalendarMonthKey = (format = "short") => {
+  const date = new Date();
+  date.setDate(1);
+  date.setMonth(date.getMonth() - 1);
+  if (format === "iso")
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+  return `${["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][date.getMonth()]}-${String(date.getFullYear()).slice(-2)}`;
+};
 if (microsoftLicenseSource) {
   try {
     if (
@@ -552,7 +560,8 @@ document.addEventListener(
     ]
       .sort()
       .reverse();
-    const years = [...new Set(months.map((value) => value.slice(0, 4)))]
+    const previousMonth = previousCalendarMonthKey("iso"),
+      years = [...new Set(months.map((value) => value.slice(0, 4)))]
       .sort()
       .reverse();
     panel
@@ -582,7 +591,11 @@ document.addEventListener(
               "</option>",
           )
           .join("");
-        select.value = months.includes(selected) ? selected : months[0];
+        select.value = months.includes(selected)
+          ? selected
+          : months.includes(previousMonth)
+            ? previousMonth
+            : months[0];
       });
     panel
       .querySelectorAll("#fixedAssetYear,#fixedAssetSecondaryYear")
@@ -1715,26 +1728,6 @@ document.addEventListener(
   );
 })();
 
-/* Purpose-specific icons for the Copier KPI cards. */
-(function () {
-  const icons = [
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>',
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c4.4 0 8 3.6 8 8 0 2.9-1.6 5.5-4 6.9-.7.4-1.5-.1-1.5-.9v-1.3a2.4 2.4 0 0 0-4.8 0 2.4 2.4 0 0 1-2.4 2.4H7A4 4 0 0 1 3 14c0-6.1 4-11 9-11Z"/><circle cx="8" cy="10" r=".8"/><circle cx="12" cy="7" r=".8"/><circle cx="16" cy="10" r=".8"/></svg>',
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 4v16a8 8 0 0 1 0-16Z"/><path d="M8 8h.01M8 12h.01M8 16h.01"/></svg>',
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v2H6.5A2.5 2.5 0 0 0 4 11.5v5A2.5 2.5 0 0 0 6.5 19H20v-8H6.5"/><circle cx="16" cy="14" r="1"/></svg>',
-  ];
-  window.addEventListener(
-    "load",
-    () =>
-      document
-        .querySelectorAll("#copierprinterusageDashboard .unified-kpi-icon")
-        .forEach((node, index) => {
-          if (icons[index]) node.innerHTML = icons[index];
-        }),
-    { once: true },
-  );
-})();
-
 /* Keep the Copier cost unit compact and aligned with the KPI value. */
 (function () {
   const formatCostUnit = () => {
@@ -2805,7 +2798,7 @@ page(active);
         icons.license,
       ],
       [
-        "Active Users",
+        "Assigned Licenses",
         Number(total["Active Users"]) || 0,
         selectedLicense === "All" && selectedFeature === "All"
           ? "Licenses currently assigned"
@@ -3536,10 +3529,13 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
   );
   const assigneeLabel = (name) =>
     name === "Saw Wai Htun Ko" ? "Saw Wai Tun Ko" : name;
+  const defaultTicketMonth = months.includes(previousCalendarMonthKey("iso"))
+    ? previousCalendarMonthKey("iso")
+    : months[0] || "";
   let ticketBarChart, ticketPieChart;
   const state = {
     range: "all",
-    month: months[0] || "",
+    month: defaultTicketMonth,
     year: String(years[0] || ""),
     company: "All companies",
     problem: "All problems",
@@ -3712,6 +3708,10 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
           state.assignee = panel.querySelector("#ticketAssignee").value;
           state.from = panel.querySelector("#ticketFrom").value;
           state.to = panel.querySelector("#ticketTo").value;
+          if (control.id === "ticketRange" && state.range === "month") {
+            state.month = defaultTicketMonth;
+            panel.querySelector("#ticketMonth").value = state.month;
+          }
           if (
             control.id === "ticketCompany" &&
             state.company === "All companies"
@@ -3729,7 +3729,7 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
     panel.querySelector("#ticketReset").onclick = () => {
       Object.assign(state, {
         range: "all",
-        month: months[0] || "",
+        month: defaultTicketMonth,
         year: String(years[0] || ""),
         company: "All companies",
         problem: "All problems",
@@ -6230,22 +6230,6 @@ window.exportXlsx = function () {
   sync();
 })();
 
-/* Recalculate Company Account Distribution spacing when the responsive layout changes. */
-(function () {
-  let timer;
-  window.addEventListener("resize", () => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      if (
-        typeof active !== "undefined" &&
-        active === "Microsoft 365" &&
-        typeof window.charts === "function"
-      )
-        window.charts();
-    }, 160);
-  });
-})();
-
 /* Budget & Expense content is isolated in its own page wrapper. */
 (function () {
   const panel = document.getElementById("budgetExpenseDashboard");
@@ -7490,6 +7474,7 @@ window.exportXlsx = function () {
     periodValue.innerHTML = "";
     periodValue.disabled = !periodSpecific;
     if (monthly) {
+      const previousMonth = previousCalendarMonthKey();
       periodValueLabel.textContent = "Month";
       [
         "Apr-26",
@@ -7505,8 +7490,8 @@ window.exportXlsx = function () {
         "Feb-27",
         "Mar-27",
       ].forEach((month) => periodValue.add(new Option(month, month)));
-      periodValue.value = source.months.includes("Aug-26")
-        ? "Aug-26"
+      periodValue.value = source.months.includes(previousMonth)
+        ? previousMonth
         : source.months[0];
     } else if (yearly) {
       periodValueLabel.textContent = "Financial year";
@@ -8428,7 +8413,8 @@ window.exportXlsx = function () {
     optionMarkup = (items, label) =>
       `<option value="all">${label}</option>${items.map((item) => `<option value="${item}">${item}</option>`).join("")}`;
   let departmentsByCompany = {},
-    months = [];
+    months = [],
+    lastPeriod = periodSelect.value;
   const categoryField = document.createElement("label"),
     categorySelect = document.createElement("select"),
     deviceField = document.createElement("label"),
@@ -8530,11 +8516,17 @@ window.exportXlsx = function () {
       }, {}),
     };
   };
+  const previousCalendarMonth = () => {
+    const month = previousCalendarMonthKey();
+    return months.includes(month) ? month : months.at(-1) || "";
+  };
   const syncPeriodFields = () => {
     const period = periodSelect.value,
       isMonthly = period === "monthly",
       isYearly = period === "yearly",
-      isCustom = period === "custom";
+      isCustom = period === "custom",
+      previousMonth = periodValueSelect.value,
+      defaultMonth = previousCalendarMonth();
     periodValueField.hidden = !isMonthly && !isYearly;
     fromField.hidden = !isCustom;
     toField.hidden = !isCustom;
@@ -8544,13 +8536,23 @@ window.exportXlsx = function () {
       return;
     }
     periodValueLabel.textContent = "Month";
-    periodValueSelect.innerHTML = optionMarkup([...months].reverse(), "All months");
+    periodValueSelect.innerHTML = [...months]
+      .reverse()
+      .map((month) => `<option value="${month}">${month}</option>`)
+      .join("");
+    periodValueSelect.value =
+      period === "monthly" && lastPeriod !== "monthly"
+        ? defaultMonth
+        : months.includes(previousMonth)
+          ? previousMonth
+          : defaultMonth;
     fromSelect.innerHTML = months
       .map((month) => `<option value="${month}">${month}</option>`)
       .join("");
     toSelect.innerHTML = fromSelect.innerHTML;
     fromSelect.value = months[0] || "";
     toSelect.value = months.at(-1) || "";
+    lastPeriod = period;
   };
   const syncDepartments = (selectedDepartment = departmentSelect.value) => {
     const company = companySelect.value,
@@ -10751,7 +10753,7 @@ window.exportXlsx = function () {
   };
   const setValue = (id, value) => {
       const node = document.getElementById(id);
-      if (node) node.textContent = Number(value || 0).toLocaleString();
+      if (node) node.textContent = Math.round(Number(value) || 0).toLocaleString();
     },
     setText = (id, value) => {
       const node = document.getElementById(id);
@@ -10866,13 +10868,42 @@ window.exportXlsx = function () {
       assetType = filters.assetType || "all",
       department = filters.department || "all",
       period = filters.period || "all",
+      fixedAssetPeriodKey = (purchaseDate) => {
+        const [year, month] = String(purchaseDate || "").split("-");
+        const monthIndex = Number(month) - 1;
+        if (!/^\d{4}$/.test(year) || monthIndex < 0 || monthIndex > 11)
+          return null;
+        return `${["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][monthIndex]}-${year.slice(-2)}`;
+      },
+      currentReportingIndex = (() => {
+        const calendarIndex = months.indexOf(previousCalendarMonthKey());
+        if (calendarIndex >= 0) return calendarIndex;
+        for (let index = months.length - 1; index >= 0; index -= 1) {
+          const month = months[index],
+            hasBudgetActivity = [
+              ...(budget.expenses || []),
+              ...(budget.expenseDetails || []),
+            ].some((row) => row.month === month && Number(row.amount) !== 0),
+            hasPrintActivity = (window.COPIER_PRINTER_DATA?.records || []).some(
+              (row) =>
+                row.period === month &&
+                (Number(row.totalPages) !== 0 || Number(row.totalAmount) !== 0),
+            );
+          if (hasBudgetActivity || hasPrintActivity) return index;
+        }
+        return Math.max(0, months.length - 1);
+      })(),
       matchesMonth = (value) => {
-        if (period === "all" || period === "yearly") return true;
+        if (period === "all") return true;
         const index = months.indexOf(value);
+        if (period === "yearly") return index >= 0;
         if (index < 0) return false;
-        if (period === "monthly") return value === filters.periodValue;
-        if (period === "last3") return index >= Math.max(0, months.length - 3);
-        if (period === "last6") return index >= Math.max(0, months.length - 6);
+        if (period === "monthly")
+          return value === (filters.periodValue || months[currentReportingIndex]);
+        if (period === "last3")
+          return index >= Math.max(0, currentReportingIndex - 3) && index < currentReportingIndex;
+        if (period === "last6")
+          return index >= Math.max(0, currentReportingIndex - 6) && index < currentReportingIndex;
         if (period === "custom") {
           const start = months.indexOf(filters.fromMonth),
             end = months.indexOf(filters.toMonth);
@@ -10886,7 +10917,7 @@ window.exportXlsx = function () {
           company: row.c,
           department: row.d,
           assetType: row.t,
-          month: null,
+          month: fixedAssetPeriodKey(row.p),
         })),
         ...(window.COPIER_PRINTER_DATA?.records || []).map((row) => ({
           source: "copier",
@@ -10930,7 +10961,9 @@ window.exportXlsx = function () {
       const rowCompany = normalizeOverviewCompany(row.company);
       if (company !== "all" && rowCompany !== normalizeOverviewCompany(company)) return false;
       if (department !== "all" && row.department !== department) return false;
-      return row.month ? matchesMonth(row.month) : period === "all" || period === "yearly";
+      // Microsoft 365 is a current snapshot with no reporting-period field.
+      // Fixed Assets use their purchase date above.
+      return row.month ? matchesMonth(row.month) : true;
     });
   };
   const dashboardCompanyCount = (filters = {}) =>
@@ -10944,6 +10977,11 @@ window.exportXlsx = function () {
       manpower = window.MANPOWER_DIRECTORY_DATA || [],
       selectedCompany = overviewFilters.company || "all",
       selectedDepartment = overviewFilters.department || "all",
+      selectedSource = overviewFilters.source || "all",
+      includesBudget = ["all", "budget"].includes(selectedSource),
+      includesCopier = ["all", "copier"].includes(selectedSource),
+      includesTickets = ["all", "tickets"].includes(selectedSource),
+      includesAssets = ["all", "assets"].includes(selectedSource),
       companyLicenses = readStore(
         "m365CompanyDB",
         window.MICROSOFT_LICENSE_DATA?.companies || [],
@@ -10952,8 +10990,13 @@ window.exportXlsx = function () {
         "m365LicensesDB",
         window.MICROSOFT_LICENSE_DATA?.licenses || [],
       ),
-      licenseRows = licenses.filter(
-        (row) => row.Licenses && row.Licenses !== "Total",
+      selectedLicense = overviewFilters.license || "all",
+      includesMicrosoft365 = ["all", "m365"].includes(selectedSource),
+      licenseRows = (includesMicrosoft365 ? licenses : []).filter(
+        (row) =>
+          row.Licenses &&
+          row.Licenses !== "Total" &&
+          (selectedLicense === "all" || row.Licenses === selectedLicense),
       );
     let currentManpower = manpower.length,
       plannedManpower =
@@ -10980,47 +11023,236 @@ window.exportXlsx = function () {
           normalizeOverviewCompany(selectedCompany),
       );
     if (selectedCompany !== "all") {
-      activeLicenses = Number(selectedCompanyRow?.["Total Account"]) || 0;
+      activeLicenses =
+        Number(
+          selectedCompanyRow?.[
+            selectedLicense === "all" ? "Total Account" : selectedLicense
+          ],
+        ) || 0;
     }
     const totalLicenses = totalLicenseCapacity || activeLicenses + availableLicenses,
-      percent = (value) => Math.max(0, Math.min(100, value)).toFixed(1) + "%",
-      scopeParts = [
-        selectedCompany !== "all" ? selectedCompany : "",
-        selectedDepartment !== "all" ? selectedDepartment : "",
-        overviewFilters.period === "monthly" ? overviewFilters.periodValue : "",
-        overviewFilters.period === "last3" ? "Last 3 months" : "",
-        overviewFilters.period === "last6" ? "Last 6 months" : "",
-        overviewFilters.period === "yearly" ? "FY 2026–2027" : "",
-        overviewFilters.period === "custom"
-          ? `${overviewFilters.fromMonth}–${overviewFilters.toMonth}`
-          : "",
-      ].filter(Boolean),
-      scopeLabel = scopeParts.length ? scopeParts.join(" · ") : "All dashboard data",
-      setSubtitle = (id, value) => setText(id, value);
-    setValue("mainCurrentManpower", currentManpower);
-    setValue("mainManagedCompanies", dashboardCompanyCount(overviewFilters));
-    setValue("mainActiveLicenses", activeLicenses);
-    setValue("mainAvailableLicenses", availableLicenses);
-    setSubtitle(
-      "mainCurrentManpowerSubtitle",
-      "Active digital workforce",
+      managedCompanyCount = dashboardCompanyCount(overviewFilters),
+      ticketCount = includesTickets
+        ? overviewRows({ ...overviewFilters, source: "tickets" }).length
+        : 0,
+      assetCount = includesAssets
+        ? overviewRows({ ...overviewFilters, source: "assets" }).length
+        : 0,
+      percent = (value) => Math.max(0, Math.min(100, value)).toFixed(1) + "%";
+    setValue("mainTicketSummary", ticketCount);
+    setValue("mainAssetSummary", assetCount);
+    setValue("mainLicenseSummary", includesMicrosoft365 ? activeLicenses : 0);
+    setValue("mainManagedCompaniesSummary", managedCompanyCount);
+    setValue("mainCurrentManpowerSummary", currentManpower);
+    setValue("mainPlannedWorkforceSummary", plannedManpower);
+    setValue(
+      "mainHiringVacanciesSummary",
+      Math.max(0, plannedManpower - currentManpower),
     );
-    setSubtitle(
-      "mainManagedCompaniesSubtitle",
-      selectedCompany !== "all"
-        ? selectedCompany
-        : scopeParts.length
-          ? `Portfolio filtered by ${scopeLabel}`
-          : "Digital operations portfolio",
+    const budgetSource = window.budgetExpenseData || {},
+      copierSource = window.COPIER_PRINTER_DATA || {},
+      periodMonths = copierSource.months || budgetSource.months || [],
+      currentReportingIndex = (() => {
+        const calendarIndex = periodMonths.indexOf(previousCalendarMonthKey());
+        if (calendarIndex >= 0) return calendarIndex;
+        for (let index = periodMonths.length - 1; index >= 0; index -= 1) {
+          const month = periodMonths[index],
+            hasBudgetActivity = [
+              ...(budgetSource.expenses || []),
+              ...(budgetSource.expenseDetails || []),
+            ].some((row) => row.month === month && Number(row.amount) !== 0),
+            hasPrintActivity = (copierSource.records || []).some(
+              (row) =>
+                row.period === month &&
+                (Number(row.totalPages) !== 0 || Number(row.totalAmount) !== 0),
+            );
+          if (hasBudgetActivity || hasPrintActivity) return index;
+        }
+        return Math.max(0, periodMonths.length - 1);
+      })(),
+      filterMonth = (month) => {
+        const period = overviewFilters.period || "all";
+        if (period === "all" || period === "yearly") return true;
+        const index = periodMonths.indexOf(month);
+        if (index < 0) return false;
+        if (period === "monthly")
+          return month === (overviewFilters.periodValue || periodMonths[currentReportingIndex]);
+        if (period === "last3")
+          return index >= Math.max(0, currentReportingIndex - 3) && index < currentReportingIndex;
+        if (period === "last6")
+          return index >= Math.max(0, currentReportingIndex - 6) && index < currentReportingIndex;
+        if (period === "custom") {
+          const start = periodMonths.indexOf(overviewFilters.fromMonth),
+            end = periodMonths.indexOf(overviewFilters.toMonth);
+          return index >= Math.min(start, end) && index <= Math.max(start, end);
+        }
+        return true;
+      },
+      sameCompany = (value) =>
+        selectedCompany === "all" ||
+        normalizeOverviewCompany(value) === normalizeOverviewCompany(selectedCompany),
+      selectedCategory = overviewFilters.category || "all",
+      budgetMatches = (row) =>
+        filterMonth(row.month) &&
+        sameCompany(row.company) &&
+        (selectedCategory === "all" || row.category === selectedCategory),
+      detailedExpenses = budgetSource.expenseDetails?.length
+        ? budgetSource.expenseDetails
+        : budgetSource.expenses || [],
+      actualExpenseRows = selectedDepartment === "all"
+        ? budgetSource.expenses || []
+        : detailedExpenses,
+      approvedBudget = includesBudget
+        ? (budgetSource.budgets || [])
+            .filter(budgetMatches)
+            .reduce((sum, row) => sum + (Number(row.amount) || 0), 0)
+        : 0,
+      actualExpense = includesBudget
+        ? actualExpenseRows
+            .filter(
+              (row) =>
+                budgetMatches(row) &&
+                (selectedDepartment === "all" || row.department === selectedDepartment),
+            )
+            .reduce((sum, row) => sum + (Number(row.amount) || 0), 0)
+        : 0,
+      budgetRemaining = approvedBudget - actualExpense,
+      copierRows = includesCopier
+        ? (window.COPIER_PRINTER_DATA?.records || []).filter(
+            (row) =>
+              filterMonth(row.period) &&
+              sameCompany(row.company) &&
+              (selectedDepartment === "all" || row.department === selectedDepartment) &&
+              ((overviewFilters.device || "all") === "all" ||
+                row.copier === overviewFilters.device),
+          )
+        : [],
+      sumCopier = (key) =>
+        copierRows.reduce((sum, row) => sum + (Number(row[key]) || 0), 0),
+      printPages = sumCopier("totalPages"),
+      printPagesCost = sumCopier("pagesCost"),
+      printCartridgeCost = sumCopier("suppliesCost"),
+      printTotalAmount = copierRows.reduce(
+        (sum, row) =>
+          sum +
+          (Number(row.totalAmount) ||
+            (Number(row.pagesCost) || 0) + (Number(row.suppliesCost) || 0) ||
+            Number(row.cost) ||
+            0),
+        0,
+      ),
+      formatNumber = (value) => Math.round(Number(value) || 0).toLocaleString(),
+      setCurrencyMetric = (id, value) => {
+        const metric = document.getElementById(id);
+        if (!metric) return;
+        metric.innerHTML = `${formatNumber(value)} <small>MMK</small>`;
+        metric.classList.toggle("is-negative", Number(value) < 0);
+        metric
+          .closest(".main-financial-row")
+          ?.classList.toggle("is-negative", Number(value) < 0);
+      },
+      setPageMetric = (id, value) => {
+        const metric = document.getElementById(id);
+        if (metric) metric.innerHTML = `${formatNumber(value)} <small>Pages</small>`;
+      },
+      setPercentMetric = (id, value) => {
+        const metric = document.getElementById(id);
+        if (!metric) return;
+        metric.innerHTML =
+          value === null ? "-" : `${Number(value).toFixed(1)}<small>%</small>`;
+      },
+      setTrack = (id, percentage) => {
+        const track = document.getElementById(id);
+        if (!track) return;
+        track.style.transition = "none";
+        track.style.width = "0%";
+        void track.offsetWidth;
+        requestAnimationFrame(() => {
+          track.style.transition = "";
+          requestAnimationFrame(() => {
+            track.style.width = `${Math.max(0, Math.min(100, percentage))}%`;
+          });
+        });
+      };
+    setCurrencyMetric("mainApprovedBudget", approvedBudget);
+    setCurrencyMetric("mainActualExpense", actualExpense);
+    setCurrencyMetric("mainBudgetRemaining", budgetRemaining);
+    setPercentMetric(
+      "mainBudgetUtilization",
+      approvedBudget > 0 ? (actualExpense / approvedBudget) * 100 : null,
     );
-    setSubtitle(
-      "mainActiveLicensesSubtitle",
-      `${selectedCompany === "all" ? "All companies" : selectedCompany} - license assigned`,
+    setPageMetric("mainPrintTotalPages", printPages);
+    setCurrencyMetric("mainPrintPagesCost", printPagesCost);
+    setCurrencyMetric("mainPrintCartridgeCost", printCartridgeCost);
+    setCurrencyMetric("mainPrintTotalAmount", printTotalAmount);
+    setValue("mainApprovedBudgetSummary", approvedBudget);
+    setValue("mainActualExpenseSummary", actualExpense);
+    setValue("mainTotalPagesSummary", printPages);
+    setValue("mainTotalPrintingSummary", printTotalAmount);
+    const setFilterEmptyState = (target, hasData) => {
+      const element = target.startsWith(".") || target.startsWith("#")
+        ? document.querySelector(target)
+        : document.getElementById(target)?.closest(".main-summary-card");
+      if (!element) return;
+      element.classList.toggle("is-filter-empty", !hasData);
+      element.setAttribute("aria-disabled", String(!hasData));
+    };
+    [
+      ["mainTicketSummary", ticketCount > 0],
+      ["mainAssetSummary", assetCount > 0],
+      ["mainLicenseSummary", includesMicrosoft365 && activeLicenses > 0],
+      ["mainTotalPagesSummary", printPages > 0],
+      ["mainTotalPrintingSummary", printTotalAmount > 0],
+      ["mainApprovedBudgetSummary", approvedBudget > 0],
+      ["mainActualExpenseSummary", actualExpense > 0],
+      ["mainManagedCompaniesSummary", managedCompanyCount > 0],
+    ].forEach(([id, hasData]) => setFilterEmptyState(id, hasData));
+    setFilterEmptyState(
+      ".main-financial-performance",
+      approvedBudget > 0 || actualExpense > 0,
     );
-    setSubtitle(
-      "mainAvailableLicensesSubtitle",
-      `${selectedCompany === "all" ? "All companies" : selectedCompany} - capacity license`,
+    setFilterEmptyState(
+      ".main-print-performance",
+      printPages > 0 || printTotalAmount > 0,
     );
+    setFilterEmptyState(
+      ".main-license-card",
+      includesMicrosoft365 && totalLicenses > 0,
+    );
+    setTrack("mainApprovedBudgetBar", approvedBudget > 0 ? 100 : 0);
+    setTrack(
+      "mainActualExpenseBar",
+      approvedBudget > 0 ? (actualExpense / approvedBudget) * 100 : actualExpense > 0 ? 100 : 0,
+    );
+    setTrack(
+      "mainBudgetRemainingBar",
+      approvedBudget > 0
+        ? (Math.abs(budgetRemaining) / approvedBudget) * 100
+        : budgetRemaining !== 0
+          ? 100
+          : 0,
+    );
+    setTrack(
+      "mainBudgetUtilizationBar",
+      approvedBudget > 0 ? (actualExpense / approvedBudget) * 100 : 0,
+    );
+    const financialStatus = document.getElementById("mainFinancialStatus");
+    if (financialStatus) {
+      const utilization = approvedBudget > 0
+          ? (actualExpense / approvedBudget) * 100
+          : actualExpense > 0
+            ? Infinity
+            : 0,
+        overBudget = utilization > 100,
+        reviewBudget = !overBudget && utilization >= 80;
+      financialStatus.textContent = overBudget
+        ? "Over budget"
+        : reviewBudget
+          ? "Review budget"
+          : "On budget";
+      financialStatus.classList.toggle("is-over", overBudget);
+      financialStatus.classList.toggle("is-review", reviewBudget);
+    }
     const workforceRate = plannedManpower
         ? (currentManpower / plannedManpower) * 100
         : 0,
@@ -11034,6 +11266,7 @@ window.exportXlsx = function () {
       "mainWorkforceGap",
       Math.max(0, plannedManpower - currentManpower),
     );
+    setValue("mainWorkforcePlanned", plannedManpower);
     const workforceBar = document.getElementById("mainWorkforceBar"),
       workforceWidth = Math.max(0, Math.min(100, workforceRate)) + "%";
     if (workforceBar) {
@@ -11057,6 +11290,7 @@ window.exportXlsx = function () {
     );
     setValue("mainLicenseActiveChart", activeLicenses);
     setValue("mainLicenseAvailableChart", availableLicenses);
+    setValue("mainLicenseTotalChart", totalLicenses);
     setText("mainLicenseUtilization", percent(licenseRate));
     const licenseBar = document.getElementById("mainLicenseBar"),
       licenseWidth = Math.max(0, Math.min(100, licenseRate)) + "%";
@@ -11285,10 +11519,16 @@ window.exportXlsx = function () {
   const icon = {
     pages:
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9V4h12v16H6v-5"></path><path d="M4 9h10v8H4zM7 13h4M8 4v5M16 9h2"></path></svg>',
-    color:
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16v10H4zM7 17v3h10v-3M7 7V4h10v3"></path><path d="M8 12h.01M12 12h4"></path></svg>',
-    bw: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 9V4h12v16H6v-5"></path><path d="M4 9h10v8H4zM7 13h4M8 4v5M16 9h2"></path></svg>',
-    cost: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5H18a2 2 0 0 1 2 2v2H6.5A2.5 2.5 0 0 0 4 11.5v5A2.5 2.5 0 0 0 6.5 19H20v-8H6.5"></path><path d="M16 14h.01"></path></svg>',
+  };
+  const kpiIcon = {
+    pages:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>',
+    pagesCost:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 7v10M15 9.5c-.5-.8-1.5-1.3-3-1.3-1.7 0-2.8.9-2.8 2.1 0 3.4 5.7 1.5 5.7 4.8 0 1.3-1.2 2.1-3 2.1-1.4 0-2.5-.5-3.1-1.4"/></svg>',
+    cartridge:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h10v6H7zM5 10h14v8H5z"/><path d="M8 18v3h8v-3M8 13h.01"/></svg>',
+    amount:
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M15 15h3"/></svg>',
   };
   const periodIndex = (value) => source.months.indexOf(value),
     format = (n) => Number(n || 0).toLocaleString(),
@@ -11306,7 +11546,7 @@ window.exportXlsx = function () {
             "'": "&#39;",
           })[char],
       );
-  panel.innerHTML = `<section class="unified-kpi-grid"><article class="unified-kpi-card tone-orange"><span class="unified-kpi-icon" aria-hidden="true">${icon.pages}</span><div><b>Total Pages</b><small id="copierTotalPagesSubtitle">All usage records</small></div><strong id="copierTotalPages">0</strong></article><article class="unified-kpi-card tone-green"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 17h8M12 9v6M14 10.5c-.4-.5-1.1-.8-2-.8-1.1 0-2 .6-2 1.5 0 2.2 4 1.1 4 3.2 0 .9-.9 1.5-2 1.5-.9 0-1.7-.3-2.2-.9"/></svg></span><div><b>Pages Cost</b><small id="copierColorPagesSubtitle">All companies</small></div><strong id="copierColorPages">0</strong></article><article class="unified-kpi-card tone-yellow"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h10v6H7zM5 10h14v8H5z"/><path d="M8 18v3h8v-3M8 13h.01"/></svg></span><div><b>Cartridge Cost</b><small id="copierBwPagesSubtitle">All companies</small></div><strong id="copierBwPages">0</strong></article><article class="unified-kpi-card tone-blue"><span class="unified-kpi-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M15 15h3"/></svg></span><div><b>Total Print Amount</b><small id="copierTotalCostSubtitle">All companies</small></div><strong id="copierTotalCost">0</strong></article></section><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Print Usage Analytics</h2><p>Review page volumes and printing costs by period, company, department, and device.</p></div><button id="copierResetFilters" class="btn" type="button">Reset filters</button></div><div id="copierChartFilters" class="unified-filter-grid"></div></section><section class="unified-chart-grid"><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready chart-control-stacked"><div><h2>Department Print Volume</h2><p>Page usage by department</p></div><select id="copierDepartmentChartType" class="filter unified-chart-select" aria-label="Department chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div><div class="unified-bar-canvas"><canvas id="copierDepartmentChart" aria-label="Department print volume chart"></canvas></div><p id="copierDepartmentChartFooter" class="unified-chart-footer"></p></article><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready chart-control-stacked"><div><h2>Device Usage Distribution</h2><p>Total pages by copier and printer</p></div><select id="copierPieMetric" class="filter unified-chart-select" aria-label="Device usage metric"><option value="totalAmount">Total amount</option><option value="totalPages">Total pages</option></select></div><div class="unified-pie-layout"><div class="unified-pie-canvas"><canvas id="copierDeviceChart" aria-label="Device usage distribution chart"></canvas></div><div id="copierDeviceLegend" class="unified-chart-legend"></div></div></article></section><article class="unified-chart-card"><div class="unified-chart-header"><div><h2>Monthly Color and B/W Usage</h2><p>Color and black-and-white page volumes over time</p></div></div><div class="unified-line-canvas"><canvas id="copierMonthlyChart" aria-label="Monthly color and black-and-white usage chart"></canvas></div><p class="unified-chart-footer budget-summary-key"><span><i class="budget-summary-budget" aria-hidden="true"></i>Color pages</span><span><i class="budget-summary-actual" aria-hidden="true"></i>B/W pages</span></p></article><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Usage Record Filters</h2><p>Refine the detailed print records using the same reporting controls.</p></div></div><div id="copierTableFilters" class="unified-filter-grid"></div></section><section class="card unified-table-card"><div class="unified-table-head"><div class="unified-table-title"><span class="unified-table-title-icon" aria-hidden="true">${icon.pages}</span><div><h2>Copier &amp; Printer Usage Records</h2><p>Department-level printing volumes and costs</p></div></div></div><div class="unified-table-scroll"><table class="unified-data-table"><thead><tr><th>Period</th><th>Company</th><th>Department</th><th>Device</th><th>Color Pages</th><th>B/W Pages</th><th>Total Pages</th><th>Cost (MMK)</th></tr></thead><tbody id="copierUsageTableBody"></tbody><tfoot id="copierUsageTableFoot"></tfoot></table></div><footer class="unified-table-footer"><span id="copierUsageTableNote">0 records</span></footer></section>`;
+  panel.innerHTML = `<section class="unified-kpi-grid"><article class="unified-kpi-card tone-orange"><span class="unified-kpi-icon" aria-hidden="true">${kpiIcon.pages}</span><div><b>Total Pages</b><small id="copierTotalPagesSubtitle">All usage records</small></div><strong id="copierTotalPages">0</strong></article><article class="unified-kpi-card tone-green"><span class="unified-kpi-icon" aria-hidden="true">${kpiIcon.pagesCost}</span><div><b>Pages Cost</b><small id="copierColorPagesSubtitle">All companies</small></div><strong id="copierColorPages">0</strong></article><article class="unified-kpi-card tone-yellow"><span class="unified-kpi-icon" aria-hidden="true">${kpiIcon.cartridge}</span><div><b>Cartridge Cost</b><small id="copierBwPagesSubtitle">All companies</small></div><strong id="copierBwPages">0</strong></article><article class="unified-kpi-card tone-blue"><span class="unified-kpi-icon" aria-hidden="true">${kpiIcon.amount}</span><div><b>Total Print Amount</b><small id="copierTotalCostSubtitle">All companies</small></div><strong id="copierTotalCost">0</strong></article></section><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Print Usage Analytics</h2><p>Review page volumes and printing costs by period, company, department, and device.</p></div><button id="copierResetFilters" class="btn" type="button">Reset filters</button></div><div id="copierChartFilters" class="unified-filter-grid"></div></section><section class="unified-chart-grid"><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready chart-control-stacked"><div><h2>Department Print Volume</h2><p>Page usage by department</p></div><select id="copierDepartmentChartType" class="filter unified-chart-select" aria-label="Department chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div><div class="unified-bar-canvas"><canvas id="copierDepartmentChart" aria-label="Department print volume chart"></canvas></div><p id="copierDepartmentChartFooter" class="unified-chart-footer"></p></article><article class="unified-chart-card"><div class="unified-chart-header chart-control-ready chart-control-stacked"><div><h2>Device Usage Distribution</h2><p>Total pages by copier and printer</p></div><select id="copierPieMetric" class="filter unified-chart-select" aria-label="Device usage metric"><option value="totalAmount">Total amount</option><option value="totalPages">Total pages</option></select></div><div class="unified-pie-layout"><div class="unified-pie-canvas"><canvas id="copierDeviceChart" aria-label="Device usage distribution chart"></canvas></div><div id="copierDeviceLegend" class="unified-chart-legend"></div></div></article></section><article class="unified-chart-card"><div class="unified-chart-header"><div><h2>Monthly Color and B/W Usage</h2><p>Color and black-and-white page volumes over time</p></div></div><div class="unified-line-canvas"><canvas id="copierMonthlyChart" aria-label="Monthly color and black-and-white usage chart"></canvas></div><p class="unified-chart-footer budget-summary-key"><span><i class="budget-summary-budget" aria-hidden="true"></i>Color pages</span><span><i class="budget-summary-actual" aria-hidden="true"></i>B/W pages</span></p></article><section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Usage Record Filters</h2><p>Refine the detailed print records using the same reporting controls.</p></div></div><div id="copierTableFilters" class="unified-filter-grid"></div></section><section class="card unified-table-card"><div class="unified-table-head"><div class="unified-table-title"><span class="unified-table-title-icon" aria-hidden="true">${icon.pages}</span><div><h2>Copier &amp; Printer Usage Records</h2><p>Department-level printing volumes and costs</p></div></div></div><div class="unified-table-scroll"><table class="unified-data-table"><thead><tr><th>Period</th><th>Company</th><th>Department</th><th>Device</th><th>Color Pages</th><th>B/W Pages</th><th>Total Pages</th><th>Cost (MMK)</th></tr></thead><tbody id="copierUsageTableBody"></tbody><tfoot id="copierUsageTableFoot"></tfoot></table></div><footer class="unified-table-footer"><span id="copierUsageTableNote">0 records</span></footer></section>`;
   const hasPrintUsage = (row) =>
       [
         row.colorPages,
@@ -11516,18 +11756,6 @@ window.exportXlsx = function () {
       pagesCost = sum(rows, "pagesCost"),
       suppliesCost = sum(rows, "suppliesCost"),
       totalAmount = sum(rows, "totalAmount"),
-      kpiIcon = {
-        pages:
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>',
-        pagesCost:
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 17h8M12 9v6M14 10.5c-.4-.5-1.1-.8-2-.8-1.1 0-2 .6-2 1.5 0 2.2 4 1.1 4 3.2 0 .9-.9 1.5-2 1.5-.9 0-1.7-.3-2.2-.9"/></svg>',
-        cartridge:
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h10v6H7zM5 10h14v8H5z"/><path d="M8 18v3h8v-3M8 13h.01"/></svg>',
-        amount:
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M15 15h3"/></svg>',
-        departments:
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21h18M5 21V7l7-4v18M12 10h7v11M8 9h1M8 13h1M8 17h1M15 14h1M15 18h1"/></svg>',
-      },
       setKpi = (id, title, value, subtitle, iconName) => {
         const valueNode = document.getElementById(id),
           card = valueNode?.closest(".unified-kpi-card");
@@ -11594,7 +11822,7 @@ window.exportXlsx = function () {
         "Companies with Printer Activity",
         printerCompanies.length,
         printerCompanies.join(", "),
-        "departments",
+        "pages",
       );
       setKpi(
         "copierColorPages",
@@ -12109,7 +12337,9 @@ window.exportXlsx = function () {
             return;
           }
           if (name === "Period" && event.target.value === "monthly")
-            state.start = latestActiveMonth;
+            state.start = source.months.includes(previousCalendarMonthKey())
+              ? previousCalendarMonthKey()
+              : latestActiveMonth;
           if (name === "Period" && event.target.value === "yearly")
             state.start = "2026";
           render();
