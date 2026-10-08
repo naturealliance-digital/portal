@@ -9234,78 +9234,6 @@ window.budgetExpenseData = {
       "amount": 0
     },
     {
-      "company": "Nature Alliance",
-      "month": "Apr-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "month": "May-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "month": "Jun-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "month": "Jul-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "month": "Aug-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "month": "Sep-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "month": "Oct-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "month": "Nov-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "month": "Dec-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "month": "Jan-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "month": "Feb-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Alliance",
-      "month": "Mar-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
       "company": "Nature Valley",
       "month": "Apr-26",
       "category": "Fixed Assets",
@@ -9735,78 +9663,6 @@ window.budgetExpenseData = {
       "company": "Nature Valley",
       "month": "Mar-27",
       "category": "Software",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "month": "Apr-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "month": "May-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "month": "Jun-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "month": "Jul-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "month": "Aug-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "month": "Sep-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "month": "Oct-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "month": "Nov-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "month": "Dec-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "month": "Jan-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "month": "Feb-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Nature Valley",
-      "month": "Mar-27",
-      "category": "Fixed Assets",
       "amount": 0
     },
     {
@@ -10242,78 +10098,6 @@ window.budgetExpenseData = {
       "amount": 0
     },
     {
-      "company": "Innobuilder",
-      "month": "Apr-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
-      "month": "May-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
-      "month": "Jun-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
-      "month": "Jul-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
-      "month": "Aug-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
-      "month": "Sep-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
-      "month": "Oct-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
-      "month": "Nov-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
-      "month": "Dec-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
-      "month": "Jan-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
-      "month": "Feb-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Innobuilder",
-      "month": "Mar-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
       "company": "Prime Asset",
       "month": "Apr-26",
       "category": "Fixed Assets",
@@ -10743,78 +10527,6 @@ window.budgetExpenseData = {
       "company": "Prime Asset",
       "month": "Mar-27",
       "category": "Software",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "month": "Apr-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "month": "May-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "month": "Jun-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "month": "Jul-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "month": "Aug-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "month": "Sep-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "month": "Oct-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "month": "Nov-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "month": "Dec-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "month": "Jan-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "month": "Feb-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Prime Asset",
-      "month": "Mar-27",
-      "category": "Fixed Assets",
       "amount": 0
     },
     {
@@ -11250,78 +10962,6 @@ window.budgetExpenseData = {
       "amount": 0
     },
     {
-      "company": "Seven Aluminium",
-      "month": "Apr-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "month": "May-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "month": "Jun-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "month": "Jul-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "month": "Aug-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "month": "Sep-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "month": "Oct-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "month": "Nov-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "month": "Dec-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "month": "Jan-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "month": "Feb-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Seven Aluminium",
-      "month": "Mar-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
       "company": "Myanmar Safety Glass",
       "month": "Apr-26",
       "category": "Fixed Assets",
@@ -11754,78 +11394,6 @@ window.budgetExpenseData = {
       "amount": 0
     },
     {
-      "company": "Myanmar Safety Glass",
-      "month": "Apr-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "month": "May-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "month": "Jun-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "month": "Jul-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "month": "Aug-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "month": "Sep-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "month": "Oct-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "month": "Nov-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "month": "Dec-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "month": "Jan-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "month": "Feb-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Myanmar Safety Glass",
-      "month": "Mar-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
       "company": "Arise",
       "month": "Apr-26",
       "category": "Fixed Assets",
@@ -11835,13 +11403,13 @@ window.budgetExpenseData = {
       "company": "Arise",
       "month": "May-26",
       "category": "Fixed Assets",
-      "amount": 19016800
+      "amount": 18962000
     },
     {
       "company": "Arise",
       "month": "Jun-26",
       "category": "Fixed Assets",
-      "amount": 382700
+      "amount": 0
     },
     {
       "company": "Arise",
@@ -11913,7 +11481,7 @@ window.budgetExpenseData = {
       "company": "Arise",
       "month": "Jun-26",
       "category": "Copier Toner",
-      "amount": 2812000
+      "amount": 2640000
     },
     {
       "company": "Arise",
@@ -11925,7 +11493,7 @@ window.budgetExpenseData = {
       "company": "Arise",
       "month": "Aug-26",
       "category": "Copier Toner",
-      "amount": 2640000
+      "amount": 3570000
     },
     {
       "company": "Arise",
@@ -11985,7 +11553,7 @@ window.budgetExpenseData = {
       "company": "Arise",
       "month": "Jun-26",
       "category": "Repair & Maintenance",
-      "amount": 893000
+      "amount": 993000
     },
     {
       "company": "Arise",
@@ -11997,13 +11565,13 @@ window.budgetExpenseData = {
       "company": "Arise",
       "month": "Aug-26",
       "category": "Repair & Maintenance",
-      "amount": 1669000
+      "amount": 1884000
     },
     {
       "company": "Arise",
       "month": "Sep-26",
       "category": "Repair & Maintenance",
-      "amount": 1585000
+      "amount": 1735000
     },
     {
       "company": "Arise",
@@ -12051,13 +11619,13 @@ window.budgetExpenseData = {
       "company": "Arise",
       "month": "May-26",
       "category": "Device & Accessories",
-      "amount": 0
+      "amount": 54800
     },
     {
       "company": "Arise",
       "month": "Jun-26",
       "category": "Device & Accessories",
-      "amount": 0
+      "amount": 72000
     },
     {
       "company": "Arise",
@@ -12069,13 +11637,13 @@ window.budgetExpenseData = {
       "company": "Arise",
       "month": "Aug-26",
       "category": "Device & Accessories",
-      "amount": 753000
+      "amount": 538000
     },
     {
       "company": "Arise",
       "month": "Sep-26",
       "category": "Device & Accessories",
-      "amount": 150000
+      "amount": 0
     },
     {
       "company": "Arise",
@@ -12201,7 +11769,7 @@ window.budgetExpenseData = {
       "company": "Arise",
       "month": "Jun-26",
       "category": "Software",
-      "amount": 0
+      "amount": 382700
     },
     {
       "company": "Arise",
@@ -12255,78 +11823,6 @@ window.budgetExpenseData = {
       "company": "Arise",
       "month": "Mar-27",
       "category": "Software",
-      "amount": 0
-    },
-    {
-      "company": "Arise",
-      "month": "Apr-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Arise",
-      "month": "May-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Arise",
-      "month": "Jun-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Arise",
-      "month": "Jul-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Arise",
-      "month": "Aug-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Arise",
-      "month": "Sep-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Arise",
-      "month": "Oct-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Arise",
-      "month": "Nov-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Arise",
-      "month": "Dec-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Arise",
-      "month": "Jan-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Arise",
-      "month": "Feb-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Arise",
-      "month": "Mar-27",
-      "category": "Fixed Assets",
       "amount": 0
     },
     {
@@ -12762,78 +12258,6 @@ window.budgetExpenseData = {
       "amount": 0
     },
     {
-      "company": "Great Golden Moon",
-      "month": "Apr-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Great Golden Moon",
-      "month": "May-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Great Golden Moon",
-      "month": "Jun-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Great Golden Moon",
-      "month": "Jul-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Great Golden Moon",
-      "month": "Aug-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Great Golden Moon",
-      "month": "Sep-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Great Golden Moon",
-      "month": "Oct-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Great Golden Moon",
-      "month": "Nov-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Great Golden Moon",
-      "month": "Dec-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Great Golden Moon",
-      "month": "Jan-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Great Golden Moon",
-      "month": "Feb-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Great Golden Moon",
-      "month": "Mar-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
       "company": "Khittayar Hinthar Trading",
       "month": "Apr-26",
       "category": "Fixed Assets",
@@ -13266,78 +12690,6 @@ window.budgetExpenseData = {
       "amount": 0
     },
     {
-      "company": "Khittayar Hinthar Trading",
-      "month": "Apr-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Khittayar Hinthar Trading",
-      "month": "May-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Khittayar Hinthar Trading",
-      "month": "Jun-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Khittayar Hinthar Trading",
-      "month": "Jul-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Khittayar Hinthar Trading",
-      "month": "Aug-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Khittayar Hinthar Trading",
-      "month": "Sep-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Khittayar Hinthar Trading",
-      "month": "Oct-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Khittayar Hinthar Trading",
-      "month": "Nov-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Khittayar Hinthar Trading",
-      "month": "Dec-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Khittayar Hinthar Trading",
-      "month": "Jan-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Khittayar Hinthar Trading",
-      "month": "Feb-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "Khittayar Hinthar Trading",
-      "month": "Mar-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
       "company": "POSCO",
       "month": "Apr-26",
       "category": "Fixed Assets",
@@ -13767,78 +13119,6 @@ window.budgetExpenseData = {
       "company": "POSCO",
       "month": "Mar-27",
       "category": "Software",
-      "amount": 0
-    },
-    {
-      "company": "POSCO",
-      "month": "Apr-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "POSCO",
-      "month": "May-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "POSCO",
-      "month": "Jun-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "POSCO",
-      "month": "Jul-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "POSCO",
-      "month": "Aug-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "POSCO",
-      "month": "Sep-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "POSCO",
-      "month": "Oct-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "POSCO",
-      "month": "Nov-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "POSCO",
-      "month": "Dec-26",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "POSCO",
-      "month": "Jan-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "POSCO",
-      "month": "Feb-27",
-      "category": "Fixed Assets",
-      "amount": 0
-    },
-    {
-      "company": "POSCO",
-      "month": "Mar-27",
-      "category": "Fixed Assets",
       "amount": 0
     }
   ],
@@ -14895,7 +14175,7 @@ window.budgetExpenseData = {
       "month": "May-26",
       "department": "Finance",
       "category": "Fixed Assets",
-      "amount": 4300800
+      "amount": 4246000
     },
     {
       "company": "Arise",
@@ -14903,6 +14183,13 @@ window.budgetExpenseData = {
       "department": "Finance",
       "category": "Repair & Maintenance",
       "amount": 48000
+    },
+    {
+      "company": "Arise",
+      "month": "May-26",
+      "department": "Finance",
+      "category": "Device & Accessories",
+      "amount": 54800
     },
     {
       "company": "Arise",
@@ -14930,7 +14217,14 @@ window.budgetExpenseData = {
       "month": "Jun-26",
       "department": "Common",
       "category": "Repair & Maintenance",
-      "amount": 670000
+      "amount": 598000
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-26",
+      "department": "Common",
+      "category": "Device & Accessories",
+      "amount": 72000
     },
     {
       "company": "Arise",
@@ -15042,7 +14336,7 @@ window.budgetExpenseData = {
       "month": "Aug-26",
       "department": "Common",
       "category": "Copier Toner",
-      "amount": 2640000
+      "amount": 3570000
     },
     {
       "company": "Arise",
@@ -15083,7 +14377,7 @@ window.budgetExpenseData = {
       "company": "Arise",
       "month": "Aug-26",
       "department": "Perennial Crop",
-      "category": "Device & Accessories",
+      "category": "Repair & Maintenance",
       "amount": 215000
     },
     {
@@ -15105,14 +14399,7 @@ window.budgetExpenseData = {
       "month": "Sep-26",
       "department": "Common",
       "category": "Repair & Maintenance",
-      "amount": 473000
-    },
-    {
-      "company": "Arise",
-      "month": "Sep-26",
-      "department": "Common",
-      "category": "Device & Accessories",
-      "amount": 150000
+      "amount": 623000
     },
     {
       "company": "Arise",

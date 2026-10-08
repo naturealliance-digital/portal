@@ -3216,20 +3216,6 @@ body.dark .org-profile-site header {
   }
 }
 
-/* KPI subtitles are plain text, coordinated with their icons */
-.unified-kpi-grid .unified-kpi-card:nth-child(n) .unified-kpi-context,
-.unified-kpi-grid .unified-kpi-card:nth-child(n) .unified-kpi-context {
-  display: block !important;
-  width: auto !important;
-  max-width: 100% !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  white-space: normal !important;
-  overflow: visible !important;
-  text-overflow: clip !important
-}
-
 /* Peer-level digital operations responsibility tier */
 .org-team-tier {
   position: relative;
@@ -4153,8 +4139,6 @@ body.mobile-side-open {
 
 /* KPI subtitles: plain text in both themes */
 .unified-kpi-grid .unified-kpi-card:nth-child(n) .unified-kpi-context,
-.unified-kpi-grid .unified-kpi-card:nth-child(n) .unified-kpi-context,
-body.dark .unified-kpi-grid .unified-kpi-card:nth-child(n) .unified-kpi-context,
 body.dark .unified-kpi-grid .unified-kpi-card:nth-child(n) .unified-kpi-context {
   display: block !important;
   width: auto !important;
@@ -4172,42 +4156,34 @@ body.dark .unified-kpi-grid .unified-kpi-card:nth-child(n) .unified-kpi-context 
   text-overflow: clip !important
 }
 
-.unified-kpi-grid .unified-kpi-card:nth-child(1) .unified-kpi-context,
 .unified-kpi-grid .unified-kpi-card:nth-child(1) .unified-kpi-context {
   color: #eb4e31 !important
 }
 
-.unified-kpi-grid .unified-kpi-card:nth-child(2) .unified-kpi-context,
 .unified-kpi-grid .unified-kpi-card:nth-child(2) .unified-kpi-context {
   color: #168a69 !important
 }
 
-.unified-kpi-grid .unified-kpi-card:nth-child(3) .unified-kpi-context,
 .unified-kpi-grid .unified-kpi-card:nth-child(3) .unified-kpi-context {
   color: #bd7410 !important
 }
 
-.unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-context,
 .unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-context {
   color: #7056d8 !important
 }
 
-body.dark .unified-kpi-grid .unified-kpi-card:nth-child(1) .unified-kpi-context,
 body.dark .unified-kpi-grid .unified-kpi-card:nth-child(1) .unified-kpi-context {
   color: #ff9a70 !important
 }
 
-body.dark .unified-kpi-grid .unified-kpi-card:nth-child(2) .unified-kpi-context,
 body.dark .unified-kpi-grid .unified-kpi-card:nth-child(2) .unified-kpi-context {
   color: #7bd8b4 !important
 }
 
-body.dark .unified-kpi-grid .unified-kpi-card:nth-child(3) .unified-kpi-context,
 body.dark .unified-kpi-grid .unified-kpi-card:nth-child(3) .unified-kpi-context {
   color: #ffd083 !important
 }
 
-body.dark .unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-context,
 body.dark .unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-context {
   color: #c7b7ff !important
 }
@@ -8748,11 +8724,6 @@ select,
   }
 }
 
-.unified-chart-card {
-  min-width: 0;
-  padding: 17px 18px !important
-}
-
 .unified-chart-header {
   display: flex;
   align-items: flex-start;
@@ -8791,12 +8762,6 @@ select,
   grid-template-columns: 1fr;
   justify-items: center;
   gap: 13px
-}
-
-.unified-pie-canvas {
-  position: relative;
-  width: 210px;
-  height: 210px
 }
 
 .unified-chart-legend {
@@ -9201,14 +9166,6 @@ body.dark .unified-table-footer {
   --expense-soft: #fff0d7
 }
 
-.unified-chart-card {
-  min-width: 0;
-  border: 1px solid #eadbd5;
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 7px 20px rgba(70, 37, 30, .045)
-}
-
 .unified-chart-header {
   display: flex;
   align-items: center;
@@ -9228,19 +9185,9 @@ body.dark .unified-table-footer {
   font-size: 10px
 }
 
-.unified-chart-card {
-  padding: 18px 19px !important
-}
-
 .unified-chart-header select {
   width: auto !important;
   min-width: 104px
-}
-
-.unified-pie-canvas {
-  width: 210px;
-  height: 210px;
-  margin: 18px auto
 }
 
 .unified-chart-legend {
@@ -9393,13 +9340,31 @@ body.dark .unified-chart-legend {
 :is(select.filter, select.select) {
   width: auto !important;
   min-width: 0;
-  max-width: 100%
+  max-width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 36px !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23627691' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 13px center;
+  background-size: 12px;
+}
+
+body.dark :is(select.filter, select.select) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23dcc8c5' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
 
 :is(.tools, .unified-chart-header, .unified-chart-header, .site-chart-title) :is(select.filter, select.select) {
   flex: 0 1 auto;
   width: auto !important;
   max-width: 100%
+}
+
+@media (max-width: 560px) {
+  :is(select.filter, select.select) {
+    padding-right: 38px !important;
+    background-position: right 12px center;
+  }
 }
 
 :is(.unified-filter-grid, .unified-filter-grid) :is(select.filter, input.filter) {
@@ -9788,6 +9753,7 @@ body.dark .unified-filter-grid label>span {
 .unified-chart-card {
   min-width: 0;
   overflow: hidden;
+  container-type: inline-size;
   padding: 18px 19px !important;
   border: 1px solid #eadbd5;
   border-radius: 14px;
@@ -10016,6 +9982,18 @@ body.dark .unified-chart-legend b {
   min-width: 100% !important;
   max-width: none !important;
   margin-top: 8px !important
+}
+
+/* Custom chart controls use the same stacked layout as native selects. */
+.unified-chart-header.chart-control-ready.chart-control-stacked .custom-select {
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin-top: 8px
+}
+
+.unified-chart-header.chart-control-ready.chart-control-stacked .custom-select__trigger {
+  width: 100%
 }
 
 @media(max-width:375px) {
@@ -13771,6 +13749,65 @@ body.dark .hub-loading-ring {
   }
 }
 
+/* Custom filter menus: native selects remain the source of truth while the
+   visible menu stays compact and consistent across browsers. */
+.custom-select { position: relative; display: inline-block; min-width: 0; max-width: 100%; vertical-align: middle; }
+.unified-filter-card { position: relative; overflow: visible; }
+.unified-filter-card:has(.custom-select.is-open) { z-index: 1001; }
+.custom-select__native { position: absolute !important; width: 1px !important; height: 1px !important; margin: -1px !important; padding: 0 !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; clip-path: inset(50%) !important; white-space: nowrap !important; border: 0 !important; opacity: 0 !important; pointer-events: none !important; }
+.custom-select__trigger { display: flex; width: 100%; min-height: 38px; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 13px; border: 1px solid var(--l); border-radius: 9px; background: #fff; color: #5e6c85; font: 500 clamp(12px, .9vw, 13px) Poppins, Arial, sans-serif; line-height: 1.35; text-align: left; cursor: pointer; transition: border-color .18s ease, box-shadow .18s ease, background .18s ease; }
+.custom-select__trigger:hover { border-color: #c7a69d; }
+.custom-select.is-open .custom-select__trigger, .custom-select__trigger:focus-visible { border-color: #d12a31; outline: 0; box-shadow: 0 0 0 3px rgba(209, 42, 49, .12); }
+.custom-select__trigger:disabled { cursor: not-allowed; opacity: .58; }
+.custom-select__value { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.custom-select__arrow { flex: 0 0 7px; width: 7px; height: 7px; margin-right: 3px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .18s ease; }
+.custom-select.is-open .custom-select__arrow { transform: translateY(2px) rotate(225deg); }
+.custom-select__menu { position: absolute; z-index: 1000; top: calc(100% + 6px); right: 0; left: auto; width: max-content; min-width: 100%; max-width: calc(100vw - 24px); max-height: 280px; padding: 5px; overflow-y: auto; overscroll-behavior: contain; border: 1px solid #e6d0c9; border-radius: 10px; background: #fffdfb; box-shadow: 0 14px 28px rgba(71, 36, 37, .16); }
+.custom-select__menu[hidden] { display: none; }
+.custom-select__option { display: flex; width: 100%; min-height: 38px; align-items: center; padding: 8px 10px; border: 0; border-radius: 7px; background: transparent; color: #5e6c85; font: 500 clamp(11.5px, .85vw, 12.5px) Poppins, Arial, sans-serif; line-height: 1.35; text-align: left; white-space: nowrap; cursor: pointer; }
+.custom-select__option:hover, .custom-select__option:focus-visible { outline: 0; background: #fbe8e4; color: #8f252d; }
+.custom-select__option.is-selected { background: #d12a31; color: #fff; font-weight: 600; }
+.custom-select__option:disabled { cursor: not-allowed; opacity: .45; }
+.unified-filter-grid .custom-select { display: block; width: 100%; }
+:is(.tools, .unified-chart-header, .site-chart-title) .custom-select { flex: 0 1 auto; width: auto; }
+:is(.tools, .unified-chart-header, .site-chart-title) .custom-select__trigger { width: auto; min-width: 132px; }
+.unified-chart-card:has(.custom-select.is-open) { position: relative; z-index: 1001; overflow: visible; }
+
+/* A chart card can be narrow even on a wide page.  Stack its control below
+   the title based on the card width so it never gets clipped on the right. */
+@container (max-width: 680px) {
+  .unified-chart-header.chart-control-ready {
+    display: block;
+  }
+
+  .unified-chart-header.chart-control-ready > div:first-child {
+    max-width: 100%;
+  }
+
+  .unified-chart-header.chart-control-ready .custom-select,
+  .unified-chart-header.chart-control-ready .custom-select__trigger {
+    width: 100%;
+    max-width: none;
+  }
+
+  .unified-chart-header.chart-control-ready .custom-select {
+    display: block;
+    margin-top: 8px;
+  }
+}
+body.dark .custom-select__trigger { border-color: #523039; background: #241216; color: #f2d9d4; }
+body.dark .custom-select__trigger:hover { border-color: #8b4d4e; }
+body.dark .custom-select.is-open .custom-select__trigger, body.dark .custom-select__trigger:focus-visible { border-color: #ff9275; box-shadow: 0 0 0 3px rgba(255, 146, 117, .16); }
+body.dark .custom-select__menu { border-color: #61383f; background: #2d171c; box-shadow: 0 16px 30px rgba(0, 0, 0, .36); }
+body.dark .custom-select__option { color: #e7d2ce; }
+body.dark .custom-select__option:hover, body.dark .custom-select__option:focus-visible { background: #45262c; color: #fff1ec; }
+body.dark .custom-select__option.is-selected { background: #d12a31; color: #fff; }
+.custom-select__menu::-webkit-scrollbar { width: 10px; }
+.custom-select__menu::-webkit-scrollbar-thumb { min-height: 36px; border: 3px solid transparent; border-radius: 999px; background: #c5a29a; background-clip: padding-box; }
+body.dark .custom-select__menu::-webkit-scrollbar-thumb { background: #875055; background-clip: padding-box; }
+@media (max-width: 560px) { .custom-select__trigger { min-height: 40px; padding-inline: 12px; } :is(.tools, .unified-chart-header, .site-chart-title) .custom-select, :is(.tools, .unified-chart-header, .site-chart-title) .custom-select__trigger { width: 100%; } }
+@media (max-width: 760px) { #mainDashboard .main-dashboard-filter-card:has(.custom-select.is-open) { overflow: visible; } }
+
 @media (prefers-reduced-motion: reduce) {
 
   .hub-loading,
@@ -14051,27 +14088,33 @@ body.dark #copierprinterusageDashboard .unified-line-canvas::-webkit-scrollbar-t
 }
 
 /* Fixed Assets yearly performance chart. */
-#fixedassetsDashboard .unified-chart-header.chart-control-ready {
-  flex-wrap: wrap;
+#fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-chart-header.chart-control-ready {
+  display: flex;
+  flex-wrap: nowrap;
   justify-content: space-between
 }
 
-#fixedassetsDashboard .unified-chart-header.chart-control-ready>div:first-child {
-  flex: 1 1 220px
+#fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-chart-header.chart-control-ready>div:first-child {
+  flex: 0 1 auto
 }
 
 #fixedassetsDashboard .fixed-asset-yearly-chart-controls {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: auto
+  margin-left: auto;
+  flex: 0 1 auto;
+  white-space: nowrap
+}
+
+#fixedassetsDashboard .fixed-asset-yearly-chart-controls .custom-select,
+#fixedassetsDashboard .fixed-asset-yearly-chart-controls .custom-select__trigger {
+  width: auto;
+  min-width: 0
 }
 
 #fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-line-canvas {
-  height: 360px
-}
-
-#fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-line-canvas {
+  height: 360px;
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-color: #d4b2a8 transparent;
@@ -14426,19 +14469,14 @@ body.dark #fixedassetsDashboard .fixed-asset-overview-table-card .fixed-asset-de
 
 @media(max-width:700px) {
   #fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-chart-header {
-    align-items: stretch
+    align-items: center
   }
 
   #fixedassetsDashboard .fixed-asset-yearly-chart-controls {
-    width: 100%;
+    width: auto;
     flex-direction: row;
-    align-items: stretch;
-    margin-left: 0
-  }
-
-  #fixedassetsDashboard .fixed-asset-yearly-chart-controls #fixedAssetYearlyMetric,
-  #fixedassetsDashboard .fixed-asset-yearly-chart-controls #fixedAssetYearlyChartType {
-    width: calc(50% - 5px) !important
+    align-items: center;
+    margin-left: auto
   }
 
   #fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-line-canvas {
@@ -14450,16 +14488,24 @@ body.dark #fixedassetsDashboard .fixed-asset-overview-table-card .fixed-asset-de
   }
 }
 
-@media(min-width:701px) and (max-width:1050px) {
-  #fixedassetsDashboard .fixed-asset-yearly-chart-card .fixed-asset-yearly-chart-controls {
-    width: 100%;
-    margin-left: 0
+/* Stack the two yearly controls only when the chart card itself is too narrow. */
+@container (max-width: 430px) {
+  #fixedassetsDashboard .fixed-asset-yearly-chart-card .unified-chart-header {
+    flex-wrap: wrap;
   }
 
-  #fixedassetsDashboard .fixed-asset-yearly-chart-card .fixed-asset-yearly-chart-controls #fixedAssetYearlyMetric,
-  #fixedassetsDashboard .fixed-asset-yearly-chart-card .fixed-asset-yearly-chart-controls #fixedAssetYearlyChartType {
+  #fixedassetsDashboard .fixed-asset-yearly-chart-controls {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  #fixedassetsDashboard .fixed-asset-yearly-chart-controls .custom-select {
     flex: 1 1 calc(50% - 5px);
-    width: calc(50% - 5px) !important
+    width: calc(50% - 5px);
+  }
+
+  #fixedassetsDashboard .fixed-asset-yearly-chart-controls .custom-select__trigger {
+    width: 100%;
   }
 }
 
@@ -14733,7 +14779,149 @@ body.dark #mainDashboard .main-dashboard-filter-card {
   pointer-events: none;
 }
 
+.main-summary-card[data-dashboard-target] {
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.main-summary-card[data-dashboard-target]:is(:hover, :focus-visible) {
+  transform: translateY(-2px);
+  border-color: rgba(209, 42, 49, .42);
+  box-shadow: 0 12px 24px rgba(74, 39, 43, .12);
+  outline: none;
+}
+
 .main-summary-financial-card { grid-column: span 4; }
+
+.main-dashboard-budget-summary .unified-line-canvas {
+  height: 330px;
+}
+
+.main-dashboard-expense-insights {
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, .75fr);
+}
+
+#mainDashboard #mainCompanyExpenseFooter {
+  margin-top: 12px;
+}
+
+#mainDashboard #mainCompanyExpenseCard .unified-bar-canvas {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+#mainDashboard #mainCompanyExpenseChart {
+  width: 100% !important;
+  min-width: 0;
+  max-width: 100% !important;
+}
+
+@media (max-width: 700px) {
+  .main-dashboard-expense-insights {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+}
+
+@media (min-width: 701px) and (max-width: 1100px) {
+  .main-dashboard-expense-insights {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Keep the Main Dashboard key visually identical to Budget & Expense. */
+#mainDashboard .main-dashboard-budget-summary .budget-summary-key {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#mainDashboard .main-dashboard-budget-summary .budget-summary-key span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+#mainDashboard .main-dashboard-budget-summary .budget-summary-key i {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #16866a;
+}
+
+#mainDashboard .main-dashboard-budget-summary .budget-summary-key .budget-summary-actual {
+  background: #d12a31;
+}
+
+body.dark #mainDashboard .main-dashboard-budget-summary .budget-summary-key i {
+  background: #4eb4cd;
+}
+
+body.dark #mainDashboard .main-dashboard-budget-summary .budget-summary-key .budget-summary-actual {
+  background: #ff8755;
+}
+
+/* Preserve chart detail on narrow screens, matching Budget & Expense. */
+@media (max-width: 700px) {
+  #mainDashboard .main-dashboard-budget-summary .unified-line-canvas {
+    height: 310px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    touch-action: pan-x;
+    scrollbar-color: #d4b2a8 transparent;
+    scrollbar-width: thin;
+  }
+
+  #mainDashboard .main-dashboard-budget-summary #mainBudgetExpenseChart {
+    min-width: 540px;
+  }
+
+  #mainDashboard .main-dashboard-budget-summary .unified-line-canvas::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  #mainDashboard .main-dashboard-budget-summary .unified-line-canvas::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  #mainDashboard .main-dashboard-budget-summary .unified-line-canvas::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background: #d4b2a8;
+    background-clip: padding-box;
+  }
+
+  body.dark #mainDashboard .main-dashboard-budget-summary .unified-line-canvas::-webkit-scrollbar-thumb {
+    background: #8e5a55;
+    background-clip: padding-box;
+  }
+}
+
+@media (max-width: 460px) {
+  #mainDashboard .main-dashboard-budget-summary .unified-line-canvas {
+    height: 285px;
+  }
+}
+
+/* Later dark-card rules use the background shorthand, so restore the shared
+   visible arrow for every native filter select after those rules have run. */
+body.dark :is(select.filter, select.select):not(.coverage-select) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23f2d9d4' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 14px center !important;
+  background-size: 16px !important;
+}
+
+@media (max-width: 560px) {
+  body.dark :is(select.filter, select.select):not(.coverage-select) {
+    background-position: right 12px center !important;
+  }
+}
 
 .main-summary-icon {
   display: grid;
@@ -14954,7 +15142,8 @@ body.dark #mainDashboard .main-dashboard-filter-card {
   height: 100%;
   border-radius: inherit;
   background: linear-gradient(90deg, #168a69, #35ac82);
-  transition: width 900ms cubic-bezier(.16, 1, .3, 1);
+  will-change: width;
+  transition: width 1450ms cubic-bezier(.16, 1, .3, 1);
 }
 
 .main-financial-row.is-expense .main-performance-track i {
@@ -15215,9 +15404,12 @@ body.dark .main-performance-status.is-over {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .main-summary-card,
-  .main-summary-financial-card {
+  .main-summary-card {
     grid-column: auto;
+  }
+
+  .main-summary-financial-card {
+    grid-column: 1 / -1;
   }
 }
 

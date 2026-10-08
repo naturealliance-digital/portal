@@ -24,9 +24,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 738,
       "totalPages": 1231,
       "pagesCost": 80015,
-      "suppliesCost": 388455,
-      "totalAmount": 468470,
-      "cost": 388455
+      "suppliesCost": 388454.8422198042,
+      "totalAmount": 468469.8422198042,
+      "cost": 388454.8422198042
     },
     {
       "period": "Apr-26",
@@ -37,9 +37,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1021,
       "totalPages": 1845,
       "pagesCost": 119925,
-      "suppliesCost": 582209,
-      "totalAmount": 702134,
-      "cost": 582209
+      "suppliesCost": 582208.922742111,
+      "totalAmount": 702133.922742111,
+      "cost": 582208.922742111
     },
     {
       "period": "Apr-26",
@@ -50,9 +50,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 236,
       "totalPages": 296,
       "pagesCost": 19240,
-      "suppliesCost": 93406,
-      "totalAmount": 112646,
-      "cost": 93406
+      "suppliesCost": 93405.87595212187,
+      "totalAmount": 112645.87595212187,
+      "cost": 93405.87595212187
     },
     {
       "period": "Apr-26",
@@ -63,9 +63,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 2371,
       "totalPages": 5332,
       "pagesCost": 346580,
-      "suppliesCost": 1682568,
-      "totalAmount": 2029148,
-      "cost": 1682568
+      "suppliesCost": 1682568.0087051142,
+      "totalAmount": 2029148.0087051142,
+      "cost": 1682568.0087051142
     },
     {
       "period": "Apr-26",
@@ -76,9 +76,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 96,
       "totalPages": 134,
       "pagesCost": 8710,
-      "suppliesCost": 42285,
-      "totalAmount": 50995,
-      "cost": 42285
+      "suppliesCost": 42285.09249183896,
+      "totalAmount": 50995.09249183896,
+      "cost": 42285.09249183896
     },
     {
       "period": "Apr-26",
@@ -89,9 +89,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 264,
       "totalPages": 580,
       "pagesCost": 37700,
-      "suppliesCost": 183025,
-      "totalAmount": 220725,
-      "cost": 183025
+      "suppliesCost": 183025.02720348202,
+      "totalAmount": 220725.02720348202,
+      "cost": 183025.02720348202
     },
     {
       "period": "Apr-26",
@@ -102,9 +102,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 100,
       "totalPages": 106,
       "pagesCost": 6890,
-      "suppliesCost": 33449,
-      "totalAmount": 40339,
-      "cost": 33449
+      "suppliesCost": 33449.401523395,
+      "totalAmount": 40339.401523395,
+      "cost": 33449.401523395
     },
     {
       "period": "Apr-26",
@@ -115,9 +115,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 137,
       "totalPages": 177,
       "pagesCost": 11505,
-      "suppliesCost": 55854,
-      "totalAmount": 67359,
-      "cost": 55854
+      "suppliesCost": 55854.18933623504,
+      "totalAmount": 67359.18933623504,
+      "cost": 55854.18933623504
     },
     {
       "period": "Apr-26",
@@ -128,9 +128,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 6,
       "totalPages": 6,
       "pagesCost": 390,
-      "suppliesCost": 1893,
-      "totalAmount": 2283,
-      "cost": 1893
+      "suppliesCost": 1893.3623503808487,
+      "totalAmount": 2283.3623503808485,
+      "cost": 1893.3623503808487
     },
     {
       "period": "Apr-26",
@@ -141,9 +141,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 3,
       "totalPages": 7,
       "pagesCost": 455,
-      "suppliesCost": 2209,
-      "totalAmount": 2664,
-      "cost": 2209
+      "suppliesCost": 2208.9227421109904,
+      "totalAmount": 2663.9227421109904,
+      "cost": 2208.9227421109904
     },
     {
       "period": "Apr-26",
@@ -154,9 +154,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 3,
       "totalPages": 106,
       "pagesCost": 6890,
-      "suppliesCost": 33449,
-      "totalAmount": 40339,
-      "cost": 33449
+      "suppliesCost": 33449.401523395,
+      "totalAmount": 40339.401523395,
+      "cost": 33449.401523395
     },
     {
       "period": "Apr-26",
@@ -180,9 +180,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 82,
       "totalPages": 123,
       "pagesCost": 7995,
-      "suppliesCost": 38814,
-      "totalAmount": 46809,
-      "cost": 38814
+      "suppliesCost": 38813.928182807394,
+      "totalAmount": 46808.928182807394,
+      "cost": 38813.928182807394
     },
     {
       "period": "Apr-26",
@@ -193,9 +193,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 83,
       "totalPages": 99,
       "pagesCost": 6435,
-      "suppliesCost": 31240,
-      "totalAmount": 37675,
-      "cost": 31240
+      "suppliesCost": 31240.478781284004,
+      "totalAmount": 37675.47878128401,
+      "cost": 31240.478781284004
     },
     {
       "period": "Apr-26",
@@ -219,9 +219,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 0,
       "totalPages": 3,
       "pagesCost": 195,
-      "suppliesCost": 947,
-      "totalAmount": 1142,
-      "cost": 947
+      "suppliesCost": 946.6811751904244,
+      "totalAmount": 1141.6811751904243,
+      "cost": 946.6811751904244
     },
     {
       "period": "Apr-26",
@@ -232,9 +232,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 0,
       "totalPages": 64,
       "pagesCost": 4160,
-      "suppliesCost": 20196,
-      "totalAmount": 24356,
-      "cost": 20196
+      "suppliesCost": 20195.865070729054,
+      "totalAmount": 24355.865070729054,
+      "cost": 20195.865070729054
     },
     {
       "period": "Apr-26",
@@ -258,9 +258,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 59,
       "totalPages": 62,
       "pagesCost": 4030,
-      "suppliesCost": 4749,
-      "totalAmount": 8779,
-      "cost": 4749
+      "suppliesCost": 4748.936170212765,
+      "totalAmount": 8778.936170212764,
+      "cost": 4748.936170212765
     },
     {
       "period": "Apr-26",
@@ -271,9 +271,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 97,
       "totalPages": 97,
       "pagesCost": 6305,
-      "suppliesCost": 7430,
-      "totalAmount": 13735,
-      "cost": 7430
+      "suppliesCost": 7429.787234042553,
+      "totalAmount": 13734.787234042553,
+      "cost": 7429.787234042553
     },
     {
       "period": "Apr-26",
@@ -284,9 +284,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 23,
       "totalPages": 147,
       "pagesCost": 9555,
-      "suppliesCost": 11260,
-      "totalAmount": 20815,
-      "cost": 11260
+      "suppliesCost": 11259.574468085108,
+      "totalAmount": 20814.574468085106,
+      "cost": 11259.574468085108
     },
     {
       "period": "Apr-26",
@@ -336,9 +336,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1,
       "totalPages": 1,
       "pagesCost": 65,
-      "suppliesCost": 77,
-      "totalAmount": 142,
-      "cost": 77
+      "suppliesCost": 76.59574468085107,
+      "totalAmount": 141.59574468085106,
+      "cost": 76.59574468085107
     },
     {
       "period": "Apr-26",
@@ -349,9 +349,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1336,
       "totalPages": 2208,
       "pagesCost": 143520,
-      "suppliesCost": 169123,
-      "totalAmount": 312643,
-      "cost": 169123
+      "suppliesCost": 169123.40425531912,
+      "totalAmount": 312643.40425531915,
+      "cost": 169123.40425531912
     },
     {
       "period": "Apr-26",
@@ -362,9 +362,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1172,
       "totalPages": 2086,
       "pagesCost": 135590,
-      "suppliesCost": 159779,
-      "totalAmount": 295369,
-      "cost": 159779
+      "suppliesCost": 159778.72340425535,
+      "totalAmount": 295368.72340425535,
+      "cost": 159778.72340425535
     },
     {
       "period": "Apr-26",
@@ -375,9 +375,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 49,
       "totalPages": 309,
       "pagesCost": 20085,
-      "suppliesCost": 23668,
-      "totalAmount": 43753,
-      "cost": 23668
+      "suppliesCost": 23668.085106382976,
+      "totalAmount": 43753.085106382976,
+      "cost": 23668.085106382976
     },
     {
       "period": "Apr-26",
@@ -414,9 +414,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 536,
       "totalPages": 2135,
       "pagesCost": 138775,
-      "suppliesCost": 163532,
-      "totalAmount": 302307,
-      "cost": 163532
+      "suppliesCost": 163531.914893617,
+      "totalAmount": 302306.91489361704,
+      "cost": 163531.914893617
     },
     {
       "period": "Apr-26",
@@ -453,9 +453,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 0,
       "totalPages": 5,
       "pagesCost": 325,
-      "suppliesCost": 383,
-      "totalAmount": 708,
-      "cost": 383
+      "suppliesCost": 382.97872340425533,
+      "totalAmount": 707.9787234042553,
+      "cost": 382.97872340425533
     },
     {
       "period": "Apr-26",
@@ -557,9 +557,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 911,
       "totalPages": 1624,
       "pagesCost": 105560,
-      "suppliesCost": 480188,
-      "totalAmount": 585748,
-      "cost": 480188
+      "suppliesCost": 480187.9101899826,
+      "totalAmount": 585747.9101899826,
+      "cost": 480187.9101899826
     },
     {
       "period": "May-26",
@@ -570,9 +570,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 2784,
       "totalPages": 3998,
       "pagesCost": 259870,
-      "suppliesCost": 1182137,
-      "totalAmount": 1442007,
-      "cost": 1182137
+      "suppliesCost": 1182137.4784110533,
+      "totalAmount": 1442007.4784110533,
+      "cost": 1182137.4784110533
     },
     {
       "period": "May-26",
@@ -583,9 +583,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 464,
       "totalPages": 530,
       "pagesCost": 34450,
-      "suppliesCost": 156712,
-      "totalAmount": 191162,
-      "cost": 156712
+      "suppliesCost": 156711.57167530223,
+      "totalAmount": 191161.57167530223,
+      "cost": 156711.57167530223
     },
     {
       "period": "May-26",
@@ -596,9 +596,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 2625,
       "totalPages": 6321,
       "pagesCost": 410865,
-      "suppliesCost": 1869007,
-      "totalAmount": 2279872,
-      "cost": 1869007
+      "suppliesCost": 1869007.25388601,
+      "totalAmount": 2279872.25388601,
+      "cost": 1869007.25388601
     },
     {
       "period": "May-26",
@@ -609,9 +609,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 344,
       "totalPages": 420,
       "pagesCost": 27300,
-      "suppliesCost": 124187,
-      "totalAmount": 151487,
-      "cost": 124187
+      "suppliesCost": 124186.5284974093,
+      "totalAmount": 151486.5284974093,
+      "cost": 124186.5284974093
     },
     {
       "period": "May-26",
@@ -622,9 +622,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 446,
       "totalPages": 823,
       "pagesCost": 53495,
-      "suppliesCost": 243346,
-      "totalAmount": 296841,
-      "cost": 243346
+      "suppliesCost": 243346.45941278062,
+      "totalAmount": 296841.4594127806,
+      "cost": 243346.45941278062
     },
     {
       "period": "May-26",
@@ -648,9 +648,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 155,
       "totalPages": 226,
       "pagesCost": 14690,
-      "suppliesCost": 66824,
-      "totalAmount": 81514,
-      "cost": 66824
+      "suppliesCost": 66824.17962003454,
+      "totalAmount": 81514.17962003454,
+      "cost": 66824.17962003454
     },
     {
       "period": "May-26",
@@ -674,9 +674,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 98,
       "totalPages": 218,
       "pagesCost": 14170,
-      "suppliesCost": 64459,
-      "totalAmount": 78629,
-      "cost": 64459
+      "suppliesCost": 64458.72193436959,
+      "totalAmount": 78628.72193436959,
+      "cost": 64458.72193436959
     },
     {
       "period": "May-26",
@@ -687,9 +687,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 0,
       "totalPages": 10,
       "pagesCost": 650,
-      "suppliesCost": 2957,
-      "totalAmount": 3607,
-      "cost": 2957
+      "suppliesCost": 2956.822107081174,
+      "totalAmount": 3606.822107081174,
+      "cost": 2956.822107081174
     },
     {
       "period": "May-26",
@@ -713,9 +713,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 120,
       "totalPages": 212,
       "pagesCost": 13780,
-      "suppliesCost": 66824,
-      "totalAmount": 80604,
-      "cost": 66824
+      "suppliesCost": 66824.17962003454,
+      "totalAmount": 80604.17962003454,
+      "cost": 66824.17962003454
     },
     {
       "period": "May-26",
@@ -765,9 +765,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 7,
       "totalPages": 79,
       "pagesCost": 5135,
-      "suppliesCost": 23359,
-      "totalAmount": 28494,
-      "cost": 23359
+      "suppliesCost": 23358.894645941273,
+      "totalAmount": 28493.894645941273,
+      "cost": 23358.894645941273
     },
     {
       "period": "May-26",
@@ -791,9 +791,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 253,
       "totalPages": 439,
       "pagesCost": 28535,
-      "suppliesCost": 39879,
-      "totalAmount": 68414,
-      "cost": 39879
+      "suppliesCost": 39879.29318068691,
+      "totalAmount": 68414.29318068692,
+      "cost": 39879.29318068691
     },
     {
       "period": "May-26",
@@ -804,9 +804,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 4,
       "totalPages": 14,
       "pagesCost": 910,
-      "suppliesCost": 1272,
-      "totalAmount": 2182,
-      "cost": 1272
+      "suppliesCost": 1271.7770034843206,
+      "totalAmount": 2181.7770034843206,
+      "cost": 1271.7770034843206
     },
     {
       "period": "May-26",
@@ -817,9 +817,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 11,
       "totalPages": 80,
       "pagesCost": 5200,
-      "suppliesCost": 7267,
-      "totalAmount": 12467,
-      "cost": 7267
+      "suppliesCost": 7267.297162767545,
+      "totalAmount": 12467.297162767545,
+      "cost": 7267.297162767545
     },
     {
       "period": "May-26",
@@ -843,9 +843,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 0,
       "totalPages": 1,
       "pagesCost": 65,
-      "suppliesCost": 91,
-      "totalAmount": 156,
-      "cost": 91
+      "suppliesCost": 90.84121453459433,
+      "totalAmount": 155.84121453459431,
+      "cost": 90.84121453459433
     },
     {
       "period": "May-26",
@@ -869,9 +869,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1,
       "totalPages": 1,
       "pagesCost": 65,
-      "suppliesCost": 91,
-      "totalAmount": 156,
-      "cost": 91
+      "suppliesCost": 90.84121453459433,
+      "totalAmount": 155.84121453459431,
+      "cost": 90.84121453459433
     },
     {
       "period": "May-26",
@@ -882,9 +882,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1216,
       "totalPages": 1543,
       "pagesCost": 100295,
-      "suppliesCost": 140168,
-      "totalAmount": 240463,
-      "cost": 140168
+      "suppliesCost": 140167.99402687905,
+      "totalAmount": 240462.99402687905,
+      "cost": 140167.99402687905
     },
     {
       "period": "May-26",
@@ -895,9 +895,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1568,
       "totalPages": 2939,
       "pagesCost": 191035,
-      "suppliesCost": 266982,
-      "totalAmount": 458017,
-      "cost": 266982
+      "suppliesCost": 266982.3295171727,
+      "totalAmount": 458017.3295171727,
+      "cost": 266982.3295171727
     },
     {
       "period": "May-26",
@@ -908,9 +908,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 77,
       "totalPages": 759,
       "pagesCost": 49335,
-      "suppliesCost": 68948,
-      "totalAmount": 118283,
-      "cost": 68948
+      "suppliesCost": 68948.48183175709,
+      "totalAmount": 118283.48183175709,
+      "cost": 68948.48183175709
     },
     {
       "period": "May-26",
@@ -947,9 +947,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 589,
       "totalPages": 2205,
       "pagesCost": 143325,
-      "suppliesCost": 200305,
-      "totalAmount": 343630,
-      "cost": 200305
+      "suppliesCost": 200304.8780487805,
+      "totalAmount": 343629.8780487805,
+      "cost": 200304.8780487805
     },
     {
       "period": "May-26",
@@ -986,9 +986,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1,
       "totalPages": 55,
       "pagesCost": 3575,
-      "suppliesCost": 4996,
-      "totalAmount": 8571,
-      "cost": 4996
+      "suppliesCost": 4996.266799402688,
+      "totalAmount": 8571.266799402689,
+      "cost": 4996.266799402688
     },
     {
       "period": "May-26",
@@ -1090,9 +1090,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1115,
       "totalPages": 1569,
       "pagesCost": 101985,
-      "suppliesCost": 539076,
-      "totalAmount": 641061,
-      "cost": 539076
+      "suppliesCost": 539076.1275495548,
+      "totalAmount": 641061.1275495548,
+      "cost": 539076.1275495548
     },
     {
       "period": "Jun-26",
@@ -1103,9 +1103,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 2924,
       "totalPages": 3853,
       "pagesCost": 250445,
-      "suppliesCost": 1323812,
-      "totalAmount": 1574257,
-      "cost": 1323812
+      "suppliesCost": 1323811.5484056305,
+      "totalAmount": 1574256.5484056305,
+      "cost": 1323811.5484056305
     },
     {
       "period": "Jun-26",
@@ -1116,9 +1116,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 192,
       "totalPages": 221,
       "pagesCost": 14365,
-      "suppliesCost": 75931,
-      "totalAmount": 90296,
-      "cost": 75931
+      "suppliesCost": 75931.05429474289,
+      "totalAmount": 90296.05429474289,
+      "cost": 75931.05429474289
     },
     {
       "period": "Jun-26",
@@ -1129,9 +1129,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 2846,
       "totalPages": 5651,
       "pagesCost": 367315,
-      "suppliesCost": 1941567,
-      "totalAmount": 2308882,
-      "cost": 1941567
+      "suppliesCost": 1941567.3656995115,
+      "totalAmount": 2308882.3656995115,
+      "cost": 1941567.3656995115
     },
     {
       "period": "Jun-26",
@@ -1142,9 +1142,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 397,
       "totalPages": 518,
       "pagesCost": 33670,
-      "suppliesCost": 177974,
-      "totalAmount": 211644,
-      "cost": 177974
+      "suppliesCost": 177974.14536052858,
+      "totalAmount": 211644.14536052858,
+      "cost": 177974.14536052858
     },
     {
       "period": "Jun-26",
@@ -1155,9 +1155,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1009,
       "totalPages": 1777,
       "pagesCost": 115505,
-      "suppliesCost": 610541,
-      "totalAmount": 726046,
-      "cost": 610541
+      "suppliesCost": 610540.6492387245,
+      "totalAmount": 726045.6492387245,
+      "cost": 610540.6492387245
     },
     {
       "period": "Jun-26",
@@ -1181,9 +1181,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 284,
       "totalPages": 406,
       "pagesCost": 26390,
-      "suppliesCost": 139493,
-      "totalAmount": 165883,
-      "cost": 139493
+      "suppliesCost": 139493.24906636024,
+      "totalAmount": 165883.24906636024,
+      "cost": 139493.24906636024
     },
     {
       "period": "Jun-26",
@@ -1194,9 +1194,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 197,
       "totalPages": 262,
       "pagesCost": 17030,
-      "suppliesCost": 90018,
-      "totalAmount": 107048,
-      "cost": 90018
+      "suppliesCost": 90017.81097385808,
+      "totalAmount": 107047.81097385808,
+      "cost": 90017.81097385808
     },
     {
       "period": "Jun-26",
@@ -1207,9 +1207,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 255,
       "totalPages": 1015,
       "pagesCost": 65975,
-      "suppliesCost": 348733,
-      "totalAmount": 414708,
-      "cost": 348733
+      "suppliesCost": 348733.12266590056,
+      "totalAmount": 414708.12266590056,
+      "cost": 348733.12266590056
     },
     {
       "period": "Jun-26",
@@ -1220,9 +1220,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 12,
       "totalPages": 71,
       "pagesCost": 4615,
-      "suppliesCost": 24394,
-      "totalAmount": 29009,
-      "cost": 24394
+      "suppliesCost": 24394.139615053147,
+      "totalAmount": 29009.139615053147,
+      "cost": 24394.139615053147
     },
     {
       "period": "Jun-26",
@@ -1246,9 +1246,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 29,
       "totalPages": 113,
       "pagesCost": 7345,
-      "suppliesCost": 38824,
-      "totalAmount": 46169,
-      "cost": 38824
+      "suppliesCost": 38824.475725366276,
+      "totalAmount": 46169.475725366276,
+      "cost": 38824.475725366276
     },
     {
       "period": "Jun-26",
@@ -1259,9 +1259,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 909,
       "totalPages": 1512,
       "pagesCost": 98280,
-      "suppliesCost": 519492,
-      "totalAmount": 617772,
-      "cost": 519492
+      "suppliesCost": 519492.09997127263,
+      "totalAmount": 617772.0999712726,
+      "cost": 519492.09997127263
     },
     {
       "period": "Jun-26",
@@ -1298,9 +1298,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 226,
       "totalPages": 437,
       "pagesCost": 28405,
-      "suppliesCost": 150144,
-      "totalAmount": 178549,
-      "cost": 150144
+      "suppliesCost": 150144.21143349612,
+      "totalAmount": 178549.21143349612,
+      "cost": 150144.21143349612
     },
     {
       "period": "Jun-26",
@@ -1311,9 +1311,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 0,
       "totalPages": 8,
       "pagesCost": 520,
-      "suppliesCost": 1559,
-      "totalAmount": 2079,
-      "cost": 1559
+      "suppliesCost": 1559.4541910331384,
+      "totalAmount": 2079.454191033138,
+      "cost": 1559.4541910331384
     },
     {
       "period": "Jun-26",
@@ -1324,9 +1324,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 337,
       "totalPages": 390,
       "pagesCost": 25350,
-      "suppliesCost": 76023,
-      "totalAmount": 101373,
-      "cost": 76023
+      "suppliesCost": 76023.39181286549,
+      "totalAmount": 101373.39181286549,
+      "cost": 76023.39181286549
     },
     {
       "period": "Jun-26",
@@ -1350,9 +1350,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 11,
       "totalPages": 80,
       "pagesCost": 5200,
-      "suppliesCost": 15595,
-      "totalAmount": 20795,
-      "cost": 15595
+      "suppliesCost": 15594.541910331383,
+      "totalAmount": 20794.541910331383,
+      "cost": 15594.541910331383
     },
     {
       "period": "Jun-26",
@@ -1363,9 +1363,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 0,
       "totalPages": 8,
       "pagesCost": 520,
-      "suppliesCost": 1559,
-      "totalAmount": 2079,
-      "cost": 1559
+      "suppliesCost": 1559.4541910331384,
+      "totalAmount": 2079.454191033138,
+      "cost": 1559.4541910331384
     },
     {
       "period": "Jun-26",
@@ -1376,9 +1376,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 6,
       "totalPages": 13,
       "pagesCost": 845,
-      "suppliesCost": 2534,
-      "totalAmount": 3379,
-      "cost": 2534
+      "suppliesCost": 2534.11306042885,
+      "totalAmount": 3379.11306042885,
+      "cost": 2534.11306042885
     },
     {
       "period": "Jun-26",
@@ -1402,9 +1402,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 0,
       "totalPages": 1,
       "pagesCost": 65,
-      "suppliesCost": 195,
-      "totalAmount": 260,
-      "cost": 195
+      "suppliesCost": 194.9317738791423,
+      "totalAmount": 259.93177387914227,
+      "cost": 194.9317738791423
     },
     {
       "period": "Jun-26",
@@ -1415,9 +1415,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 2138,
       "totalPages": 2846,
       "pagesCost": 184990,
-      "suppliesCost": 554776,
-      "totalAmount": 739766,
-      "cost": 554776
+      "suppliesCost": 554775.828460039,
+      "totalAmount": 739765.828460039,
+      "cost": 554775.828460039
     },
     {
       "period": "Jun-26",
@@ -1428,9 +1428,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1214,
       "totalPages": 2339,
       "pagesCost": 152035,
-      "suppliesCost": 455945,
-      "totalAmount": 607980,
-      "cost": 455945
+      "suppliesCost": 455945.4191033138,
+      "totalAmount": 607980.4191033138,
+      "cost": 455945.4191033138
     },
     {
       "period": "Jun-26",
@@ -1441,9 +1441,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 92,
       "totalPages": 607,
       "pagesCost": 39455,
-      "suppliesCost": 118324,
-      "totalAmount": 157779,
-      "cost": 118324
+      "suppliesCost": 118323.58674463937,
+      "totalAmount": 157778.58674463938,
+      "cost": 118323.58674463937
     },
     {
       "period": "Jun-26",
@@ -1480,9 +1480,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 2053,
       "totalPages": 3805,
       "pagesCost": 247325,
-      "suppliesCost": 741715,
-      "totalAmount": 989040,
-      "cost": 741715
+      "suppliesCost": 741715.3996101364,
+      "totalAmount": 989040.3996101364,
+      "cost": 741715.3996101364
     },
     {
       "period": "Jun-26",
@@ -1519,9 +1519,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 32,
       "totalPages": 163,
       "pagesCost": 10595,
-      "suppliesCost": 31774,
-      "totalAmount": 42369,
-      "cost": 31774
+      "suppliesCost": 31773.879142300197,
+      "totalAmount": 42368.8791423002,
+      "cost": 31773.879142300197
     },
     {
       "period": "Jun-26",
@@ -1623,9 +1623,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1329,
       "totalPages": 2055,
       "pagesCost": 133575,
-      "suppliesCost": 657668,
-      "totalAmount": 791243,
-      "cost": 657668
+      "suppliesCost": 657667.9760181932,
+      "totalAmount": 791242.9760181932,
+      "cost": 657667.9760181932
     },
     {
       "period": "Jul-26",
@@ -1636,9 +1636,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1880,
       "totalPages": 3012,
       "pagesCost": 195780,
-      "suppliesCost": 963940,
-      "totalAmount": 1159720,
-      "cost": 963940
+      "suppliesCost": 963939.632003308,
+      "totalAmount": 1159719.632003308,
+      "cost": 963939.632003308
     },
     {
       "period": "Jul-26",
@@ -1649,9 +1649,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 209,
       "totalPages": 300,
       "pagesCost": 19500,
-      "suppliesCost": 96010,
-      "totalAmount": 115510,
-      "cost": 96010
+      "suppliesCost": 96009.92350630558,
+      "totalAmount": 115509.92350630558,
+      "cost": 96009.92350630558
     },
     {
       "period": "Jul-26",
@@ -1662,9 +1662,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 3228,
       "totalPages": 6673,
       "pagesCost": 433745,
-      "suppliesCost": 2135581,
-      "totalAmount": 2569326,
-      "cost": 2135581
+      "suppliesCost": 2135580.73185859,
+      "totalAmount": 2569325.73185859,
+      "cost": 2135580.73185859
     },
     {
       "period": "Jul-26",
@@ -1675,9 +1675,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 315,
       "totalPages": 547,
       "pagesCost": 35555,
-      "suppliesCost": 175058,
-      "totalAmount": 210613,
-      "cost": 175058
+      "suppliesCost": 175058.0938598305,
+      "totalAmount": 210613.0938598305,
+      "cost": 175058.0938598305
     },
     {
       "period": "Jul-26",
@@ -1688,9 +1688,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1404,
       "totalPages": 1848,
       "pagesCost": 120120,
-      "suppliesCost": 591421,
-      "totalAmount": 711541,
-      "cost": 591421
+      "suppliesCost": 591421.1287988423,
+      "totalAmount": 711541.1287988423,
+      "cost": 591421.1287988423
     },
     {
       "period": "Jul-26",
@@ -1714,9 +1714,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 186,
       "totalPages": 370,
       "pagesCost": 24050,
-      "suppliesCost": 118412,
-      "totalAmount": 142462,
-      "cost": 118412
+      "suppliesCost": 118412.23899111022,
+      "totalAmount": 142462.23899111024,
+      "cost": 118412.23899111022
     },
     {
       "period": "Jul-26",
@@ -1727,9 +1727,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1859,
       "totalPages": 2522,
       "pagesCost": 163930,
-      "suppliesCost": 807123,
-      "totalAmount": 971053,
-      "cost": 807123
+      "suppliesCost": 807123.4236096756,
+      "totalAmount": 971053.4236096756,
+      "cost": 807123.4236096756
     },
     {
       "period": "Jul-26",
@@ -1740,9 +1740,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 629,
       "totalPages": 1327,
       "pagesCost": 86255,
-      "suppliesCost": 424684,
-      "totalAmount": 510939,
-      "cost": 424684
+      "suppliesCost": 424683.89497622504,
+      "totalAmount": 510938.89497622504,
+      "cost": 424683.89497622504
     },
     {
       "period": "Jul-26",
@@ -1753,9 +1753,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 17,
       "totalPages": 143,
       "pagesCost": 9295,
-      "suppliesCost": 45765,
-      "totalAmount": 55060,
-      "cost": 45765
+      "suppliesCost": 45764.73020467233,
+      "totalAmount": 55059.73020467233,
+      "cost": 45764.73020467233
     },
     {
       "period": "Jul-26",
@@ -1779,9 +1779,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 277,
       "totalPages": 710,
       "pagesCost": 46150,
-      "suppliesCost": 227223,
-      "totalAmount": 273373,
-      "cost": 227223
+      "suppliesCost": 227223.4856315899,
+      "totalAmount": 273373.4856315899,
+      "cost": 227223.4856315899
     },
     {
       "period": "Jul-26",
@@ -1792,9 +1792,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 2347,
       "totalPages": 3758,
       "pagesCost": 244270,
-      "suppliesCost": 1202684,
-      "totalAmount": 1446954,
-      "cost": 1202684
+      "suppliesCost": 1202684.3084556547,
+      "totalAmount": 1446954.3084556547,
+      "cost": 1202684.3084556547
     },
     {
       "period": "Jul-26",
@@ -1831,9 +1831,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 224,
       "totalPages": 920,
       "pagesCost": 59800,
-      "suppliesCost": 294430,
-      "totalAmount": 354230,
-      "cost": 294430
+      "suppliesCost": 294430.43208600377,
+      "totalAmount": 354230.43208600377,
+      "cost": 294430.43208600377
     },
     {
       "period": "Jul-26",
@@ -1935,9 +1935,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1117,
       "totalPages": 1579,
       "pagesCost": 102635,
-      "suppliesCost": 197354,
-      "totalAmount": 299989,
-      "cost": 197354
+      "suppliesCost": 197353.91518000214,
+      "totalAmount": 299988.9151800021,
+      "cost": 197353.91518000214
     },
     {
       "period": "Aug-26",
@@ -1948,9 +1948,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 3975,
       "totalPages": 4645,
       "pagesCost": 301925,
-      "suppliesCost": 580563,
-      "totalAmount": 882488,
-      "cost": 580563
+      "suppliesCost": 580562.9740412349,
+      "totalAmount": 882487.9740412349,
+      "cost": 580562.9740412349
     },
     {
       "period": "Aug-26",
@@ -1961,9 +1961,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 14,
       "totalPages": 43,
       "pagesCost": 2795,
-      "suppliesCost": 5374,
-      "totalAmount": 8169,
-      "cost": 5374
+      "suppliesCost": 5374.425809208417,
+      "totalAmount": 8169.425809208417,
+      "cost": 5374.425809208417
     },
     {
       "period": "Aug-26",
@@ -1974,9 +1974,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 4123,
       "totalPages": 6469,
       "pagesCost": 420485,
-      "suppliesCost": 808539,
-      "totalAmount": 1229024,
-      "cost": 808539
+      "suppliesCost": 808538.6176690524,
+      "totalAmount": 1229023.6176690524,
+      "cost": 808538.6176690524
     },
     {
       "period": "Aug-26",
@@ -1987,9 +1987,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 304,
       "totalPages": 437,
       "pagesCost": 28405,
-      "suppliesCost": 54619,
-      "totalAmount": 83024,
-      "cost": 54619
+      "suppliesCost": 54619.164619164614,
+      "totalAmount": 83024.16461916461,
+      "cost": 54619.164619164614
     },
     {
       "period": "Aug-26",
@@ -2000,9 +2000,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1112,
       "totalPages": 1578,
       "pagesCost": 102570,
-      "suppliesCost": 197229,
-      "totalAmount": 299799,
-      "cost": 197229
+      "suppliesCost": 197228.92853327637,
+      "totalAmount": 299798.92853327637,
+      "cost": 197228.92853327637
     },
     {
       "period": "Aug-26",
@@ -2013,9 +2013,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 0,
       "totalPages": 54,
       "pagesCost": 3510,
-      "suppliesCost": 6749,
-      "totalAmount": 10259,
-      "cost": 6749
+      "suppliesCost": 6749.278923191967,
+      "totalAmount": 10259.278923191967,
+      "cost": 6749.278923191967
     },
     {
       "period": "Aug-26",
@@ -2026,9 +2026,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 112,
       "totalPages": 151,
       "pagesCost": 9815,
-      "suppliesCost": 18873,
-      "totalAmount": 28688,
-      "cost": 18873
+      "suppliesCost": 18872.983655592354,
+      "totalAmount": 28687.983655592354,
+      "cost": 18872.983655592354
     },
     {
       "period": "Aug-26",
@@ -2039,9 +2039,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 515,
       "totalPages": 1104,
       "pagesCost": 71760,
-      "suppliesCost": 137985,
-      "totalAmount": 209745,
-      "cost": 137985
+      "suppliesCost": 137985.25798525798,
+      "totalAmount": 209745.25798525798,
+      "cost": 137985.25798525798
     },
     {
       "period": "Aug-26",
@@ -2052,9 +2052,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 294,
       "totalPages": 332,
       "pagesCost": 21580,
-      "suppliesCost": 41496,
-      "totalAmount": 63076,
-      "cost": 41496
+      "suppliesCost": 41495.56671295802,
+      "totalAmount": 63075.56671295802,
+      "cost": 41495.56671295802
     },
     {
       "period": "Aug-26",
@@ -2065,9 +2065,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 24,
       "totalPages": 453,
       "pagesCost": 29445,
-      "suppliesCost": 56619,
-      "totalAmount": 86064,
-      "cost": 56619
+      "suppliesCost": 56618.950966777054,
+      "totalAmount": 86063.95096677705,
+      "cost": 56618.950966777054
     },
     {
       "period": "Aug-26",
@@ -2091,9 +2091,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 620,
       "totalPages": 975,
       "pagesCost": 63375,
-      "suppliesCost": 121862,
-      "totalAmount": 185237,
-      "cost": 121862
+      "suppliesCost": 121861.98055763273,
+      "totalAmount": 185236.98055763275,
+      "cost": 121861.98055763273
     },
     {
       "period": "Aug-26",
@@ -2104,9 +2104,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 159,
       "totalPages": 902,
       "pagesCost": 58630,
-      "suppliesCost": 112738,
-      "totalAmount": 171368,
-      "cost": 112738
+      "suppliesCost": 112737.95534665101,
+      "totalAmount": 171367.95534665103,
+      "cost": 112737.95534665101
     },
     {
       "period": "Aug-26",
@@ -2195,9 +2195,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1617,
       "totalPages": 3412,
       "pagesCost": 221780,
-      "suppliesCost": 839981,
-      "totalAmount": 1061761,
-      "cost": 839981
+      "suppliesCost": 839980.691430673,
+      "totalAmount": 1061760.691430673,
+      "cost": 839980.691430673
     },
     {
       "period": "Aug-26",
@@ -2221,9 +2221,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1112,
       "totalPages": 1578,
       "pagesCost": 102570,
-      "suppliesCost": 388479,
-      "totalAmount": 491049,
-      "cost": 388479
+      "suppliesCost": 388478.76057374035,
+      "totalAmount": 491048.76057374035,
+      "cost": 388478.76057374035
     },
     {
       "period": "Aug-26",
@@ -2247,9 +2247,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 2,
       "totalPages": 12,
       "pagesCost": 780,
-      "suppliesCost": 2954,
-      "totalAmount": 3734,
-      "cost": 2954
+      "suppliesCost": 2954.2111070246415,
+      "totalAmount": 3734.2111070246415,
+      "cost": 2954.2111070246415
     },
     {
       "period": "Aug-26",
@@ -2260,9 +2260,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 1344,
       "totalPages": 1789,
       "pagesCost": 116285,
-      "suppliesCost": 440424,
-      "totalAmount": 556709,
-      "cost": 440424
+      "suppliesCost": 440423.6392055903,
+      "totalAmount": 556708.6392055904,
+      "cost": 440423.6392055903
     },
     {
       "period": "Aug-26",
@@ -2273,9 +2273,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 914,
       "totalPages": 4046,
       "pagesCost": 262990,
-      "suppliesCost": 996062,
-      "totalAmount": 1259052,
-      "cost": 996062
+      "suppliesCost": 996061.5115851416,
+      "totalAmount": 1259051.5115851415,
+      "cost": 996061.5115851416
     },
     {
       "period": "Aug-26",
@@ -2312,9 +2312,9 @@ window.COPIER_PRINTER_DATA = {
       "bwPages": 3,
       "totalPages": 39,
       "pagesCost": 2535,
-      "suppliesCost": 9601,
-      "totalAmount": 12136,
-      "cost": 9601
+      "suppliesCost": 9601.186097830085,
+      "totalAmount": 12136.186097830085,
+      "cost": 9601.186097830085
     },
     {
       "period": "Aug-26",
@@ -2464,78 +2464,78 @@ window.COPIER_PRINTER_DATA = {
       "company": "Nature Alliance",
       "department": "Admin",
       "copier": "Copier 3070",
-      "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "colorPages": 799,
+      "bwPages": 938,
+      "totalPages": 1737,
+      "pagesCost": 112905,
+      "suppliesCost": 435162.43736867624,
+      "totalAmount": 548067.4373686763,
+      "cost": 435162.43736867624
     },
     {
       "period": "Sep-26",
       "company": "Nature Alliance",
       "department": "HR",
       "copier": "Copier 3070",
-      "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "colorPages": 716,
+      "bwPages": 1647,
+      "totalPages": 2363,
+      "pagesCost": 153595,
+      "suppliesCost": 591991.2720219817,
+      "totalAmount": 745586.2720219817,
+      "cost": 591991.2720219817
     },
     {
       "period": "Sep-26",
       "company": "Nature Alliance",
       "department": "Quality Management",
       "copier": "Copier 3070",
-      "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "colorPages": 97,
+      "bwPages": 498,
+      "totalPages": 595,
+      "pagesCost": 38675,
+      "suppliesCost": 149062.55050913207,
+      "totalAmount": 187737.55050913207,
+      "cost": 149062.55050913207
     },
     {
       "period": "Sep-26",
       "company": "Nature Alliance",
       "department": "Finance",
       "copier": "Copier 3070",
-      "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "colorPages": 5118,
+      "bwPages": 3881,
+      "totalPages": 8999,
+      "pagesCost": 584935,
+      "suppliesCost": 2254477.129465007,
+      "totalAmount": 2839412.129465007,
+      "cost": 2254477.129465007
     },
     {
       "period": "Sep-26",
       "company": "Nature Alliance",
       "department": "Audit",
       "copier": "Copier 3070",
-      "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "colorPages": 90,
+      "bwPages": 339,
+      "totalPages": 429,
+      "pagesCost": 27885,
+      "suppliesCost": 107475.35154355908,
+      "totalAmount": 135360.35154355908,
+      "cost": 107475.35154355908
     },
     {
       "period": "Sep-26",
       "company": "Nature Alliance",
       "department": "Corporate Secretarial",
       "copier": "Copier 3070",
-      "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "colorPages": 635,
+      "bwPages": 748,
+      "totalPages": 1383,
+      "pagesCost": 89895,
+      "suppliesCost": 346476.482948117,
+      "totalAmount": 436371.482948117,
+      "cost": 346476.482948117
     },
     {
       "period": "Sep-26",
@@ -2555,104 +2555,104 @@ window.COPIER_PRINTER_DATA = {
       "company": "Nature Alliance",
       "department": "Digital",
       "copier": "Copier 3070",
-      "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "colorPages": 165,
+      "bwPages": 143,
+      "totalPages": 308,
+      "pagesCost": 20020,
+      "suppliesCost": 77161.790851786,
+      "totalAmount": 97181.790851786,
+      "cost": 77161.790851786
     },
     {
       "period": "Sep-26",
       "company": "Nature Alliance",
       "department": "Legal",
       "copier": "Copier 3070",
-      "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "colorPages": 173,
+      "bwPages": 200,
+      "totalPages": 373,
+      "pagesCost": 24245,
+      "suppliesCost": 93445.93502505253,
+      "totalAmount": 117690.93502505253,
+      "cost": 93445.93502505253
     },
     {
       "period": "Sep-26",
       "company": "Nature Alliance",
       "department": "BDPM",
       "copier": "Copier 3070",
-      "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "colorPages": 3,
+      "bwPages": 12,
+      "totalPages": 15,
+      "pagesCost": 975,
+      "suppliesCost": 3757.8794245999675,
+      "totalAmount": 4732.879424599967,
+      "cost": 3757.8794245999675
     },
     {
       "period": "Sep-26",
       "company": "Innobuilder",
       "department": "Innobuilder-Office",
       "copier": "Copier 3070",
-      "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "colorPages": 73,
+      "bwPages": 3,
+      "totalPages": 76,
+      "pagesCost": 4940,
+      "suppliesCost": 19039.92241797317,
+      "totalAmount": 23979.92241797317,
+      "cost": 19039.92241797317
     },
     {
       "period": "Sep-26",
       "company": "Nature Valley",
       "department": "Procurement",
       "copier": "Copier 3070",
-      "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "colorPages": 5,
+      "bwPages": 9,
+      "totalPages": 14,
+      "pagesCost": 910,
+      "suppliesCost": 3507.354129626636,
+      "totalAmount": 4417.354129626636,
+      "cost": 3507.354129626636
     },
     {
       "period": "Sep-26",
       "company": "Nature Valley",
       "department": "Sales & Marketing",
       "copier": "Copier 3070",
-      "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "colorPages": 757,
+      "bwPages": 315,
+      "totalPages": 1072,
+      "pagesCost": 69680,
+      "suppliesCost": 268563.116211411,
+      "totalAmount": 338243.116211411,
+      "cost": 268563.116211411
     },
     {
       "period": "Sep-26",
       "company": "Nature Valley",
       "department": "Asset Management",
       "copier": "Copier 3070",
-      "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "colorPages": 499,
+      "bwPages": 94,
+      "totalPages": 593,
+      "pagesCost": 38545,
+      "suppliesCost": 148561.4999191854,
+      "totalAmount": 187106.4999191854,
+      "cost": 148561.4999191854
     },
     {
       "period": "Sep-26",
       "company": "Nature Valley",
       "department": "BDPM",
       "copier": "Copier 3070",
-      "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "colorPages": 316,
+      "bwPages": 212,
+      "totalPages": 528,
+      "pagesCost": 34320,
+      "suppliesCost": 132277.35574591885,
+      "totalAmount": 166597.35574591885,
+      "cost": 132277.35574591885
     },
     {
       "period": "Sep-26",
@@ -2672,13 +2672,13 @@ window.COPIER_PRINTER_DATA = {
       "company": "PIP Myanmar",
       "department": "PIP",
       "copier": "Copier 3070",
-      "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "colorPages": 73,
+      "bwPages": 3,
+      "totalPages": 76,
+      "pagesCost": 4940,
+      "suppliesCost": 19039.92241797317,
+      "totalAmount": 23979.92241797317,
+      "cost": 19039.92241797317
     },
     {
       "period": "Sep-26",
@@ -2725,12 +2725,12 @@ window.COPIER_PRINTER_DATA = {
       "department": "Finance",
       "copier": "Copier 2271",
       "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "bwPages": 14,
+      "totalPages": 14,
+      "pagesCost": 910,
+      "suppliesCost": 1294.1992142361914,
+      "totalAmount": 2204.1992142361914,
+      "cost": 1294.1992142361914
     },
     {
       "period": "Sep-26",
@@ -2776,39 +2776,39 @@ window.COPIER_PRINTER_DATA = {
       "company": "Nature Alliance",
       "department": "Digital",
       "copier": "Copier 2271",
-      "colorPages": 0,
+      "colorPages": 90,
       "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "totalPages": 167,
+      "pagesCost": 10855,
+      "suppliesCost": 15437.947769817425,
+      "totalAmount": 26292.947769817423,
+      "cost": 15437.947769817425
     },
     {
       "period": "Sep-26",
       "company": "Nature Alliance",
       "department": "Legal",
       "copier": "Copier 2271",
-      "colorPages": 0,
+      "colorPages": 732,
       "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "totalPages": 732,
+      "pagesCost": 47580,
+      "suppliesCost": 67668.13034434943,
+      "totalAmount": 115248.13034434943,
+      "cost": 67668.13034434943
     },
     {
       "period": "Sep-26",
       "company": "Nature Alliance",
       "department": "BDPM",
       "copier": "Copier 2271",
-      "colorPages": 0,
+      "colorPages": 809,
       "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "totalPages": 809,
+      "pagesCost": 52585,
+      "suppliesCost": 74786.22602264848,
+      "totalAmount": 127371.22602264848,
+      "cost": 74786.22602264848
     },
     {
       "period": "Sep-26",
@@ -2854,13 +2854,13 @@ window.COPIER_PRINTER_DATA = {
       "company": "Nature Valley",
       "department": "Asset Management",
       "copier": "Copier 2271",
-      "colorPages": 0,
-      "bwPages": 0,
-      "totalPages": 0,
-      "pagesCost": 0,
-      "suppliesCost": 0,
-      "totalAmount": 0,
-      "cost": 0
+      "colorPages": 1288,
+      "bwPages": 1317,
+      "totalPages": 2605,
+      "pagesCost": 169325,
+      "suppliesCost": 240813.49664894844,
+      "totalAmount": 410138.4966489484,
+      "cost": 240813.49664894844
     },
     {
       "period": "Sep-26",

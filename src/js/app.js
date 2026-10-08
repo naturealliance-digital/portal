@@ -1200,7 +1200,7 @@ document.addEventListener(
     id: "copierMonthlyUsageStyle",
     beforeUpdate(chart) {
       if (
-        !["copierMonthlyChart", "budgetSummaryChart"].includes(chart.canvas?.id)
+        !["copierMonthlyChart", "budgetSummaryChart", "mainBudgetExpenseChart"].includes(chart.canvas?.id)
       )
         return;
       const dark = document.body.classList.contains("dark"),
@@ -1248,7 +1248,7 @@ document.addEventListener(
     },
     beforeDatasetsUpdate(chart) {
       if (
-        !["copierMonthlyChart", "budgetSummaryChart"].includes(
+        !["copierMonthlyChart", "budgetSummaryChart", "mainBudgetExpenseChart"].includes(
           chart.canvas?.id,
         ) ||
         !chart.chartArea
@@ -1273,7 +1273,7 @@ document.addEventListener(
     },
     afterDatasetsDraw(chart) {
       if (
-        !["copierMonthlyChart", "budgetSummaryChart"].includes(
+        !["copierMonthlyChart", "budgetSummaryChart", "mainBudgetExpenseChart"].includes(
           chart.canvas?.id,
         ) ||
         chart.config.type !== "bar"
@@ -5696,7 +5696,10 @@ window.exportXlsx = function () {
       .querySelectorAll(".unified-chart-card .unified-chart-header")
       .forEach((header) => {
         const title = header.querySelector(":scope > div");
-        const control = header.querySelector(":scope > .unified-chart-select");
+        const nativeControl = header.querySelector(
+          ":scope > .unified-chart-select, :scope > .custom-select > .unified-chart-select",
+        );
+        const control = nativeControl?.__customSelect?.wrapper || nativeControl;
         if (!title || !control) return;
         header.classList.add("chart-control-ready");
         header.classList.remove("chart-control-stacked");
@@ -5779,7 +5782,8 @@ window.exportXlsx = function () {
           const control = header.querySelector("#m365CompanyChartType");
           if (control) {
             control.id = "type";
-            control.className = "select";
+            control.classList.remove("filter", "unified-chart-select");
+            control.classList.add("select");
           }
         }
         const canvasWrap = node.querySelector(".unified-bar-canvas");
@@ -5819,7 +5823,8 @@ window.exportXlsx = function () {
           const control = header.querySelector("#type");
           if (control) {
             control.id = "m365CompanyChartType";
-            control.className = "filter unified-chart-select";
+            control.classList.remove("select");
+            control.classList.add("filter", "unified-chart-select");
             control.setAttribute("aria-label", "Company chart type");
           }
         }
@@ -7687,7 +7692,8 @@ window.exportXlsx = function () {
     if (!header) return;
     header.classList.remove("chart-control-stacked");
     const text = header.firstElementChild,
-      control = header.querySelector(".unified-chart-select");
+      nativeControl = header.querySelector(".unified-chart-select"),
+      control = nativeControl?.__customSelect?.wrapper || nativeControl;
     header.classList.toggle(
       "chart-control-stacked",
       !!text &&
@@ -8810,6 +8816,25 @@ window.exportXlsx = function () {
     panel.hidden = name !== "Dashboard";
   };
   panel.hidden = typeof active === "undefined" || active !== "Dashboard";
+})();
+
+/* Main dashboard summary cards open their related dashboards. */
+(() => {
+  const openTarget = (card) => {
+    const page = card?.dataset.dashboardTarget;
+    if (page) window.navigateHubPage?.(page, true);
+  };
+  document.addEventListener("click", (event) => {
+    const card = event.target.closest(".main-summary-card[data-dashboard-target]");
+    if (card && !card.classList.contains("is-filter-empty")) openTarget(card);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const card = event.target.closest(".main-summary-card[data-dashboard-target]");
+    if (!card || card.classList.contains("is-filter-empty")) return;
+    event.preventDefault();
+    openTarget(card);
+  });
 })();
 
 /* Company-specific expense department filters. */
@@ -10853,6 +10878,335 @@ window.exportXlsx = function () {
         },
       });
     };
+  const renderMainBudgetExpenseChart = (labels, budgetValues, actualValues, type) => {
+    const canvas = document.getElementById("mainBudgetExpenseChart");
+    if (!canvas || typeof Chart === "undefined") return;
+    const existingChart = window.mainBudgetExpenseChart;
+    if (typeof existingChart?.destroy === "function") existingChart.destroy();
+    const dark = document.body.classList.contains("dark"),
+      isBar = type !== "line",
+      budgetColor = dark ? "#4eb4cd" : "#16866a",
+      expenseColor = dark ? "#ff8755" : "#d12a31",
+      textColor = dark ? "#d9c4c2" : "#806864",
+      gridColor = dark ? "rgba(255, 221, 208, .17)" : "rgba(125, 92, 87, .18)";
+    window.mainBudgetExpenseChart = new Chart(canvas, {
+      type: isBar ? "bar" : "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Budget",
+            data: budgetValues,
+            backgroundColor: isBar ? budgetColor : "transparent",
+            borderColor: budgetColor,
+            borderWidth: isBar ? 0 : 3,
+            borderRadius: isBar
+              ? { topLeft: 10, topRight: 10, bottomLeft: 0, bottomRight: 0 }
+              : 0,
+            maxBarThickness: 42,
+            tension: .42,
+            pointRadius: isBar ? 0 : 4,
+            pointHoverRadius: isBar ? 0 : 6,
+          },
+          {
+            label: "Actual expense",
+            data: actualValues,
+            backgroundColor: isBar ? expenseColor : "transparent",
+            borderColor: expenseColor,
+            borderWidth: isBar ? 0 : 3,
+            borderRadius: isBar
+              ? { topLeft: 10, topRight: 10, bottomLeft: 0, bottomRight: 0 }
+              : 0,
+            maxBarThickness: 42,
+            tension: .42,
+            pointRadius: isBar ? 0 : 4,
+            pointHoverRadius: isBar ? 0 : 6,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 900, easing: "easeOutCubic" },
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            displayColors: true,
+            backgroundColor: "#171114",
+            titleColor: "#fff7f2",
+            bodyColor: "#fff7f2",
+            borderColor: "#d99284",
+            borderWidth: 2,
+            position: "nearest",
+            padding: { x: 11, y: 10 },
+            cornerRadius: 8,
+            caretPadding: 10,
+            boxPadding: 4,
+            titleFont: { family: "Poppins", size: 11, weight: "700" },
+            bodyFont: { family: "Poppins", size: 12, weight: "600" },
+            callbacks: {
+              title: (context) =>
+                context[0]?.dataset?.label || context[0]?.label || "Amount",
+              label: (context) =>
+                `${Math.round(context.raw || 0).toLocaleString()} MMK`,
+              labelColor: (context) => {
+                const color =
+                  context.datasetIndex === 0 ? budgetColor : expenseColor;
+                return {
+                  backgroundColor: color,
+                  borderColor: color,
+                  borderWidth: 1,
+                  borderRadius: 2,
+                };
+              },
+            },
+          },
+        },
+        datasets: { bar: { categoryPercentage: .8, barPercentage: .76 } },
+        scales: {
+          x: {
+            offset: isBar,
+            grid: { color: gridColor, drawBorder: false },
+            ticks: { color: textColor, font: { family: "Poppins", size: 9 } },
+          },
+          y: {
+            beginAtZero: true,
+            grid: { color: gridColor, drawBorder: false },
+            ticks: {
+              color: textColor,
+              font: { family: "Poppins", size: 9 },
+              callback: (value) => `${Math.round(Number(value) / 1000000)}M`,
+            },
+          },
+        },
+      },
+    });
+  };
+  const renderMainExpenseInsights = (rows, companyChartType, categoryFilter, group, scopeLabel) => {
+    const companyCanvas = document.getElementById("mainCompanyExpenseChart"),
+      categoryCanvas = document.getElementById("mainCategorySpendingChart"),
+      categoryControl = document.getElementById("mainCategorySpendingFilter"),
+      categoryLegend = document.getElementById("mainCategorySpendingLegend"),
+      companyFooter = document.getElementById("mainCompanyExpenseFooter"),
+      dark = document.body.classList.contains("dark"),
+      text = dark ? "#ead4cf" : "#806864",
+      grid = dark ? "rgba(255,221,208,.17)" : "rgba(125,92,87,.18)",
+      tooltip = {
+        displayColors: true,
+        backgroundColor: "#171114",
+        titleColor: "#fff7f2",
+        bodyColor: "#fff7f2",
+        borderColor: "#d99284",
+        borderWidth: 2,
+        position: "nearest",
+        padding: { x: 11, y: 10 },
+        cornerRadius: 8,
+        caretPadding: 10,
+        boxPadding: 4,
+        titleFont: { family: "Poppins", size: 11, weight: "700" },
+        bodyFont: { family: "Poppins", size: 12, weight: "600" },
+        callbacks: {
+          label: (item) => ` ${Math.round(item.raw || 0).toLocaleString()} MMK`,
+          labelColor: (item) => ({
+            backgroundColor: Array.isArray(item.dataset.backgroundColor)
+              ? item.dataset.backgroundColor[item.dataIndex]
+              : item.dataset.borderColor || "#d12a31",
+            borderColor: "transparent",
+            borderWidth: 0,
+            borderRadius: 2,
+          }),
+        },
+      },
+      sumBy = (key) => {
+        const totals = new Map();
+        rows.forEach((row) => {
+          const label = row[key] || "Uncategorized";
+          totals.set(label, (totals.get(label) || 0) + (Number(row.amount) || 0));
+        });
+        return [...totals.entries()]
+          .filter(([, value]) => value > 0)
+          .sort((a, b) => b[1] - a[1]);
+      },
+      companyItems = sumBy(group),
+      categoryItems = sumBy("category"),
+      availableCategories = categoryItems
+        .map(([label]) => label)
+        .sort((first, second) => first.localeCompare(second));
+    if (categoryControl) {
+      const wanted = availableCategories.includes(categoryControl.value)
+        ? categoryControl.value
+        : "all";
+      categoryControl.replaceChildren(new Option("All categories", "all"));
+      availableCategories.forEach((category) =>
+        categoryControl.add(new Option(category, category)),
+      );
+      categoryControl.value = wanted;
+    }
+    const selectedCategory = categoryFilter === "all" ? "all" : categoryFilter,
+      visibleCategoryItems =
+        selectedCategory === "all"
+          ? categoryItems
+          : categoryItems.filter(([label]) => label === selectedCategory),
+      chartType = companyChartType === "line" ? "line" : "bar",
+      companyLabels = companyItems.map(([label]) => label),
+      companyValues = companyItems.map(([, value]) => value),
+      companyTotal = companyValues.reduce((sum, value) => sum + value, 0),
+      categoryLabels = visibleCategoryItems.map(([label]) => label),
+      categoryValues = visibleCategoryItems.map(([, value]) => value),
+      categoryTotal = categoryValues.reduce((sum, value) => sum + value, 0),
+      palette = dark
+        ? ["#ff8755", "#f5c66b", "#7056d8", "#4eb4cd", "#d85b64", "#82d5bb"]
+        : ["#d12a31", "#f06428", "#7056d8", "#3194ad", "#b94f78", "#16866a"];
+    const companyTitle = companyCanvas
+        ?.closest(".unified-chart-card")
+        ?.querySelector("h2"),
+      companySubtitle = companyCanvas
+        ?.closest(".unified-chart-card")
+        ?.querySelector(".unified-chart-header p");
+    if (companyTitle)
+      companyTitle.textContent =
+        group === "company"
+          ? "Company Expense Analysis"
+          : group === "department"
+            ? "Department Expense Analysis"
+            : "Category Expense Analysis";
+    if (companySubtitle)
+      companySubtitle.textContent =
+        group === "company"
+          ? "Actual spending distribution across companies"
+          : group === "department"
+            ? `Actual spending across departments in ${scopeLabel}`
+            : `Actual spending across categories in ${scopeLabel}`;
+    window.mainExpenseInsightCharts ??= {};
+    const destroy = (key) => {
+      const chart = window.mainExpenseInsightCharts[key];
+      if (typeof chart?.destroy === "function") chart.destroy();
+    };
+    destroy("company");
+    destroy("category");
+    if (companyCanvas) {
+      const companyLine = chartType === "line",
+        companyWrap = companyCanvas.parentElement,
+        companyHeight = Math.max(280, companyItems.length * 34 + 70),
+        compactCompanyChart = (companyWrap?.clientWidth || 0) < 500,
+        companyLabelWidth = compactCompanyChart ? 132 : 195,
+        companyLabelSize = compactCompanyChart ? 8 : 10,
+        companyGradient = companyCanvas.getContext("2d").createLinearGradient(
+          0,
+          0,
+          companyCanvas.clientWidth || 700,
+          0,
+        ),
+        companyScales = companyLine
+          ? {
+              x: { grid: { color: grid }, ticks: { color: text, font: { family: "Poppins", size: 9 } } },
+              y: { beginAtZero: true, grid: { color: grid }, ticks: { color: text, callback: (value) => `${Math.round(Number(value) / 1000000)}M`, font: { family: "Poppins", size: 9 } } },
+            }
+          : {
+              y: {
+                grid: { display: false },
+                afterFit: (scale) => {
+                  scale.width = Math.max(scale.width, companyLabelWidth);
+                },
+                ticks: {
+                  padding: 9,
+                  color: text,
+                  font: {
+                    family: "Poppins",
+                    size: companyLabelSize,
+                    weight: "600",
+                  },
+                  callback: function (value) {
+                    const label = String(this.getLabelForValue(value) || "");
+                    return compactCompanyChart && label.length > 18
+                      ? `${label.slice(0, 17)}…`
+                      : label;
+                  },
+                },
+              },
+              x: { beginAtZero: true, grid: { color: grid }, ticks: { color: text, callback: (value) => `${Math.round(Number(value) / 1000000)}M`, font: { family: "Poppins", size: 9 } } },
+            };
+      if (companyWrap)
+        companyWrap.style.height = (companyLine ? 330 : companyHeight) + "px";
+      companyGradient.addColorStop(0, dark ? "#c94a42" : "#d12a31");
+      companyGradient.addColorStop(1, dark ? "#ef8563" : "#f38c47");
+      window.mainExpenseInsightCharts.company = new Chart(companyCanvas, {
+        type: chartType,
+        data: {
+          labels: companyLabels,
+          datasets: [{
+            label: "Actual expense",
+            data: companyValues,
+            backgroundColor: companyLine
+              ? dark ? "rgba(255,135,85,.14)" : "rgba(209,42,49,.11)"
+              : companyGradient,
+            borderColor: dark ? "#ff9569" : "#d12a31",
+            borderWidth: companyLine ? 2.5 : 1.5,
+            borderRadius: companyLine ? 0 : 7,
+            barThickness: companyLine ? undefined : 24,
+            categoryPercentage: .74,
+            barPercentage: .9,
+            fill: companyLine,
+            tension: .34,
+            pointRadius: companyLine ? 4 : 0,
+            pointHoverRadius: companyLine ? 6 : 0,
+            pointBackgroundColor: dark ? "#ff9a70" : "#c9252d",
+          }],
+        },
+        options: {
+          indexAxis: companyLine ? "x" : "y",
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 900, easing: "easeOutCubic" },
+          plugins: { legend: { display: false }, tooltip },
+          scales: companyScales,
+        },
+      });
+    }
+    if (companyFooter)
+      companyFooter.textContent = `Total: ${Math.round(companyTotal).toLocaleString()} MMK`;
+    if (categoryCanvas) {
+      const centre = {
+        id: "mainCategorySpendingCentre",
+        afterDatasetsDraw(chart) {
+          const area = chart.chartArea, context = chart.ctx;
+          if (!area) return;
+          const x = (area.left + area.right) / 2, y = (area.top + area.bottom) / 2;
+          context.save();
+          context.textAlign = "center";
+          context.fillStyle = dark ? "#ae9698" : "#998689";
+          context.font = "600 9px Poppins, Arial";
+          context.fillText("MMK", x, y - 6);
+          context.fillStyle = dark ? "#fff1ec" : "#3f292d";
+          context.font = "700 22px Poppins, Arial";
+          context.fillText(`${Math.round(categoryTotal / 1000000)}M`, x, y + 18);
+          context.restore();
+        },
+      };
+      window.mainExpenseInsightCharts.category = new Chart(categoryCanvas, {
+        type: "doughnut",
+        plugins: [centre],
+        data: { labels: categoryLabels, datasets: [{ data: categoryValues, backgroundColor: palette, borderColor: dark ? "#32171e" : "#fffaf7", borderWidth: 4, hoverOffset: 4 }] },
+        options: { responsive: true, maintainAspectRatio: false, cutout: "64%", animation: { duration: 900, easing: "easeOutCubic" }, plugins: { legend: { display: false }, tooltip } },
+      });
+    }
+    if (categoryLegend) {
+      categoryLegend.replaceChildren();
+      visibleCategoryItems.forEach(([label, value], index) => {
+        const item = document.createElement("div"), name = document.createElement("span"), dot = document.createElement("i"), amount = document.createElement("b");
+        dot.style.background = palette[index % palette.length];
+        name.append(dot, document.createTextNode(label));
+        const valueText = document.createElement("strong"), unit = document.createElement("small");
+        valueText.textContent = Math.round(value).toLocaleString();
+        unit.textContent = "MMK";
+        amount.append(valueText, unit);
+        item.append(name, amount);
+        categoryLegend.append(item);
+      });
+    }
+    return { companyTotal, categoryTotal };
+  };
   const normalizeOverviewCompany = (company) =>
     ({ "Nature Allliance": "Nature Alliance", PIP: "PIP Myanmar" })[
       company
@@ -10973,15 +11327,39 @@ window.exportXlsx = function () {
         .filter(Boolean),
     ).size;
   window.refreshMainDashboardMetrics = () => {
-    const overviewFilters = window.overviewDashboardState?.filters || {},
+    const savedOverviewFilters = window.overviewDashboardState?.filters || {},
+      liveFilterValue = (id, key, fallback = "all") =>
+        document.getElementById(id)?.value ||
+        savedOverviewFilters[key] ||
+        fallback,
+      overviewFilters = {
+        ...savedOverviewFilters,
+        period: liveFilterValue("mainDashboardPeriod", "period"),
+        periodValue: liveFilterValue("mainDashboardPeriodValue", "periodValue", ""),
+        fromMonth: liveFilterValue("mainDashboardFromMonth", "fromMonth", ""),
+        toMonth: liveFilterValue("mainDashboardToMonth", "toMonth", ""),
+        company: liveFilterValue("mainDashboardCompany", "company"),
+        source: liveFilterValue("mainDashboardSource", "source"),
+        department: liveFilterValue("mainDashboardDepartment", "department"),
+        category: liveFilterValue("mainDashboardCategory", "category"),
+        device: liveFilterValue("mainDashboardDevice", "device"),
+        problem: liveFilterValue("mainDashboardProblem", "problem"),
+        assetType: liveFilterValue("mainDashboardAssetType", "assetType"),
+        license: liveFilterValue("mainDashboardLicense", "license"),
+      },
       manpower = window.MANPOWER_DIRECTORY_DATA || [],
       selectedCompany = overviewFilters.company || "all",
       selectedDepartment = overviewFilters.department || "all",
       selectedSource = overviewFilters.source || "all",
+      selectedPeriod = overviewFilters.period || "all",
       includesBudget = ["all", "budget"].includes(selectedSource),
       includesCopier = ["all", "copier"].includes(selectedSource),
       includesTickets = ["all", "tickets"].includes(selectedSource),
       includesAssets = ["all", "assets"].includes(selectedSource),
+      // Manpower is an all-company capacity snapshot. It has no company or
+      // reporting-period dimension, so it remains stable while other widgets
+      // respond to the selected dashboard filters.
+      hasWorkforceScope = manpower.length > 0,
       companyLicenses = readStore(
         "m365CompanyDB",
         window.MICROSOFT_LICENSE_DATA?.companies || [],
@@ -10992,19 +11370,25 @@ window.exportXlsx = function () {
       ),
       selectedLicense = overviewFilters.license || "all",
       includesMicrosoft365 = ["all", "m365"].includes(selectedSource),
-      licenseRows = (includesMicrosoft365 ? licenses : []).filter(
+      hasLicenseScope =
+        includesMicrosoft365 &&
+        selectedDepartment === "all" &&
+        selectedPeriod === "all",
+      licenseRows = (hasLicenseScope ? licenses : []).filter(
         (row) =>
           row.Licenses &&
           row.Licenses !== "Total" &&
           (selectedLicense === "all" || row.Licenses === selectedLicense),
       );
-    let currentManpower = manpower.length,
+    let currentManpower = hasWorkforceScope ? manpower.length : 0,
       plannedManpower =
-        Number(
-          String(
-            document.getElementById("manpowerPlanned")?.textContent || 13,
-          ).replace(/[^\d.]/g, ""),
-        ) || 13,
+        hasWorkforceScope
+          ? Number(
+              String(
+                document.getElementById("manpowerPlanned")?.textContent || 13,
+              ).replace(/[^\d.]/g, ""),
+            ) || 13
+          : 0,
       activeLicenses = licenseRows.reduce(
         (sum, row) => sum + (Number(row["Active Users"]) || 0),
         0,
@@ -11022,7 +11406,7 @@ window.exportXlsx = function () {
           normalizeOverviewCompany(row.Company) ===
           normalizeOverviewCompany(selectedCompany),
       );
-    if (selectedCompany !== "all") {
+    if (hasLicenseScope && selectedCompany !== "all") {
       activeLicenses =
         Number(
           selectedCompanyRow?.[
@@ -11041,7 +11425,7 @@ window.exportXlsx = function () {
       percent = (value) => Math.max(0, Math.min(100, value)).toFixed(1) + "%";
     setValue("mainTicketSummary", ticketCount);
     setValue("mainAssetSummary", assetCount);
-    setValue("mainLicenseSummary", includesMicrosoft365 ? activeLicenses : 0);
+    setValue("mainLicenseSummary", hasLicenseScope ? activeLicenses : 0);
     setValue("mainManagedCompaniesSummary", managedCompanyCount);
     setValue("mainCurrentManpowerSummary", currentManpower);
     setValue("mainPlannedWorkforceSummary", plannedManpower);
@@ -11200,12 +11584,15 @@ window.exportXlsx = function () {
     [
       ["mainTicketSummary", ticketCount > 0],
       ["mainAssetSummary", assetCount > 0],
-      ["mainLicenseSummary", includesMicrosoft365 && activeLicenses > 0],
+      ["mainLicenseSummary", hasLicenseScope && activeLicenses > 0],
       ["mainTotalPagesSummary", printPages > 0],
       ["mainTotalPrintingSummary", printTotalAmount > 0],
       ["mainApprovedBudgetSummary", approvedBudget > 0],
       ["mainActualExpenseSummary", actualExpense > 0],
       ["mainManagedCompaniesSummary", managedCompanyCount > 0],
+      ["mainCurrentManpowerSummary", hasWorkforceScope && currentManpower > 0],
+      ["mainPlannedWorkforceSummary", hasWorkforceScope && plannedManpower > 0],
+      ["mainHiringVacanciesSummary", hasWorkforceScope],
     ].forEach(([id, hasData]) => setFilterEmptyState(id, hasData));
     setFilterEmptyState(
       ".main-financial-performance",
@@ -11217,7 +11604,99 @@ window.exportXlsx = function () {
     );
     setFilterEmptyState(
       ".main-license-card",
-      includesMicrosoft365 && totalLicenses > 0,
+      hasLicenseScope && totalLicenses > 0,
+    );
+    const mainBudgetChartMonths = periodMonths.filter(filterMonth),
+      mainBudgetChartValues = mainBudgetChartMonths.map((month) =>
+        includesBudget
+          ? (budgetSource.budgets || [])
+              .filter(
+                (row) =>
+                  row.month === month &&
+                  sameCompany(row.company) &&
+                  (selectedCategory === "all" || row.category === selectedCategory),
+              )
+              .reduce((sum, row) => sum + (Number(row.amount) || 0), 0)
+          : 0,
+      ),
+      mainExpenseChartValues = mainBudgetChartMonths.map((month) =>
+        includesBudget
+          ? actualExpenseRows
+              .filter(
+                (row) =>
+                  row.month === month &&
+                  sameCompany(row.company) &&
+                  (selectedCategory === "all" || row.category === selectedCategory) &&
+                  (selectedDepartment === "all" || row.department === selectedDepartment),
+              )
+              .reduce((sum, row) => sum + (Number(row.amount) || 0), 0)
+          : 0,
+      ),
+      mainBudgetChartType =
+        document.getElementById("mainBudgetExpenseChartType")?.value || "bar";
+    renderMainBudgetExpenseChart(
+      mainBudgetChartMonths,
+      mainBudgetChartValues,
+      mainExpenseChartValues,
+      mainBudgetChartType,
+    );
+    setFilterEmptyState(
+      "#mainBudgetExpenseSummaryCard",
+      mainBudgetChartValues.some((value) => value > 0) ||
+        mainExpenseChartValues.some((value) => value > 0),
+    );
+    const setMainChartVisibility = (id, hasData) => {
+      const card = document.getElementById(id);
+      if (card) card.hidden = !hasData;
+    };
+    document
+      .querySelector(".main-workforce-card")
+      ?.toggleAttribute("hidden", !hasWorkforceScope || currentManpower === 0);
+    document
+      .querySelector(".main-license-card")
+      ?.toggleAttribute("hidden", !hasLicenseScope || totalLicenses === 0);
+    setMainChartVisibility(
+      "mainBudgetExpenseSummaryCard",
+      mainBudgetChartValues.some((value) => value > 0) ||
+        mainExpenseChartValues.some((value) => value > 0),
+    );
+    const mainExpenseInsightSource =
+        selectedCompany !== "all" && selectedDepartment === "all"
+          ? detailedExpenses
+          : actualExpenseRows,
+      mainExpenseInsightRows = includesBudget
+      ? mainExpenseInsightSource.filter(
+          (row) =>
+            filterMonth(row.month) &&
+            sameCompany(row.company) &&
+            (selectedCategory === "all" || row.category === selectedCategory) &&
+            (selectedDepartment === "all" || row.department === selectedDepartment),
+        )
+      : [];
+    const mainExpenseGroup =
+        selectedDepartment === "all"
+          ? selectedCompany === "all"
+            ? "company"
+            : "department"
+          : "category",
+      mainExpenseScope =
+        mainExpenseGroup === "department" ? selectedCompany : selectedDepartment,
+      mainExpenseInsightTotals = renderMainExpenseInsights(
+      mainExpenseInsightRows,
+      document.getElementById("mainCompanyExpenseChartType")?.value || "bar",
+      document.getElementById("mainCategorySpendingFilter")?.value || "all",
+      mainExpenseGroup,
+      mainExpenseScope,
+    );
+    setFilterEmptyState("#mainCompanyExpenseCard", mainExpenseInsightRows.length > 0);
+    setFilterEmptyState("#mainCategorySpendingCard", mainExpenseInsightRows.length > 0);
+    setMainChartVisibility(
+      "mainCompanyExpenseCard",
+      (mainExpenseInsightTotals?.companyTotal || 0) > 0,
+    );
+    setMainChartVisibility(
+      "mainCategorySpendingCard",
+      (mainExpenseInsightTotals?.categoryTotal || 0) > 0,
     );
     setTrack("mainApprovedBudgetBar", approvedBudget > 0 ? 100 : 0);
     setTrack(
@@ -11333,6 +11812,15 @@ window.exportXlsx = function () {
     ?.addEventListener("click", () =>
       requestAnimationFrame(window.refreshMainDashboardMetrics),
     );
+  document
+    .getElementById("mainBudgetExpenseChartType")
+    ?.addEventListener("change", window.refreshMainDashboardMetrics);
+  document
+    .getElementById("mainCompanyExpenseChartType")
+    ?.addEventListener("change", window.refreshMainDashboardMetrics);
+  document
+    .getElementById("mainCategorySpendingFilter")
+    ?.addEventListener("change", window.refreshMainDashboardMetrics);
   const mainDashboard = document.getElementById("mainDashboard");
   if (mainDashboard)
     new MutationObserver(() => {
@@ -12419,4 +12907,137 @@ window.exportXlsx = function () {
       queueAnimation();
   }).observe(panel, { childList: true, subtree: true });
   queueAnimation();
+})();
+
+/* Accessible custom menus for every dashboard filter. Native selects remain the
+   source of truth, so existing filtering code continues to receive change events. */
+(() => {
+  const selector = "select.filter:not(.coverage-select), select.select:not(.coverage-select)";
+  let openMenu;
+
+  const matches = (element) => element instanceof HTMLSelectElement && element.matches(selector);
+  const optionButtons = (menu) => [...menu.querySelectorAll('[role="option"]:not([disabled])')];
+  const close = (instance, restoreFocus = false) => {
+    if (!instance) return;
+    instance.wrapper.classList.remove("is-open");
+    instance.trigger.setAttribute("aria-expanded", "false");
+    instance.menu.hidden = true;
+    if (restoreFocus) instance.trigger.focus();
+    if (openMenu === instance) openMenu = undefined;
+  };
+  const refresh = (select) => {
+    const instance = select.__customSelect;
+    if (!instance) return;
+    const { trigger, menu } = instance;
+    const selected = select.selectedOptions[0] || select.options[0];
+    trigger.disabled = select.disabled || !select.options.length;
+    trigger.querySelector(".custom-select__value").textContent = selected?.textContent.trim() || "Select an option";
+    menu.replaceChildren(
+      ...[...select.options].map((option, index) => {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "custom-select__option";
+        item.setAttribute("role", "option");
+        item.dataset.index = String(index);
+        item.textContent = option.textContent.trim();
+        item.hidden = option.hidden;
+        item.disabled = option.disabled;
+        item.setAttribute("aria-selected", String(option.selected));
+        item.classList.toggle("is-selected", option.selected);
+        return item;
+      }),
+    );
+  };
+  const open = (instance, focusSelected = false) => {
+    if (instance.trigger.disabled) return;
+    if (openMenu && openMenu !== instance) close(openMenu);
+    openMenu = instance;
+    instance.wrapper.classList.add("is-open");
+    instance.trigger.setAttribute("aria-expanded", "true");
+    instance.menu.hidden = false;
+    if (focusSelected)
+      (instance.menu.querySelector(".is-selected:not([disabled])") || optionButtons(instance.menu)[0])?.focus();
+  };
+  const syncAll = () => document.querySelectorAll(selector).forEach((select) => refresh(select));
+  const setup = (select) => {
+    if (!matches(select) || select.__customSelect) return;
+    const wrapper = document.createElement("div");
+    wrapper.className = "custom-select";
+    const trigger = document.createElement("button");
+    trigger.type = "button";
+    trigger.className = "custom-select__trigger";
+    trigger.setAttribute("aria-haspopup", "listbox");
+    trigger.setAttribute("aria-expanded", "false");
+    trigger.setAttribute("aria-label", select.getAttribute("aria-label") || "Select an option");
+    trigger.innerHTML = '<span class="custom-select__value"></span><span class="custom-select__arrow" aria-hidden="true"></span>';
+    const menu = document.createElement("div");
+    menu.className = "custom-select__menu";
+    menu.setAttribute("role", "listbox");
+    menu.hidden = true;
+    select.parentNode?.insertBefore(wrapper, select);
+    wrapper.append(select, trigger, menu);
+    select.classList.add("custom-select__native");
+    select.tabIndex = -1;
+    const instance = { select, wrapper, trigger, menu };
+    select.__customSelect = instance;
+    refresh(select);
+    // The visible control is the wrapper, so recalculate chart-header fitting
+    // after replacing a native select with its custom menu.
+    requestAnimationFrame(() => window.refreshUnifiedChartControls?.());
+    trigger.addEventListener("click", () => (wrapper.classList.contains("is-open") ? close(instance) : open(instance)));
+    trigger.addEventListener("keydown", (event) => {
+      if (["Enter", " ", "ArrowDown", "ArrowUp"].includes(event.key)) {
+        event.preventDefault();
+        open(instance, true);
+      } else if (event.key === "Escape") close(instance);
+    });
+    menu.addEventListener("click", (event) => {
+      const item = event.target.closest('[role="option"]');
+      if (!item || item.disabled) return;
+      const option = select.options[Number(item.dataset.index)];
+      if (!option) return;
+      select.value = option.value;
+      select.dispatchEvent(new Event("change", { bubbles: true }));
+      refresh(select);
+      close(instance, true);
+    });
+    menu.addEventListener("keydown", (event) => {
+      const items = optionButtons(menu);
+      const position = items.indexOf(document.activeElement);
+      if (event.key === "Escape") {
+        event.preventDefault();
+        close(instance, true);
+      } else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        items[(position + (event.key === "ArrowDown" ? 1 : -1) + items.length) % items.length]?.focus();
+      } else if (event.key === "Home" || event.key === "End") {
+        event.preventDefault();
+        items[event.key === "Home" ? 0 : items.length - 1]?.focus();
+      }
+    });
+    select.addEventListener("change", () => refresh(select));
+    new MutationObserver(() => refresh(select)).observe(select, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["disabled", "hidden", "selected", "label"],
+    });
+  };
+  const setupAll = (root = document) => {
+    if (matches(root)) setup(root);
+    root.querySelectorAll?.(selector).forEach(setup);
+  };
+  document.addEventListener("pointerdown", (event) => {
+    if (openMenu && !openMenu.wrapper.contains(event.target)) close(openMenu);
+  });
+  document.addEventListener("click", () => requestAnimationFrame(syncAll));
+  window.addEventListener("resize", () => close(openMenu));
+  window.refreshCustomSelects = syncAll;
+  new MutationObserver((records) => {
+    records.forEach((record) => record.addedNodes.forEach((node) => {
+      if (node.nodeType === 1) setupAll(node);
+    }));
+  }).observe(document.body, { childList: true, subtree: true });
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => setupAll(), { once: true });
+  else setupAll();
 })();
