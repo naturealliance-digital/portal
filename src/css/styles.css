@@ -635,10 +635,6 @@ body.dark td[contenteditable]:focus {
 }
 
 @media(max-width:700px) {
-  .theme-toggle b {
-    display: none
-  }
-
   .theme-toggle {
     padding: 6px
   }
@@ -1054,7 +1050,7 @@ td[contenteditable]:focus {
 
 body.dark .tablecard {
   background: #29151a !important;
-  border-color: #4a2930 !important;
+  border-color: #3a434a !important;
   box-shadow: 0 14px 34px rgba(0, 0, 0, .22) !important
 }
 
@@ -1066,7 +1062,7 @@ body.dark .head {
 body.dark th {
   background: #241216 !important;
   color: #d8bec0 !important;
-  border-bottom: 1px solid #4a2930
+  border-bottom: 1px solid #3a434a
 }
 
 body.dark tbody tr:nth-child(odd) td,
@@ -2867,7 +2863,6 @@ body.dark .top {
 }
 
 /* Four-tone icon and subtitle badges for primary KPI cards */
-.unified-kpi-grid .unified-kpi-context,
 .unified-kpi-grid .unified-kpi-context {
   display: inline-flex !important;
   align-items: center !important;
@@ -2881,64 +2876,48 @@ body.dark .top {
 }
 
 .unified-kpi-grid .unified-kpi-card:nth-child(1) .unified-kpi-icon,
-.unified-kpi-grid .unified-kpi-card:nth-child(1) .unified-kpi-icon,
-.unified-kpi-grid .unified-kpi-card:nth-child(1) .unified-kpi-context,
 .unified-kpi-grid .unified-kpi-card:nth-child(1) .unified-kpi-context {
   background: #ffe9e1 !important;
   color: #eb4e31 !important
 }
 
 .unified-kpi-grid .unified-kpi-card:nth-child(2) .unified-kpi-icon,
-.unified-kpi-grid .unified-kpi-card:nth-child(2) .unified-kpi-icon,
-.unified-kpi-grid .unified-kpi-card:nth-child(2) .unified-kpi-context,
 .unified-kpi-grid .unified-kpi-card:nth-child(2) .unified-kpi-context {
   background: #e3f5ee !important;
   color: #168a69 !important
 }
 
 .unified-kpi-grid .unified-kpi-card:nth-child(3) .unified-kpi-icon,
-.unified-kpi-grid .unified-kpi-card:nth-child(3) .unified-kpi-icon,
-.unified-kpi-grid .unified-kpi-card:nth-child(3) .unified-kpi-context,
 .unified-kpi-grid .unified-kpi-card:nth-child(3) .unified-kpi-context {
   background: #fff0d7 !important;
   color: #bd7410 !important
 }
 
 .unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-icon,
-.unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-icon,
-.unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-context,
 .unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-context {
   background: #eee9ff !important;
   color: #7056d8 !important
 }
 
 body.dark .unified-kpi-grid .unified-kpi-card:nth-child(1) .unified-kpi-icon,
-body.dark .unified-kpi-grid .unified-kpi-card:nth-child(1) .unified-kpi-icon,
-body.dark .unified-kpi-grid .unified-kpi-card:nth-child(1) .unified-kpi-context,
 body.dark .unified-kpi-grid .unified-kpi-card:nth-child(1) .unified-kpi-context {
   background: #512620 !important;
   color: #ff9a70 !important
 }
 
 body.dark .unified-kpi-grid .unified-kpi-card:nth-child(2) .unified-kpi-icon,
-body.dark .unified-kpi-grid .unified-kpi-card:nth-child(2) .unified-kpi-icon,
-body.dark .unified-kpi-grid .unified-kpi-card:nth-child(2) .unified-kpi-context,
 body.dark .unified-kpi-grid .unified-kpi-card:nth-child(2) .unified-kpi-context {
   background: #173e34 !important;
   color: #7bd8b4 !important
 }
 
 body.dark .unified-kpi-grid .unified-kpi-card:nth-child(3) .unified-kpi-icon,
-body.dark .unified-kpi-grid .unified-kpi-card:nth-child(3) .unified-kpi-icon,
-body.dark .unified-kpi-grid .unified-kpi-card:nth-child(3) .unified-kpi-context,
 body.dark .unified-kpi-grid .unified-kpi-card:nth-child(3) .unified-kpi-context {
   background: #49371b !important;
   color: #ffd083 !important
 }
 
 body.dark .unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-icon,
-body.dark .unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-icon,
-body.dark .unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-context,
 body.dark .unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-context {
   background: #352b52 !important;
   color: #c7b7ff !important
@@ -2946,7 +2925,6 @@ body.dark .unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-context 
 
 @media(max-width:600px) {
 
-  .unified-kpi-grid .unified-kpi-context,
   .unified-kpi-grid .unified-kpi-context {
     padding: 3px 6px !important;
     font-size: 7px !important
@@ -3283,7 +3261,7 @@ body.dark .org-profile-site header {
 .shared-services-title b {
   display: block;
   font-size: 10px;
-  color: #4a3438
+  color: #3a434a
 }
 
 .shared-services-title small {
@@ -3498,12 +3476,6 @@ body.dark .org-profile li.org-highlight.service {
 }
 
 @media(max-width:1200px) {
-  .org-peer-grid>.shared-services {
-    grid-column: 1/-1
-  }
-}
-
-@media(max-width:780px) {
   .org-peer-grid>.shared-services {
     grid-column: 1/-1
   }
@@ -8534,9 +8506,6 @@ body.dark .site-team-location .coverage-planned {
     height: 195px
   }
 
-  .site-coverage-pie-only .site-team-location-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr))
-  }
 }
 
 @media(max-width:700px) {
@@ -9944,10 +9913,6 @@ body:not(.dark) .unified-chart-select {
   overscroll-behavior: contain
 }
 
-.unified-data-table thead th:first-child {
-  z-index: 30
-}
-
 .unified-data-table tbody tr:hover td {
   background: inherit !important
 }
@@ -11115,7 +11080,7 @@ body.dark .brand>span small {
   overflow: hidden;
   height: 9px;
   border-radius: 999px;
-  background: #e7edf0
+  background: #f2e5df
 }
 
 .main-dashboard-progress>span>i {
@@ -11636,7 +11601,7 @@ body.dark .unified-chart-legend :is(b, strong) {
 }
 
 body.dark .budget-utilization>span {
-  background: #4a2930
+  background: #3a434a
 }
 
 body.dark .budget-utilization>b {
@@ -12837,7 +12802,7 @@ body.dark .budget-description-period-row>td {
 }
 
 body.dark .unified-data-table tbody tr:is(.budget-monthly-row, .budget-asset-period-row)>td:first-child::before {
-  background: #9a5b50 !important
+  background: #a44b48 !important
 }
 
 @media(max-width:700px) {
@@ -13661,11 +13626,185 @@ body.dark .hub-loading-ring {
   }
 }
 
+/* Executive KPI register on the Main Dashboard. */
+#mainDashboard .main-executive-kpi-register {
+  order: 20;
+}
+
+#mainDashboard .main-executive-kpi-table {
+  min-width: 980px;
+}
+
+#mainDashboard .main-executive-kpi-table :is(th, td):first-child {
+  width: auto;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+#mainDashboard .main-executive-kpi-table tbody tr:nth-child(odd) td:first-child {
+  background: #fff !important;
+}
+
+#mainDashboard .main-executive-kpi-table tbody tr:nth-child(even) td:first-child {
+  background: #fff9f6 !important;
+}
+
+#mainDashboard .main-executive-kpi-table :is(th, td) { text-align: left; }
+#mainDashboard .main-executive-kpi-table td { font-weight: 400; }
+#mainDashboard .main-executive-kpi-table td strong { font-weight: 400; }
+#mainDashboard .main-executive-kpi-empty td {
+  padding: 28px 20px;
+  color: #806c70;
+  font-weight: 500;
+  text-align: center;
+}
+#mainDashboard .main-executive-kpi-row.is-expandable { cursor: pointer; }
+#mainDashboard .main-executive-kpi-row.is-expandable:focus-visible td { outline: 2px solid #d12a31; outline-offset: -2px; }
+#mainDashboard .main-executive-kpi-row[aria-expanded="true"] td { font-weight: 600; }
+#mainDashboard .main-executive-kpi-row[aria-expanded="true"] td strong { font-weight: 600; }
+#mainDashboard .main-executive-kpi-row[aria-expanded="true"] td:first-child { color: #c92b31 !important; }
+
+#mainDashboard .main-executive-kpi-company-detail td {
+  font-weight: 400;
+  border-bottom-color: #eaded9;
+}
+
+#mainDashboard .main-executive-kpi-company-detail.is-odd td,
+#mainDashboard .main-executive-kpi-company-detail.is-odd td:first-child { background: #fff !important; }
+#mainDashboard .main-executive-kpi-company-detail.is-even td,
+#mainDashboard .main-executive-kpi-company-detail.is-even td:first-child { background: #fff9f6 !important; }
+#mainDashboard .main-executive-kpi-table tbody tr.main-executive-kpi-company-detail.is-odd>td,
+#mainDashboard .main-executive-kpi-table tbody tr.main-executive-kpi-company-detail.is-odd>td:first-child { background: #fff !important; }
+#mainDashboard .main-executive-kpi-table tbody tr.main-executive-kpi-company-detail.is-even>td,
+#mainDashboard .main-executive-kpi-table tbody tr.main-executive-kpi-company-detail.is-even>td:first-child { background: #fff9f6 !important; }
+#mainDashboard .main-executive-kpi-company-detail td strong { font-weight: 500; }
+#mainDashboard .main-executive-kpi-company-detail td:first-child {
+  padding-left: 24px;
+}
+
+#mainDashboard .main-executive-kpi-company-detail td:first-child::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+  background: #f2b1a6;
+}
+#mainDashboard .main-executive-kpi-company-detail:hover td { filter: none; }
+#mainDashboard .main-executive-kpi-table td:nth-child(2),
+#mainDashboard .main-executive-kpi-table td:nth-child(3),
+#mainDashboard .main-executive-kpi-table td:nth-child(4) {
+  text-align: right;
+  white-space: nowrap;
+}
+
+#mainDashboard .main-executive-kpi-table :is(th, td):nth-child(5) { min-width: 190px; }
+#mainDashboard .main-executive-kpi-table :is(th, td):nth-child(6) { min-width: 146px; }
+
+.main-executive-kpi-variance {
+  color: #16866a;
+  font-weight: 600;
+}
+
+.main-executive-kpi-variance.is-negative {
+  color: #c92b31;
+  font-weight: 400;
+}
+
+.main-executive-kpi-progress {
+  display: grid;
+  grid-template-columns: minmax(72px, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  min-width: 142px;
+}
+
+.main-executive-kpi-progress>span {
+  display: block;
+  height: 7px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: #f2e5df;
+}
+
+.main-executive-kpi-progress i {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #168a69, #42b897);
+  transition: width 1.6s cubic-bezier(.22, 1, .36, 1) var(--kpi-delay, 0ms);
+}
+
+.main-executive-kpi-progress.is-animated i { width: var(--kpi-progress, 0%); }
+
+.main-executive-kpi-progress.is-review i {
+  background: linear-gradient(90deg, #c9871d, #edbb4f);
+}
+
+.main-executive-kpi-progress.is-over i {
+  background: linear-gradient(90deg, #cf3036, #ed7561);
+}
+
+.main-executive-kpi-progress>b {
+  color: #5b4549;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.main-executive-kpi-table .is-kpi-unavailable { opacity: .58; }
+.main-executive-kpi-table .is-kpi-unavailable .main-executive-kpi-progress i { background: #b9a9a5; }
+
+#mainDashboard .main-executive-kpi-table .main-performance-status {
+  text-transform: none !important;
+  letter-spacing: .1px !important;
+}
+
+body.dark .main-executive-kpi-progress>span { background: #3a434a; }
+body.dark .main-executive-kpi-progress>b { color: #ddcbc8; }
+body.dark .main-executive-kpi-progress.is-review i { background: linear-gradient(90deg, #b47718, #eab54e); }
+body.dark .main-executive-kpi-progress.is-over i { background: linear-gradient(90deg, #c83a40, #ec806d); }
+body.dark .main-executive-kpi-variance { color: #7bd8b4; }
+body.dark #mainDashboard .main-executive-kpi-variance.is-negative { color: #ff756f !important; }
+body.dark #mainDashboard .main-executive-kpi-empty td { color: #cdb9b7; }
+body.dark #mainDashboard .main-executive-kpi-table thead th:first-child { background: #32171e !important; }
+body.dark #mainDashboard .main-executive-kpi-table tbody tr:nth-child(odd) td:first-child { background: #2d171c !important; }
+body.dark #mainDashboard .main-executive-kpi-table tbody tr:nth-child(even) td:first-child { background: #32191f !important; }
+body.dark #mainDashboard .main-executive-kpi-row[aria-expanded="true"] td:first-child { color: #ff9b70 !important; }
+body.dark #mainDashboard .main-executive-kpi-row.is-expandable:focus-visible td { outline-color: #ff9275; }
+body.dark #mainDashboard .main-executive-kpi-company-detail td { border-bottom-color: #553137; }
+body.dark #mainDashboard .main-executive-kpi-company-detail.is-odd td,
+body.dark #mainDashboard .main-executive-kpi-company-detail.is-odd td:first-child { background: #2d171c !important; }
+body.dark #mainDashboard .main-executive-kpi-company-detail.is-even td,
+body.dark #mainDashboard .main-executive-kpi-company-detail.is-even td:first-child { background: #32191f !important; }
+body.dark #mainDashboard .main-executive-kpi-table tbody tr.main-executive-kpi-company-detail.is-odd>td,
+body.dark #mainDashboard .main-executive-kpi-table tbody tr.main-executive-kpi-company-detail.is-odd>td:first-child { background: #2d171c !important; }
+body.dark #mainDashboard .main-executive-kpi-table tbody tr.main-executive-kpi-company-detail.is-even>td,
+body.dark #mainDashboard .main-executive-kpi-table tbody tr.main-executive-kpi-company-detail.is-even>td:first-child { background: #32191f !important; }
+body.dark #mainDashboard .main-executive-kpi-company-detail td:first-child::before { background: #a95354; }
+body.dark #mainDashboard .main-executive-kpi-company-detail:hover td { filter: none; }
+@media (max-width: 700px) {
+  #mainDashboard .main-executive-kpi-register { order: 20; }
+  .main-executive-kpi-progress { min-width: 126px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .main-executive-kpi-progress i { transition: none; }
+}
+
 /* Custom filter menus: native selects remain the source of truth while the
    visible menu stays compact and consistent across browsers. */
 .custom-select { position: relative; display: inline-block; min-width: 0; max-width: 100%; vertical-align: middle; }
 .unified-filter-card { position: relative; overflow: visible; }
-.unified-filter-card:has(.custom-select.is-open) { z-index: 1001; }
+.unified-filter-card.has-open-select,
+.unified-filter-card:has(.custom-select.is-open) {
+  z-index: 3001;
+  /* Tables across the dashboards use sticky headers. Reserve the menu's
+     full height while it is open so every option remains visible. */
+  margin-bottom: 292px;
+}
 .custom-select__native { position: absolute !important; width: 1px !important; height: 1px !important; margin: -1px !important; padding: 0 !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; clip-path: inset(50%) !important; white-space: nowrap !important; border: 0 !important; opacity: 0 !important; pointer-events: none !important; }
 .custom-select__trigger { display: flex; width: 100%; min-height: 38px; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 13px; border: 1px solid var(--l); border-radius: 9px; background: #fff; color: #5e6c85; font: 500 clamp(12px, .9vw, 13px) Poppins, Arial, sans-serif; line-height: 1.35; text-align: left; cursor: pointer; transition: border-color .18s ease, box-shadow .18s ease, background .18s ease; }
 .custom-select__trigger:hover { border-color: #c7a69d; }
@@ -13674,7 +13813,7 @@ body.dark .hub-loading-ring {
 .custom-select__value { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .custom-select__arrow { flex: 0 0 7px; width: 7px; height: 7px; margin-right: 3px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .18s ease; }
 .custom-select.is-open .custom-select__arrow { transform: translateY(2px) rotate(225deg); }
-.custom-select__menu { position: absolute; z-index: 1000; top: calc(100% + 6px); right: 0; left: auto; width: max-content; min-width: 100%; max-width: calc(100vw - 24px); max-height: 280px; padding: 5px; overflow-y: auto; overscroll-behavior: contain; border: 1px solid #e6d0c9; border-radius: 10px; background: #fffdfb; box-shadow: 0 14px 28px rgba(71, 36, 37, .16); }
+.custom-select__menu { position: absolute; z-index: 3000; top: calc(100% + 6px); right: 0; left: auto; width: max-content; min-width: 100%; max-width: calc(100vw - 24px); max-height: 280px; padding: 5px; overflow-y: auto; overscroll-behavior: contain; border: 1px solid #e6d0c9; border-radius: 10px; background: #fffdfb; box-shadow: 0 14px 28px rgba(71, 36, 37, .16); }
 .custom-select__menu[hidden] { display: none; }
 .custom-select__option { display: flex; width: 100%; min-height: 38px; align-items: center; padding: 8px 10px; border: 0; border-radius: 7px; background: transparent; color: #5e6c85; font: 500 clamp(11.5px, .85vw, 12.5px) Poppins, Arial, sans-serif; line-height: 1.35; text-align: left; white-space: nowrap; cursor: pointer; }
 .custom-select__option:hover, .custom-select__option:focus-visible { outline: 0; background: #fbe8e4; color: #8f252d; }
@@ -15044,7 +15183,7 @@ body.dark :is(select.filter, select.select):not(.coverage-select) {
   grid-template-columns: clamp(112px, 15vw, 140px) minmax(0, 1fr) max-content;
   align-items: center;
   column-gap: 14px;
-  row-gap: 13px;
+  row-gap: 20px;
 }
 
 .main-financial-row {
@@ -15085,7 +15224,7 @@ body.dark :is(select.filter, select.select):not(.coverage-select) {
   height: 9px;
   overflow: hidden;
   border-radius: 999px;
-  background: #f0e8e9;
+  background: #f2e5df;
 }
 
 .main-performance-track i {
@@ -15305,7 +15444,7 @@ body.dark .main-print-metrics p small {
 }
 
 body.dark .main-performance-track {
-  background: #4a3438;
+  background: #3a434a;
 }
 
 body.dark .main-financial-row.is-utilization .main-performance-track i {
@@ -15403,7 +15542,7 @@ body.dark .main-performance-status.is-over {
 
   .main-financial-metrics {
     grid-template-columns: 1fr;
-    gap: 13px;
+    gap: 16px;
   }
 
   .main-financial-row {
@@ -15437,6 +15576,17 @@ body.dark .main-performance-status.is-over {
     max-height: calc(100dvh - 64px);
     overflow: auto;
   }
+}
+
+/* Must follow the sticky mobile filter rules above. The explicit class is
+   added by the shared select controller so the menu always sits in its own
+   space instead of visually mixing with the sticky KPI table. */
+#mainDashboard .main-dashboard-filter-card.has-open-select,
+#mainDashboard .main-dashboard-filter-card:has(.custom-select.is-open) {
+  z-index: 3001;
+  margin-bottom: 292px !important;
+  max-height: none;
+  overflow: visible !important;
 }
 
 /* Requested dark-mode button surface. */

@@ -11660,6 +11660,67 @@ window.exportXlsx = function () {
         .map((row) => normalizeOverviewCompany(row.company))
         .filter(Boolean),
     ).size;
+  const renderMainExecutiveKpiRegister = (items) => {
+    const body = document.getElementById("mainExecutiveKpiBody");
+    if (!body) return;
+    const number = (value) => Math.round(Number(value) || 0).toLocaleString(),
+      escape = (value) =>
+        String(value).replace(/[&<>'"]/g, (character) =>
+          ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character],
+        ),
+      expandedKey = body.dataset.expandedKpi || "",
+      visibleItems = items.filter((item) => item.available);
+    body.innerHTML = visibleItems.length
+      ? visibleItems
+      .map((item, index) => {
+        const rate = Math.max(0, Math.min(100, Number(item.rate) || 0)),
+          variance = Number(item.target) - Number(item.current),
+          varianceNegative = item.varianceNegative ?? variance < 0,
+          metric = (value) => `${number(value)} ${item.unit}`,
+          varianceText = `${variance < 0 ? "−" : ""}${number(Math.abs(variance))} ${item.unit}`,
+          key = String(index),
+          companyMetrics = item.available ? item.companyMetrics || [] : [],
+          expandable = companyMetrics.length > 0,
+          expanded = expandable && expandedKey === key,
+          companyRows = companyMetrics.map((company, companyIndex) => {
+            const companyRate = Math.max(0, Math.min(100, Number(company.rate) || 0)),
+              companyVariance = Number(company.target) - Number(company.current),
+              companyVarianceNegative = company.varianceNegative ?? companyVariance < 0,
+              companyVarianceText = `${companyVariance < 0 ? "−" : ""}${number(Math.abs(companyVariance))} ${item.unit}`;
+            return `<tr class="main-executive-kpi-company-detail ${companyIndex % 2 ? "is-even" : "is-odd"}"><td><strong>${escape(company.company)}</strong></td><td>${metric(company.target)}</td><td><strong>${metric(company.current)}</strong></td><td class="main-executive-kpi-variance ${companyVarianceNegative ? "is-negative" : ""}">${companyVarianceText}</td><td><div class="main-executive-kpi-progress ${company.statusClass || item.statusClass}" style="--kpi-progress:${companyRate}%;--kpi-delay:0ms"><span><i></i></span><b>${companyRate.toFixed(1)}%</b></div></td><td><span class="main-performance-status ${company.statusClass || item.statusClass}">${company.status || item.status}</span></td></tr>`;
+          }).join("");
+        return `<tr class="main-executive-kpi-row ${item.available ? "" : "is-kpi-unavailable"} ${expandable ? "is-expandable" : ""}" data-executive-kpi-row="${key}" ${expandable ? `tabindex="0" role="button" aria-expanded="${expanded}"` : ""}><td><strong>${item.dashboard}</strong></td><td>${metric(item.target)}</td><td><strong>${metric(item.current)}</strong></td><td class="main-executive-kpi-variance ${varianceNegative ? "is-negative" : ""}">${item.available ? varianceText : "–"}</td><td><div class="main-executive-kpi-progress ${item.statusClass}" style="--kpi-progress:${rate}%;--kpi-delay:${Math.min(index * 90, 360)}ms"><span><i></i></span><b>${item.available ? `${rate.toFixed(1)}%` : "–"}</b></div></td><td><span class="main-performance-status ${item.statusClass}">${item.status}</span></td></tr>${expanded ? companyRows : ""}`;
+      })
+      .join("")
+      : `<tr class="main-executive-kpi-empty"><td colspan="6">No overview data matches the selected filters.</td></tr>`;
+    document.getElementById("mainExecutiveKpiNote").textContent = `Showing ${number(
+      visibleItems.length,
+    )} of ${number(items.length)} Overviews`;
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() =>
+        body.querySelectorAll(".main-executive-kpi-progress").forEach((progress) =>
+          progress.classList.add("is-animated"),
+        ),
+      ),
+    );
+    const rowFromEvent = (event, selector) => {
+      const target = event.target instanceof Element ? event.target : event.target?.parentElement;
+      return target?.closest(selector);
+    };
+    body.onclick = (event) => {
+      const row = rowFromEvent(event, "[data-executive-kpi-row]");
+      if (!row?.classList.contains("is-expandable")) return;
+      body.dataset.expandedKpi = body.dataset.expandedKpi === row.dataset.executiveKpiRow ? "" : row.dataset.executiveKpiRow;
+      renderMainExecutiveKpiRegister(items);
+    };
+    body.onkeydown = (event) => {
+      if (!['Enter', ' '].includes(event.key)) return;
+      const row = rowFromEvent(event, "[data-executive-kpi-row]");
+      if (!row?.classList.contains("is-expandable")) return;
+      event.preventDefault();
+      row.click();
+    };
+  };
   window.refreshMainDashboardMetrics = () => {
     const savedOverviewFilters = window.overviewDashboardState?.filters || {},
       liveFilterValue = (id, key, fallback = "all") =>
@@ -12199,6 +12260,154 @@ window.exportXlsx = function () {
       totalLicenses,
       Math.max(0, totalLicenses - activeLicenses - availableLicenses),
     );
+    const assetMonth = (purchaseDate) => {
+        const [year, month] = String(purchaseDate || "").split("-"),
+          monthIndex = Number(month) - 1;
+        return /^\d{4}$/.test(year) && monthIndex >= 0 && monthIndex < 12
+          ? `${["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][monthIndex]}-${year.slice(-2)}`
+          : null;
+      },
+      selectedAssetType = overviewFilters.assetType || "all",
+      scopedAssets = includesAssets
+        ? (window.FIXED_ASSETS_DATA?.records || []).filter(
+            (row) =>
+              filterMonth(assetMonth(row.p)) &&
+              sameCompany(row.c) &&
+              (selectedDepartment === "all" || row.d === selectedDepartment) &&
+              (selectedAssetType === "all" || row.t === selectedAssetType),
+          )
+        : [],
+      goodAssets = scopedAssets.filter((row) => row.o === "Good").length,
+      budgetRate = approvedBudget > 0 ? (actualExpense / approvedBudget) * 100 : 0,
+      printerRate = printTotalAmount > 0 ? (printPagesCost / printTotalAmount) * 100 : 0,
+      assetRate = scopedAssets.length ? (goodAssets / scopedAssets.length) * 100 : 0,
+      budgetStatus = (rate) =>
+        rate > 100
+          ? { status: "Over Budget", statusClass: "is-over" }
+          : rate >= 80
+            ? { status: "Review Budget", statusClass: "is-review" }
+            : { status: "On Budget", statusClass: "is-good" },
+      budgetCompanyMetrics = (() => {
+        const groups = new Map(),
+          add = (company, field, value) => {
+            const name = normalizeOverviewCompany(company);
+            if (!name) return;
+            const entry = groups.get(name) || { company: name, target: 0, current: 0 };
+            entry[field] += Number(value) || 0;
+            groups.set(name, entry);
+          };
+        (budgetSource.budgets || []).filter(budgetMatches).forEach((row) => add(row.company, "target", row.amount));
+        actualExpenseRows
+          .filter((row) => budgetMatches(row) && (selectedDepartment === "all" || row.department === selectedDepartment))
+          .forEach((row) => add(row.company, "current", row.amount));
+        return [...groups.values()]
+          .filter((entry) => entry.target || entry.current)
+          .map((entry) => ({ ...entry, rate: entry.target ? (entry.current / entry.target) * 100 : 0, ...budgetStatus(entry.target ? (entry.current / entry.target) * 100 : 0) }))
+          .sort((left, right) => left.company.localeCompare(right.company));
+      })(),
+      copierCompanyMetrics = (() => {
+        const groups = new Map();
+        copierRows.forEach((row) => {
+          const name = normalizeOverviewCompany(row.company);
+          if (!name) return;
+          const entry = groups.get(name) || { company: name, target: 0, current: 0 };
+          entry.target += Number(row.totalAmount) || (Number(row.pagesCost) || 0) + (Number(row.suppliesCost) || 0) || Number(row.cost) || 0;
+          entry.current += Number(row.pagesCost) || 0;
+          groups.set(name, entry);
+        });
+        return [...groups.values()]
+          .filter((entry) => entry.target || entry.current)
+          .map((entry) => ({ ...entry, rate: entry.target ? (entry.current / entry.target) * 100 : 0, ...budgetStatus(entry.target ? (entry.current / entry.target) * 100 : 0) }))
+          .sort((left, right) => left.company.localeCompare(right.company));
+      })(),
+      ticketCompanyMetrics = (() => {
+        const groups = new Map();
+        overviewRows({ ...overviewFilters, source: "tickets" }).forEach((row) => {
+          const name = normalizeOverviewCompany(row.company);
+          if (name) groups.set(name, (groups.get(name) || 0) + 1);
+        });
+        return [...groups.entries()].map(([company, value]) => ({ company, target: value, current: value, rate: value ? 100 : 0, status: "Completed", statusClass: "is-good" })).sort((left, right) => left.company.localeCompare(right.company));
+      })(),
+      assetCompanyMetrics = (() => {
+        const groups = new Map();
+        scopedAssets.forEach((row) => {
+          const name = normalizeOverviewCompany(row.c);
+          if (!name) return;
+          const entry = groups.get(name) || { company: name, target: 0, current: 0 };
+          entry.target += 1;
+          entry.current += row.o === "Good" ? 1 : 0;
+          groups.set(name, entry);
+        });
+        return [...groups.values()].map((entry) => ({ ...entry, rate: entry.target ? (entry.current / entry.target) * 100 : 0, varianceNegative: entry.target > entry.current, status: "Good Assets", statusClass: "is-good" })).sort((left, right) => left.company.localeCompare(right.company));
+      })(),
+      licenseCompanyMetrics = hasLicenseScope
+        ? companyLicenses
+            .filter((row) => row.Company !== "Total" && sameCompany(row.Company))
+            .map((row) => {
+              const value = Number(row[selectedLicense === "all" ? "Total Account" : selectedLicense]) || 0;
+              return { company: normalizeOverviewCompany(row.Company), target: value, current: value, rate: value ? 100 : 0, status: "Healthy Licenses", statusClass: "is-good" };
+            })
+            .filter((entry) => entry.company && entry.current > 0)
+            .sort((left, right) => left.company.localeCompare(right.company))
+        : [];
+    renderMainExecutiveKpiRegister([
+      {
+        dashboard: "Budget & Expense",
+        current: actualExpense,
+        target: approvedBudget,
+        unit: "MMK",
+        rate: budgetRate,
+        available: includesBudget && approvedBudget > 0,
+        companyMetrics: budgetCompanyMetrics,
+        status: !includesBudget || approvedBudget <= 0 ? "Not selected" : budgetRate > 100 ? "Over Budget" : budgetRate >= 80 ? "Review Budget" : "On Budget",
+        statusClass: budgetRate > 100 ? "is-over" : budgetRate >= 80 ? "is-review" : "is-good",
+      },
+      {
+        dashboard: "Copier & Printer Usage",
+        current: printPagesCost,
+        target: printTotalAmount,
+        unit: "MMK",
+        rate: printerRate,
+        available: includesCopier && printTotalAmount > 0,
+        companyMetrics: copierCompanyMetrics,
+        status: !includesCopier || printTotalAmount <= 0 ? "Not selected" : printerRate > 100 ? "Over Budget" : printerRate >= 80 ? "Review Budget" : "On Budget",
+        statusClass: printerRate > 100 ? "is-over" : printerRate >= 80 ? "is-review" : "is-good",
+      },
+      {
+        dashboard: "Service Tickets",
+        current: ticketCount,
+        target: ticketCount,
+        unit: "Tickets",
+        rate: ticketCount > 0 ? 100 : 0,
+        available: includesTickets && ticketCount > 0,
+        companyMetrics: ticketCompanyMetrics,
+        status: !includesTickets || ticketCount <= 0 ? "Not selected" : "Completed",
+        statusClass: "is-good",
+      },
+      {
+        dashboard: "Fixed Assets",
+        current: goodAssets,
+        target: scopedAssets.length,
+        unit: "Assets",
+        varianceNegative: scopedAssets.length > goodAssets,
+        rate: assetRate,
+        available: includesAssets && scopedAssets.length > 0,
+        companyMetrics: assetCompanyMetrics,
+        status: !includesAssets || !scopedAssets.length ? "Not selected" : "Good Assets",
+        statusClass: "is-good",
+      },
+      {
+        dashboard: "Microsoft 365",
+        current: activeLicenses,
+        target: totalLicenses,
+        unit: "Licenses",
+        rate: licenseRate,
+        available: hasLicenseScope && totalLicenses > 0,
+        companyMetrics: licenseCompanyMetrics,
+        status: !hasLicenseScope || totalLicenses <= 0 ? "Not selected" : licenseRate >= 90 ? "Required Licenses" : "Healthy Licenses",
+        statusClass: licenseRate >= 90 ? "is-over" : "is-good",
+      },
+    ]);
   };
   window.addEventListener("storage", (event) => {
     if (["manpowerDirectoryDB", "m365LicensesDB"].includes(event.key))
@@ -13345,6 +13554,7 @@ window.exportXlsx = function () {
   const close = (instance, restoreFocus = false) => {
     if (!instance) return;
     instance.wrapper.classList.remove("is-open");
+    instance.wrapper.closest(".unified-filter-card")?.classList.remove("has-open-select");
     instance.trigger.setAttribute("aria-expanded", "false");
     instance.menu.hidden = true;
     if (restoreFocus) instance.trigger.focus();
@@ -13378,6 +13588,7 @@ window.exportXlsx = function () {
     if (openMenu && openMenu !== instance) close(openMenu);
     openMenu = instance;
     instance.wrapper.classList.add("is-open");
+    instance.wrapper.closest(".unified-filter-card")?.classList.add("has-open-select");
     instance.trigger.setAttribute("aria-expanded", "true");
     instance.menu.hidden = false;
     if (focusSelected)
