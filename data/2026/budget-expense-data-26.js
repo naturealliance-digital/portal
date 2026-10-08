@@ -14145,7 +14145,7 @@ window.budgetExpenseData = {
     {
       "company": "Arise",
       "month": "Apr-26",
-      "department": "Sale & Marketing",
+      "department": "Sales & Marketing",
       "category": "Repair & Maintenance",
       "amount": 25000
     },
@@ -14250,7 +14250,7 @@ window.budgetExpenseData = {
     {
       "company": "Arise",
       "month": "Jun-26",
-      "department": "MD's Office",
+      "department": "MD Room",
       "category": "Software",
       "amount": 206400
     },
@@ -14264,7 +14264,7 @@ window.budgetExpenseData = {
     {
       "company": "Arise",
       "month": "Jun-26",
-      "department": "Sale & Marketing",
+      "department": "Sales & Marketing",
       "category": "Repair & Maintenance",
       "amount": 55000
     },

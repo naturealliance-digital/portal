@@ -308,7 +308,77 @@
             <div class="unified-pie-layout"><div class="unified-pie-canvas"><canvas id="mainCategorySpendingChart" aria-label="Category spending overview chart"></canvas></div><div id="mainCategorySpendingLegend" class="unified-chart-legend"></div></div>
           </article>
         </section>
+        <section id="mainPrintActivityInsights" class="unified-chart-grid main-dashboard-print-insights" aria-label="Print activity insights">
+          <article id="mainDevicePrintCard" class="unified-chart-card card">
+            <div class="unified-chart-header chart-control-ready">
+              <div><h2>Device Print Utilisation</h2><p>Total print amount by copier and printer</p></div>
+              <select id="mainDevicePrintMetric" class="filter unified-chart-select" aria-label="Device print utilisation metric"><option value="amount">Total amount</option><option value="pages">Total pages</option></select>
+            </div>
+            <div class="unified-pie-layout"><div class="unified-pie-canvas"><canvas id="mainDevicePrintChart" aria-label="Device print utilisation chart"></canvas></div><div id="mainDevicePrintLegend" class="unified-chart-legend"></div></div>
+          </article>
+          <article id="mainCompanyPrintCard" class="unified-chart-card card">
+            <div class="unified-chart-header chart-control-ready">
+              <div><h2>Company Print Activity</h2><p>Compare total print amount across companies</p></div>
+              <select id="mainCompanyPrintChartType" class="filter unified-chart-select" aria-label="Company print activity chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select>
+            </div>
+            <div class="unified-bar-canvas"><canvas id="mainCompanyPrintChart" aria-label="Company print activity chart"></canvas></div>
+            <p id="mainCompanyPrintFooter" class="unified-chart-footer"></p>
+          </article>
+        </section>
+        <section id="mainOperationsDistributionInsights" class="unified-chart-grid main-dashboard-operations-insights" aria-label="Asset and ticket distribution insights">
+          <article id="mainTicketDistributionCard" class="unified-chart-card card">
+            <div class="unified-chart-header chart-control-ready">
+              <div><h2>Service Ticket Distribution</h2><p>Ticket volume across supported companies</p></div>
+              <select id="mainTicketDistributionChartType" class="filter unified-chart-select" aria-label="Service ticket distribution chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select>
+            </div>
+            <div class="unified-bar-canvas"><canvas id="mainTicketDistributionChart" aria-label="Service ticket distribution chart"></canvas></div>
+            <p id="mainTicketDistributionFooter" class="unified-chart-footer"></p>
+          </article>
+          <article id="mainAssetDistributionCard" class="unified-chart-card card">
+            <div class="unified-chart-header chart-control-ready">
+              <div><h2>Company Asset Inventory</h2><p>Distribution of selected assets across companies</p></div>
+              <select id="mainAssetDistributionChartType" class="filter unified-chart-select" aria-label="Company asset inventory chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select>
+            </div>
+            <div class="unified-bar-canvas"><canvas id="mainAssetDistributionChart" aria-label="Company asset inventory chart"></canvas></div>
+            <p id="mainAssetDistributionFooter" class="unified-chart-footer"></p>
+          </article>
+        </section>
         <section class="unified-grid main-dashboard-chart-grid" aria-label="Digital operations overview">
+          <article class="unified-chart-card card main-license-card">
+            <header class="unified-chart-header">
+              <div>
+                <h2>Microsoft 365 Capacity</h2> 
+                <p>License assignment and available capacity</p>
+              </div>
+            </header>
+            <div class="unified-pie-layout main-dashboard-pie-layout">
+              <div class="unified-pie-canvas main-dashboard-pie">
+                <canvas id="mainLicensePie" aria-label="Microsoft 365 license capacity chart"></canvas>
+              </div>
+              <div class="main-dashboard-legend-panel">
+                <div class="unified-chart-legend">
+                  <div>
+                    <span><i class="dot neutral-dot"></i>Total licenses</span><b><strong
+                        id="mainLicenseTotalChart">0</strong><small>Licenses</small></b>
+                  </div>
+                  <div>
+                    <span><i class="dot license-dot"></i>Active licenses</span><b><strong
+                        id="mainLicenseActiveChart">0</strong><small>Licenses</small></b>
+                  </div>
+                  <div>
+                    <span><i class="dot neutral-dot"></i>Available licenses</span><b><strong
+                        id="mainLicenseAvailableChart">0</strong><small>Licenses</small></b>
+                  </div>
+                </div>
+                <div class="main-dashboard-progress">
+                  <div class="main-dashboard-progress-label">
+                    License utilization <b id="mainLicenseUtilization">0%</b>
+                  </div>
+                  <span><i id="mainLicenseBar" style="width: 0%"></i></span>
+                </div>
+              </div>
+            </div>
+          </article>
           <article class="unified-chart-card card main-workforce-card">
             <header class="unified-chart-header">
               <div>
@@ -341,41 +411,6 @@
                     <b id="mainWorkforceFulfillment">0%</b>
                   </div>
                   <span><i id="mainWorkforceBar" style="width: 0%"></i></span>
-                </div>
-              </div>
-            </div>
-          </article>
-          <article class="unified-chart-card card main-license-card">
-            <header class="unified-chart-header">
-              <div>
-                <h2>Microsoft 365 Capacity</h2>
-                <p>License assignment and available capacity</p>
-              </div>
-            </header>
-            <div class="unified-pie-layout main-dashboard-pie-layout">
-              <div class="unified-pie-canvas main-dashboard-pie">
-                <canvas id="mainLicensePie" aria-label="Microsoft 365 license capacity chart"></canvas>
-              </div>
-              <div class="main-dashboard-legend-panel">
-                <div class="unified-chart-legend">
-                  <div>
-                    <span><i class="dot neutral-dot"></i>Total licenses</span><b><strong
-                        id="mainLicenseTotalChart">0</strong><small>Licenses</small></b>
-                  </div>
-                  <div>
-                    <span><i class="dot license-dot"></i>Active licenses</span><b><strong
-                        id="mainLicenseActiveChart">0</strong><small>Licenses</small></b>
-                  </div>
-                  <div>
-                    <span><i class="dot neutral-dot"></i>Available licenses</span><b><strong
-                        id="mainLicenseAvailableChart">0</strong><small>Licenses</small></b>
-                  </div>
-                </div>
-                <div class="main-dashboard-progress">
-                  <div class="main-dashboard-progress-label">
-                    License utilization <b id="mainLicenseUtilization">0%</b>
-                  </div>
-                  <span><i id="mainLicenseBar" style="width: 0%"></i></span>
                 </div>
               </div>
             </div>

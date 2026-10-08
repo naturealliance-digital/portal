@@ -470,18 +470,6 @@ function table() {
     data[active].length +
     " records · Click any value to edit";
 }
-function exportXlsx() {
-  let w = XLSX.utils.book_new();
-  Object.entries(data).forEach(([n, r]) =>
-    XLSX.utils.book_append_sheet(
-      w,
-      XLSX.utils.json_to_sheet(r),
-      n.slice(0, 31),
-    ),
-  );
-  XLSX.writeFile(w, "Digital-IT-Hub.xlsx");
-  show("Excel workbook exported");
-}
 try {
   data = JSON.parse(localStorage.getItem("itHubData")) || data;
 } catch {}
@@ -5703,9 +5691,14 @@ window.exportXlsx = function () {
         if (!title || !control) return;
         header.classList.add("chart-control-ready");
         header.classList.remove("chart-control-stacked");
+        // A previously stacked custom select is full-width. Flush that style
+        // change before measuring so a wide card does not stay stacked.
+        void header.offsetWidth;
         const gap = parseFloat(getComputedStyle(header).gap) || 0;
         const required = Math.ceil(
-          title.scrollWidth + control.getBoundingClientRect().width + gap,
+          title.getBoundingClientRect().width +
+            control.getBoundingClientRect().width +
+            gap,
         );
         header.classList.toggle(
           "chart-control-stacked",
@@ -8419,6 +8412,7 @@ window.exportXlsx = function () {
     optionMarkup = (items, label) =>
       `<option value="all">${label}</option>${items.map((item) => `<option value="${item}">${item}</option>`).join("")}`;
   let departmentsByCompany = {},
+    departmentsBySource = {},
     months = [],
     lastPeriod = periodSelect.value;
   const categoryField = document.createElement("label"),
@@ -8489,17 +8483,21 @@ window.exportXlsx = function () {
         "m365LicensesDB",
         window.MICROSOFT_LICENSE_DATA?.licenses || [],
       ),
-      sourceRows = [
-        ...(window.FIXED_ASSETS_DATA?.records || []),
-        ...(window.COPIER_PRINTER_DATA?.records || []),
-        ...(budgetSource.budgets || []),
-        ...(budgetSource.expenses || []),
-        ...(budgetSource.purchases || []),
-        ...(window.TICKETS_DATA || []),
-        ...microsoftCompanies,
-        ...microsoftLicenses,
-      ],
-      companyRows = sourceRows
+      sourceGroups = {
+        assets: window.FIXED_ASSETS_DATA?.records || [],
+        copier: window.COPIER_PRINTER_DATA?.records || [],
+        budget: [
+          ...(budgetSource.budgets || []),
+          ...(budgetSource.expenses || []),
+          ...(budgetSource.expenseDetails || []),
+          ...(budgetSource.purchases || []),
+        ],
+        tickets: window.TICKETS_DATA || [],
+        m365: [...microsoftCompanies, ...microsoftLicenses],
+      },
+      sourceRows = Object.values(sourceGroups).flat(),
+      companyRowsFor = (rows) =>
+        rows
         .map((record) => ({
           company: normalizeCompany(record.company || record.Company || record.c),
           department: record.department || record.Department || record.d,
@@ -8509,17 +8507,36 @@ window.exportXlsx = function () {
             record.company &&
             !["all", "total"].includes(record.company.trim().toLowerCase()),
         ),
+      departmentMapFor = (rows) =>
+        companyRowsFor(rows).reduce((result, record) => {
+          if (!record.department) return result;
+          (result[record.company] ||= new Set()).add(record.department);
+          return result;
+        }, {}),
+      companyRows = companyRowsFor(sourceRows),
       companies = [...new Set(companyRows.map((record) => record.company))].sort(
         (a, b) => a.localeCompare(b),
       );
     return {
       companies,
+      companiesBySource: Object.fromEntries(
+        Object.entries(sourceGroups).map(([source, rows]) => [
+          source,
+          [
+            ...new Set(
+              companyRowsFor(rows).map((record) => record.company),
+            ),
+          ].sort((a, b) => a.localeCompare(b)),
+        ]),
+      ),
       months: window.COPIER_PRINTER_DATA?.months || budgetSource.months || [],
-      departmentsByCompany: companyRows.reduce((result, record) => {
-        if (!record.department) return result;
-        (result[record.company] ||= new Set()).add(record.department);
-        return result;
-      }, {}),
+      departmentsByCompany: departmentMapFor(sourceRows),
+      departmentsBySource: Object.fromEntries(
+        Object.entries(sourceGroups).map(([source, rows]) => [
+          source,
+          departmentMapFor(rows),
+        ]),
+      ),
     };
   };
   const previousCalendarMonth = () => {
@@ -8562,7 +8579,12 @@ window.exportXlsx = function () {
   };
   const syncDepartments = (selectedDepartment = departmentSelect.value) => {
     const company = companySelect.value,
-      departments = [...(departmentsByCompany[company] || [])].sort((a, b) =>
+      source = sourceSelect.value,
+      departmentMap =
+        source === "all"
+          ? departmentsByCompany
+          : departmentsBySource[source] || departmentsByCompany,
+      departments = [...(departmentMap[company] || [])].sort((a, b) =>
         a.localeCompare(b),
       ),
       sourceField = sourceSelect.closest("label"),
@@ -8726,11 +8748,17 @@ window.exportXlsx = function () {
   const refreshFilters = () => {
     const selectedCompany = companySelect.value,
       selectedDepartment = departmentSelect.value,
-      data = readFilterData();
+      data = readFilterData(),
+      selectedSource = sourceSelect.value,
+      availableCompanies =
+        selectedSource === "all"
+          ? data.companies
+          : data.companiesBySource[selectedSource] || [];
     departmentsByCompany = data.departmentsByCompany;
+    departmentsBySource = data.departmentsBySource;
     months = data.months;
-    companySelect.innerHTML = optionMarkup(data.companies, "All companies");
-    if (data.companies.includes(selectedCompany))
+    companySelect.innerHTML = optionMarkup(availableCompanies, "All companies");
+    if (availableCompanies.includes(selectedCompany))
       companySelect.value = selectedCompany;
     syncPeriodFields();
     syncDepartments(selectedDepartment);
@@ -11090,7 +11118,7 @@ window.exportXlsx = function () {
         companyWrap = companyCanvas.parentElement,
         companyHeight = Math.max(280, companyItems.length * 34 + 70),
         compactCompanyChart = (companyWrap?.clientWidth || 0) < 500,
-        companyLabelWidth = compactCompanyChart ? 132 : 195,
+        companyLabelWidth = compactCompanyChart ? 104 : 140,
         companyLabelSize = compactCompanyChart ? 8 : 10,
         companyGradient = companyCanvas.getContext("2d").createLinearGradient(
           0,
@@ -11110,7 +11138,7 @@ window.exportXlsx = function () {
                   scale.width = Math.max(scale.width, companyLabelWidth);
                 },
                 ticks: {
-                  padding: 9,
+                  padding: 6,
                   color: text,
                   font: {
                     family: "Poppins",
@@ -11206,6 +11234,312 @@ window.exportXlsx = function () {
       });
     }
     return { companyTotal, categoryTotal };
+  };
+  const renderMainPrintInsights = (rows, chartType, metric, group, scopeLabel) => {
+    const companyCanvas = document.getElementById("mainCompanyPrintChart"),
+      deviceCanvas = document.getElementById("mainDevicePrintChart"),
+      deviceLegend = document.getElementById("mainDevicePrintLegend"),
+      companyFooter = document.getElementById("mainCompanyPrintFooter"),
+      dark = document.body.classList.contains("dark"),
+      usePages = metric === "pages",
+      metricLabel = usePages ? "Total pages" : "Total amount",
+      unit = usePages ? "Pages" : "MMK",
+      text = dark ? "#ead4cf" : "#806864",
+      grid = dark ? "rgba(255,221,208,.17)" : "rgba(125,92,87,.18)",
+      colors = dark
+        ? ["#ff8755", "#f5c66b", "#7056d8", "#4eb4cd", "#d85b64", "#82d5bb"]
+        : ["#d12a31", "#f06428", "#7056d8", "#3194ad", "#b94f78", "#16866a"],
+      rowValue = (row) =>
+        usePages
+          ? Number(row.totalPages) || 0
+          : Number(row.totalAmount) ||
+            (Number(row.pagesCost) || 0) + (Number(row.suppliesCost) || 0) ||
+            Number(row.cost) ||
+            0,
+      totalsBy = (key) => {
+        const totals = new Map();
+        rows.forEach((row) => {
+          const label = row[key] || "Unassigned";
+          totals.set(label, (totals.get(label) || 0) + rowValue(row));
+        });
+        return [...totals.entries()]
+          .filter(([, value]) => value > 0)
+          .sort((left, right) => right[1] - left[1]);
+      },
+      companyItems = totalsBy(group),
+      deviceItems = totalsBy("copier"),
+      companyTotal = companyItems.reduce((total, [, value]) => total + value, 0),
+      deviceTotal = deviceItems.reduce((total, [, value]) => total + value, 0),
+      formatValue = (value) => Math.round(Number(value) || 0).toLocaleString(),
+      formatCompact = (value) =>
+        usePages
+          ? formatValue(value)
+          : `${(Number(value || 0) / 1000000).toFixed(1).replace(/\.0$/, "")}M`,
+      tooltip = {
+        displayColors: true,
+        backgroundColor: "#171114",
+        titleColor: "#fff7f2",
+        bodyColor: "#fff7f2",
+        borderColor: "#d99284",
+        borderWidth: 2,
+        position: "nearest",
+        padding: { x: 11, y: 10 },
+        cornerRadius: 8,
+        caretPadding: 10,
+        boxPadding: 4,
+        titleFont: { family: "Poppins", size: 11, weight: "700" },
+        bodyFont: { family: "Poppins", size: 12, weight: "600" },
+        callbacks: {
+          label: (item) => ` ${formatValue(item.raw)} ${unit}`,
+          labelColor: (item) => ({
+            backgroundColor: Array.isArray(item.dataset.backgroundColor)
+              ? item.dataset.backgroundColor[item.dataIndex]
+              : item.dataset.borderColor || colors[0],
+            borderColor: "transparent",
+            borderWidth: 0,
+            borderRadius: 2,
+          }),
+        },
+      };
+    const companyTitle = companyCanvas
+        ?.closest(".unified-chart-card")
+        ?.querySelector("h2"),
+      companySubtitle = companyCanvas
+        ?.closest(".unified-chart-card")
+        ?.querySelector(".unified-chart-header p");
+    if (companyTitle)
+      companyTitle.textContent =
+        group === "company"
+          ? "Company Print Activity"
+          : group === "department"
+            ? "Department Print Activity"
+            : "Device Print Activity";
+    if (companySubtitle)
+      companySubtitle.textContent =
+        group === "company"
+          ? "Compare total print amount across companies"
+          : group === "department"
+            ? `Compare print amount across departments in ${scopeLabel}`
+            : `Compare print amount across devices in ${scopeLabel}`;
+    window.mainPrintInsightCharts ??= {};
+    ["company", "device"].forEach((key) => {
+      const chart = window.mainPrintInsightCharts[key];
+      if (typeof chart?.destroy === "function") chart.destroy();
+    });
+    if (companyCanvas) {
+      const isLine = chartType === "line",
+        companyWrap = companyCanvas.parentElement,
+        compact = (companyWrap?.clientWidth || 0) < 500,
+        labelWidth = compact ? 104 : 140,
+        labelSize = compact ? 8 : 10,
+        gradient = companyCanvas
+          .getContext("2d")
+          .createLinearGradient(0, 0, companyCanvas.clientWidth || 700, 0);
+      if (companyWrap)
+        companyWrap.style.height = `${isLine ? 330 : Math.max(280, companyItems.length * 56 + 76)}px`;
+      gradient.addColorStop(0, dark ? "#c94a42" : "#d12a31");
+      gradient.addColorStop(1, dark ? "#ef8563" : "#f38c47");
+      window.mainPrintInsightCharts.company = new Chart(companyCanvas, {
+        type: isLine ? "line" : "bar",
+        data: {
+          labels: companyItems.map(([label]) => label),
+          datasets: [{
+            label: metricLabel,
+            data: companyItems.map(([, value]) => value),
+            backgroundColor: isLine
+              ? dark ? "rgba(255,135,85,.14)" : "rgba(209,42,49,.11)"
+              : gradient,
+            borderColor: dark ? "#ff9569" : "#d12a31",
+            borderWidth: isLine ? 2.5 : 1.5,
+            borderRadius: isLine ? 0 : 8,
+            barThickness: isLine ? undefined : 28,
+            categoryPercentage: .76,
+            barPercentage: .9,
+            fill: isLine,
+            tension: .34,
+            pointRadius: isLine ? 4 : 0,
+            pointHoverRadius: isLine ? 6 : 0,
+          }],
+        },
+        options: {
+          indexAxis: isLine ? "x" : "y",
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 900, easing: "easeOutCubic" },
+          plugins: { legend: { display: false }, tooltip },
+          scales: isLine
+            ? {
+                x: { grid: { color: grid }, ticks: { color: text, font: { family: "Poppins", size: 9 } } },
+                y: { beginAtZero: true, grid: { color: grid }, ticks: { color: text, callback: (value) => usePages ? formatCompact(value) : `${Math.round(Number(value) / 1000000)}M`, font: { family: "Poppins", size: 9 } } },
+              }
+            : {
+                y: {
+                  grid: { display: false },
+                  afterFit: (scale) => { scale.width = Math.max(scale.width, labelWidth); },
+                  ticks: {
+                    padding: 6,
+                    color: text,
+                    font: { family: "Poppins", size: labelSize, weight: "600" },
+                    callback: function (value) {
+                      const label = String(this.getLabelForValue(value) || "");
+                      return compact && label.length > 18 ? `${label.slice(0, 17)}…` : label;
+                    },
+                  },
+                },
+                x: { beginAtZero: true, grid: { color: grid }, ticks: { color: text, callback: (value) => usePages ? formatCompact(value) : `${Math.round(Number(value) / 1000000)}M`, font: { family: "Poppins", size: 9 } } },
+              },
+        },
+      });
+    }
+    if (companyFooter)
+      companyFooter.textContent = `Total: ${formatValue(companyTotal)} ${unit}`;
+    if (deviceCanvas) {
+      const centre = {
+        id: "mainDevicePrintCentre",
+        afterDatasetsDraw(chart) {
+          const area = chart.chartArea;
+          if (!area) return;
+          const context = chart.ctx,
+            x = (area.left + area.right) / 2,
+            y = (area.top + area.bottom) / 2;
+          context.save();
+          context.textAlign = "center";
+          context.fillStyle = dark ? "#ae9698" : "#998689";
+          context.font = "600 9px Poppins, Arial";
+          context.fillText(metricLabel.toUpperCase(), x, y - 7);
+          context.fillStyle = dark ? "#fff1ec" : "#3f292d";
+          context.font = "700 22px Poppins, Arial";
+          context.fillText(formatCompact(deviceTotal), x, y + 17);
+          context.restore();
+        },
+      };
+      window.mainPrintInsightCharts.device = new Chart(deviceCanvas, {
+        type: "doughnut",
+        plugins: [centre],
+        data: {
+          labels: deviceItems.map(([label]) => label),
+          datasets: [{
+            data: deviceItems.map(([, value]) => value),
+            backgroundColor: colors,
+            borderColor: dark ? "#32171e" : "#fffaf7",
+            borderWidth: 4,
+            hoverOffset: 4,
+          }],
+        },
+        options: { responsive: true, maintainAspectRatio: false, cutout: "64%", animation: { duration: 900, easing: "easeOutCubic" }, plugins: { legend: { display: false }, tooltip } },
+      });
+    }
+    if (deviceLegend) {
+      deviceLegend.replaceChildren();
+      deviceItems.forEach(([label, value], index) => {
+        const item = document.createElement("div"),
+          name = document.createElement("span"),
+          dot = document.createElement("i"),
+          amount = document.createElement("b"),
+          valueText = document.createElement("strong"),
+          unitText = document.createElement("small");
+        dot.style.background = colors[index % colors.length];
+        name.append(dot, document.createTextNode(label));
+        valueText.textContent = formatValue(value);
+        unitText.textContent = unit;
+        amount.append(valueText, unitText);
+        item.append(name, amount);
+        deviceLegend.append(item);
+      });
+    }
+    return { companyTotal, deviceTotal };
+  };
+  const renderMainCountDistribution = ({ key, canvasId, footerId, rows, chartType, itemLabel, group }) => {
+    const canvas = document.getElementById(canvasId),
+      footer = document.getElementById(footerId),
+      dark = document.body.classList.contains("dark"),
+      text = dark ? "#ead4cf" : "#806864",
+      grid = dark ? "rgba(255,221,208,.17)" : "rgba(125,92,87,.18)",
+      totals = new Map();
+    rows.forEach((row) => {
+      const label = row[group] || "Unassigned";
+      totals.set(label, (totals.get(label) || 0) + 1);
+    });
+    const items = [...totals.entries()]
+      .filter(([, value]) => value > 0)
+      .sort((left, right) => right[1] - left[1]),
+      total = items.reduce((sum, [, value]) => sum + value, 0);
+    if (footer) footer.textContent = `Total: ${total.toLocaleString()} ${itemLabel}`;
+    window.mainDistributionCharts ??= {};
+    const existing = window.mainDistributionCharts[key];
+    if (typeof existing?.destroy === "function") existing.destroy();
+    if (!canvas || typeof Chart === "undefined") return total;
+    const isLine = chartType === "line",
+      wrap = canvas.parentElement,
+      compact = (wrap?.clientWidth || 0) < 500,
+      labelWidth = compact ? 104 : 140,
+      gradient = canvas.getContext("2d").createLinearGradient(0, 0, canvas.clientWidth || 600, 0);
+    if (wrap) wrap.style.height = `${isLine ? 330 : Math.max(280, items.length * 38 + 76)}px`;
+    gradient.addColorStop(0, dark ? "#c94a42" : "#d12a31");
+    gradient.addColorStop(1, dark ? "#ef8563" : "#f38c47");
+    window.mainDistributionCharts[key] = new Chart(canvas, {
+      type: isLine ? "line" : "bar",
+      data: {
+        labels: items.map(([label]) => label),
+        datasets: [{
+          label: itemLabel,
+          data: items.map(([, value]) => value),
+          backgroundColor: isLine ? dark ? "rgba(255,135,85,.14)" : "rgba(209,42,49,.11)" : gradient,
+          borderColor: dark ? "#ff9569" : "#d12a31",
+          borderWidth: isLine ? 2.5 : 1.5,
+          borderRadius: isLine ? 0 : 8,
+          barThickness: isLine ? undefined : 26,
+          categoryPercentage: .76,
+          barPercentage: .9,
+          fill: isLine,
+          tension: .34,
+          pointRadius: isLine ? 4 : 0,
+          pointHoverRadius: isLine ? 6 : 0,
+        }],
+      },
+      options: {
+        indexAxis: isLine ? "x" : "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 900, easing: "easeOutCubic" },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            displayColors: true,
+            backgroundColor: "#171114",
+            titleColor: "#fff7f2",
+            bodyColor: "#fff7f2",
+            borderColor: "#d99284",
+            borderWidth: 2,
+            padding: 10,
+            cornerRadius: 8,
+            callbacks: { label: (item) => ` ${Number(item.raw || 0).toLocaleString()} ${itemLabel}` },
+          },
+        },
+        scales: isLine
+          ? {
+              x: { grid: { color: grid }, ticks: { color: text, font: { family: "Poppins", size: 9 } } },
+              y: { beginAtZero: true, grid: { color: grid }, ticks: { color: text, precision: 0, font: { family: "Poppins", size: 9 } } },
+            }
+          : {
+              y: {
+                grid: { display: false },
+                afterFit: (scale) => { scale.width = Math.max(scale.width, labelWidth); },
+                ticks: {
+                  color: text,
+                  padding: 6,
+                  font: { family: "Poppins", size: compact ? 8 : 10, weight: "600" },
+                  callback: function (value) {
+                    const label = String(this.getLabelForValue(value) || "");
+                    return compact && label.length > 18 ? `${label.slice(0, 17)}…` : label;
+                  },
+                },
+              },
+              x: { beginAtZero: true, grid: { color: grid }, ticks: { color: text, precision: 0, font: { family: "Poppins", size: 9 } } },
+            },
+      },
+    });
+    return total;
   };
   const normalizeOverviewCompany = (company) =>
     ({ "Nature Allliance": "Nature Alliance", PIP: "PIP Myanmar" })[
@@ -11698,6 +12032,77 @@ window.exportXlsx = function () {
       "mainCategorySpendingCard",
       (mainExpenseInsightTotals?.categoryTotal || 0) > 0,
     );
+    const mainPrintInsightTotals = renderMainPrintInsights(
+      copierRows,
+      document.getElementById("mainCompanyPrintChartType")?.value || "bar",
+      document.getElementById("mainDevicePrintMetric")?.value || "amount",
+      selectedDepartment === "all"
+        ? selectedCompany === "all"
+          ? "company"
+          : "department"
+        : "copier",
+      selectedDepartment === "all" ? selectedCompany : selectedDepartment,
+    );
+    setFilterEmptyState("#mainCompanyPrintCard", (mainPrintInsightTotals?.companyTotal || 0) > 0);
+    setFilterEmptyState("#mainDevicePrintCard", (mainPrintInsightTotals?.deviceTotal || 0) > 0);
+    setMainChartVisibility(
+      "mainCompanyPrintCard",
+      (mainPrintInsightTotals?.companyTotal || 0) > 0,
+    );
+    setMainChartVisibility(
+      "mainDevicePrintCard",
+      (mainPrintInsightTotals?.deviceTotal || 0) > 0,
+    );
+    const mainPrintActivitySection = document.getElementById("mainPrintActivityInsights");
+    if (mainPrintActivitySection)
+      mainPrintActivitySection.hidden =
+        !mainPrintInsightTotals?.companyTotal && !mainPrintInsightTotals?.deviceTotal;
+    const detailGroup = (fallback) =>
+        selectedDepartment === "all"
+          ? selectedCompany === "all"
+            ? "company"
+            : "department"
+          : fallback,
+      mainAssetDistributionTotal = renderMainCountDistribution({
+        key: "assets",
+        canvasId: "mainAssetDistributionChart",
+        footerId: "mainAssetDistributionFooter",
+        rows: includesAssets
+          ? overviewRows({ ...overviewFilters, source: "assets" })
+          : [],
+        chartType:
+          document.getElementById("mainAssetDistributionChartType")?.value ||
+          "bar",
+        itemLabel: "Assets",
+        group: detailGroup("assetType"),
+      }),
+      mainTicketDistributionTotal = renderMainCountDistribution({
+        key: "tickets",
+        canvasId: "mainTicketDistributionChart",
+        footerId: "mainTicketDistributionFooter",
+        rows: includesTickets
+          ? overviewRows({ ...overviewFilters, source: "tickets" })
+          : [],
+        chartType:
+          document.getElementById("mainTicketDistributionChartType")?.value ||
+          "bar",
+        itemLabel: "Tickets",
+        group: selectedCompany === "all" ? "company" : "problem",
+      });
+    setMainChartVisibility(
+      "mainAssetDistributionCard",
+      mainAssetDistributionTotal > 0,
+    );
+    setMainChartVisibility(
+      "mainTicketDistributionCard",
+      mainTicketDistributionTotal > 0,
+    );
+    const mainOperationsDistributionSection = document.getElementById(
+      "mainOperationsDistributionInsights",
+    );
+    if (mainOperationsDistributionSection)
+      mainOperationsDistributionSection.hidden =
+        !mainAssetDistributionTotal && !mainTicketDistributionTotal;
     setTrack("mainApprovedBudgetBar", approvedBudget > 0 ? 100 : 0);
     setTrack(
       "mainActualExpenseBar",
@@ -11821,6 +12226,26 @@ window.exportXlsx = function () {
   document
     .getElementById("mainCategorySpendingFilter")
     ?.addEventListener("change", window.refreshMainDashboardMetrics);
+  document
+    .getElementById("mainCompanyPrintChartType")
+    ?.addEventListener("change", window.refreshMainDashboardMetrics);
+  document
+    .getElementById("mainDevicePrintMetric")
+    ?.addEventListener("change", window.refreshMainDashboardMetrics);
+  document
+    .getElementById("mainAssetDistributionChartType")
+    ?.addEventListener("change", window.refreshMainDashboardMetrics);
+  document
+    .getElementById("mainTicketDistributionChartType")
+    ?.addEventListener("change", window.refreshMainDashboardMetrics);
+  let mainChartResizeFrame;
+  window.addEventListener("resize", () => {
+    cancelAnimationFrame(mainChartResizeFrame);
+    mainChartResizeFrame = requestAnimationFrame(() => {
+      if (!document.getElementById("mainDashboard")?.hidden)
+        window.refreshMainDashboardMetrics();
+    });
+  });
   const mainDashboard = document.getElementById("mainDashboard");
   if (mainDashboard)
     new MutationObserver(() => {
