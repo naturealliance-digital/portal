@@ -13754,9 +13754,6 @@ body.dark .hub-loading-ring {
   white-space: nowrap;
 }
 
-.main-executive-kpi-table .is-kpi-unavailable { opacity: .58; }
-.main-executive-kpi-table .is-kpi-unavailable .main-executive-kpi-progress i { background: #b9a9a5; }
-
 #mainDashboard .main-executive-kpi-table .main-performance-status {
   text-transform: none !important;
   letter-spacing: .1px !important;
@@ -13801,9 +13798,9 @@ body.dark #mainDashboard .main-executive-kpi-company-detail:hover td { filter: n
 .unified-filter-card.has-open-select,
 .unified-filter-card:has(.custom-select.is-open) {
   z-index: 3001;
-  /* Tables across the dashboards use sticky headers. Reserve the menu's
-     full height while it is open so every option remains visible. */
-  margin-bottom: 292px;
+  /* The menu is absolutely positioned, so it must overlay following content
+     instead of creating a temporary blank area below the filter card. */
+  margin-bottom: 0;
 }
 .custom-select__native { position: absolute !important; width: 1px !important; height: 1px !important; margin: -1px !important; padding: 0 !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; clip-path: inset(50%) !important; white-space: nowrap !important; border: 0 !important; opacity: 0 !important; pointer-events: none !important; }
 .custom-select__trigger { display: flex; width: 100%; min-height: 38px; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 13px; border: 1px solid var(--l); border-radius: 9px; background: #fff; color: #5e6c85; font: 500 clamp(12px, .9vw, 13px) Poppins, Arial, sans-serif; line-height: 1.35; text-align: left; cursor: pointer; transition: border-color .18s ease, box-shadow .18s ease, background .18s ease; }
@@ -15578,13 +15575,12 @@ body.dark .main-performance-status.is-over {
   }
 }
 
-/* Must follow the sticky mobile filter rules above. The explicit class is
-   added by the shared select controller so the menu always sits in its own
-   space instead of visually mixing with the sticky KPI table. */
+/* Must follow the sticky mobile filter rules above so an open menu layers
+   above the KPI table without changing the dashboard layout. */
 #mainDashboard .main-dashboard-filter-card.has-open-select,
 #mainDashboard .main-dashboard-filter-card:has(.custom-select.is-open) {
   z-index: 3001;
-  margin-bottom: 292px !important;
+  margin-bottom: 0 !important;
   max-height: none;
   overflow: visible !important;
 }
