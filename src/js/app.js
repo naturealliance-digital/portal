@@ -11046,9 +11046,9 @@ window.exportXlsx = function () {
           }),
         },
       },
-      sumBy = (key) => {
+      sumBy = (key, sourceRows = rows) => {
         const totals = new Map();
-        rows.forEach((row) => {
+        sourceRows.forEach((row) => {
           const label = row[key] || "Uncategorized";
           totals.set(label, (totals.get(label) || 0) + (Number(row.amount) || 0));
         });
@@ -11056,9 +11056,7 @@ window.exportXlsx = function () {
           .filter(([, value]) => value > 0)
           .sort((a, b) => b[1] - a[1]);
       },
-      companyItems = sumBy(group),
-      categoryItems = sumBy("category"),
-      availableCategories = categoryItems
+      availableCategories = sumBy("category")
         .map(([label]) => label)
         .sort((first, second) => first.localeCompare(second));
     if (categoryControl) {
@@ -11070,12 +11068,15 @@ window.exportXlsx = function () {
         categoryControl.add(new Option(category, category)),
       );
       categoryControl.value = wanted;
+      window.refreshCustomSelects?.();
     }
-    const selectedCategory = categoryFilter === "all" ? "all" : categoryFilter,
-      visibleCategoryItems =
+    const selectedCategory = categoryControl?.value || categoryFilter || "all",
+      filteredRows =
         selectedCategory === "all"
-          ? categoryItems
-          : categoryItems.filter(([label]) => label === selectedCategory),
+          ? rows
+          : rows.filter((row) => row.category === selectedCategory),
+      companyItems = sumBy(group, filteredRows),
+      visibleCategoryItems = sumBy("category", filteredRows),
       chartType = companyChartType === "line" ? "line" : "bar",
       companyLabels = companyItems.map(([label]) => label),
       companyValues = companyItems.map(([, value]) => value),
@@ -11330,13 +11331,17 @@ window.exportXlsx = function () {
       const isLine = chartType === "line",
         companyWrap = companyCanvas.parentElement,
         compact = (companyWrap?.clientWidth || 0) < 500,
-        labelWidth = compact ? 104 : 140,
+        labelWidth = compact ? 94 : 112,
         labelSize = compact ? 8 : 10,
         gradient = companyCanvas
           .getContext("2d")
           .createLinearGradient(0, 0, companyCanvas.clientWidth || 700, 0);
       if (companyWrap)
-        companyWrap.style.height = `${isLine ? 330 : Math.max(280, companyItems.length * 56 + 76)}px`;
+        companyWrap.style.setProperty(
+          "height",
+          `${isLine ? 330 : Math.max(compact ? 212 : 224, companyItems.length * (compact ? 38 : 42) + 64)}px`,
+          "important",
+        );
       gradient.addColorStop(0, dark ? "#c94a42" : "#d12a31");
       gradient.addColorStop(1, dark ? "#ef8563" : "#f38c47");
       window.mainPrintInsightCharts.company = new Chart(companyCanvas, {
@@ -11375,9 +11380,9 @@ window.exportXlsx = function () {
             : {
                 y: {
                   grid: { display: false },
-                  afterFit: (scale) => { scale.width = Math.max(scale.width, labelWidth); },
+                  afterFit: (scale) => { scale.width = labelWidth; },
                   ticks: {
-                    padding: 6,
+                    padding: 0,
                     color: text,
                     font: { family: "Poppins", size: labelSize, weight: "600" },
                     callback: function (value) {
@@ -11472,9 +11477,14 @@ window.exportXlsx = function () {
     const isLine = chartType === "line",
       wrap = canvas.parentElement,
       compact = (wrap?.clientWidth || 0) < 500,
-      labelWidth = compact ? 104 : 140,
+      labelWidth = compact ? 94 : 112,
       gradient = canvas.getContext("2d").createLinearGradient(0, 0, canvas.clientWidth || 600, 0);
-    if (wrap) wrap.style.height = `${isLine ? 330 : Math.max(280, items.length * 38 + 76)}px`;
+    if (wrap)
+      wrap.style.setProperty(
+        "height",
+        `${isLine ? 330 : Math.max(compact ? 208 : 220, items.length * (compact ? 36 : 40) + 60)}px`,
+        "important",
+      );
     gradient.addColorStop(0, dark ? "#c94a42" : "#d12a31");
     gradient.addColorStop(1, dark ? "#ef8563" : "#f38c47");
     window.mainDistributionCharts[key] = new Chart(canvas, {
@@ -11524,10 +11534,10 @@ window.exportXlsx = function () {
           : {
               y: {
                 grid: { display: false },
-                afterFit: (scale) => { scale.width = Math.max(scale.width, labelWidth); },
+                afterFit: (scale) => { scale.width = labelWidth; },
                 ticks: {
                   color: text,
-                  padding: 6,
+                  padding: 0,
                   font: { family: "Poppins", size: compact ? 8 : 10, weight: "600" },
                   callback: function (value) {
                     const label = String(this.getLabelForValue(value) || "");
