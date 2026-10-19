@@ -373,7 +373,6 @@
       <section id="fixedassetsDashboard" class="fixedassets-dashboard" hidden></section>
       <section id="microsoft365Dashboard" class="microsoft365-dashboard" hidden></section>
       <section id="comparisonDashboard" class="comparison-dashboard" hidden>
-        <h1>Coming Soon</h1>
       </section>
       <section class="unified-kpi-grid" id="kpis"></section>
       <section class="grid">
@@ -421,57 +420,6 @@
     </main>
   </div>
   <div class="toast" id="toast"></div>
-  <script>
-    window.addEventListener("DOMContentLoaded", () => {
-      const panel = document.getElementById("comparisonDashboard");
-      const navigate = window.navigateHubPage;
-      if (!panel || typeof navigate !== "function") return;
-      window.navigateHubPage = function (name, push = true) {
-        navigate(name, push);
-        const selected = name === "FY Comparison";
-        panel.hidden = !selected;
-        document
-          .querySelectorAll("#kpis,main>.grid,main>section.card.tablecard")
-          .forEach((element) => (element.hidden = selected));
-      };
-      const selected = document.documentElement.dataset.dashboard === "FY Comparison";
-      panel.hidden = !selected;
-      document
-        .querySelectorAll("#kpis,main>.grid,main>section.card.tablecard")
-        .forEach((element) => (element.hidden = selected));
-    });
-  </script>
-  <script>
-    window.addEventListener("DOMContentLoaded", () => {
-      const heading = document.getElementById("h1"),
-        crumb = document.getElementById("crumb");
-      const updateTitle = () => {
-        if (
-          (crumb?.textContent || "").trim() === "Dashboard" &&
-          heading.textContent !== "Digital Operations"
-        )
-          heading.textContent = "Digital Operations";
-      };
-      const navigate = window.navigateHubPage;
-      if (typeof navigate === "function")
-        window.navigateHubPage = function (name, push = true) {
-          const result = navigate(name, push);
-          if (name === "Dashboard") updateTitle();
-          return result;
-        };
-      new MutationObserver(updateTitle).observe(heading, {
-        childList: true,
-        characterData: true,
-        subtree: true,
-      });
-      new MutationObserver(updateTitle).observe(crumb, {
-        childList: true,
-        characterData: true,
-        subtree: true,
-      });
-      updateTitle();
-    });
-  </script>
 </body>
 
 </html>

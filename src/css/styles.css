@@ -3067,26 +3067,6 @@ body.dark .unified-kpi-grid .unified-kpi-card:nth-child(4) .unified-kpi-context 
   color: #fff
 }
 
-.org-admin-branch>.org-profile::before,
-.org-site-branch>.org-profile::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: -15px;
-  width: 1px;
-  height: 15px;
-  background: #d9bdb4
-}
-
-body.dark .structure-panel-head {
-  border-color: #553137
-}
-
-body.dark .structure-status {
-  background: #4a2428;
-  color: #ffab82
-}
-
 body.dark .responsibility-org {
   background: linear-gradient(180deg, #29151a, #241216)
 }
@@ -3106,14 +3086,7 @@ body.dark .org-role-manager {
   border-color: #66575a
 }
 
-body.dark .manager-scope span {
-  background: #42242b;
-  color: #d8c4c5
-}
-
 body.dark .org-link,
-body.dark .org-branch::before,
-body.dark .org-branch::after,
 body.dark .org-profile::before {
   background: #70464b
 }
@@ -3141,20 +3114,11 @@ body.dark .org-profile-lead header {
   background: linear-gradient(135deg, #a72e34, #dc6238)
 }
 
-body.dark .org-profile-site header {
-  background: #3b2d20;
-  border-bottom-color: #5c4930
-}
-
 @media(max-width:900px) {
   .responsibility-org {
     padding: 18px 14px
   }
 
-  .org-site-branch::after,
-  .org-site-branch>.org-profile::before {
-    display: none
-  }
 }
 
 @media(max-width:620px) {
@@ -3172,19 +3136,8 @@ body.dark .org-profile-site header {
     height: 12px
   }
 
-  .org-branch::before,
-  .org-branch::after,
-  .org-branch>.org-profile::before {
-    display: none
-  }
-
   .org-profile-lead {
     width: 100%
-  }
-
-  body.dark .manager-scope,
-  body.dark .org-branch {
-    border-left-color: #70464b
   }
 
   .org-profile ul {
@@ -3293,17 +3246,10 @@ body.dark .org-peer-card::before {
   background: #70464b
 }
 
-body.dark .org-tier-label {
-  background: #3a1d23;
-  border-color: #553137
-}
-
-body.dark .org-tier-label b,
 body.dark .shared-services-title b {
   color: #f1dfdb
 }
 
-body.dark .org-tier-label span,
 body.dark .shared-services-title small {
   color: #bda6a8
 }
@@ -4715,13 +4661,7 @@ body.dark .workforce-branch.software .workforce-functions article:nth-child(2) s
   }
 }
 
-@media(min-width:1051px) and (max-width:1199px) {
-  .workforce-branch.infrastructure .workforce-functions {
-    grid-template-columns: repeat(4, minmax(0, 1fr))
-  }
-}
-
-@media(min-width:701px) and (max-width:1050px) {
+@media(min-width:701px) and (max-width:1199px) {
   .workforce-branch.infrastructure .workforce-functions {
     grid-template-columns: repeat(4, minmax(0, 1fr))
   }
@@ -4787,9 +4727,6 @@ body.dark .workforce-branch.software .workforce-functions article:nth-child(2) s
     min-height: 0
   }
 
-  .org-peer-card ul {
-    min-height: 0 !important
-  }
 }
 
 @media(max-width:780px) {
@@ -5288,18 +5225,6 @@ body.dark .workforce-people article:before {
     width: 1px !important
   }
 
-  body.dark .workforce-leaders:after,
-  body.dark .workforce-branches:before,
-  body.dark .workforce-branch:before,
-  body.dark .workforce-lead-role:before,
-  body.dark .workforce-functions:before,
-  body.dark .workforce-functions:after,
-  body.dark .workforce-functions article:before,
-  body.dark .workforce-people:before,
-  body.dark .workforce-people:after,
-  body.dark .workforce-people article:before {
-    background: #70464b !important
-  }
 }
 
 /* Software Development footer: independent dashed ownership lines */
@@ -5309,12 +5234,6 @@ body.dark .workforce-people article:before {
     background-position: 25% 0, 75% 0;
     background-repeat: no-repeat;
     background-size: 1px 100%, 1px 100%
-  }
-
-  .workforce-branch.software .workforce-people {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 7px;
-    margin-top: 28px
   }
 
   .workforce-branch.software .workforce-people:before,
@@ -5358,9 +5277,6 @@ body.dark .workforce-people article:before {
     border-left-style: solid !important
   }
 
-  body.dark .workforce-branch.software .workforce-functions {
-    background-image: linear-gradient(#85615d, #85615d), linear-gradient(#85615d, #85615d)
-  }
 }
 
 /* One continuous vertical connector per Software Development footer role */
@@ -5498,8 +5414,6 @@ body.dark .workforce-people article:before {
 
 @media(max-width:620px) {
 
-  .manager-scope,
-  .org-branch,
   .org-team-tier {
     border-left-color: #eadfdb !important
   }
@@ -5546,8 +5460,6 @@ body.dark .workforce-branch.software .workforce-functions {
 
 @media(max-width:620px) {
 
-  body.dark .manager-scope,
-  body.dark .org-branch,
   body.dark .org-team-tier {
     border-left-color: #51363b !important
   }
@@ -5670,10 +5582,6 @@ body.dark .workforce-branch.software .workforce-functions {
 @media(min-width:1200px) {
   .workforce-branch.infrastructure .workforce-people {
     grid-template-columns: repeat(16, minmax(0, 1fr))
-  }
-
-  .workforce-branch.infrastructure .workforce-people article:nth-child(1) {
-    grid-column: 1 / span 2
   }
 
   .workforce-branch.infrastructure .workforce-people article:nth-child(2) {
@@ -6160,35 +6068,12 @@ button,
   --service-bg: #fff0e7
 }
 
-body.dark .digital-core-panel {
-  border-color: #553137;
-  background: #2d171c;
-  box-shadow: 0 9px 25px rgba(0, 0, 0, .18)
-}
-
-body.dark .digital-core-panel>header {
-  border-color: #553137;
-  background: linear-gradient(135deg, #351a20, #2d171c)
-}
-
-body.dark .digital-core-mark {
-  background: #512620;
-  color: #ff9a72
-}
-
-body.dark .digital-core-panel h3,
 body.dark .digital-service-item b {
   color: #f1e3df
 }
 
-body.dark .digital-core-panel header p,
 body.dark .digital-service-item small {
   color: #bfa9ab
-}
-
-body.dark .digital-core-panel header em {
-  background: #42242b;
-  color: #d7b9b5
 }
 
 body.dark .digital-service-grid {
@@ -6280,14 +6165,6 @@ body.dark .digital-service-item.tone-orange {
   margin-top: 1px
 }
 
-body.dark .digital-core-panel>header h2 {
-  color: #f1e3df
-}
-
-body.dark .digital-core-panel>header p {
-  color: #bfa9ab
-}
-
 body.dark .digital-service-item small {
   color: var(--service-color)
 }
@@ -6295,13 +6172,6 @@ body.dark .digital-service-item small {
 @media(max-width:1000px) {
   .digital-service-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr))
-  }
-}
-
-@media(max-width:620px) {
-
-  .digital-service-grid {
-    grid-template-columns: 1fr
   }
 }
 
@@ -7372,49 +7242,6 @@ body.dark .digital-functions-heading {
   color: #6a50c7
 }
 
-body.dark .site-coverage-card {
-  border-color: #55373d;
-  background: #2d171c;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, .18)
-}
-
-body.dark .site-coverage-table th {
-  border-color: #55373d;
-  background: #3a2026;
-  color: #e0cfcb
-}
-
-body.dark .site-coverage-table td,
-body.dark .site-coverage-table tbody tr:nth-child(even) td,
-body.dark .site-coverage-table tbody tr:nth-child(even) td:is(:first-child, :nth-child(2), :nth-child(3)) {
-  border-color: #4d3035;
-  background: #2d171c;
-  color: #ddcbc8
-}
-
-body.dark .site-coverage-table tbody tr:hover td,
-body.dark .site-coverage-table tbody tr:hover td:is(:first-child, :nth-child(2), :nth-child(3)) {
-  background: #382027
-}
-
-body.dark .site-coverage-table td:first-child b {
-  color: #f2e3df
-}
-
-body.dark .coverage-empty {
-  color: #6e4d50
-}
-
-body.dark .site-coverage-card footer {
-  border-color: #55373d;
-  background: #351e24;
-  color: #bfa9ab
-}
-
-.site-coverage-tools .search {
-  width: 220px
-}
-
 .coverage-select {
   min-width: 104px;
   padding: 6px 26px 6px 10px;
@@ -7436,24 +7263,6 @@ body.dark .site-coverage-card footer {
   color: #c43d38
 }
 
-body.dark .site-coverage-toolbar {
-  border-color: #55373d;
-  background: #321c22
-}
-
-body.dark .site-coverage-toolbar h3 {
-  color: #f2e3df
-}
-
-body.dark .site-coverage-toolbar p {
-  color: #bfa9ab
-}
-
-body.dark .site-coverage-table td[contenteditable="true"]:focus {
-  background: #43262c !important;
-  box-shadow: inset 0 0 0 2px rgba(255, 154, 112, .32)
-}
-
 body.dark .coverage-select {
   background: #21443a;
   color: #8de0bf
@@ -7467,20 +7276,6 @@ body.dark .coverage-select.scheduled {
 body.dark .coverage-select.planned {
   background: #51262a;
   color: #ff9b94
-}
-
-body.dark .site-coverage-table td:nth-child(3),
-body.dark .site-coverage-table td:nth-child(4) {
-  color: #e2d0cd
-}
-
-@media(max-width:700px) {
-
-  .site-coverage-tools .search,
-  .site-coverage-tools .filter {
-    width: 100% !important;
-    min-width: 0
-  }
 }
 
 /* Plain assigned-team list and arrowless editable coverage badge */
@@ -7592,13 +7387,6 @@ body.dark .site-assignment-matrix .assignment-cell {
   font-weight: 700 !important
 }
 
-.site-coverage-table .coverage-select {
-  width: auto;
-  min-width: 0;
-  padding-left: 10px;
-  padding-right: 10px
-}
-
 .site-assignment-matrix .assigned-total {
   cursor: default;
   user-select: none
@@ -7627,26 +7415,6 @@ body.dark .site-assignment-matrix .assignment-cell:focus-visible {
 .site-assignment-matrix .coverage-badge {
   width: auto;
   min-width: 0
-}
-
-.site-coverage-table .coverage-badge.planned {
-  background: #fee8e7;
-  color: #c43d38
-}
-
-body.dark .site-coverage-table .coverage-badge.planned {
-  background: #51262a;
-  color: #ff9b94
-}
-
-body.dark .site-coverage-table .coverage-badge.fulltime {
-  background: #21443a;
-  color: #8de0bf
-}
-
-body.dark .site-coverage-table .coverage-badge.scheduled {
-  background: #49381d;
-  color: #f2cc76
 }
 
 /* Site Coverage summary cards */
@@ -8172,15 +7940,6 @@ body.dark .site-chart-title>span {
   color: #ff9b80
 }
 
-body.dark .site-chart-legend>div {
-  background: linear-gradient(145deg, #32171e, #381a21);
-  color: #cfb9bb
-}
-
-body.dark .site-chart-legend b {
-  color: #f0ded9
-}
-
 @media(max-width:1100px) {
   .site-coverage-chart-grid {
     grid-template-columns: 1fr
@@ -8629,10 +8388,6 @@ body.dark .site-team-location .coverage-planned {
 
 .site-team-coverage-card .site-chart-card {
   border-radius: 14px
-}
-
-body.dark .site-support-title-icon {
-  box-shadow: 0 5px 14px rgba(0, 0, 0, .2)
 }
 
 /* Pointer feedback for every filter and select control */
@@ -9122,14 +8877,6 @@ body.dark .unified-chart-legend {
     min-height: 96px;
     padding: 12px
   }
-}
-
-/* Responsive custom-range date controls */
-
-.unified-kpi-icon.currency-label {
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: .02em
 }
 
 .unified-kpi-icon svg {
@@ -10464,9 +10211,6 @@ main>.grid {
     font-size: 11px !important
   }
 
-  .side#side .nav-icon {
-    font-size: 15px
-  }
 }
 
 /* The first visual KPI uses a text subtitle rather than a badge. */
@@ -10518,12 +10262,6 @@ body.dark .visual-kpi.metric-tone-1 .visual-kpi-badge {
   }
 }
 
-/* Reusable common summary-card red tone. */
-.summary-card.tone-red {
-  --summary-color: #c94438;
-  --summary-soft: #feece6
-}
-
 /* Planned coverage uses the shared red status tone. */
 .coverage-badge.planned {
   background: #fee8e7 !important;
@@ -10539,11 +10277,6 @@ body.dark .visual-kpi.metric-tone-1 .visual-kpi-badge {
 .coverage-badge.scheduled {
   background: #fff2d9 !important;
   color: #a86d13 !important
-}
-
-.coverage-badge.planned {
-  background: #fee8e7 !important;
-  color: #c43d38 !important
 }
 
 body.dark .coverage-badge.fulltime {
@@ -12994,10 +12727,6 @@ body.dark #copierprinterusageDashboard #copierDeviceLegend b small {
 
 }
 
-#copierprinterusageDashboard .unified-filter-card label.is-disabled {
-  opacity: .62;
-}
-
 #copierprinterusageDashboard .unified-filter-card select:disabled {
   cursor: not-allowed;
 }
@@ -13783,7 +13512,6 @@ body.dark #mainDashboard .main-executive-kpi-table tbody tr.main-executive-kpi-c
 body.dark #mainDashboard .main-executive-kpi-company-detail td:first-child::before { background: #a95354; }
 body.dark #mainDashboard .main-executive-kpi-company-detail:hover td { filter: none; }
 @media (max-width: 700px) {
-  #mainDashboard .main-executive-kpi-register { order: 20; }
   .main-executive-kpi-progress { min-width: 126px; }
 }
 

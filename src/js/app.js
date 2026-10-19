@@ -112,6 +112,60 @@ if (window.Chart) {
   });
 })();
 
+// Shared entry-page behavior; kept here so every dashboard uses one source.
+(() => {
+  const initializePageBehavior = () => {
+    const panel = document.getElementById("comparisonDashboard");
+    const heading = document.getElementById("h1");
+    const crumb = document.getElementById("crumb");
+    const updateTitle = () => {
+      if (
+        heading &&
+        (crumb?.textContent || "").trim() === "Dashboard" &&
+        heading.textContent !== "Digital Operations"
+      )
+        heading.textContent = "Digital Operations";
+    };
+    const navigate = window.navigateHubPage;
+    if (typeof navigate === "function")
+      window.navigateHubPage = function (name, push = true) {
+        const result = navigate(name, push);
+        if (panel) {
+          const selected = name === "FY Comparison";
+          panel.hidden = !selected;
+          document
+            .querySelectorAll("#kpis,main>.grid,main>section.card.tablecard")
+            .forEach((element) => (element.hidden = selected));
+        }
+        if (name === "Dashboard") updateTitle();
+        return result;
+      };
+    if (panel) {
+      const selected = document.documentElement.dataset.dashboard === "FY Comparison";
+      panel.hidden = !selected;
+      document
+        .querySelectorAll("#kpis,main>.grid,main>section.card.tablecard")
+        .forEach((element) => (element.hidden = selected));
+    }
+    if (heading && crumb) {
+      new MutationObserver(updateTitle).observe(heading, {
+        childList: true,
+        characterData: true,
+        subtree: true,
+      });
+      new MutationObserver(updateTitle).observe(crumb, {
+        childList: true,
+        characterData: true,
+        subtree: true,
+      });
+      updateTitle();
+    }
+  };
+  if (document.readyState === "loading")
+    document.addEventListener("DOMContentLoaded", initializePageBehavior, { once: true });
+  else initializePageBehavior();
+})();
+
 const menu = [
   ["🏠", "Dashboard", "Overall IT management view"],
   ["👥", "Manpower", "Digital team & workload"],
