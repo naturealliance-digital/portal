@@ -488,6 +488,11 @@ window.addEventListener("DOMContentLoaded", async () => {
       const colors = dark
         ? ["#f08a54", "#55bdd0", "#e7be63", "#a98bea", "#e46b73", "#80c7a9"]
         : ["#d12a31", "#168dac", "#d7a126", "#8057c7", "#e36a4f", "#16866a"];
+      const categoryColors = new Map(
+        [...new Set(categoryTotals.flatMap((totals) => Object.keys(totals || {})))]
+          .sort((left, right) => left.localeCompare(right))
+          .map((category, index) => [category, colors[index % colors.length]]),
+      );
 
       years.forEach((year, index) => {
         const card = document.getElementById(`comparisonCategoryCard${year}`);
@@ -498,18 +503,17 @@ window.addEventListener("DOMContentLoaded", async () => {
         comparisonCategoryCharts[year]?.destroy();
         if (!visible || !canvas) return;
 
-        const allEntries = Object.entries(categoryTotals[index] || {})
+        const entries = Object.entries(categoryTotals[index] || {})
           .filter(([, amount]) => amount > 0)
           .sort(([, left], [, right]) => right - left);
-        const entries = allEntries;
         const hasData = entries.length > 0;
         const labels = hasData ? entries.map(([category]) => category) : ["No matching expenses"];
         const values = hasData ? entries.map(([, amount]) => amount) : [1];
         const total = entries.reduce((sum, [, amount]) => sum + amount, 0);
         if (legend)
           legend.innerHTML = hasData
-            ? entries.map(([category, amount], itemIndex) => {
-                const color = colors[itemIndex % colors.length];
+            ? entries.map(([category, amount]) => {
+                const color = categoryColors.get(category) || colors[0];
                 return `<div class="comparison-category-legend-item"><i style="background:${color}" aria-hidden="true"></i><span>${escapeOption(category)}</span><strong>${Math.round(amount).toLocaleString()}<small>MMK</small></strong></div>`;
               }).join("")
             : '<div class="comparison-category-legend-item"><span>No matching expenses</span></div>';
@@ -520,7 +524,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             datasets: [{
               data: values,
               backgroundColor: hasData
-                ? entries.map((_, itemIndex) => colors[itemIndex % colors.length])
+                ? entries.map(([category]) => categoryColors.get(category) || colors[0])
                 : [dark ? "#59454a" : "#e6d7d3"],
               borderColor: dark ? "#32171e" : "#fffaf7",
               borderWidth: 3,

@@ -15749,11 +15749,6 @@ body.dark .comparison-company-row:is(:hover, :focus-within) > td {
   content: "";
 }
 
-.comparison-drill-department > td:first-child::before {
-  position: absolute;
-  right: auto;
-}
-
 .comparison-drill-month {
   cursor: default;
 }
