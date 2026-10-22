@@ -7685,6 +7685,83 @@ window.budgetExpenseData = {
     },
     {
       "company": "Nature Alliance",
+      "month": "Apr-24",
+      "department": "Chairman Room",
+      "category": "Repair & Maintenance",
+      "amount": 495000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-24",
+      "department": "Chairman Room",
+      "category": "Device & Accessories",
+      "amount": 501000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-24",
+      "department": "Chairman Room",
+      "category": "Internet Bill",
+      "amount": 460000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-24",
+      "department": "Chairman Room",
+      "category": "Software",
+      "amount": 109931
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-24",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 345000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-24",
+      "department": "Finance",
+      "category": "Device & Accessories",
+      "amount": 19000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-24",
+      "department": "HR",
+      "category": "Device & Accessories",
+      "amount": 17000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-24",
+      "department": "Audit",
+      "category": "Device & Accessories",
+      "amount": 12000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-24",
+      "department": "Digital",
+      "category": "Device & Accessories",
+      "amount": 6000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-24",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 112000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Apr-24",
+      "department": "Coporate Secretrial",
+      "category": "Repair & Maintenance",
+      "amount": 42000
+    },
+    {
+      "company": "Nature Alliance",
       "month": "May-24",
       "department": "Common",
       "category": "Copier Toner",
@@ -7720,6 +7797,118 @@ window.budgetExpenseData = {
     },
     {
       "company": "Nature Alliance",
+      "month": "May-24",
+      "department": "BDPM",
+      "category": "Fixed Assets",
+      "amount": 2575000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-24",
+      "department": "Finance",
+      "category": "Fixed Assets",
+      "amount": 7105000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-24",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 40000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-24",
+      "department": "Finance",
+      "category": "Device & Accessories",
+      "amount": 1466000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-24",
+      "department": "Finance",
+      "category": "Software",
+      "amount": 218989
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-24",
+      "department": "Coporate Secretrial",
+      "category": "Copier Toner",
+      "amount": 872235
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-24",
+      "department": "Coporate Secretrial",
+      "category": "Repair & Maintenance",
+      "amount": 120000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-24",
+      "department": "Coporate Secretrial",
+      "category": "Device & Accessories",
+      "amount": 153000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-24",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 279000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-24",
+      "department": "Admin",
+      "category": "Device & Accessories",
+      "amount": 18000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-24",
+      "department": "HR",
+      "category": "Device & Accessories",
+      "amount": 50000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-24",
+      "department": "HR",
+      "category": "Software",
+      "amount": 15000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-24",
+      "department": "Digital",
+      "category": "Device & Accessories",
+      "amount": 6000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-24",
+      "department": "Legal",
+      "category": "Repair & Maintenance",
+      "amount": 68000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-24",
+      "department": "Legal",
+      "category": "Device & Accessories",
+      "amount": 24000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "May-24",
+      "department": "Audit",
+      "category": "Repair & Maintenance",
+      "amount": 120000
+    },
+    {
+      "company": "Nature Alliance",
       "month": "Jun-24",
       "department": "Common",
       "category": "Repair & Maintenance",
@@ -7738,6 +7927,83 @@ window.budgetExpenseData = {
       "department": "Common",
       "category": "Software",
       "amount": 12372290
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-24",
+      "department": "Admin",
+      "category": "Fixed Assets",
+      "amount": 3208410
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-24",
+      "department": "Finance",
+      "category": "Fixed Assets",
+      "amount": 3208410
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-24",
+      "department": "Finance",
+      "category": "Device & Accessories",
+      "amount": 24000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-24",
+      "department": "Digital",
+      "category": "Copier Toner",
+      "amount": 278000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-24",
+      "department": "Digital",
+      "category": "Repair & Maintenance",
+      "amount": 162500
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-24",
+      "department": "Digital",
+      "category": "Device & Accessories",
+      "amount": 464000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-24",
+      "department": "BDPM",
+      "category": "Device & Accessories",
+      "amount": 222000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-24",
+      "department": "Coporate Secretrial",
+      "category": "Device & Accessories",
+      "amount": 275000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-24",
+      "department": "Chairman Room",
+      "category": "Software",
+      "amount": 956865
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-24",
+      "department": "HR",
+      "category": "Repair & Maintenance",
+      "amount": 38000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jun-24",
+      "department": "Legal",
+      "category": "Repair & Maintenance",
+      "amount": 288000
     },
     {
       "company": "Nature Alliance",
@@ -7766,6 +8032,76 @@ window.budgetExpenseData = {
       "department": "Common",
       "category": "Software",
       "amount": 15248132
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-24",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 274000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-24",
+      "department": "Finance",
+      "category": "Device & Accessories",
+      "amount": 515000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-24",
+      "department": "Digital",
+      "category": "Repair & Maintenance",
+      "amount": 180000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-24",
+      "department": "Digital",
+      "category": "Device & Accessories",
+      "amount": 23700
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-24",
+      "department": "HR",
+      "category": "Repair & Maintenance",
+      "amount": 80000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-24",
+      "department": "HR",
+      "category": "Device & Accessories",
+      "amount": 20000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-24",
+      "department": "Chairman Room",
+      "category": "Internet Bill",
+      "amount": 147282
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-24",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 223000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-24",
+      "department": "Audit",
+      "category": "Repair & Maintenance",
+      "amount": 340000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jul-24",
+      "department": "Legal",
+      "category": "Repair & Maintenance",
+      "amount": 15000
     },
     {
       "company": "Nature Alliance",
@@ -7804,6 +8140,97 @@ window.budgetExpenseData = {
     },
     {
       "company": "Nature Alliance",
+      "month": "Aug-24",
+      "department": "Finance",
+      "category": "Fixed Assets",
+      "amount": 4039200
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-24",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 1585000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-24",
+      "department": "Finance",
+      "category": "Device & Accessories",
+      "amount": 158000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-24",
+      "department": "Coporate Secretrial",
+      "category": "Fixed Assets",
+      "amount": 4039200
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-24",
+      "department": "Coporate Secretrial",
+      "category": "Repair & Maintenance",
+      "amount": 175000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-24",
+      "department": "Coporate Secretrial",
+      "category": "Device & Accessories",
+      "amount": 27500
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-24",
+      "department": "Digital",
+      "category": "Device & Accessories",
+      "amount": 116000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-24",
+      "department": "Digital",
+      "category": "Software",
+      "amount": 371000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-24",
+      "department": "HR",
+      "category": "Device & Accessories",
+      "amount": 36000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-24",
+      "department": "HR",
+      "category": "Software",
+      "amount": 13000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-24",
+      "department": "Legal",
+      "category": "Device & Accessories",
+      "amount": 68000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-24",
+      "department": "Audit",
+      "category": "Repair & Maintenance",
+      "amount": 340000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Aug-24",
+      "department": "Quality Management",
+      "category": "Repair & Maintenance",
+      "amount": 35000
+    },
+    {
+      "company": "Nature Alliance",
       "month": "Sep-24",
       "department": "Common",
       "category": "Device & Accessories",
@@ -7822,6 +8249,62 @@ window.budgetExpenseData = {
       "department": "Common",
       "category": "Software",
       "amount": 10572612
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-24",
+      "department": "Coporate Secretrial",
+      "category": "Device & Accessories",
+      "amount": 1298000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-24",
+      "department": "Digital",
+      "category": "Repair & Maintenance",
+      "amount": 60000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-24",
+      "department": "Digital",
+      "category": "Device & Accessories",
+      "amount": 630000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-24",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 140000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-24",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 65000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-24",
+      "department": "BDPM",
+      "category": "Copier Toner",
+      "amount": 3170000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-24",
+      "department": "HR",
+      "category": "Fixed Assets",
+      "amount": 12398400
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Sep-24",
+      "department": "Audit",
+      "category": "Fixed Assets",
+      "amount": 3837600
     },
     {
       "company": "Nature Alliance",
@@ -7860,6 +8343,111 @@ window.budgetExpenseData = {
     },
     {
       "company": "Nature Alliance",
+      "month": "Oct-24",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 400000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Oct-24",
+      "department": "Admin",
+      "category": "Device & Accessories",
+      "amount": 90000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Oct-24",
+      "department": "BDPM",
+      "category": "Repair & Maintenance",
+      "amount": 375000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Oct-24",
+      "department": "BDPM",
+      "category": "Device & Accessories",
+      "amount": 26000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Oct-24",
+      "department": "Coporate Secretrial",
+      "category": "Device & Accessories",
+      "amount": 48000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Oct-24",
+      "department": "HR",
+      "category": "Device & Accessories",
+      "amount": 35000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Oct-24",
+      "department": "Audit",
+      "category": "Repair & Maintenance",
+      "amount": 200000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Oct-24",
+      "department": "Audit",
+      "category": "Device & Accessories",
+      "amount": 84000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Oct-24",
+      "department": "Digital",
+      "category": "Repair & Maintenance",
+      "amount": 65000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Oct-24",
+      "department": "Digital",
+      "category": "Device & Accessories",
+      "amount": 208600
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Oct-24",
+      "department": "Legal",
+      "category": "Repair & Maintenance",
+      "amount": 72000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Oct-24",
+      "department": "Legal",
+      "category": "Device & Accessories",
+      "amount": 15000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Oct-24",
+      "department": "Chairman Room",
+      "category": "Internet Bill",
+      "amount": 460000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Oct-24",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 69000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Oct-24",
+      "department": "Quality Management",
+      "category": "Repair & Maintenance",
+      "amount": 68000
+    },
+    {
+      "company": "Nature Alliance",
       "month": "Nov-24",
       "department": "Common",
       "category": "Copier Toner",
@@ -7895,6 +8483,48 @@ window.budgetExpenseData = {
     },
     {
       "company": "Nature Alliance",
+      "month": "Nov-24",
+      "department": "Chairman Room",
+      "category": "Device & Accessories",
+      "amount": 115000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Nov-24",
+      "department": "Chairman Room",
+      "category": "Internet Bill",
+      "amount": 460000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Nov-24",
+      "department": "Coporate Secretrial",
+      "category": "Device & Accessories",
+      "amount": 558500
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Nov-24",
+      "department": "Digital",
+      "category": "Device & Accessories",
+      "amount": 7000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Nov-24",
+      "department": "Legal",
+      "category": "Device & Accessories",
+      "amount": 14000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Nov-24",
+      "department": "HR",
+      "category": "Repair & Maintenance",
+      "amount": 95000
+    },
+    {
+      "company": "Nature Alliance",
       "month": "Dec-24",
       "department": "Common",
       "category": "Copier Toner",
@@ -7920,6 +8550,48 @@ window.budgetExpenseData = {
       "department": "Common",
       "category": "Software",
       "amount": 30695294.5
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Dec-24",
+      "department": "Chairman Room",
+      "category": "Internet Bill",
+      "amount": 631925
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Dec-24",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 270000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Dec-24",
+      "department": "Finance",
+      "category": "Fixed Assets",
+      "amount": 14809000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Dec-24",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 302000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Dec-24",
+      "department": "HR",
+      "category": "Repair & Maintenance",
+      "amount": 190000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Dec-24",
+      "department": "BDPM",
+      "category": "Fixed Assets",
+      "amount": 5382000
     },
     {
       "company": "Nature Alliance",
@@ -7951,6 +8623,83 @@ window.budgetExpenseData = {
     },
     {
       "company": "Nature Alliance",
+      "month": "Jan-25",
+      "department": "BDPM",
+      "category": "Device & Accessories",
+      "amount": 770000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jan-25",
+      "department": "Coporate Secretrial",
+      "category": "Device & Accessories",
+      "amount": 324000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jan-25",
+      "department": "Finance",
+      "category": "Device & Accessories",
+      "amount": 177000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jan-25",
+      "department": "HR",
+      "category": "Repair & Maintenance",
+      "amount": 190000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jan-25",
+      "department": "HR",
+      "category": "Device & Accessories",
+      "amount": 600000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jan-25",
+      "department": "Legal",
+      "category": "Repair & Maintenance",
+      "amount": 200000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jan-25",
+      "department": "Legal",
+      "category": "Device & Accessories",
+      "amount": 60000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jan-25",
+      "department": "Chairman Room",
+      "category": "Internet Bill",
+      "amount": 615287
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jan-25",
+      "department": "Quality Management",
+      "category": "Repair & Maintenance",
+      "amount": 184000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jan-25",
+      "department": "Digital",
+      "category": "Repair & Maintenance",
+      "amount": 50000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Jan-25",
+      "department": "Audit",
+      "category": "Repair & Maintenance",
+      "amount": 195000
+    },
+    {
+      "company": "Nature Alliance",
       "month": "Feb-25",
       "department": "Common",
       "category": "Copier Toner",
@@ -7979,6 +8728,62 @@ window.budgetExpenseData = {
     },
     {
       "company": "Nature Alliance",
+      "month": "Feb-25",
+      "department": "Chairman Room",
+      "category": "Internet Bill",
+      "amount": 626379
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Feb-25",
+      "department": "Chairman Room",
+      "category": "Software",
+      "amount": 3069641.16
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Feb-25",
+      "department": "BDPM",
+      "category": "Device & Accessories",
+      "amount": 5604000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Feb-25",
+      "department": "Coporate Secretrial",
+      "category": "Device & Accessories",
+      "amount": 46000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Feb-25",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 603000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Feb-25",
+      "department": "HR",
+      "category": "Repair & Maintenance",
+      "amount": 350000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Feb-25",
+      "department": "Legal",
+      "category": "Repair & Maintenance",
+      "amount": 50000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Feb-25",
+      "department": "Finance",
+      "category": "Fixed Assets",
+      "amount": 3327500
+    },
+    {
+      "company": "Nature Alliance",
       "month": "Mar-25",
       "department": "Common",
       "category": "Repair & Maintenance",
@@ -7997,6 +8802,69 @@ window.budgetExpenseData = {
       "department": "Common",
       "category": "Software",
       "amount": 9952767
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Mar-25",
+      "department": "Chairman Room",
+      "category": "Internet Bill",
+      "amount": 153504
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Mar-25",
+      "department": "Coporate Secretrial",
+      "category": "Repair & Maintenance",
+      "amount": 10000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Mar-25",
+      "department": "Legal",
+      "category": "Repair & Maintenance",
+      "amount": 115000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Mar-25",
+      "department": "Legal",
+      "category": "Device & Accessories",
+      "amount": 32000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Mar-25",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 280000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Mar-25",
+      "department": "BDPM",
+      "category": "Repair & Maintenance",
+      "amount": 140000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Mar-25",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 330000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Mar-25",
+      "department": "Audit",
+      "category": "Repair & Maintenance",
+      "amount": 120000
+    },
+    {
+      "company": "Nature Alliance",
+      "month": "Mar-25",
+      "department": "Digital",
+      "category": "Repair & Maintenance",
+      "amount": 50000
     },
     {
       "company": "Nature Valley",
@@ -8322,6 +9190,27 @@ window.budgetExpenseData = {
     },
     {
       "company": "Seven Aluminium",
+      "month": "May-24",
+      "department": "Sales & Marketing",
+      "category": "Repair & Maintenance",
+      "amount": 5000
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "May-24",
+      "department": "Sales & Marketing",
+      "category": "Device & Accessories",
+      "amount": 27000
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "May-24",
+      "department": "Purchasing",
+      "category": "Repair & Maintenance",
+      "amount": 33000
+    },
+    {
+      "company": "Seven Aluminium",
       "month": "Jun-24",
       "department": "Sales & Marketing",
       "category": "Device & Accessories",
@@ -8336,6 +9225,13 @@ window.budgetExpenseData = {
     },
     {
       "company": "Seven Aluminium",
+      "month": "Jul-24",
+      "department": "Sales & Marketing",
+      "category": "Device & Accessories",
+      "amount": 200000
+    },
+    {
+      "company": "Seven Aluminium",
       "month": "Sep-24",
       "department": "Common",
       "category": "Device & Accessories",
@@ -8347,6 +9243,13 @@ window.budgetExpenseData = {
       "department": "Operations",
       "category": "Repair & Maintenance",
       "amount": 110000
+    },
+    {
+      "company": "Seven Aluminium",
+      "month": "Oct-24",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 5000
     },
     {
       "company": "Seven Aluminium",
@@ -8413,6 +9316,55 @@ window.budgetExpenseData = {
     },
     {
       "company": "Arise",
+      "month": "Apr-24",
+      "department": "MD Room",
+      "category": "Repair & Maintenance",
+      "amount": 29000
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-24",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 58000
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-24",
+      "department": "Operations",
+      "category": "Repair & Maintenance",
+      "amount": 194000
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-24",
+      "department": "Operations",
+      "category": "Device & Accessories",
+      "amount": 65000
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-24",
+      "department": "Digital",
+      "category": "Device & Accessories",
+      "amount": 7500
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-24",
+      "department": "Palm Oleim",
+      "category": "Device & Accessories",
+      "amount": 68000
+    },
+    {
+      "company": "Arise",
+      "month": "Apr-24",
+      "department": "Palm Oleim",
+      "category": "Software",
+      "amount": 158000
+    },
+    {
+      "company": "Arise",
       "month": "May-24",
       "department": "Common",
       "category": "Copier Toner",
@@ -8434,6 +9386,34 @@ window.budgetExpenseData = {
     },
     {
       "company": "Arise",
+      "month": "May-24",
+      "department": "Admin",
+      "category": "Device & Accessories",
+      "amount": 58000
+    },
+    {
+      "company": "Arise",
+      "month": "May-24",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 80000
+    },
+    {
+      "company": "Arise",
+      "month": "May-24",
+      "department": "Digital",
+      "category": "Repair & Maintenance",
+      "amount": 20000
+    },
+    {
+      "company": "Arise",
+      "month": "May-24",
+      "department": "Operations",
+      "category": "Repair & Maintenance",
+      "amount": 42000
+    },
+    {
+      "company": "Arise",
       "month": "Jun-24",
       "department": "Common",
       "category": "Repair & Maintenance",
@@ -8445,6 +9425,34 @@ window.budgetExpenseData = {
       "department": "Common",
       "category": "Device & Accessories",
       "amount": 128000
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-24",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 13000
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-24",
+      "department": "Digital",
+      "category": "Repair & Maintenance",
+      "amount": 55000
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-24",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 55000
+    },
+    {
+      "company": "Arise",
+      "month": "Jun-24",
+      "department": "MD Room",
+      "category": "Repair & Maintenance",
+      "amount": 172000
     },
     {
       "company": "Arise",
@@ -8476,6 +9484,41 @@ window.budgetExpenseData = {
     },
     {
       "company": "Arise",
+      "month": "Jul-24",
+      "department": "Palm Oleim",
+      "category": "Software",
+      "amount": 204000
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-24",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 692160
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-24",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 110000
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-24",
+      "department": "Local Trade",
+      "category": "Repair & Maintenance",
+      "amount": 70000
+    },
+    {
+      "company": "Arise",
+      "month": "Jul-24",
+      "department": "Operations",
+      "category": "Repair & Maintenance",
+      "amount": 135000
+    },
+    {
+      "company": "Arise",
       "month": "Aug-24",
       "department": "Common",
       "category": "Fixed Assets",
@@ -8487,6 +9530,62 @@ window.budgetExpenseData = {
       "department": "Common",
       "category": "Repair & Maintenance",
       "amount": 737500
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-24",
+      "department": "Finance",
+      "category": "Fixed Assets",
+      "amount": 3829000
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-24",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 123600
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-24",
+      "department": "Digital",
+      "category": "Repair & Maintenance",
+      "amount": 5673000
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-24",
+      "department": "Digital",
+      "category": "Device & Accessories",
+      "amount": 8000
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-24",
+      "department": "Digital",
+      "category": "Internet Bill",
+      "amount": 1622823
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-24",
+      "department": "Local Trade",
+      "category": "Repair & Maintenance",
+      "amount": 55000
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-24",
+      "department": "Operations",
+      "category": "Repair & Maintenance",
+      "amount": 165000
+    },
+    {
+      "company": "Arise",
+      "month": "Aug-24",
+      "department": "Palm Oleim",
+      "category": "Repair & Maintenance",
+      "amount": 30000
     },
     {
       "company": "Arise",
@@ -8518,6 +9617,48 @@ window.budgetExpenseData = {
     },
     {
       "company": "Arise",
+      "month": "Sep-24",
+      "department": "MD Room",
+      "category": "Fixed Assets",
+      "amount": 5678000
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-24",
+      "department": "MD Room",
+      "category": "Repair & Maintenance",
+      "amount": 70000
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-24",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 131000
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-24",
+      "department": "Operations",
+      "category": "Repair & Maintenance",
+      "amount": 26000
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-24",
+      "department": "Palm Oleim",
+      "category": "Repair & Maintenance",
+      "amount": 70000
+    },
+    {
+      "company": "Arise",
+      "month": "Sep-24",
+      "department": "Sales & Marketing",
+      "category": "Repair & Maintenance",
+      "amount": 70000
+    },
+    {
+      "company": "Arise",
       "month": "Oct-24",
       "department": "Common",
       "category": "Copier Toner",
@@ -8536,6 +9677,20 @@ window.budgetExpenseData = {
       "department": "Common",
       "category": "Internet Bill",
       "amount": 2699212
+    },
+    {
+      "company": "Arise",
+      "month": "Oct-24",
+      "department": "MD Room",
+      "category": "Software",
+      "amount": 19000
+    },
+    {
+      "company": "Arise",
+      "month": "Oct-24",
+      "department": "Operations",
+      "category": "Software",
+      "amount": 490000
     },
     {
       "company": "Arise",
@@ -8581,6 +9736,48 @@ window.budgetExpenseData = {
     },
     {
       "company": "Arise",
+      "month": "Dec-24",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 32000
+    },
+    {
+      "company": "Arise",
+      "month": "Dec-24",
+      "department": "Admin",
+      "category": "Device & Accessories",
+      "amount": 144000
+    },
+    {
+      "company": "Arise",
+      "month": "Dec-24",
+      "department": "Finance",
+      "category": "Fixed Assets",
+      "amount": 6296000
+    },
+    {
+      "company": "Arise",
+      "month": "Dec-24",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 75000
+    },
+    {
+      "company": "Arise",
+      "month": "Dec-24",
+      "department": "MD Room",
+      "category": "Repair & Maintenance",
+      "amount": 32000
+    },
+    {
+      "company": "Arise",
+      "month": "Dec-24",
+      "department": "Operations",
+      "category": "Repair & Maintenance",
+      "amount": 46000
+    },
+    {
+      "company": "Arise",
       "month": "Jan-25",
       "department": "Common",
       "category": "Copier Toner",
@@ -8606,6 +9803,41 @@ window.budgetExpenseData = {
       "department": "Common",
       "category": "Software",
       "amount": 8179920
+    },
+    {
+      "company": "Arise",
+      "month": "Jan-25",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 54000
+    },
+    {
+      "company": "Arise",
+      "month": "Jan-25",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 80000
+    },
+    {
+      "company": "Arise",
+      "month": "Jan-25",
+      "department": "Digital",
+      "category": "Repair & Maintenance",
+      "amount": 65000
+    },
+    {
+      "company": "Arise",
+      "month": "Jan-25",
+      "department": "Operations",
+      "category": "Repair & Maintenance",
+      "amount": 84000
+    },
+    {
+      "company": "Arise",
+      "month": "Jan-25",
+      "department": "Palm Oleim",
+      "category": "Repair & Maintenance",
+      "amount": 325000
     },
     {
       "company": "Arise",
@@ -8644,6 +9876,41 @@ window.budgetExpenseData = {
     },
     {
       "company": "Arise",
+      "month": "Feb-25",
+      "department": "Palm Oleim",
+      "category": "Fixed Assets",
+      "amount": 2096500
+    },
+    {
+      "company": "Arise",
+      "month": "Feb-25",
+      "department": "Admin",
+      "category": "Repair & Maintenance",
+      "amount": 63000
+    },
+    {
+      "company": "Arise",
+      "month": "Feb-25",
+      "department": "Operations",
+      "category": "Repair & Maintenance",
+      "amount": 83000
+    },
+    {
+      "company": "Arise",
+      "month": "Feb-25",
+      "department": "Local Trade",
+      "category": "Repair & Maintenance",
+      "amount": 173000
+    },
+    {
+      "company": "Arise",
+      "month": "Feb-25",
+      "department": "MD Room",
+      "category": "Repair & Maintenance",
+      "amount": 45000
+    },
+    {
+      "company": "Arise",
       "month": "Mar-25",
       "department": "Common",
       "category": "Repair & Maintenance",
@@ -8662,6 +9929,48 @@ window.budgetExpenseData = {
       "department": "Common",
       "category": "Internet Bill",
       "amount": 1227183
+    },
+    {
+      "company": "Arise",
+      "month": "Mar-25",
+      "department": "MD Room",
+      "category": "Repair & Maintenance",
+      "amount": 115000
+    },
+    {
+      "company": "Arise",
+      "month": "Mar-25",
+      "department": "MD Room",
+      "category": "Internet Bill",
+      "amount": 114000
+    },
+    {
+      "company": "Arise",
+      "month": "Mar-25",
+      "department": "Finance",
+      "category": "Repair & Maintenance",
+      "amount": 45000
+    },
+    {
+      "company": "Arise",
+      "month": "Mar-25",
+      "department": "Finance",
+      "category": "Device & Accessories",
+      "amount": 17250
+    },
+    {
+      "company": "Arise",
+      "month": "Mar-25",
+      "department": "Operations",
+      "category": "Repair & Maintenance",
+      "amount": 183000
+    },
+    {
+      "company": "Arise",
+      "month": "Mar-25",
+      "department": "Palm Oleim",
+      "category": "Repair & Maintenance",
+      "amount": 236000
     },
     {
       "company": "Great Golden Moon",
@@ -8719,6 +10028,31 @@ window.budgetExpenseData = {
       "category": "Repair & Maintenance",
       "amount": 25000
     }
+  ],
+  "fixedAssets": [
+    { "company": "Nature Alliance", "month": "May-24", "department": "BDPM", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Alliance", "month": "May-24", "department": "Finance", "laptop": 1, "desktop": 0, "copier": 0, "printer": 1 },
+    { "company": "Nature Alliance", "month": "Jun-24", "department": "Admin", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Alliance", "month": "Jun-24", "department": "Finance", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Alliance", "month": "Aug-24", "department": "Finance", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Alliance", "month": "Aug-24", "department": "Coporate Secretrial", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Alliance", "month": "Sep-24", "department": "HR", "laptop": 3, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Alliance", "month": "Sep-24", "department": "Audit", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Alliance", "month": "Dec-24", "department": "BDPM", "laptop": 2, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Alliance", "month": "Dec-24", "department": "Finance", "laptop": 2, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Alliance", "month": "Feb-25", "department": "Finance", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Valley", "month": "May-24", "department": "Asset Management", "laptop": 2, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Valley", "month": "Aug-24", "department": "Asset Management", "laptop": 1, "desktop": 0, "copier": 0, "printer": 1 },
+    { "company": "Prime Asset", "month": "Dec-24", "department": "Building Management", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Innobuilder", "month": "Jul-24", "department": "Common", "laptop": 4, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Innobuilder", "month": "Dec-24", "department": "Common", "laptop": 1, "desktop": 3, "copier": 0, "printer": 0 },
+    { "company": "Innobuilder", "month": "Feb-25", "department": "Common", "laptop": 2, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Innobuilder", "month": "Mar-25", "department": "Common", "laptop": 0, "desktop": 0, "copier": 1, "printer": 0 },
+    { "company": "Arise", "month": "Aug-24", "department": "Common", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Arise", "month": "Aug-24", "department": "Finance", "laptop": 0, "desktop": 0, "copier": 0, "printer": 1 },
+    { "company": "Arise", "month": "Sep-24", "department": "MD Room", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Arise", "month": "Dec-24", "department": "Finance", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Arise", "month": "Feb-25", "department": "Palm Oleim", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 }
   ]
 };
 

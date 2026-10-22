@@ -14534,5 +14534,22 @@ window.budgetExpenseData = {
       "category": "Repair & Maintenance",
       "amount": 210000
     }
+  ],
+  "fixedAssets": [
+    { "company": "Nature Alliance", "month": "Jun-26", "department": "BDPM", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Alliance", "month": "Jun-26", "department": "Legal", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Alliance", "month": "Aug-26", "department": "Corporate Secretarial", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Alliance", "month": "Aug-26", "department": "Finance", "laptop": 2, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Alliance", "month": "Aug-26", "department": "Admin", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Valley", "month": "May-26", "department": "Sales & Marketing", "laptop": 2, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Valley", "month": "Jul-26", "department": "BDPM", "laptop": 2, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Valley", "month": "Jul-26", "department": "Sales & Marketing", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Nature Valley", "month": "Jul-26", "department": "Sales & Marketing", "laptop": 0, "desktop": 1, "copier": 0, "printer": 0 },
+    { "company": "Nature Valley", "month": "Aug-26", "department": "Sales & Marketing", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Innobuilder", "month": "May-26", "department": "Common", "laptop": 3, "desktop": 1, "copier": 0, "printer": 0 },
+    { "company": "Innobuilder", "month": "Jun-26", "department": "Common", "laptop": 5, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Innobuilder", "month": "Aug-26", "department": "Common", "laptop": 4, "desktop": 0, "copier": 0, "printer": 0 },
+    { "company": "Seven Aluminium", "month": "Jul-26", "department": "Common", "laptop": 5, "desktop": 1, "copier": 0, "printer": 0 },
+    { "company": "Arise", "month": "May-26", "department": "Finance", "laptop": 1, "desktop": 0, "copier": 0, "printer": 0 }
   ]
 };

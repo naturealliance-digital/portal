@@ -1,4 +1,1111 @@
 const microsoftLicenseSource = window.MICROSOFT_LICENSE_DATA;
+const fullMonthChartLabel = (value) => {
+  const text = String(value || "");
+  const shortMonth = text.match(/Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec/i)?.[0];
+  if (shortMonth)
+    return ({ Jan: "January", Feb: "February", Mar: "March", Apr: "April", May: "May", Jun: "June", Jul: "July", Aug: "August", Sep: "September", Oct: "October", Nov: "November", Dec: "December" })[
+      shortMonth.slice(0, 1).toUpperCase() + shortMonth.slice(1).toLowerCase()
+    ];
+  const numericMonth = text.match(/^\d{4}-(\d{2})$/)?.[1];
+  return numericMonth
+    ? ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][Number(numericMonth) - 1]
+    : text;
+};
+
+/* Shared page controls: keep markup free from duplicate inline handlers. */
+document.querySelectorAll(".hamb").forEach((button) =>
+  button.addEventListener("click", () =>
+    document.getElementById("side")?.classList.toggle("open"),
+  ),
+);
+document.querySelectorAll(".export-btn").forEach((button) =>
+  button.addEventListener("click", () => window.exportXlsx?.()),
+);
+
+/* ========================================================================== */
+/* Shared utilities and global navigation                                     */
+/* ========================================================================== */
+
+// FY comparison loads each budget year independently so the three reporting
+// periods remain available without replacing the active dashboard data set.
+window.loadBudgetYear = async (year) => {
+  const fileYear = String(year).slice(-2);
+  const response = await fetch(`data/${year}/budget-expense-data-${fileYear}.js`);
+  const source = await response.text();
+  const sandbox = { window: {} };
+  Function("window", source)(sandbox.window);
+  return sandbox.window.budgetExpenseData;
+};
+
+window.addEventListener("DOMContentLoaded", async () => {
+  const panel = document.getElementById("comparisonDashboard");
+  if (!panel) return;
+  try {
+    const years = [2024, 2025, 2026];
+    const data = await Promise.all(years.map((year) => window.loadBudgetYear(year)));
+    const trendIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 7-8M16 7h4v4"/></svg>';
+    const graphIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 6-7M16 6h4v4"/></svg>';
+    const calendarIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 10h18M8 14h3M8 17h5"/></svg>';
+    // AIP has no department-level expense detail in the current FY 2026 source,
+    // so it stays out of this comparison until its detail data is supplied.
+    const excludedComparisonCompanies = new Set(["AIP"]);
+    const filterOptions = (key) => [...new Set(data.flatMap((year) => year.expenses
+      .filter((row) => key !== "company" || !excludedComparisonCompanies.has(row.company))
+      .map((row) => row[key])
+      .filter(Boolean)))].sort((left, right) => String(left).localeCompare(String(right)));
+    const options = {
+      company: filterOptions("company"),
+      category: filterOptions("category"),
+    };
+    const previousCalendarMonth = (() => {
+      const date = new Date();
+      date.setMonth(date.getMonth() - 1);
+      return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][date.getMonth()];
+    })();
+    const selection = {
+      period: "all",
+      company: "all",
+      department: "all",
+      category: "all",
+      fromYear: "2025",
+      toYear: "2026",
+      month: previousCalendarMonth,
+      fromMonth: "Apr",
+      toMonth: "Mar",
+    };
+    const escapeOption = (value) => String(value).replace(/[&<>"]/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[char]);
+    const optionMarkup = (values, label) => `<option value="all">All ${label}</option>${values.map((value) => `<option value="${escapeOption(value)}">${escapeOption(value)}</option>`).join("")}`;
+    const trendState = (value) => (value < 0 ? "is-down" : "is-up");
+    const percentChange = (current, previous) => (previous ? ((current - previous) / previous) * 100 : 0);
+    const filters = {
+      period: document.getElementById("comparisonPeriodFilter"),
+      company: document.getElementById("comparisonCompanyFilter"),
+      department: document.getElementById("comparisonDepartmentFilter"),
+      category: document.getElementById("comparisonCategoryFilter"),
+    };
+    const periodControls = {
+      pair: document.getElementById("comparisonYearPairFilter"),
+      field: document.getElementById("comparisonYearPairField"),
+      month: document.getElementById("comparisonMonthFilter"),
+      monthField: document.getElementById("comparisonMonthField"),
+      fromMonth: document.getElementById("comparisonFromMonthFilter"),
+      fromMonthField: document.getElementById("comparisonFromMonthField"),
+      toMonth: document.getElementById("comparisonToMonthFilter"),
+      toMonthField: document.getElementById("comparisonToMonthField"),
+    };
+    const departmentField = document.getElementById(
+      "comparisonDepartmentField",
+    );
+    let comparisonBarChart;
+    let comparisonLineChart;
+    let comparisonMonthlyChart;
+    const comparisonCategoryCharts = {};
+    let latestComparisonTotals = [];
+    let latestComparisonMonthlyTotals = [];
+    let latestComparisonCategories = [];
+    let latestComparisonExpenseRows = [];
+    let latestComparisonYears = years;
+    let latestComparisonMonths = [];
+
+    const financialYearLabel = (year) => {
+      const start = Number(year);
+      return Number.isFinite(start) ? `FY ${start}–${start + 1}` : "Financial year";
+    };
+    const fiscalMonths = ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar"];
+    const monthNames = {
+      Apr: "April", May: "May", Jun: "June", Jul: "July", Aug: "August", Sep: "September",
+      Oct: "October", Nov: "November", Dec: "December", Jan: "January", Feb: "February", Mar: "March",
+    };
+    const monthName = (month) => monthNames[month] || "—";
+    const monthOptions = () => fiscalMonths
+      .map((month) => `<option value="${month}">${monthName(month)}</option>`)
+      .join("");
+    const isMonthInCustomRange = (month) => {
+      const monthIndex = fiscalMonths.indexOf(String(month || "").slice(0, 3));
+      const fromIndex = fiscalMonths.indexOf(selection.fromMonth);
+      const toIndex = fiscalMonths.indexOf(selection.toMonth);
+      if (monthIndex < 0 || fromIndex < 0 || toIndex < 0) return false;
+      return fromIndex <= toIndex
+        ? monthIndex >= fromIndex && monthIndex <= toIndex
+        : monthIndex >= fromIndex || monthIndex <= toIndex;
+    };
+    const syncPeriodComparison = () => {
+      const compareYears = selection.period === "compare-years";
+      const compareMonth = selection.period === "compare-month";
+      const customRange = selection.period === "custom-range";
+      periodControls.field.hidden = !compareYears;
+      periodControls.monthField.hidden = !compareMonth;
+      periodControls.fromMonthField.hidden = !customRange;
+      periodControls.toMonthField.hidden = !customRange;
+      if (compareYears) {
+        const yearPairs = [
+          ["2026", "2025"],
+          ["2026", "2024"],
+          ["2025", "2024"],
+        ];
+        periodControls.pair.innerHTML = yearPairs
+          .map(([toYear, fromYear]) => `<option value="${toYear}-${fromYear}">${financialYearLabel(toYear)} vs ${financialYearLabel(fromYear)}</option>`)
+          .join("");
+        periodControls.pair.value = `${selection.toYear}-${selection.fromYear}`;
+      }
+      if (compareMonth) {
+        periodControls.month.innerHTML = monthOptions();
+        periodControls.month.value = selection.month;
+      }
+      if (customRange) {
+        periodControls.fromMonth.innerHTML = monthOptions();
+        periodControls.toMonth.innerHTML = monthOptions();
+        periodControls.fromMonth.value = selection.fromMonth;
+        periodControls.toMonth.value = selection.toMonth;
+      }
+    };
+
+    const syncDepartments = () => {
+      const departmentInput = filters.department;
+      if (!departmentInput || !departmentField) return;
+      const departments = [
+        ...new Set(
+          data
+            .flatMap((year) => year.expenseDetails || [])
+            .filter((row) => row.company === selection.company)
+            .map((row) => row.department)
+            .filter(Boolean),
+        ),
+      ].sort((left, right) => left.localeCompare(right));
+      departmentField.hidden = selection.company === "all" || !departments.length;
+      selection.department = "all";
+      departmentInput.innerHTML = optionMarkup(departments, "departments");
+      departmentInput.value = "all";
+    };
+
+    const setState = (element, state) => {
+      if (!element) return;
+      element.classList.remove("is-baseline", "is-up", "is-down");
+      element.classList.add(state);
+    };
+    const renderComparisonCharts = (totals, displayYears = years) => {
+      if (typeof Chart !== "function") return;
+      latestComparisonTotals = totals;
+      latestComparisonYears = displayYears;
+      const labels = displayYears.map((year) => financialYearLabel(year));
+      const chartTotals = displayYears.map(
+        (year) => totals[years.indexOf(year)] || 0,
+      );
+      const dark = document.body.classList.contains("dark");
+      const textColor = dark ? "#e9d6d2" : "#755f62";
+      const gridColor = dark ? "rgba(244, 213, 203, .16)" : "rgba(129, 93, 89, .16)";
+      const compactAmount = (value) => new Intl.NumberFormat("en", {
+        notation: "compact",
+        maximumFractionDigits: 1,
+      }).format(value);
+      const tooltip = {
+        displayColors: true,
+        backgroundColor: "#171114",
+        titleColor: "#fff7f2",
+        bodyColor: "#fff7f2",
+        borderColor: "#d99284",
+        borderWidth: 2,
+        position: "nearest",
+        padding: 10,
+        cornerRadius: 8,
+        caretPadding: 10,
+        boxPadding: 4,
+        titleFont: { family: "Poppins", size: 11, weight: "700" },
+        bodyFont: { family: "Poppins", size: 12, weight: "600" },
+        callbacks: {
+          label: (context) => ` ${Math.round(context.parsed.y || 0).toLocaleString()} MMK`,
+          labelColor: () => ({
+            backgroundColor: dark ? "#f08a54" : "#d12a31",
+            borderColor: dark ? "#f08a54" : "#d12a31",
+            borderWidth: 2,
+          }),
+        },
+      };
+      const chartOptions = (showVerticalGrid = false) => ({
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 900, easing: "easeOutCubic" },
+        transitions: { active: { animation: { duration: 150, easing: "easeOutCubic" } } },
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip,
+        },
+        scales: {
+          x: {
+            grid: { display: showVerticalGrid, color: gridColor, drawBorder: false },
+            ticks: { color: textColor, font: { weight: "600" }, padding: 10 },
+          },
+          y: {
+            beginAtZero: true,
+            grid: { color: gridColor, drawBorder: false },
+            ticks: { color: textColor, callback: (value) => compactAmount(value), padding: 10 },
+          },
+        },
+      });
+      const barCanvas = document.getElementById("comparisonYearBarChart");
+      const lineCanvas = document.getElementById("comparisonYearLineChart");
+      comparisonBarChart?.destroy();
+      comparisonLineChart?.destroy();
+      if (barCanvas) {
+        const createBarGradient = (start, end) => {
+          const context = barCanvas.getContext("2d");
+          const gradient = context.createLinearGradient(0, 0, 0, barCanvas.clientHeight || 300);
+          gradient.addColorStop(0, start);
+          gradient.addColorStop(1, end);
+          return gradient;
+        };
+        const barGradient = createBarGradient(
+          dark ? "#d94a42" : "#d12a31",
+          dark ? "#f08a54" : "#f38c47",
+        );
+        comparisonBarChart = new Chart(barCanvas, {
+          type: "bar",
+          data: {
+            labels,
+            datasets: [{
+              data: chartTotals,
+              backgroundColor: barGradient,
+              borderColor: dark ? "#ff9569" : "#d12a31",
+              borderWidth: 1.5,
+              borderRadius: {
+                topLeft: 8,
+                topRight: 8,
+                bottomLeft: 0,
+                bottomRight: 0,
+              },
+              borderSkipped: false,
+              maxBarThickness: 62,
+              categoryPercentage: .72,
+              barPercentage: .76,
+            }],
+          },
+          options: chartOptions(),
+        });
+      }
+      if (lineCanvas) {
+        const lineContext = lineCanvas.getContext("2d");
+        const lineGradient = lineContext.createLinearGradient(
+          0,
+          0,
+          lineCanvas.clientWidth || 700,
+          0,
+        );
+        lineGradient.addColorStop(0, dark ? "#d94a42" : "#d12a31");
+        lineGradient.addColorStop(1, dark ? "#f08a54" : "#f38c47");
+        comparisonLineChart = new Chart(lineCanvas, {
+          type: "line",
+          data: {
+            labels,
+            datasets: [{
+              data: chartTotals,
+              borderColor: lineGradient,
+              backgroundColor: "transparent",
+              pointBackgroundColor: dark
+                ? ["#d94a42", "#e96b4e", "#f08a54"]
+                : ["#d12a31", "#e55a35", "#f38c47"],
+              pointBorderWidth: 0,
+              pointRadius: 6,
+              pointHoverRadius: 8,
+              borderWidth: 3.25,
+              fill: false,
+              tension: .42,
+              cubicInterpolationMode: "monotone",
+            }],
+          },
+          options: chartOptions(true),
+        });
+      }
+    };
+    const renderMonthlyComparisonChart = (
+      monthlyTotals,
+      displayYears = years,
+      displayMonths = fiscalMonths,
+    ) => {
+      if (typeof Chart !== "function") return;
+      latestComparisonMonthlyTotals = monthlyTotals;
+      latestComparisonYears = displayYears;
+      latestComparisonMonths = displayMonths;
+      const canvas = document.getElementById("comparisonMonthlyChart");
+      const chartType = document.getElementById("comparisonMonthlyChartType")?.value || "bar";
+      if (!canvas) return;
+      const monthIndexes = displayMonths.map((month) => fiscalMonths.indexOf(month));
+      const chartInner = canvas.parentElement;
+      if (chartInner)
+        chartInner.style.minWidth = `${Math.max(320, displayMonths.length * 68)}px`;
+
+      const dark = document.body.classList.contains("dark");
+      const textColor = dark ? "#e9d6d2" : "#755f62";
+      const gridColor = dark ? "rgba(244, 213, 203, .16)" : "rgba(129, 93, 89, .16)";
+      const compactAmount = (value) => new Intl.NumberFormat("en", {
+        notation: "compact",
+        maximumFractionDigits: 1,
+      }).format(value);
+      const palette = dark
+        ? [
+            ["#b9821e", "#e7be63"],
+            ["#17876d", "#55bdd0"],
+            ["#d94a42", "#f08a54"],
+          ]
+        : [
+            ["#b97813", "#e0ad35"],
+            ["#16866a", "#4eb4cd"],
+            ["#d12a31", "#f38c47"],
+          ];
+      const gradientFor = ([start, end]) => {
+        const context = canvas.getContext("2d");
+        const gradient = context.createLinearGradient(0, 0, canvas.clientWidth || 700, 0);
+        gradient.addColorStop(0, start);
+        gradient.addColorStop(1, end);
+        return gradient;
+      };
+      const barGradientFor = (context, [start, end]) => {
+        const { chart, dataIndex, datasetIndex, type } = context;
+        const area = chart.chartArea;
+        if (type !== "data" || !area || dataIndex === undefined) return start;
+        const labels = chart.data.labels?.length || 1;
+        const datasets = chart.data.datasets?.length || 1;
+        const categoryWidth = (area.right - area.left) / labels;
+        const barWidth = (categoryWidth * .68) / datasets;
+        const center = area.left + categoryWidth * (dataIndex + .5) +
+          ((datasetIndex - (datasets - 1) / 2) * barWidth);
+        const gradient = chart.ctx.createLinearGradient(
+          center - barWidth / 2,
+          0,
+          center + barWidth / 2,
+          0,
+        );
+        gradient.addColorStop(0, start);
+        gradient.addColorStop(1, end);
+        return gradient;
+      };
+      const datasets = displayYears.map((year) => {
+        const index = years.indexOf(year);
+        const [start, end] = palette[index];
+        const color = gradientFor(palette[index]);
+        return {
+          label: financialYearLabel(year),
+          data: monthIndexes.map((monthIndex) => monthlyTotals[index][monthIndex] || 0),
+          backgroundColor: chartType === "bar"
+            ? (context) => barGradientFor(context, palette[index])
+            : "transparent",
+          borderColor: chartType === "bar" ? start : color,
+          borderWidth: chartType === "bar" ? 1.2 : 3.5,
+          borderRadius: chartType === "bar" ? { topLeft: 10, topRight: 10, bottomLeft: 0, bottomRight: 0 } : 0,
+          borderSkipped: chartType === "bar" ? false : undefined,
+          maxBarThickness: chartType === "bar" ? 22 : undefined,
+          pointBackgroundColor: end,
+          pointBorderWidth: 0,
+          pointRadius: chartType === "line" ? 6 : 0,
+          pointHoverRadius: chartType === "line" ? 8 : 0,
+          tension: .42,
+          cubicInterpolationMode: "monotone",
+          fill: false,
+        };
+      });
+      comparisonMonthlyChart?.destroy();
+      comparisonMonthlyChart = new Chart(canvas, {
+        type: chartType,
+        data: { labels: displayMonths.map(monthName), datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          animation: { duration: 900, easing: "easeOutCubic" },
+          transitions: { active: { animation: { duration: 150, easing: "easeOutCubic" } } },
+          interaction: { mode: "index", intersect: false },
+          plugins: {
+            legend: {
+              display: true,
+              position: "bottom",
+              labels: { color: textColor, boxWidth: 10, boxHeight: 10, usePointStyle: true, pointStyle: "circle", padding: 16, font: { weight: "600" } },
+            },
+            tooltip: {
+              displayColors: true,
+              backgroundColor: "#171114",
+              titleColor: "#fff7f2",
+              bodyColor: "#fff7f2",
+              borderColor: "#d99284",
+              borderWidth: 2,
+              position: "nearest",
+              padding: 10,
+              cornerRadius: 8,
+              caretPadding: 10,
+              boxPadding: 4,
+              titleFont: { family: "Poppins", size: 11, weight: "700" },
+              bodyFont: { family: "Poppins", size: 12, weight: "600" },
+              callbacks: {
+                label: (context) => ` ${context.dataset.label}: ${Math.round(context.parsed.y || 0).toLocaleString()} MMK`,
+                labelColor: (context) => {
+                  const [, color] = palette[context.datasetIndex] || palette[0];
+                  return { backgroundColor: color, borderColor: color, borderWidth: 2 };
+                },
+                labelTextColor: () => "#fff7f2",
+              },
+            },
+          },
+          scales: {
+            x: {
+              grid: { display: chartType === "line", color: gridColor, drawBorder: false },
+              ticks: { color: textColor, font: { weight: "600" }, padding: 8, maxRotation: 0 },
+            },
+            y: {
+              beginAtZero: true,
+              grid: { color: gridColor, drawBorder: false },
+              ticks: { color: textColor, callback: (value) => compactAmount(value), padding: 10 },
+            },
+          },
+        },
+      });
+    };
+    const renderCategoryComparisonCharts = (categoryTotals, displayYears = years) => {
+      if (typeof Chart !== "function") return;
+      if (!Chart.registry.plugins.get("comparisonCategoryCentre"))
+        Chart.register({
+          id: "comparisonCategoryCentre",
+          afterDatasetsDraw(instance, args, options) {
+            if (
+              !options?.total ||
+              !instance.chartArea ||
+              !String(instance.canvas?.id || "").startsWith("comparisonCategoryChart")
+            ) return;
+            const { ctx, chartArea } = instance;
+            const centerX = (chartArea.left + chartArea.right) / 2;
+            const centerY = (chartArea.top + chartArea.bottom) / 2;
+            ctx.save();
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillStyle = options.dark ? "#cbb9bb" : "#8a7777";
+            ctx.font = "700 10px Poppins, Arial, sans-serif";
+            ctx.fillText(options.label, centerX, centerY - 15);
+            ctx.fillStyle = options.dark ? "#fff0eb" : "#3d2a2e";
+            ctx.font = "700 27px Poppins, Arial, sans-serif";
+            ctx.fillText(options.total, centerX, centerY + 10);
+            ctx.restore();
+          },
+        });
+      latestComparisonCategories = categoryTotals;
+      const dark = document.body.classList.contains("dark");
+      const colors = dark
+        ? ["#f08a54", "#55bdd0", "#e7be63", "#a98bea", "#e46b73", "#80c7a9"]
+        : ["#d12a31", "#168dac", "#d7a126", "#8057c7", "#e36a4f", "#16866a"];
+
+      years.forEach((year, index) => {
+        const card = document.getElementById(`comparisonCategoryCard${year}`);
+        const canvas = document.getElementById(`comparisonCategoryChart${year}`);
+        const legend = document.getElementById(`comparisonCategoryLegend${year}`);
+        const visible = displayYears.includes(year);
+        if (card) card.hidden = !visible;
+        comparisonCategoryCharts[year]?.destroy();
+        if (!visible || !canvas) return;
+
+        const allEntries = Object.entries(categoryTotals[index] || {})
+          .filter(([, amount]) => amount > 0)
+          .sort(([, left], [, right]) => right - left);
+        const entries = allEntries;
+        const hasData = entries.length > 0;
+        const labels = hasData ? entries.map(([category]) => category) : ["No matching expenses"];
+        const values = hasData ? entries.map(([, amount]) => amount) : [1];
+        const total = entries.reduce((sum, [, amount]) => sum + amount, 0);
+        if (legend)
+          legend.innerHTML = hasData
+            ? entries.map(([category, amount], itemIndex) => {
+                const color = colors[itemIndex % colors.length];
+                return `<div class="comparison-category-legend-item"><i style="background:${color}" aria-hidden="true"></i><span>${escapeOption(category)}</span><strong>${Math.round(amount).toLocaleString()}<small>MMK</small></strong></div>`;
+              }).join("")
+            : '<div class="comparison-category-legend-item"><span>No matching expenses</span></div>';
+        comparisonCategoryCharts[year] = new Chart(canvas, {
+          type: "doughnut",
+          data: {
+            labels,
+            datasets: [{
+              data: values,
+              backgroundColor: hasData
+                ? entries.map((_, itemIndex) => colors[itemIndex % colors.length])
+                : [dark ? "#59454a" : "#e6d7d3"],
+              borderColor: dark ? "#32171e" : "#fffaf7",
+              borderWidth: 3,
+              hoverOffset: hasData ? 5 : 0,
+            }],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "64%",
+            animation: { duration: 900, easing: "easeOutCubic" },
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                displayColors: true,
+                backgroundColor: "#171114",
+                titleColor: "#fff7f2",
+                bodyColor: "#fff7f2",
+                borderColor: "#d99284",
+                borderWidth: 2,
+                position: "nearest",
+                padding: 10,
+                cornerRadius: 8,
+                caretPadding: 10,
+                boxPadding: 4,
+                titleFont: { family: "Poppins", size: 11, weight: "700" },
+                bodyFont: { family: "Poppins", size: 12, weight: "600" },
+                callbacks: {
+                  label: (context) => hasData
+                    ? ` ${Math.round(context.parsed || 0).toLocaleString()} MMK`
+                    : " No matching expenses",
+                },
+              },
+              comparisonCategoryCentre: {
+                total: hasData
+                  ? new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 0 }).format(total)
+                  : "—",
+                label: hasData ? "MMK" : "NO DATA",
+                dark,
+              },
+            },
+          },
+        });
+      });
+    };
+    const expandedComparisonCompanies = new Set();
+    const expandedComparisonCategories = new Set();
+    const expandedComparisonDepartments = new Set();
+    const expandedFixedAssetCompanies = new Set();
+    const expandedFixedAssetTypes = new Set();
+    const expandedFixedAssetDepartments = new Set();
+    const renderCompanyAnalysisTable = (expenseRowsByYear) => {
+      const expenseBody = document.getElementById("comparisonExpenseAnalysisBody");
+      const expenseFooter = document.getElementById("comparisonExpenseAnalysisFooter");
+      const expenseTotal = document.getElementById("comparisonExpenseAnalysisTotal");
+      if (!expenseBody) return;
+
+      const formatAmount = (amount) => Math.round(amount || 0).toLocaleString();
+      const selectedYears = selection.period === "compare-years"
+        ? [Number(selection.fromYear), Number(selection.toYear)]
+        : [2025, 2026];
+      const disabledYears = new Set(
+        selection.period === "compare-years"
+          ? years.filter((year) => !selectedYears.includes(year))
+          : [],
+      );
+      years.forEach((year) =>
+        document.getElementById(`comparisonExpenseYear${year}`)
+          ?.classList.toggle("is-disabled", disabledYears.has(year)),
+      );
+      const changeMarkup = (change) => {
+        if (change === null || change === 0) return "—";
+        const arrow = change > 0
+          ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16l4-4 3 3 6-6M14 9h4v4"/></svg>'
+          : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7l-4 4-3-3-7 7M10 15H6v-4"/></svg>';
+        return `${arrow}${Math.abs(change).toFixed(1)}%`;
+      };
+      const companyNames = [...new Set(expenseRowsByYear.flatMap((rows) =>
+        rows.map((row) => String(row.company || "").trim()),
+      ))]
+        .filter((company) => company && !excludedComparisonCompanies.has(company))
+        .sort((left, right) => left.localeCompare(right));
+      const companyRows = companyNames.map((company) => {
+        const values = expenseRowsByYear.map((rows) => rows
+          .filter((row) => row.company === company)
+          .reduce((sum, row) => sum + Number(row.amount || 0), 0));
+        const previous = values[years.indexOf(selectedYears[0])];
+        const current = values[years.indexOf(selectedYears[1])];
+        const change = previous ? percentChange(current, previous) : null;
+        const changeClass = change === null || change === 0
+          ? "is-neutral"
+          : change > 0 ? "is-increase" : "is-decrease";
+        const changeText = changeMarkup(change);
+        return { company, values, change, changeClass, changeText };
+      }).filter(({ values }) => values.some(
+        (value, index) => !disabledYears.has(years[index]) && value > 0,
+      ));
+      expenseBody.innerHTML = companyRows.length
+        ? companyRows.map(({ company, values, change, changeClass, changeText }) => {
+            const width = change === null ? 0 : Math.min(Math.abs(change), 100);
+            const expanded = expandedComparisonCompanies.has(company);
+            const drillRow = (level, label, rowValues, key, isExpanded = false, isLeaf = false) => {
+              const previousValue = rowValues[years.indexOf(selectedYears[0])];
+              const currentValue = rowValues[years.indexOf(selectedYears[1])];
+              const rowChange = previousValue ? percentChange(currentValue, previousValue) : null;
+              const rowClass = rowChange === null || rowChange === 0 ? "is-neutral" : rowChange > 0 ? "is-increase" : "is-decrease";
+              const rowWidth = rowChange === null ? 0 : Math.min(Math.abs(rowChange), 100);
+              const labelMarkup = level === "month"
+                ? `<span class="comparison-drill-month-label">${calendarIcon}${escapeOption(label)}</span>`
+                : `<span>${escapeOption(label)}</span>`;
+              return `<tr class="comparison-drill-row comparison-drill-${level}${isExpanded ? " is-selected" : ""}${isLeaf ? " is-leaf" : ""}"${isLeaf ? "" : ` data-drill-key="${escapeOption(key)}" aria-expanded="${isExpanded}"`}><td>${labelMarkup}</td>${rowValues.map((value, index) => `<td class="comparison-amount${disabledYears.has(years[index]) ? " is-disabled" : ""}">${formatAmount(value)}</td>`).join("")}<td><div class="comparison-yoy ${rowClass}"><i><b style="--progress-width:${rowWidth}%"></b></i><span>${changeMarkup(rowChange)}</span></div></td></tr>`;
+            };
+            const valuesFor = (predicate) => expenseRowsByYear.map((rows) => rows
+              .filter(predicate)
+              .reduce((sum, row) => sum + Number(row.amount || 0), 0));
+            const hasVisibleValue = (rowValues) => rowValues.some(
+              (value, index) => !disabledYears.has(years[index]) && value > 0,
+            );
+            const detailRows = [];
+            if (expanded) {
+              const categories = [...new Set(expenseRowsByYear.flatMap((rows) => rows.filter((row) => row.company === company).map((row) => String(row.category || "Uncategorized").trim() || "Uncategorized")))].sort((a, b) => a.localeCompare(b));
+              categories.forEach((category) => {
+                const categoryKey = `${company}|${category}`;
+                const categoryExpanded = expandedComparisonCategories.has(categoryKey);
+                const categoryValues = valuesFor((row) => row.company === company && (String(row.category || "Uncategorized").trim() || "Uncategorized") === category);
+                if (!hasVisibleValue(categoryValues)) return;
+                detailRows.push(drillRow("category", category, categoryValues, categoryKey, categoryExpanded));
+                if (!categoryExpanded) return;
+                const departments = [...new Set(expenseRowsByYear.flatMap((rows) => rows.filter((row) => row.company === company && (String(row.category || "Uncategorized").trim() || "Uncategorized") === category).map((row) => String(row.department || "Unassigned").trim() || "Unassigned")))].sort((a, b) => a.localeCompare(b));
+                departments.forEach((department) => {
+                  const departmentKey = `${categoryKey}|${department}`;
+                  const departmentExpanded = expandedComparisonDepartments.has(departmentKey);
+                  const departmentValues = valuesFor((row) => row.company === company && (String(row.category || "Uncategorized").trim() || "Uncategorized") === category && (String(row.department || "Unassigned").trim() || "Unassigned") === department);
+                  if (!hasVisibleValue(departmentValues)) return;
+                  detailRows.push(drillRow("department", department, departmentValues, departmentKey, departmentExpanded));
+                  if (!departmentExpanded) return;
+                  fiscalMonths.forEach((month) => {
+                    const monthValues = valuesFor((row) => row.company === company && (String(row.category || "Uncategorized").trim() || "Uncategorized") === category && (String(row.department || "Unassigned").trim() || "Unassigned") === department && String(row.month || "").startsWith(month));
+                    if (hasVisibleValue(monthValues)) detailRows.push(drillRow("month", monthName(month), monthValues, "", false, true));
+                  });
+                });
+              });
+            }
+            return `<tr class="comparison-company-row${expanded ? " is-selected" : ""}" data-company="${escapeOption(company)}" aria-expanded="${expanded}"><td><span class="comparison-company-name">${escapeOption(company)}</span></td>${values
+              .map((value, index) => `<td class="comparison-amount${disabledYears.has(years[index]) ? " is-disabled" : ""}">${formatAmount(value)}</td>`)
+              .join("")}<td><div class="comparison-yoy ${changeClass}"><i><b style="--progress-width:${width}%"></b></i><span>${changeText}</span></div></td></tr>${detailRows.join("")}`;
+          }).join("")
+        : '<tr><td colspan="5" class="comparison-analysis-empty">No matching expense records.</td></tr>';
+      expenseBody.querySelectorAll(".comparison-company-row").forEach((row) => {
+        row.addEventListener("click", () => {
+          const company = row.dataset.company;
+          if (expandedComparisonCompanies.has(company)) expandedComparisonCompanies.delete(company);
+          else {
+            expandedComparisonCompanies.clear();
+            expandedComparisonCategories.clear();
+            expandedComparisonDepartments.clear();
+            expandedComparisonCompanies.add(company);
+          }
+          renderCompanyAnalysisTable(expenseRowsByYear);
+        });
+      });
+      expenseBody.querySelectorAll(".comparison-drill-row[data-drill-key]").forEach((row) => {
+        row.addEventListener("click", () => {
+          const key = row.dataset.drillKey;
+          const isCategory = row.classList.contains("comparison-drill-category");
+          const target = isCategory
+            ? expandedComparisonCategories
+            : expandedComparisonDepartments;
+          if (target.has(key)) {
+            target.delete(key);
+            if (isCategory) expandedComparisonDepartments.clear();
+          } else {
+            target.clear();
+            if (isCategory) expandedComparisonDepartments.clear();
+            target.add(key);
+          }
+          renderCompanyAnalysisTable(expenseRowsByYear);
+        });
+      });
+      if (expenseTotal) {
+        const totals = companyRows.reduce(
+          (sum, row) => sum.map((value, index) => value + row.values[index]),
+          [0, 0, 0],
+        );
+        const previous = totals[years.indexOf(selectedYears[0])];
+        const current = totals[years.indexOf(selectedYears[1])];
+        const change = previous ? percentChange(current, previous) : null;
+        const changeClass = change === null || change === 0
+          ? "is-neutral"
+          : change > 0 ? "is-increase" : "is-decrease";
+        const width = change === null ? 0 : Math.min(Math.abs(change), 100);
+        const changeText = changeMarkup(change);
+        expenseTotal.innerHTML = `<tr><th>Grand Total</th>${totals
+          .map((value, index) => `<th class="comparison-amount${disabledYears.has(years[index]) ? " is-disabled" : ""}">${formatAmount(value)}</th>`)
+          .join("")}<th><div class="comparison-yoy ${changeClass}"><i><b style="--progress-width:${width}%"></b></i><span>${changeText}</span></div></th></tr>`;
+      }
+      if (expenseFooter)
+        expenseFooter.textContent = `Showing ${companyRows.length} of ${companyRows.length} ${companyRows.length === 1 ? "Company" : "Companies"}`;
+    };
+    const renderFixedAssetPurchases = () => {
+      const body = document.getElementById("comparisonAssetsPurchasesBody");
+      const total = document.getElementById("comparisonAssetsPurchasesTotal");
+      const footer = document.getElementById("comparisonAssetsPurchasesFooter");
+      if (!body) return;
+
+      const assetTypes = [
+        ["laptop", "Laptop"],
+        ["desktop", "Desktop"],
+        ["copier", "Copier"],
+        ["printer", "Printer"],
+      ];
+      const selectedYears = selection.period === "compare-years"
+        ? [Number(selection.fromYear), Number(selection.toYear)]
+        : [2025, 2026];
+      const disabledYears = new Set(
+        selection.period === "compare-years"
+          ? years.filter((year) => !selectedYears.includes(year))
+          : [],
+      );
+      years.forEach((year) =>
+        document.getElementById(`comparisonAssetsYear${year}`)
+          ?.classList.toggle("is-disabled", disabledYears.has(year)),
+      );
+      const assetRowsByYear = data.map((item) => (item.fixedAssets || []).filter((row) =>
+        !excludedComparisonCompanies.has(row.company) &&
+        (selection.period !== "compare-month" || String(row.month || "").startsWith(selection.month)) &&
+        (selection.period !== "custom-range" || isMonthInCustomRange(row.month)) &&
+        (selection.company === "all" || row.company === selection.company) &&
+        (selection.department === "all" || row.department === selection.department) &&
+        (selection.category === "all" || selection.category === "Fixed Assets"),
+      ));
+      const formatAmount = (value) => Math.round(value || 0).toLocaleString();
+      const assetAmount = (record, asset = "") => asset
+        ? Number(record[asset] || 0)
+        : assetTypes.reduce((sum, [key]) => sum + Number(record[key] || 0), 0);
+      const valuesFor = (predicate, asset = "") => assetRowsByYear.map((rows) => rows
+        .filter(predicate)
+        .reduce((sum, record) => sum + assetAmount(record, asset), 0));
+      const hasVisibleValue = (values) => values.some(
+        (value, index) => !disabledYears.has(years[index]) && value > 0,
+      );
+      const companyNames = [...new Set(assetRowsByYear.flatMap((rows) => rows.map((record) =>
+        String(record.company || "Unassigned").trim() || "Unassigned",
+      )))]
+        .filter((company) => company && !excludedComparisonCompanies.has(company))
+        .sort((left, right) => left.localeCompare(right));
+      const rows = companyNames.map((company) => ({
+        company,
+        values: valuesFor((record) => (String(record.company || "Unassigned").trim() || "Unassigned") === company),
+      })).filter((row) => hasVisibleValue(row.values));
+      const amountCells = (values) => values.map((value, index) =>
+        `<td class="comparison-amount${disabledYears.has(years[index]) ? " is-disabled" : ""}">${formatAmount(value)}</td>`,
+      ).join("");
+      const drillRow = (level, label, values, key, expanded = false, leaf = false) => {
+        const labelMarkup = level === "month"
+          ? `<span class="comparison-drill-month-label">${calendarIcon}${escapeOption(label)}</span>`
+          : `<span>${escapeOption(label)}</span>`;
+        return `<tr class="comparison-drill-row comparison-drill-${level}${expanded ? " is-selected" : ""}${leaf ? " is-leaf" : ""}"${leaf ? "" : ` data-fixed-asset-drill="${escapeOption(key)}" data-fixed-asset-level="${level}" aria-expanded="${expanded}"`}><td>${labelMarkup}</td>${amountCells(values)}<td class="comparison-amount"><strong>${formatAmount(values.reduce((sum, value) => sum + value, 0))}</strong></td></tr>`;
+      };
+      body.innerHTML = rows.length
+        ? rows.map(({ company, values }) => {
+            const expanded = expandedFixedAssetCompanies.has(company);
+            const details = [];
+            if (expanded) {
+              assetTypes.forEach(([asset, assetLabel]) => {
+                const typeKey = `${company}|${asset}`;
+                const typeValues = valuesFor((record) =>
+                  (String(record.company || "Unassigned").trim() || "Unassigned") === company,
+                asset);
+                if (!hasVisibleValue(typeValues)) return;
+                const typeExpanded = expandedFixedAssetTypes.has(typeKey);
+                details.push(drillRow("category", assetLabel, typeValues, typeKey, typeExpanded));
+                if (!typeExpanded) return;
+                const departments = [...new Set(assetRowsByYear.flatMap((yearRows) => yearRows
+                  .filter((record) =>
+                    (String(record.company || "Unassigned").trim() || "Unassigned") === company &&
+                    assetAmount(record, asset) > 0,
+                  )
+                  .map((record) => String(record.department || "Unassigned").trim() || "Unassigned")))]
+                  .sort((left, right) => left.localeCompare(right));
+                departments.forEach((department) => {
+                  const departmentKey = `${typeKey}|${department}`;
+                  const departmentValues = valuesFor((record) =>
+                    (String(record.company || "Unassigned").trim() || "Unassigned") === company &&
+                    (String(record.department || "Unassigned").trim() || "Unassigned") === department,
+                  asset);
+                  if (!hasVisibleValue(departmentValues)) return;
+                  const departmentExpanded = expandedFixedAssetDepartments.has(departmentKey);
+                  details.push(drillRow("department", department, departmentValues, departmentKey, departmentExpanded));
+                  if (!departmentExpanded) return;
+                  fiscalMonths.forEach((month) => {
+                    const monthValues = valuesFor((record) =>
+                      (String(record.company || "Unassigned").trim() || "Unassigned") === company &&
+                      (String(record.department || "Unassigned").trim() || "Unassigned") === department &&
+                      String(record.month || "").startsWith(month),
+                    asset);
+                    if (hasVisibleValue(monthValues))
+                      details.push(drillRow("month", monthName(month), monthValues, "", false, true));
+                  });
+                });
+              });
+            }
+            return `<tr class="comparison-company-row${expanded ? " is-selected" : ""}" data-fixed-asset-company="${escapeOption(company)}" aria-expanded="${expanded}"><td><span class="comparison-company-name">${escapeOption(company)}</span></td>${amountCells(values)}<td class="comparison-amount"><strong>${formatAmount(values.reduce((sum, value) => sum + value, 0))}</strong></td></tr>${details.join("")}`;
+          }).join("")
+        : '<tr><td colspan="5" class="comparison-analysis-empty">No matching fixed asset purchase records.</td></tr>';
+      const totals = rows.reduce(
+        (sum, row) => sum.map((value, index) => value + row.values[index]),
+        [0, 0, 0],
+      );
+      const grandTotal = totals.reduce((sum, value) => sum + value, 0);
+      if (total)
+        total.innerHTML = `<tr><th>Grand Total</th>${totals.map((value, index) => `<th class="comparison-amount${disabledYears.has(years[index]) ? " is-disabled" : ""}">${formatAmount(value)}</th>`).join("")}<th class="comparison-amount">${formatAmount(grandTotal)}</th></tr>`;
+      if (footer)
+        footer.textContent = `Showing ${rows.length} of ${rows.length} ${rows.length === 1 ? "Company" : "Companies"}`;
+      body.querySelectorAll(".comparison-company-row[data-fixed-asset-company]").forEach((row) => {
+        row.addEventListener("click", () => {
+          const company = row.dataset.fixedAssetCompany;
+          if (expandedFixedAssetCompanies.has(company)) expandedFixedAssetCompanies.delete(company);
+          else {
+            expandedFixedAssetCompanies.clear();
+            expandedFixedAssetTypes.clear();
+            expandedFixedAssetDepartments.clear();
+            expandedFixedAssetCompanies.add(company);
+          }
+          renderFixedAssetPurchases();
+        });
+      });
+      body.querySelectorAll(".comparison-drill-row[data-fixed-asset-drill]").forEach((row) => {
+        row.addEventListener("click", () => {
+          const key = row.dataset.fixedAssetDrill;
+          const isAssetType = row.dataset.fixedAssetLevel === "category";
+          const target = isAssetType
+            ? expandedFixedAssetTypes
+            : expandedFixedAssetDepartments;
+          if (target.has(key)) {
+            target.delete(key);
+            if (isAssetType) expandedFixedAssetDepartments.clear();
+          } else {
+            target.clear();
+            if (isAssetType) expandedFixedAssetDepartments.clear();
+            target.add(key);
+          }
+          renderFixedAssetPurchases();
+        });
+      });
+    };
+    const render = () => {
+      const matchesBaseSelection = (row) =>
+        !excludedComparisonCompanies.has(row.company) &&
+        (selection.period !== "compare-month" || String(row.month || "").startsWith(selection.month)) &&
+        (selection.period !== "custom-range" || isMonthInCustomRange(row.month)) &&
+        (selection.company === "all" || row.company === selection.company) &&
+        (selection.category === "all" || row.category === selection.category);
+      const matchesMonthlyScope = matchesBaseSelection;
+      const totalForYear = (item) => {
+        if (selection.department === "all")
+          return item.expenses
+            .filter(matchesBaseSelection)
+            .reduce((sum, row) => sum + Number(row.amount || 0), 0);
+
+        const details = item.expenseDetails || [];
+        const hasDepartmentData = details.some(
+          (row) =>
+            row.company === selection.company &&
+            Boolean(String(row.department || "").trim()),
+        );
+        const rows = hasDepartmentData
+          ? details.filter(
+              (row) =>
+                matchesBaseSelection(row) &&
+                row.department === selection.department,
+            )
+          : item.expenses.filter(matchesBaseSelection);
+        return rows.reduce((sum, row) => sum + Number(row.amount || 0), 0);
+      };
+      const monthlyRowsForYear = (item) => {
+        if (selection.department === "all")
+          return item.expenses.filter(matchesMonthlyScope);
+
+        const details = item.expenseDetails || [];
+        const hasDepartmentData = details.some(
+          (row) =>
+            row.company === selection.company &&
+            Boolean(String(row.department || "").trim()),
+        );
+        return hasDepartmentData
+          ? details.filter(
+              (row) =>
+                matchesMonthlyScope(row) &&
+                row.department === selection.department,
+            )
+          : item.expenses.filter(matchesMonthlyScope);
+      };
+      const comparisonDetailRowsForYear = (item) => {
+        const details = item.expenseDetails || [];
+        const scopedDetails = details.filter((row) =>
+          matchesMonthlyScope(row) &&
+          (selection.department === "all" || row.department === selection.department),
+        );
+        return scopedDetails.length ? scopedDetails : monthlyRowsForYear(item);
+      };
+      const totals = data.map(totalForYear);
+      const compareMode = selection.period === "compare-years";
+      const displayYears = compareMode
+        ? years.filter(
+            (year) =>
+              year === Number(selection.fromYear) || year === Number(selection.toYear),
+          )
+        : years;
+      renderComparisonCharts(totals, displayYears);
+      const monthlyTotals = data.map((item) => {
+        const rows = monthlyRowsForYear(item);
+        return fiscalMonths.map((month) =>
+          rows
+            .filter((row) => String(row.month || "").startsWith(month))
+            .reduce((sum, row) => sum + Number(row.amount || 0), 0),
+        );
+      });
+      const displayMonths = selection.period === "compare-month"
+        ? [selection.month]
+        : selection.period === "custom-range"
+          ? fiscalMonths.filter(isMonthInCustomRange)
+          : fiscalMonths.filter((month, index) =>
+              monthlyTotals.some((values) => values[index] > 0),
+            );
+      renderMonthlyComparisonChart(monthlyTotals, displayYears, displayMonths);
+      const categoryTotals = data.map((item) =>
+        monthlyRowsForYear(item).reduce((totalsByCategory, row) => {
+          const category = String(row.category || "Uncategorized").trim() || "Uncategorized";
+          totalsByCategory[category] =
+            (totalsByCategory[category] || 0) + Number(row.amount || 0);
+          return totalsByCategory;
+        }, {}),
+      );
+      renderCategoryComparisonCharts(categoryTotals, displayYears);
+      latestComparisonExpenseRows = data.map(comparisonDetailRowsForYear);
+      renderCompanyAnalysisTable(latestComparisonExpenseRows);
+      renderFixedAssetPurchases();
+      const fromIndex = years.indexOf(Number(selection.fromYear));
+      const toIndex = years.indexOf(Number(selection.toYear));
+      const fromTotal = totals[fromIndex];
+      const toTotal = totals[toIndex];
+      const yearOnYear = compareMode
+        ? percentChange(toTotal, fromTotal)
+        : percentChange(totals[2], totals[1]);
+      const yearOnYearState = trendState(yearOnYear);
+      years.forEach((year, index) => {
+        const change = index === 0 ? 0 : percentChange(totals[index], totals[index - 1]);
+        const state = index === 0 ? "is-baseline" : trendState(change);
+        const card = document.getElementById(`comparisonYear${year}`);
+        const icon = document.getElementById(`comparisonYear${year}Icon`);
+        const value = document.getElementById(`comparisonYear${year}Value`);
+        const changeLabel = document.getElementById(`comparisonYear${year}Change`);
+
+        if (card) {
+          const isUnselectedYear = compareMode && year !== Number(selection.fromYear) && year !== Number(selection.toYear);
+          card.hidden = false;
+          card.classList.toggle("is-disabled", isUnselectedYear);
+          card.setAttribute("aria-disabled", String(isUnselectedYear));
+        }
+
+        setState(card, state);
+        setState(icon, state);
+        if (icon) icon.innerHTML = index === 0 ? calendarIcon : trendIcon;
+        if (value) value.textContent = Math.round(totals[index]).toLocaleString();
+        if (changeLabel) {
+          changeLabel.className = index === 0 ? "fy-comparison-baseline" : `fy-comparison-change ${state}`;
+          changeLabel.innerHTML = index === 0 ? "Baseline year" : `${trendIcon}${Math.abs(change).toFixed(1)}% vs previous year`;
+        }
+      });
+      const yearOnYearIcon = document.getElementById("comparisonYearOnYearIcon");
+      const yearOnYearValue = document.getElementById("comparisonYearOnYearValue");
+      const yearOnYearSubtitle = document.getElementById("comparisonYearOnYearSubtitle");
+      setState(yearOnYearIcon, yearOnYearState);
+      if (yearOnYearIcon) yearOnYearIcon.innerHTML = graphIcon;
+      if (yearOnYearValue) {
+        yearOnYearValue.className = `fy-comparison-percent-value ${yearOnYearState}`;
+        yearOnYearValue.innerHTML = `${trendIcon}${Math.abs(yearOnYear).toFixed(1)}%`;
+      }
+      if (yearOnYearSubtitle) {
+        yearOnYearSubtitle.className = `fy-comparison-change ${yearOnYearState}`;
+        yearOnYearSubtitle.textContent = compareMode
+          ? `${financialYearLabel(selection.toYear)} vs ${financialYearLabel(selection.fromYear)}`
+          : selection.period === "compare-month"
+            ? `${monthName(selection.month)} across financial years`
+          : selection.period === "custom-range"
+            ? `${monthName(selection.fromMonth)} to ${monthName(selection.toMonth)} across financial years`
+          : "FY 2026–2027 vs FY 2025–2026";
+      }
+    };
+    Object.entries(filters).forEach(([key, input]) => {
+      if (!input) return;
+      if (key === "period") {
+        input.innerHTML = '<option value="all">All data</option><option value="compare-years">Compare financial years</option><option value="compare-month">Compare same month</option><option value="custom-range">Custom range</option>';
+      } else if (key !== "department")
+        input.innerHTML = optionMarkup(
+          options[key],
+          { period: "data", company: "companies", category: "categories" }[
+            key
+          ],
+        );
+      input.addEventListener("change", () => {
+        selection[key] = input.value;
+        if (key === "company") syncDepartments();
+        if (key === "period") syncPeriodComparison();
+        render();
+      });
+    });
+    periodControls.pair?.addEventListener("change", () => {
+      const [toYear, fromYear] = periodControls.pair.value.split("-");
+      selection.fromYear = fromYear;
+      selection.toYear = toYear;
+      render();
+    });
+    periodControls.month?.addEventListener("change", () => {
+      selection.month = periodControls.month.value;
+      render();
+    });
+    periodControls.fromMonth?.addEventListener("change", () => {
+      selection.fromMonth = periodControls.fromMonth.value;
+      render();
+    });
+    periodControls.toMonth?.addEventListener("change", () => {
+      selection.toMonth = periodControls.toMonth.value;
+      render();
+    });
+    const expenseAnalysisTab = document.getElementById("comparisonExpenseTab");
+    const assetsAnalysisTab = document.getElementById("comparisonAssetsTab");
+    const expenseAnalysisPanel = document.getElementById("comparisonExpensePanel");
+    const assetsAnalysisPanel = document.getElementById("comparisonAssetsPanel");
+    const selectAnalysisTab = (assetsActive) => {
+      expenseAnalysisPanel.hidden = assetsActive;
+      assetsAnalysisPanel.hidden = !assetsActive;
+      expenseAnalysisTab.classList.toggle("active", !assetsActive);
+      assetsAnalysisTab.classList.toggle("active", assetsActive);
+      expenseAnalysisTab.setAttribute("aria-selected", String(!assetsActive));
+      assetsAnalysisTab.setAttribute("aria-selected", String(assetsActive));
+    };
+    expenseAnalysisTab?.addEventListener("click", () => selectAnalysisTab(false));
+    assetsAnalysisTab?.addEventListener("click", () => selectAnalysisTab(true));
+    document
+      .getElementById("comparisonMonthlyChartType")
+      ?.addEventListener("change", render);
+    new MutationObserver(() => {
+      if (latestComparisonTotals.length)
+        renderComparisonCharts(latestComparisonTotals, latestComparisonYears);
+      if (latestComparisonMonthlyTotals.length)
+        renderMonthlyComparisonChart(
+          latestComparisonMonthlyTotals,
+          latestComparisonYears,
+          latestComparisonMonths,
+        );
+      if (latestComparisonCategories.length)
+        renderCategoryComparisonCharts(
+          latestComparisonCategories,
+          latestComparisonYears,
+        );
+      if (latestComparisonExpenseRows.length)
+        renderCompanyAnalysisTable(latestComparisonExpenseRows);
+    }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    document
+      .getElementById("comparisonResetFilters")
+      ?.addEventListener("click", () => {
+        Object.entries(filters).forEach(([key, input]) => {
+          selection[key] = "all";
+          if (input) input.value = "all";
+        });
+        selection.fromYear = "2025";
+        selection.toYear = "2026";
+        selection.month = previousCalendarMonth;
+        selection.fromMonth = "Apr";
+        selection.toMonth = "Mar";
+        syncPeriodComparison();
+        syncDepartments();
+        render();
+      });
+    syncPeriodComparison();
+    syncDepartments();
+    render();
+  } catch (error) {
+    panel.innerHTML = '<p class="empty">FY comparison data could not be loaded.</p>';
+  }
+});
 const previousCalendarMonthKey = (format = "short") => {
   const date = new Date();
   date.setDate(1);
@@ -392,6 +1499,12 @@ function render() {
   table();
 }
 function charts() {
+  const chartCanvas = document.getElementById("chart"),
+    pieCanvas = document.getElementById("pie"),
+    legendNode =
+      document.getElementById("microsoft365LicenseLegend") ||
+      document.getElementById("legend");
+  if (!chartCanvas || !pieCanvas || !legendNode) return;
   const chartTypeControl =
       document.getElementById("m365CompanyChartType") ||
       document.getElementById("type"),
@@ -400,7 +1513,7 @@ function charts() {
     n = numeric(r)[0],
     labs = r.map((x, i) => x[Object.keys(x)[0]] || "Record " + (i + 1));
   if (bar) bar.destroy();
-  bar = new Chart(chart, {
+  bar = new Chart(chartCanvas, {
     type: selectedChartType,
     data: {
       labels: labs,
@@ -434,7 +1547,7 @@ function charts() {
   });
   let colors = ["#d12a31", "#f06428", "#d6a13b", "#8d5754"];
   if (donut) donut.destroy();
-  donut = new Chart(pie, {
+  donut = new Chart(pieCanvas, {
     type: "doughnut",
     data: {
       labels: Object.keys(c),
@@ -454,10 +1567,7 @@ function charts() {
       plugins: { legend: { display: false } },
     },
   });
-  (
-    document.getElementById("microsoft365LicenseLegend") ||
-    document.getElementById("legend")
-  ).innerHTML = Object.entries(c)
+  legendNode.innerHTML = Object.entries(c)
     .map(
       ([x, y], i) =>
         '<div><span><i class="dot" style="background:' +
@@ -471,6 +1581,8 @@ function charts() {
     .join("");
 }
 function table() {
+  if (!document.getElementById("table") || !document.getElementById("foot"))
+    return;
   let r = data[active].filter(
       (x) =>
         ((document.getElementById("filter")?.value || "All") === "All" ||
@@ -2034,6 +3146,9 @@ document.addEventListener(
   ).observe(document.body, { childList: true, subtree: true });
 })();
 
+/* ========================================================================== */
+/* Microsoft 365 Dashboard                                                     */
+/* ========================================================================== */
 /* Keep Microsoft 365 License totals permanently read-only */
 (function () {
   function lockLicenseTotal() {
@@ -2647,7 +3762,12 @@ page(active);
       card = document.createElement("section");
       card.className = "card unified-table-card";
       card.dataset.table = "license-utilization";
-      document.querySelector(".tablecard").after(card);
+      const companyCard =
+        document.querySelector(
+          '#microsoft365Dashboard > .unified-table-card:not([data-table="license-utilization"])',
+        ) || document.querySelector(".tablecard");
+      if (companyCard) companyCard.after(card);
+      else document.getElementById("microsoft365Dashboard")?.append(card);
     }
     const normal = licenses
         .filter((row) => row.Licenses !== "Total")
@@ -3045,9 +4165,11 @@ page(active);
     const chartTypeControl =
       document.getElementById("m365CompanyChartType") ||
       document.getElementById("type");
+    const chartCanvas = document.getElementById("chart");
+    if (!chartCanvas) return;
     if (active !== "Microsoft 365") {
       if (chartTypeControl) chartTypeControl.disabled = false;
-      chart.parentElement.style.height = "250px";
+      chartCanvas.parentElement.style.height = "250px";
       return;
     }
     const selectedLicense =
@@ -3098,7 +4220,7 @@ page(active);
       rowHeight = compactViewport ? 37 : phoneViewport ? 39 : 38,
       minimumHeight = compactViewport ? 400 : phoneViewport ? 420 : 390,
       chartHeight = Math.max(minimumHeight, rows.length * rowHeight + 74);
-    chart.parentElement.style.setProperty(
+    chartCanvas.parentElement.style.setProperty(
       "height",
       chartHeight + "px",
       "important",
@@ -3124,8 +4246,8 @@ page(active);
         titleFont: { family: "Poppins", size: 11, weight: "700" },
         bodyFont: { family: "Poppins", size: 12, weight: "600" },
       },
-      ctx = chart.getContext("2d"),
-      gradient = ctx.createLinearGradient(0, 0, chart.clientWidth || 700, 0);
+      ctx = chartCanvas.getContext("2d"),
+      gradient = ctx.createLinearGradient(0, 0, chartCanvas.clientWidth || 700, 0);
     gradient.addColorStop(0, dark ? "#c94a42" : "#d12a31");
     gradient.addColorStop(1, dark ? "#ef8563" : "#f38c47");
     const registered = Chart.getChart("chart");
@@ -3141,7 +4263,7 @@ page(active);
       } catch {}
     }
     if (chartTypeControl) chartTypeControl.disabled = false;
-    bar = new Chart(chart, {
+    bar = new Chart(chartCanvas, {
       type: selectedType,
       data: {
         labels: rows.map((row) => row.Company),
@@ -3510,6 +4632,9 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
       chart.options.animation = { duration: 1450, easing: "easeOutCubic" };
     },
   });
+/* ========================================================================== */
+/* Service Tickets Dashboard                                                   */
+/* ========================================================================== */
 /* Service Tickets analytics dashboard powered by Tickets1.xlsx */
 (function () {
   const importedSource = Array.isArray(window.TICKETS_DATA)
@@ -3585,7 +4710,6 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
     companyChartType: "bar",
     from: months[months.length - 1] || "",
     to: months[0] || "",
-    search: "",
   };
 
   const ticketPanel = document.getElementById("serviceTicketsDashboard");
@@ -3648,7 +4772,7 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
       optionList(companies, state.company) +
       '</select></label><label><span>Problem</span><select id="ticketProblem" class="filter"><option>All problems</option>' +
       optionList(problems, state.problem) +
-      '</select></label></div></section><section class="unified-chart-grid"><article class="unified-chart-card"><div class="unified-chart-header"><div><h2>Tickets by Company</h2><p>Support demand ranked from highest to lowest</p></div><span id="ticketCompanyChartTotal">0 tickets</span></div><div class="unified-bar-canvas"><canvas id="ticketCompanyChart"></canvas></div></article><article class="unified-chart-card"><div class="unified-chart-header"><div><h2>Problems by Category</h2><p>Issue distribution for the selected period</p></div><span id="ticketProblemChartTotal">0 types</span></div><div class="unified-pie-layout"><div class="unified-pie-canvas"><canvas id="ticketProblemChart"></canvas></div><div id="ticketProblemLegend" class="unified-chart-legend"></div></div></article></section><section class="card unified-table-card"><div class="unified-table-head"><div><h2>Company Assignment Summary</h2><p>Ticket allocation across companies and team members</p></div><input id="ticketSearch" class="search" placeholder="Search companies..."></div><div class="unified-table-scroll"><table class="unified-data-table" id="ticketAssignmentTable"><thead><tr><th>Company</th><th>Total</th>' +
+      '</select></label></div></section><section class="unified-chart-grid"><article class="unified-chart-card"><div class="unified-chart-header"><div><h2>Tickets by Company</h2><p>Support demand ranked from highest to lowest</p></div><span id="ticketCompanyChartTotal">0 tickets</span></div><div class="unified-bar-canvas"><canvas id="ticketCompanyChart"></canvas></div></article><article class="unified-chart-card"><div class="unified-chart-header"><div><h2>Problems by Category</h2><p>Issue distribution for the selected period</p></div><span id="ticketProblemChartTotal">0 types</span></div><div class="unified-pie-layout"><div class="unified-pie-canvas"><canvas id="ticketProblemChart"></canvas></div><div id="ticketProblemLegend" class="unified-chart-legend"></div></div></article></section><section class="card unified-table-card"><div class="unified-table-head"><div><h2>Company Assignment Summary</h2><p>Ticket allocation across companies and team members</p></div></div><div class="unified-table-scroll"><table class="unified-data-table" id="ticketAssignmentTable"><thead><tr><th>Company</th><th>Total</th>' +
       assignees.map((name) => "<th>" + clean(name) + "</th>").join("") +
       '</tr></thead><tbody id="ticketTableBody"></tbody><tfoot id="ticketTableTotal"></tfoot></table></div><div class="unified-table-footer" id="ticketTableFoot"></div></section>';
     const assigneeField = document.createElement("label");
@@ -3764,10 +4888,6 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
           applyFilters();
         }),
       );
-    panel.querySelector("#ticketSearch").addEventListener("input", (event) => {
-      state.search = event.target.value;
-      applyFilters();
-    });
     panel.querySelector("#ticketReset").onclick = () => {
       Object.assign(state, {
         range: "all",
@@ -3778,7 +4898,6 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
         assignee: "All assignees",
         from: "",
         to: "",
-        search: "",
       });
       renderShell();
       applyFilters();
@@ -3818,8 +4937,7 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
     return { start, end };
   }
   function filteredRows() {
-    const { start, end } = rangeBounds(),
-      query = state.search.trim().toLowerCase();
+    const { start, end } = rangeBounds();
     return source.filter((row) => {
       const date = new Date(row.completedAt),
         valid = !Number.isNaN(date.getTime());
@@ -3832,13 +4950,6 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
       if (
         state.assignee !== "All assignees" &&
         row.assignedTo !== state.assignee
-      )
-        return false;
-      if (
-        query &&
-        ![row.company, row.problem, row.assignedTo].some((value) =>
-          String(value || "").toLowerCase().includes(query),
-        )
       )
         return false;
       return true;
@@ -4216,8 +5327,8 @@ if (window.Chart && !Chart.registry.plugins.get("ticketDistributionEntrance"))
       item.total++;
       item.people[row.assignedTo] = (item.people[row.assignedTo] || 0) + 1;
     });
-    const summary = [...grouped.entries()].sort((a, b) =>
-      a[0].localeCompare(b[0]),
+    const summary = [...grouped.entries()].sort(
+      (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
     );
     panel.querySelector("#ticketTableBody").innerHTML = summary
       .map(
@@ -4777,6 +5888,8 @@ window.exportXlsx = function () {
 };
 
 (function () {
+  if (active !== "Manpower") return;
+
   const tabs = {
     structure: "Team Structure",
     onsite: "Company Coverage",
@@ -5358,8 +6471,6 @@ window.exportXlsx = function () {
           ?.insertAdjacentElement("afterend", card);
     }
     if (!card) return;
-    card.hidden = active !== "Manpower";
-    if (active !== "Manpower") return;
     clearCharts();
     card.className = "card unified-table-card";
     card.innerHTML =
@@ -5560,6 +6671,9 @@ window.exportXlsx = function () {
   else init();
 })();
 
+/* ========================================================================== */
+/* Manpower Dashboard                                                          */
+/* ========================================================================== */
 /* Workforce Plan reference data. Kept separate so the graph layout remains unchanged. */
 (function () {
   const workforceFunctions = {
@@ -6046,6 +7160,10 @@ window.exportXlsx = function () {
       node.style.display = "";
     });
   const sync = () => {
+    if (document.documentElement.dataset.dashboard === "Manpower") {
+      wrapper.hidden = false;
+      return;
+    }
     const selected = active === "Manpower";
     if (!selected) {
       wrapper.hidden = true;
@@ -6308,6 +7426,9 @@ window.exportXlsx = function () {
     typeof active === "undefined" || active !== "Copier & Printer Usage";
 })();
 
+/* ========================================================================== */
+/* Budget & Expense Dashboard                                                  */
+/* ========================================================================== */
 /* Budget & Expense dashboard sourced from Budget & Expense.xlsx. */
 (function () {
   const panel = document.getElementById("budgetExpenseDashboard");
@@ -6707,7 +7828,7 @@ window.exportXlsx = function () {
     makeChart("summary", document.getElementById("budgetSummaryChart"), {
       type: summaryBar ? "bar" : "line",
       data: {
-        labels: months,
+        labels: months.map(fullMonthChartLabel),
         datasets: [
           {
             label: "Budget",
@@ -8417,6 +9538,9 @@ window.exportXlsx = function () {
   update();
 })();
 
+/* ========================================================================== */
+/* Copier & Printer Dashboard                                                  */
+/* ========================================================================== */
 /* Normalize company and department names for Copier & Printer reporting. */
 (() => {
   const records = window.COPIER_PRINTER_DATA?.records;
@@ -8888,35 +10012,23 @@ window.exportXlsx = function () {
   refreshFilters();
 })();
 
+/* ========================================================================== */
+/* Main Dashboard                                                              */
+/* ========================================================================== */
 /* Main dashboard visibility. */
 (() => {
   const panel = document.getElementById("mainDashboard");
   const navigate = window.navigateHubPage;
   if (!panel || typeof navigate !== "function") return;
+  if (document.documentElement.dataset.dashboard === "Dashboard") {
+    panel.hidden = false;
+    return;
+  }
   window.navigateHubPage = function (name, push = true) {
     navigate(name, push);
     panel.hidden = name !== "Dashboard";
   };
   panel.hidden = typeof active === "undefined" || active !== "Dashboard";
-})();
-
-/* Main dashboard summary cards open their related dashboards. */
-(() => {
-  const openTarget = (card) => {
-    const page = card?.dataset.dashboardTarget;
-    if (page) window.navigateHubPage?.(page, true);
-  };
-  document.addEventListener("click", (event) => {
-    const card = event.target.closest(".main-summary-card[data-dashboard-target]");
-    if (card && !card.classList.contains("is-filter-empty")) openTarget(card);
-  });
-  document.addEventListener("keydown", (event) => {
-    if (event.key !== "Enter" && event.key !== " ") return;
-    const card = event.target.closest(".main-summary-card[data-dashboard-target]");
-    if (!card || card.classList.contains("is-filter-empty")) return;
-    event.preventDefault();
-    openTarget(card);
-  });
 })();
 
 /* Company-specific expense department filters. */
@@ -10653,7 +11765,7 @@ window.exportXlsx = function () {
         sortCompanyRows();
       } else renderOverviewRecord();
     };
-    [
+    const fixedAssetFilterIds = [
       "fixedAssetPeriod",
       "fixedAssetCompany",
       "fixedAssetDepartment",
@@ -10664,84 +11776,19 @@ window.exportXlsx = function () {
       "fixedAssetYear",
       "fixedAssetFrom",
       "fixedAssetTo",
-    ].forEach((id) =>
+    ];
+    const refreshFixedAssetViews = () =>
+      requestAnimationFrame(() => {
+        refreshCompanyFixedAssets();
+        setupOverviewSearch();
+        enhanceOverviewConditions();
+        enhanceFixedAssetCodes();
+        setupOverviewPagination();
+      });
+    fixedAssetFilterIds.forEach((id) =>
       panel
         .querySelector("#" + id)
-        ?.addEventListener("change", () =>
-          requestAnimationFrame(refreshCompanyFixedAssets),
-        ),
-    );
-    [
-      "fixedAssetPeriod",
-      "fixedAssetCompany",
-      "fixedAssetDepartment",
-      "fixedAssetType",
-      "fixedAssetBrand",
-      "fixedAssetCondition",
-      "fixedAssetMonth",
-      "fixedAssetYear",
-      "fixedAssetFrom",
-      "fixedAssetTo",
-    ].forEach((id) =>
-      panel
-        .querySelector("#" + id)
-        ?.addEventListener("change", () =>
-          requestAnimationFrame(setupOverviewSearch),
-        ),
-    );
-    [
-      "fixedAssetPeriod",
-      "fixedAssetCompany",
-      "fixedAssetDepartment",
-      "fixedAssetType",
-      "fixedAssetBrand",
-      "fixedAssetCondition",
-      "fixedAssetMonth",
-      "fixedAssetYear",
-      "fixedAssetFrom",
-      "fixedAssetTo",
-    ].forEach((id) =>
-      panel
-        .querySelector("#" + id)
-        ?.addEventListener("change", () =>
-          requestAnimationFrame(enhanceOverviewConditions),
-        ),
-    );
-    [
-      "fixedAssetPeriod",
-      "fixedAssetCompany",
-      "fixedAssetDepartment",
-      "fixedAssetType",
-      "fixedAssetBrand",
-      "fixedAssetCondition",
-      "fixedAssetMonth",
-      "fixedAssetYear",
-      "fixedAssetFrom",
-      "fixedAssetTo",
-    ].forEach((id) =>
-      panel
-        .querySelector("#" + id)
-        ?.addEventListener("change", () =>
-          requestAnimationFrame(enhanceFixedAssetCodes),
-        ),
-    );
-    [
-      "fixedAssetPeriod",
-      "fixedAssetCompany",
-      "fixedAssetDepartment",
-      "fixedAssetType",
-      "fixedAssetBrand",
-      "fixedAssetCondition",
-      "fixedAssetMonth",
-      "fixedAssetYear",
-      "fixedAssetFrom",
-      "fixedAssetTo",
-    ].forEach((id) =>
-      panel
-        .querySelector("#" + id)
-        ?.addEventListener("change", () =>
-          requestAnimationFrame(setupOverviewPagination),
-        ),
+        ?.addEventListener("change", refreshFixedAssetViews),
     );
     panel
       .querySelector("#fixedAssetResetFilters")
@@ -10974,7 +12021,7 @@ window.exportXlsx = function () {
     window.mainBudgetExpenseChart = new Chart(canvas, {
       type: isBar ? "bar" : "line",
       data: {
-        labels,
+        labels: labels.map(fullMonthChartLabel),
         datasets: [
           {
             label: "Budget",
@@ -11718,12 +12765,6 @@ window.exportXlsx = function () {
       return row.month ? matchesMonth(row.month) : true;
     });
   };
-  const dashboardCompanyCount = (filters = {}) =>
-    new Set(
-      overviewRows(filters)
-        .map((row) => normalizeOverviewCompany(row.company))
-        .filter(Boolean),
-    ).size;
   const renderMainExecutiveKpiRegister = (items) => {
     const body = document.getElementById("mainExecutiveKpiBody");
     if (!body) return;
@@ -11874,24 +12915,10 @@ window.exportXlsx = function () {
         ) || 0;
     }
     const totalLicenses = totalLicenseCapacity || activeLicenses + availableLicenses,
-      managedCompanyCount = dashboardCompanyCount(overviewFilters),
       ticketCount = includesTickets
         ? overviewRows({ ...overviewFilters, source: "tickets" }).length
         : 0,
-      assetCount = includesAssets
-        ? overviewRows({ ...overviewFilters, source: "assets" }).length
-        : 0,
       percent = (value) => Math.max(0, Math.min(100, value)).toFixed(1) + "%";
-    setValue("mainTicketSummary", ticketCount);
-    setValue("mainAssetSummary", assetCount);
-    setValue("mainLicenseSummary", hasLicenseScope ? activeLicenses : 0);
-    setValue("mainManagedCompaniesSummary", managedCompanyCount);
-    setValue("mainCurrentManpowerSummary", currentManpower);
-    setValue("mainPlannedWorkforceSummary", plannedManpower);
-    setValue(
-      "mainHiringVacanciesSummary",
-      Math.max(0, plannedManpower - currentManpower),
-    );
     const budgetSource = window.budgetExpenseData || {},
       copierSource = window.COPIER_PRINTER_DATA || {},
       periodMonths = copierSource.months || budgetSource.months || [],
@@ -12028,31 +13055,12 @@ window.exportXlsx = function () {
     setCurrencyMetric("mainPrintPagesCost", printPagesCost);
     setCurrencyMetric("mainPrintCartridgeCost", printCartridgeCost);
     setCurrencyMetric("mainPrintTotalAmount", printTotalAmount);
-    setValue("mainApprovedBudgetSummary", approvedBudget);
-    setValue("mainActualExpenseSummary", actualExpense);
-    setValue("mainTotalPagesSummary", printPages);
-    setValue("mainTotalPrintingSummary", printTotalAmount);
     const setFilterEmptyState = (target, hasData) => {
-      const element = target.startsWith(".") || target.startsWith("#")
-        ? document.querySelector(target)
-        : document.getElementById(target)?.closest(".main-summary-card");
+      const element = document.querySelector(target);
       if (!element) return;
       element.classList.toggle("is-filter-empty", !hasData);
       element.setAttribute("aria-disabled", String(!hasData));
     };
-    [
-      ["mainTicketSummary", ticketCount > 0],
-      ["mainAssetSummary", assetCount > 0],
-      ["mainLicenseSummary", hasLicenseScope && activeLicenses > 0],
-      ["mainTotalPagesSummary", printPages > 0],
-      ["mainTotalPrintingSummary", printTotalAmount > 0],
-      ["mainApprovedBudgetSummary", approvedBudget > 0],
-      ["mainActualExpenseSummary", actualExpense > 0],
-      ["mainManagedCompaniesSummary", managedCompanyCount > 0],
-      ["mainCurrentManpowerSummary", hasWorkforceScope && currentManpower > 0],
-      ["mainPlannedWorkforceSummary", hasWorkforceScope && plannedManpower > 0],
-      ["mainHiringVacanciesSummary", hasWorkforceScope],
-    ].forEach(([id, hasData]) => setFilterEmptyState(id, hasData));
     setFilterEmptyState(
       ".main-financial-performance",
       approvedBudget > 0 || actualExpense > 0,
@@ -12490,27 +13498,19 @@ window.exportXlsx = function () {
     ?.addEventListener("click", () =>
       requestAnimationFrame(window.refreshMainDashboardMetrics),
     );
-  document
-    .getElementById("mainBudgetExpenseChartType")
-    ?.addEventListener("change", window.refreshMainDashboardMetrics);
-  document
-    .getElementById("mainCompanyExpenseChartType")
-    ?.addEventListener("change", window.refreshMainDashboardMetrics);
-  document
-    .getElementById("mainCategorySpendingFilter")
-    ?.addEventListener("change", window.refreshMainDashboardMetrics);
-  document
-    .getElementById("mainCompanyPrintChartType")
-    ?.addEventListener("change", window.refreshMainDashboardMetrics);
-  document
-    .getElementById("mainDevicePrintMetric")
-    ?.addEventListener("change", window.refreshMainDashboardMetrics);
-  document
-    .getElementById("mainAssetDistributionChartType")
-    ?.addEventListener("change", window.refreshMainDashboardMetrics);
-  document
-    .getElementById("mainTicketDistributionChartType")
-    ?.addEventListener("change", window.refreshMainDashboardMetrics);
+  [
+    "mainBudgetExpenseChartType",
+    "mainCompanyExpenseChartType",
+    "mainCategorySpendingFilter",
+    "mainCompanyPrintChartType",
+    "mainDevicePrintMetric",
+    "mainAssetDistributionChartType",
+    "mainTicketDistributionChartType",
+  ].forEach((id) =>
+    document
+      .getElementById(id)
+      ?.addEventListener("change", window.refreshMainDashboardMetrics),
+  );
   let mainChartResizeFrame;
   window.addEventListener("resize", () => {
     cancelAnimationFrame(mainChartResizeFrame);
@@ -13281,7 +14281,7 @@ window.exportXlsx = function () {
     monthlyChart = new Chart(document.getElementById("copierMonthlyChart"), {
       type: "line",
       data: {
-        labels: months,
+        labels: months.map(fullMonthChartLabel),
         datasets: [
           {
             label: "Color pages",

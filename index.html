@@ -96,7 +96,7 @@
     </aside>
     <main class="main">
       <header class="top">
-        <button class="hamb" onclick="side.classList.toggle('open')">
+        <button class="hamb" type="button">
           ☰
         </button>
         <div class="crumb">
@@ -112,7 +112,7 @@
             title="Switch light or dark theme">
             <span class="sr-only">Toggle theme</span>
           </button>
-          <button class="btn export-btn export-excel" type="button" onclick="exportXlsx()" aria-label="Export Excel"
+          <button class="btn export-btn" type="button" aria-label="Export Excel"
             title="Export Excel">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -131,11 +131,11 @@
           </p>
         </div>
       </section>
-      <section id="mainDashboard" class="main-dashboard" hidden>
+      <section id="mainDashboard" class="main-dashboard">
         <section class="unified-filter-card card main-dashboard-filter-card" aria-label="Main dashboard filters">
           <div class="unified-filter-heading">
             <div>
-              <h2>Financial Year 2026-2027 Report</h2>
+              <h2>Financial Year 2026-2027 Analysis</h2>
               <p>Review overall by period and company</p>
             </div>
             <button id="mainDashboardResetFilters" class="btn" type="button">
@@ -385,57 +385,6 @@
           </div>
           <footer class="unified-table-footer"><span id="mainExecutiveKpiNote">Showing 5 of 5 Overviews</span></footer>
         </section>
-      </section>
-      <section id="manpowerDashboard" class="manpower-dashboard" data-planned-headcount="13" hidden></section>
-      <section id="budgetExpenseDashboard" class="budgetexpense-dashboard" hidden></section>
-      <section id="copierprinterusageDashboard" hidden></section>
-      <section id="serviceTicketsDashboard" hidden></section>
-      <section id="fixedassetsDashboard" class="fixedassets-dashboard" hidden></section>
-      <section id="microsoft365Dashboard" class="microsoft365-dashboard" hidden></section>
-      <section id="comparisonDashboard" class="comparison-dashboard" hidden>
-      </section>
-      <section class="unified-kpi-grid" id="kpis"></section>
-      <section class="grid">
-        <article class="card">
-          <div class="title">
-            <div>
-              <h2 id="ctitle">Operational performance</h2>
-              <p>Data-driven worksheet overview</p>
-            </div>
-            <select class="select" id="type" onchange="charts()">
-              <option value="bar">Bar chart</option>
-              <option value="line">Line chart</option>
-            </select>
-          </div>
-          <div class="chart unified-bar-canvas">
-            <canvas id="chart"> </canvas>
-          </div>
-        </article>
-        <article class="card">
-          <div class="title">
-            <div>
-              <h2>Status distribution</h2>
-              <p>Live portfolio snapshot</p>
-            </div>
-          </div>
-          <div class="piegrid">
-            <div class="pie">
-              <canvas id="pie"> </canvas>
-            </div>
-            <div class="legend" id="legend"></div>
-          </div>
-        </article>
-      </section>
-      <section class="card tablecard">
-        <div class="head">
-          <h2 id="ttitle">Dashboard records</h2>
-          <div class="tools">
-            <input class="search" id="search" oninput="table()" placeholder="Search records..." />
-            <select class="filter" id="filter" onchange="table()"></select>
-          </div>
-        </div>
-        <div id="table"></div>
-        <div class="foot" id="foot"></div>
       </section>
     </main>
   </div>

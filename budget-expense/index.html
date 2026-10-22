@@ -38,17 +38,16 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
   <link rel="stylesheet" href="src/css/styles.css" />
-  <script src="data/tickets-data.js"></script>
   <script src="data/2026/budget-expense-data-26.js"></script>
-  <script src="data/2026/copier-printer-data-26.js"></script>
-  <script src="data/fixed-assets-data.js"></script>
-  <script src="data/microsoft-license-data.js"></script>
   <script src="src/js/app.js" defer></script>
 </head>
 
 <body class="login-required">
-  <script>try { if (sessionStorage.getItem("natureADashboardAuthenticated") === "true") document.body.classList.remove("login-required"); document.body.classList.toggle("dark", localStorage.getItem("itHubTheme") === "dark"); } catch (_) {}</script>
-  <div id="hubLoading" class="hub-loading is-visible" role="status" aria-live="polite"><div class="hub-loading-card"><span class="hub-loading-ring" aria-hidden="true"></span><span><strong>Nature A Digital Hub</strong><small>Loading dashboard…</small></span></div></div>
+  <script>try {if (sessionStorage.getItem("natureADashboardAuthenticated") === "true") document.body.classList.remove("login-required"); document.body.classList.toggle("dark", localStorage.getItem("itHubTheme") === "dark");} catch (_) { }</script>
+  <div id="hubLoading" class="hub-loading is-visible" role="status" aria-live="polite">
+    <div class="hub-loading-card"><span class="hub-loading-ring" aria-hidden="true"></span><span><strong>Nature A
+          Digital Hub</strong><small>Loading dashboard…</small></span></div>
+  </div>
   <section id="loginPage" class="login-page" aria-labelledby="loginTitle" hidden>
     <div class="login-panel">
       <div class="login-brand-mark" aria-hidden="true">
@@ -96,7 +95,7 @@
     </aside>
     <main class="main">
       <header class="top">
-        <button class="hamb" onclick="side.classList.toggle('open')">
+        <button class="hamb" type="button">
           ☰
         </button>
         <div class="crumb">
@@ -112,7 +111,7 @@
             title="Switch light or dark theme">
             <span class="sr-only">Toggle theme</span>
           </button>
-          <button class="btn export-btn export-excel" type="button" onclick="exportXlsx()" aria-label="Export Excel"
+          <button class="btn export-btn" type="button" aria-label="Export Excel"
             title="Export Excel">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -131,290 +130,16 @@
           </p>
         </div>
       </section>
-      <section id="mainDashboard" class="main-dashboard" hidden>
-        <section class="main-summary-grid" aria-label="Main dashboard summaries">
-          <article class="main-summary-card tone-ticket" data-dashboard-target="Service Tickets" role="link" tabindex="0" aria-label="Open Service Tickets dashboard">
-            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 8h8M8 12h5M8 16h4"></path></svg></span>
-            <div><p>Service Tickets</p><strong><span id="mainTicketSummary">0</span><small>Tickets</small></strong></div>
-          </article>
-          <article class="main-summary-card tone-assets" data-dashboard-target="Fixed Assets" role="link" tabindex="0" aria-label="Open Fixed Assets dashboard">
-            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"></rect><path d="M8 20h8M12 16v4"></path></svg></span>
-            <div><p>Fixed Assets</p><strong><span id="mainAssetSummary">0</span><small>Assets</small></strong></div>
-          </article>
-          <article class="main-summary-card tone-license" data-dashboard-target="Microsoft 365" role="link" tabindex="0" aria-label="Open Microsoft 365 dashboard">
-            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M7 9h6M7 13h10M7 16h7"></path></svg></span>
-            <div><p>Microsoft 365 Licenses</p><strong><span id="mainLicenseSummary">0</span><small>Licenses</small></strong></div>
-          </article>
-          <article class="main-summary-card tone-pages" data-dashboard-target="Copier &amp; Printer Usage" role="link" tabindex="0" aria-label="Open Copier and Printer Usage dashboard">
-            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"></rect><path d="M9 8h6M9 12h6M9 16h4"></path></svg></span>
-            <div><p>Total Pages</p><strong><span id="mainTotalPagesSummary">0</span><small>Pages</small></strong></div>
-          </article>
-          <article class="main-summary-card main-summary-financial-card tone-printing" data-dashboard-target="Copier &amp; Printer Usage" role="link" tabindex="0" aria-label="Open Copier and Printer Usage dashboard">
-            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"></rect><path d="M3 10h18M7 15h4M16 15h1"></path></svg></span>
-            <div><p>Total Printing</p><strong><span id="mainTotalPrintingSummary">0</span><small>MMK</small></strong></div>
-          </article>
-          <article class="main-summary-card main-summary-financial-card tone-budget" data-dashboard-target="Budget &amp; Expense" role="link" tabindex="0" aria-label="Open Budget and Expense dashboard">
-            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V8l7-5 7 5v13M3 10h18M9 21v-5h6v5M8 12h1M15 12h1"></path></svg></span>
-            <div><p>Approved Budget</p><strong><span id="mainApprovedBudgetSummary">0</span><small>MMK</small></strong></div>
-          </article>
-          <article class="main-summary-card main-summary-financial-card tone-expense" data-dashboard-target="Budget &amp; Expense" role="link" tabindex="0" aria-label="Open Budget and Expense dashboard">
-            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h16V8H4zM7 8V5h10v3M8 13h.01M12 13h4"></path></svg></span>
-            <div><p>Actual Expense</p><strong><span id="mainActualExpenseSummary">0</span><small>MMK</small></strong></div>
-          </article>
-          <article class="main-summary-card tone-workforce" data-dashboard-target="Manpower" role="link" tabindex="0" aria-label="Open Manpower dashboard">
-            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"></circle><path d="M3 21v-2a6 6 0 0 1 12 0v2M16 11l2 2 4-5"></path></svg></span>
-            <div><p>Current Manpower</p><strong><span id="mainCurrentManpowerSummary">0</span><small>People</small></strong></div>
-          </article>
-          <article class="main-summary-card tone-planned" data-dashboard-target="Manpower" role="link" tabindex="0" aria-label="Open Manpower dashboard">
-            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 21v-2.2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V21"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2.2a4 4 0 0 0-3-3.8M16.5 3.2a4 4 0 0 1 0 7.6"></path></svg></span>
-            <div><p>Planned Workforce</p><strong><span id="mainPlannedWorkforceSummary">0</span><small>People</small></strong></div>
-          </article>
-          <article class="main-summary-card tone-vacancy" data-dashboard-target="Manpower" role="link" tabindex="0" aria-label="Open Manpower dashboard">
-            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M19 8v6M16 11h6"></path></svg></span>
-            <div><p>Hiring Vacancies</p><strong><span id="mainHiringVacanciesSummary">0</span><small>Roles</small></strong></div>
-          </article>
-          <article class="main-summary-card tone-company" data-dashboard-target="Dashboard" role="link" tabindex="0" aria-label="Refresh Main Dashboard overview">
-            <span class="main-summary-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 21h16M6 21V7l6-4v18M12 10h6v11M9 9h1M9 13h1M9 17h1M15 14h1M15 18h1"></path></svg></span>
-            <div><p>Managed Companies</p><strong><span id="mainManagedCompaniesSummary">0</span><small>Companies</small></strong></div>
-          </article>
+      <section id="budgetExpenseDashboard" class="budgetexpense-dashboard">
+        <section class="unified-kpi-grid" aria-label="Budget and expense summary">
+          <article class="unified-kpi-card tone-orange"><div><b>Total Budget</b><small id="budgetTotalSubtitle">All data</small></div><strong id="budgetTotal">0</strong></article>
+          <article class="unified-kpi-card tone-green"><div><b>Actual Expense</b><small id="budgetActualSubtitle">All data</small></div><strong id="budgetActual">0</strong></article>
+          <article id="budgetVarianceCard" class="unified-kpi-card tone-yellow"><div><b>Variance</b><small id="budgetVarianceSubtitle">Budget remaining</small></div><strong id="budgetVariance">0</strong></article>
+          <article id="budgetUtilizationCard" class="unified-kpi-card tone-blue"><div><b>Budget Utilization</b><small id="budgetUtilizationSubtitle">Expense against budget</small></div><strong id="budgetUtilization">0%</strong></article>
         </section>
-        <article id="mainBudgetExpenseSummaryCard" class="card unified-chart-card main-dashboard-budget-summary">
-          <div class="unified-chart-header chart-control-ready">
-            <div>
-              <h2>Budget vs Expense Summary</h2>
-              <p>Monthly budget and actual expense comparison</p>
-            </div>
-            <select id="mainBudgetExpenseChartType" class="filter unified-chart-select" aria-label="Main dashboard budget versus expense chart type">
-              <option value="bar">Bar chart</option>
-              <option value="line">Line chart</option>
-            </select>
-          </div>
-          <div class="unified-line-canvas"><canvas id="mainBudgetExpenseChart" aria-label="Main dashboard budget versus expense chart"></canvas></div>
-          <p class="unified-chart-footer budget-summary-key" aria-label="Chart series"><span><i class="budget-summary-budget" aria-hidden="true"></i>Budget</span><span><i class="budget-summary-actual" aria-hidden="true"></i>Actual expense</span></p>
-        </article>
-        <section class="unified-chart-grid main-dashboard-expense-insights" aria-label="Expense insights"><article id="mainCompanyExpenseCard" class="unified-chart-card card"><div class="unified-chart-header chart-control-ready"><div><h2>Company Expense Analysis</h2><p>Actual spending distribution across companies</p></div><select id="mainCompanyExpenseChartType" class="filter unified-chart-select" aria-label="Company expense chart type"><option value="bar">Bar chart</option><option value="line">Line chart</option></select></div><div class="unified-bar-canvas"><canvas id="mainCompanyExpenseChart" aria-label="Company expense analysis chart"></canvas></div><p id="mainCompanyExpenseFooter" class="unified-chart-footer"></p></article><article id="mainCategorySpendingCard" class="unified-chart-card card"><div class="unified-chart-header"><div><h2>Category Spending Overview</h2><p>Actual spend across technology categories</p></div></div><select id="mainCategorySpendingFilter" class="filter unified-chart-select" aria-label="Category spending filter"><option value="all">All categories</option></select><div class="unified-pie-layout"><div class="unified-pie-canvas"><canvas id="mainCategorySpendingChart" aria-label="Category spending overview chart"></canvas></div><div id="mainCategorySpendingLegend" class="unified-chart-legend"></div></div></article></section>
-<section class="unified-grid main-dashboard-chart-grid" aria-label="Digital operations overview">
-          <article class="unified-chart-card card main-workforce-card">
-            <header class="unified-chart-header">
-              <div>
-                <h2>Workforce Capacity</h2>
-                <p>Current staffing against planned headcount</p>
-              </div>
-            </header>
-            <div class="unified-pie-layout main-dashboard-pie-layout">
-              <div class="unified-pie-canvas main-dashboard-pie">
-                <canvas id="mainWorkforcePie" aria-label="Workforce capacity chart"></canvas>
-              </div>
-              <div class="main-dashboard-legend-panel">
-                <div class="unified-chart-legend">
-                  <div>
-                    <span><i class="dot manpower-dot"></i>Current manpower</span><b><strong
-                        id="mainWorkforceCurrent">0</strong><small>People</small></b>
-                  </div>
-                  <div>
-                    <span><i class="dot neutral-dot"></i>Open positions</span><b><strong
-                        id="mainWorkforceGap">0</strong><small>People</small></b>
-                  </div>
-                </div>
-                <div class="main-dashboard-progress">
-                  <div class="main-dashboard-progress-label">
-                    Workforce fulfillment
-                    <b id="mainWorkforceFulfillment">0%</b>
-                  </div>
-                  <span><i id="mainWorkforceBar" style="width: 0%"></i></span>
-                </div>
-              </div>
-            </div>
-          </article>
-          <article class="unified-chart-card card main-license-card">
-            <header class="unified-chart-header">
-              <div>
-                <h2>Microsoft 365 Capacity</h2>
-                <p>License assignment and available capacity</p>
-              </div>
-            </header>
-            <div class="unified-pie-layout main-dashboard-pie-layout">
-              <div class="unified-pie-canvas main-dashboard-pie">
-                <canvas id="mainLicensePie" aria-label="Microsoft 365 license capacity chart"></canvas>
-              </div>
-              <div class="main-dashboard-legend-panel">
-                <div class="unified-chart-legend">
-                  <div>
-                    <span><i class="dot license-dot"></i>Active licenses</span><b><strong
-                        id="mainLicenseActiveChart">0</strong><small>Licenses</small></b>
-                  </div>
-                  <div>
-                    <span><i class="dot neutral-dot"></i>Available licenses</span><b><strong
-                        id="mainLicenseAvailableChart">0</strong><small>Licenses</small></b>
-                  </div>
-                </div>
-                <div class="main-dashboard-progress">
-                  <div class="main-dashboard-progress-label">
-                    License utilization <b id="mainLicenseUtilization">0%</b>
-                  </div>
-                  <span><i id="mainLicenseBar" style="width: 0%"></i></span>
-                </div>
-              </div>
-            </div>
-          </article>
-        </section>
-        <section class="unified-filter-card card main-dashboard-filter-card" aria-label="Main dashboard filters">
-          <div class="unified-filter-heading">
-            <div>
-              <h2>Financial Year 2026-2027 Report</h2>
-              <p>Review overall by period and company</p>
-            </div>
-            <button id="mainDashboardResetFilters" class="btn" type="button">
-              Reset filters
-            </button>
-          </div>
-          <div class="unified-filter-grid">
-            <label>
-              <span>Period</span>
-              <select id="mainDashboardPeriod" class="filter">
-                <option value="all">All data</option>
-                <option value="last3">Last 3 months</option>
-                <option value="last6">Last 6 months</option>
-                <option value="monthly">Monthly</option>
-                <option value="yearly">Yearly</option>
-                <option value="custom">Custom range</option>
-              </select>
-            </label>
-            <label id="mainDashboardPeriodValueField" hidden>
-              <span id="mainDashboardPeriodValueLabel">Month</span>
-              <select id="mainDashboardPeriodValue" class="filter"></select>
-            </label>
-            <label id="mainDashboardFromField" hidden>
-              <span>From month</span>
-              <select id="mainDashboardFromMonth" class="filter"></select>
-            </label>
-            <label id="mainDashboardToField" hidden>
-              <span>To month</span>
-              <select id="mainDashboardToMonth" class="filter"></select>
-            </label>
-            <label>
-              <span>Company</span>
-              <select id="mainDashboardCompany" class="filter"></select>
-            </label>
-            <label>
-              <span>Overview</span>
-              <select id="mainDashboardSource" class="filter" aria-label="Overview data source"><option value="all">All overview</option><option value="budget">Budget &amp; Expense</option><option value="copier">Copier &amp; Printer Usage</option><option value="tickets">Service Tickets</option><option value="assets">Fixed Assets</option><option value="m365">Microsoft 365</option></select>
-            </label>
-            <label id="mainDashboardDepartmentField" hidden>
-              <span>Department</span>
-              <select id="mainDashboardDepartment" class="filter"></select>
-            </label>
-          </div>
-        </section>
-      </section>
-      <section id="manpowerDashboard" class="manpower-dashboard" data-planned-headcount="13" hidden>
-        <section class="unified-kpi-grid">
-          <article class="unified-kpi-card tone-orange">
-            <span class="unified-kpi-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-                <circle cx="9" cy="8" r="4"></circle>
-                <path d="M3 21v-2a6 6 0 0 1 12 0v2M16 11l2 2 4-5"></path>
-              </svg>
-            </span>
-            <div>
-              <b>Current Manpower</b>
-              <small id="manpowerCurrentSubtitle">Active team members</small>
-            </div>
-            <strong id="manpowerCurrent">9</strong>
-          </article>
-          <article class="unified-kpi-card tone-green">
-            <span class="unified-kpi-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-                <path d="M16 21v-2.2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V21"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M22 21v-2.2a4 4 0 0 0-3-3.8M16.5 3.2a4 4 0 0 1 0 7.6"></path>
-              </svg>
-            </span>
-            <div>
-              <b>Planned Headcount</b>
-              <small id="manpowerPlannedSubtitle">Target workforce capacity</small>
-            </div>
-            <strong id="manpowerPlanned">13</strong>
-          </article>
-          <article class="unified-kpi-card tone-yellow">
-            <span class="unified-kpi-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M19 8v6M16 11h6"></path>
-              </svg>
-            </span>
-            <div>
-              <b>Hiring Vacancies</b>
-              <small id="manpowerVacanciesSubtitle">Roles open for hiring</small>
-            </div>
-            <strong id="manpowerVacancies">4</strong>
-          </article>
-          <article class="unified-kpi-card tone-blue">
-            <span class="unified-kpi-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
-                <path d="M4 19a8 8 0 1 1 16 0"></path>
-                <path d="m12 15 4-5"></path>
-                <path d="M7 19h10"></path>
-              </svg>
-            </span>
-            <div>
-              <b>Workforce Capacity</b>
-              <small id="manpowerCapacitySubtitle">Positions currently filled</small>
-            </div>
-            <strong id="manpowerCapacity">67%</strong>
-          </article>
-        </section>
-      </section>
-      <section id="budgetExpenseDashboard" class="budgetexpense-dashboard" hidden></section>
-      <section id="copierprinterusageDashboard" hidden></section>
-      <section id="serviceTicketsDashboard" hidden></section>
-      <section id="fixedassetsDashboard" class="fixedassets-dashboard" hidden></section>
-      <section id="microsoft365Dashboard" class="microsoft365-dashboard" hidden></section>
-      <section id="comparisonDashboard" class="comparison-dashboard" hidden>
-      </section>
-      <section class="unified-kpi-grid" id="kpis"></section>
-      <section class="grid">
-        <article class="card">
-          <div class="title">
-            <div>
-              <h2 id="ctitle">Operational performance</h2>
-              <p>Data-driven worksheet overview</p>
-            </div>
-            <select class="select" id="type" onchange="charts()">
-              <option value="bar">Bar chart</option>
-              <option value="line">Line chart</option>
-            </select>
-          </div>
-          <div class="chart unified-bar-canvas">
-            <canvas id="chart"> </canvas>
-          </div>
-        </article>
-        <article class="card">
-          <div class="title">
-            <div>
-              <h2>Status distribution</h2>
-              <p>Live portfolio snapshot</p>
-            </div>
-          </div>
-          <div class="piegrid">
-            <div class="pie">
-              <canvas id="pie"> </canvas>
-            </div>
-            <div class="legend" id="legend"></div>
-          </div>
-        </article>
-      </section>
-      <section class="card tablecard">
-        <div class="head">
-          <h2 id="ttitle">Dashboard records</h2>
-          <div class="tools">
-            <input class="search" id="search" oninput="table()" placeholder="Search records..." />
-            <select class="filter" id="filter" onchange="table()"></select>
-          </div>
-        </div>
-        <div id="table"></div>
-        <div class="foot" id="foot"></div>
+        <section class="unified-filter-card"><div class="unified-filter-heading"><div><h2>Budget &amp; Expense Analytics</h2><p>Monitor approved budgets, spending, and variance.</p></div></div><div class="unified-filter-grid"><label><span>Period</span><select id="budgetPeriodFilter" class="filter"><option value="all">All data</option></select></label><label><span>Company</span><select id="budgetCompanyFilter" class="filter"></select></label><label><span>Category</span><select id="budgetCategoryFilter" class="filter"></select></label></div></section>
+        <section class="unified-chart-grid"><article class="unified-chart-card"><div class="unified-chart-header"><div><h2>Budget vs Expense Summary</h2><p>Monthly budget and actual expense comparison</p></div></div><div class="unified-line-canvas"><canvas id="budgetSummaryChart"></canvas></div></article><article class="unified-chart-card"><div class="unified-chart-header"><div><h2>Company Expense Analysis</h2><p>Actual spending by company</p></div></div><div class="unified-bar-canvas"><canvas id="budgetCompanyChart"></canvas></div></article></section>
+        <section class="card unified-table-card"><div class="unified-table-head"><div><h2>Company Financial Performance</h2><p>Budget, actual spending, and variance by company</p></div></div><div class="unified-table-scroll"><table class="unified-data-table"><tbody id="budgetPortfolioBody"></tbody></table></div></section>
       </section>
     </main>
   </div>
