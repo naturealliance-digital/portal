@@ -1106,6 +1106,113 @@ window.addEventListener("DOMContentLoaded", async () => {
     syncPeriodComparison();
     syncDepartments();
     render();
+    window.exportComparisonWorkbook = () => {
+      if (!window.XLSX) return show("Excel export is not available");
+      const yearLabels = years.map((year) => `FY ${year}–${year + 1}`);
+      const selectedYears = selection.period === "compare-years"
+        ? [Number(selection.fromYear), Number(selection.toYear)]
+        : years;
+      const detailRowsByYear = latestComparisonExpenseRows.length
+        ? latestComparisonExpenseRows
+        : data.map((item) => item.expenseDetails || item.expenses || []);
+      const assetRowsByYear = data.map((item) => (item.fixedAssets || []).filter((row) =>
+        !excludedComparisonCompanies.has(row.company) &&
+        (selection.period !== "compare-month" || String(row.month || "").startsWith(selection.month)) &&
+        (selection.period !== "custom-range" || isMonthInCustomRange(row.month)) &&
+        (selection.company === "all" || row.company === selection.company) &&
+        (selection.department === "all" || row.department === selection.department) &&
+        (selection.category === "all" || selection.category === "Fixed Assets"),
+      ));
+      const sum = (rows) => rows.reduce((total, row) => total + Number(row.amount || 0), 0);
+      const companyNames = [...new Set(detailRowsByYear.flatMap((rows) => rows.map((row) => row.company)))]
+        .filter(Boolean)
+        .sort((left, right) => left.localeCompare(right));
+      const expenseValues = (predicate) => detailRowsByYear.map((rows) =>
+        sum(rows.filter(predicate)),
+      );
+      const expenseExportRow = (level, name, values) => {
+        const previous = values[years.indexOf(selectedYears.at(-2))] || 0;
+        const current = values[years.indexOf(selectedYears.at(-1))] || 0;
+        return {
+          Level: level,
+          "Company / Category / Department / Month": name,
+          [yearLabels[0]]: values[0],
+          [yearLabels[1]]: values[1],
+          [yearLabels[2]]: values[2],
+          "Year-on-Year Change (%)": previous ? ((current - previous) / previous) * 100 : "",
+        };
+      };
+      const expenseExportRows = [];
+      companyNames.forEach((company) => {
+        expenseExportRows.push(expenseExportRow("Company", company, expenseValues((row) => row.company === company)));
+        const categories = [...new Set(detailRowsByYear.flatMap((rows) => rows
+          .filter((row) => row.company === company)
+          .map((row) => row.category || "Uncategorized")))].sort((left, right) => left.localeCompare(right));
+        categories.forEach((category) => {
+          expenseExportRows.push(expenseExportRow("Category", `  ${category}`, expenseValues((row) => row.company === company && (row.category || "Uncategorized") === category)));
+          const departments = [...new Set(detailRowsByYear.flatMap((rows) => rows
+            .filter((row) => row.company === company && (row.category || "Uncategorized") === category)
+            .map((row) => row.department || "Unassigned")))].sort((left, right) => left.localeCompare(right));
+          departments.forEach((department) => {
+            expenseExportRows.push(expenseExportRow("Department", `    ${department}`, expenseValues((row) => row.company === company && (row.category || "Uncategorized") === category && (row.department || "Unassigned") === department)));
+            fiscalMonths.forEach((month) => {
+              const values = expenseValues((row) => row.company === company && (row.category || "Uncategorized") === category && (row.department || "Unassigned") === department && String(row.month || "").startsWith(month));
+              if (values.some((value) => value > 0)) expenseExportRows.push(expenseExportRow("Month", `      ${monthName(month)}`, values));
+            });
+          });
+        });
+      });
+      const assetCompanies = [...new Set(assetRowsByYear.flatMap((rows) => rows.map((row) => row.company)))]
+        .filter(Boolean)
+        .sort((left, right) => left.localeCompare(right));
+      const assetCount = (row) => ["laptop", "desktop", "copier", "printer"]
+        .reduce((total, key) => total + Number(row[key] || 0), 0);
+      const assetTypes = [["laptop", "Laptop"], ["desktop", "Desktop"], ["copier", "Copier"], ["printer", "Printer"]];
+      const assetValues = (predicate, type = "") => assetRowsByYear.map((rows) => rows
+        .filter(predicate)
+        .reduce((total, row) => total + (type ? Number(row[type] || 0) : assetCount(row)), 0));
+      const assetExportRow = (level, name, values) => ({
+        Level: level,
+        "Company / Asset Type / Department / Month": name,
+        [yearLabels[0]]: values[0],
+        [yearLabels[1]]: values[1],
+        [yearLabels[2]]: values[2],
+        Total: values.reduce((total, value) => total + value, 0),
+      });
+      const assetExportRows = [];
+      assetCompanies.forEach((company) => {
+        assetExportRows.push(assetExportRow("Company", company, assetValues((row) => row.company === company)));
+        assetTypes.forEach(([type, label]) => {
+          const typeValues = assetValues((row) => row.company === company, type);
+          if (!typeValues.some((value) => value > 0)) return;
+          assetExportRows.push(assetExportRow("Asset Type", `  ${label}`, typeValues));
+          const departments = [...new Set(assetRowsByYear.flatMap((rows) => rows
+            .filter((row) => row.company === company && Number(row[type] || 0) > 0)
+            .map((row) => row.department || "Unassigned")))].sort((left, right) => left.localeCompare(right));
+          departments.forEach((department) => {
+            assetExportRows.push(assetExportRow("Department", `    ${department}`, assetValues((row) => row.company === company && (row.department || "Unassigned") === department, type)));
+            fiscalMonths.forEach((month) => {
+              const values = assetValues((row) => row.company === company && (row.department || "Unassigned") === department && String(row.month || "").startsWith(month), type);
+              if (values.some((value) => value > 0)) assetExportRows.push(assetExportRow("Month", `      ${monthName(month)}`, values));
+            });
+          });
+        });
+      });
+      const workbook = XLSX.utils.book_new();
+      const addSheet = (name, rows) => {
+        const exportRows = rows.length ? rows : [{ Status: "No matching records" }];
+        const sheet = XLSX.utils.json_to_sheet(exportRows);
+        const headers = Object.keys(exportRows[0]);
+        sheet["!cols"] = headers.map((header) => ({
+          wch: Math.min(34, Math.max(String(header).length + 2, ...exportRows.map((row) => String(row[header] ?? "").length + 2))),
+        }));
+        XLSX.utils.book_append_sheet(workbook, sheet, name);
+      };
+      addSheet("Company Expense Analysis", expenseExportRows);
+      addSheet("Fixed Asset Acquisition", assetExportRows);
+      XLSX.writeFile(workbook, "Nature-A-FY-Comparison.xlsx");
+      show("FY Comparison tables exported");
+    };
   } catch (error) {
     panel.innerHTML = '<p class="empty">FY comparison data could not be loaded.</p>';
   }
@@ -14744,4 +14851,19 @@ window.exportXlsx = function () {
   }).observe(document.body, { childList: true, subtree: true });
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => setupAll(), { once: true });
   else setupAll();
+})();
+
+/* Export the two FY Comparison tables in one workbook. */
+(() => {
+  const baseExport = window.exportXlsx;
+  if (typeof baseExport !== "function") return;
+  window.exportXlsx = function () {
+    if (
+      typeof active !== "undefined" &&
+      active === "FY Comparison" &&
+      typeof window.exportComparisonWorkbook === "function"
+    )
+      return window.exportComparisonWorkbook();
+    return baseExport();
+  };
 })();
