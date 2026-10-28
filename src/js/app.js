@@ -445,7 +445,7 @@ window.addEventListener("DOMContentLoaded", async () => {
           },
           scales: {
             x: {
-              grid: { display: chartType === "line", color: gridColor, drawBorder: false },
+              grid: { display: true, color: gridColor, drawBorder: false },
               ticks: { color: textColor, font: { weight: "600" }, padding: 8, maxRotation: 0 },
             },
             y: {
